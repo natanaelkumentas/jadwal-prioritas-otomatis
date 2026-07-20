@@ -76,6 +76,9 @@ export default function RosterGrid({
   // Group CNS by sub-group
   const cnsSubGroups = Array.from(new Set(cnsStaff.map(s => s.sub_group))).sort();
 
+  // Group ESS by sub-group
+  const essSubGroups = Array.from(new Set(essStaff.map(s => s.sub_group))).sort();
+
   // Helper to render shift cell style
   const getShiftStyle = (shift: Shift | undefined, hasPendingGap: GapEvent | undefined) => {
     if (hasPendingGap) {
@@ -234,7 +237,10 @@ export default function RosterGrid({
         return renderSection(`CNS Technical Group - ${subGroup}`, staffInSubGroup, subGroup);
       })}
 
-      {renderSection('Electrical / Essential Support Systems (ESS)', essStaff, 'ess-section')}
+      {essSubGroups.map(subGroup => {
+        const staffInSubGroup = essStaff.filter(s => s.sub_group === subGroup);
+        return renderSection(`ESS Technical Group - ${subGroup}`, staffInSubGroup, subGroup);
+      })}
     </div>
   );
 }

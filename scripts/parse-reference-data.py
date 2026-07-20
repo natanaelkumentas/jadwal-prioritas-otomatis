@@ -177,7 +177,7 @@ def main():
             "staff_id": "E-001",
             "name": "JEFRI RANTE",
             "group": "ESS",
-            "sub_group": "ESS Grup",
+            "sub_group": "ESS Grup 1",
             "role_level": "Teknisi",
             "ratings": ["E1", "E2"],
             "location": "Cabang Manado"
@@ -186,7 +186,7 @@ def main():
             "staff_id": "E-002",
             "name": "UMMU N. FATHI",
             "group": "ESS",
-            "sub_group": "ESS Grup",
+            "sub_group": "ESS Grup 1",
             "role_level": "Teknisi",
             "ratings": ["E2", "E3"],
             "location": "Cabang Manado"
@@ -195,7 +195,7 @@ def main():
             "staff_id": "E-003",
             "name": "TUNAS TIO MADA",
             "group": "ESS",
-            "sub_group": "ESS Grup",
+            "sub_group": "ESS Grup 2",
             "role_level": "Teknisi",
             "ratings": ["E1"],
             "location": "Cabang Manado"
@@ -204,7 +204,7 @@ def main():
             "staff_id": "E-004",
             "name": "PRABOWO DARMINTO",
             "group": "ESS",
-            "sub_group": "ESS Grup",
+            "sub_group": "ESS Grup 2",
             "role_level": "Teknisi",
             "ratings": ["E3"],
             "location": "Cabang Manado"
@@ -213,7 +213,7 @@ def main():
             "staff_id": "E-005",
             "name": "DAVID K. NANDA",
             "group": "ESS",
-            "sub_group": "ESS Grup",
+            "sub_group": "ESS Grup 3",
             "role_level": "Teknisi",
             "ratings": ["E1", "E3"],
             "location": "Cabang Manado"
@@ -222,7 +222,7 @@ def main():
             "staff_id": "E-006",
             "name": "WISNU HARI BIMANYU",
             "group": "ESS",
-            "sub_group": "ESS Grup",
+            "sub_group": "ESS Grup 3",
             "role_level": "Teknisi",
             "ratings": ["E2"],
             "location": "Cabang Manado"
@@ -231,7 +231,7 @@ def main():
             "staff_id": "E-007",
             "name": "RIZKY SEBAYANG",
             "group": "ESS",
-            "sub_group": "ESS Grup",
+            "sub_group": "ESS Grup 4",
             "role_level": "Teknisi",
             "ratings": ["E1", "E2", "E3"],
             "location": "Cabang Manado"
@@ -240,7 +240,7 @@ def main():
             "staff_id": "E-008",
             "name": "TONI DWI TINDAK",
             "group": "ESS",
-            "sub_group": "ESS Grup",
+            "sub_group": "ESS Grup 4",
             "role_level": "Teknisi",
             "ratings": ["E1", "E2"],
             "location": "Cabang Manado"
@@ -249,7 +249,7 @@ def main():
             "staff_id": "E-009",
             "name": "EVAN SIPAYUNG",
             "group": "ESS",
-            "sub_group": "ESS Grup",
+            "sub_group": "ESS Grup 5",
             "role_level": "Teknisi",
             "ratings": ["E2", "E3"],
             "location": "Cabang Manado"
@@ -258,7 +258,7 @@ def main():
             "staff_id": "E-010",
             "name": "BHIMA ANDIKA PUTRA",
             "group": "ESS",
-            "sub_group": "ESS Grup",
+            "sub_group": "ESS Grup 5",
             "role_level": "Teknisi",
             "ratings": ["E1", "E3"],
             "location": "Cabang Manado"

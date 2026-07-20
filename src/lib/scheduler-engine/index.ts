@@ -120,6 +120,9 @@ export async function getReplacementRecommendations(
     // E: FR-6 Consecutive shift limits filter
     if (!checkConsecutiveShifts(c.id, targetDate, targetShiftCode, allShifts)) return false;
 
+    // F: Exclude candidates in the same sub-group as the absent technician (cross-group replacement rule)
+    if (c.sub_group === targetSubGroup) return false;
+
     return true;
   });
 
