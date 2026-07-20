@@ -41,3 +41,9 @@ All significant project changes, updates, and releases are logged below.
 - Implemented **Cascading Recommendations**:
   - Exposed `/api/recommendations/shift` Route Handler and refactored core engine `getShiftReplacementRecommendations(shiftId)` in `src/lib/scheduler-engine/index.ts`.
   - When changing a technician's shift creates a conflict with an existing assigned technician, the system automatically detects the conflict, offers a direct swap option, or displays real-time replacement recommendations to fill the newly displaced technician's shift.
+## [0.3.1] - 2026-07-21 04:59:00 UTC+8
+### Fixed
+- Implemented **Post-Night Fatigue Rest Constraints** in scheduling engine filters (`src/lib/scheduler-engine/filters.ts`):
+  - Added hard rule: If a candidate works a Night shift (`M`) on Day D-1, they cannot cover any active shift on Day D (ensures Day D is recovery `Y` or leave).
+  - Added hard rule: If a candidate is proposed to cover a Night shift (`M`) on Day D, their scheduled shift on Day D+1 must be an Off day (`Y`, `L`, or leave).
+  - Maintained MCDA scoring behavior: The scorer naturally prioritizes candidates with 2 days off (`Y` then `L`) over 1 day off (`Y`) because their cumulative rest hour buffer is larger.
