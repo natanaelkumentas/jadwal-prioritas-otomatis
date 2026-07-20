@@ -27,3 +27,8 @@ All significant project changes, updates, and releases are logged below.
 - Grouped ESS technicians into 5 subgroups of 2 in data seed, matching the layout structure in the reference PDF.
 - Implemented subgroup exclusion rule in `src/lib/scheduler-engine/index.ts`: when a technician goes on leave, the candidate recommendations exclude members of the same sub-group (who are already working their scheduled rotation).
 - Updated `RosterGrid.tsx` rendering to group and render both CNS and ESS technicians by their respective subgroups.
+## [0.2.2] - 2026-07-21 04:50:00 UTC+8
+### Fixed
+- Excluded the `Manager Teknik` role from the scheduling replacement engine:
+  - If a shift gap is created for the manager, the engine returns an empty recommendations list immediately (managers are on fixed office hours and do not require duty rotation coverage).
+  - The manager is excluded from being recommended as a replacement candidate for any technician shift gaps.
