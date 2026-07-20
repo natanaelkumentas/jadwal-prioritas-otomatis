@@ -32,3 +32,12 @@ All significant project changes, updates, and releases are logged below.
 - Excluded the `Manager Teknik` role from the scheduling replacement engine:
   - If a shift gap is created for the manager, the engine returns an empty recommendations list immediately (managers are on fixed office hours and do not require duty rotation coverage).
   - The manager is excluded from being recommended as a replacement candidate for any technician shift gaps.
+## [0.3.0] - 2026-07-21 04:56:00 UTC+8
+### Added
+- Implemented **Direct Shift Editing & Swapping**:
+  - Made all cells in the monthly Roster Grid clickable (not just gaps).
+  - Created `ShiftEditDrawer.tsx` to handle direct modifications of shift codes (P, S, M, PS, OH, D, L, Y).
+  - Added Server Actions `updateShiftCode` and `swapShifts` in `src/app/actions/scheduler.ts` to execute mutations and log audit trails.
+- Implemented **Cascading Recommendations**:
+  - Exposed `/api/recommendations/shift` Route Handler and refactored core engine `getShiftReplacementRecommendations(shiftId)` in `src/lib/scheduler-engine/index.ts`.
+  - When changing a technician's shift creates a conflict with an existing assigned technician, the system automatically detects the conflict, offers a direct swap option, or displays real-time replacement recommendations to fill the newly displaced technician's shift.
