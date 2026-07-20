@@ -6,63 +6,21 @@ import { Staff, Shift, GapEvent } from '@/lib/scheduler-engine/types';
 
 interface RosterGridProps {
   initialStaff: Staff[];
-  initialShifts: Shift[];
-  initialGapEvents: GapEvent[];
+  shifts: Shift[];
+  gapEvents: GapEvent[];
   onSelectGap: (gapEvent: GapEvent, shift: Shift) => void;
+  onSelectShift: (shift: Shift, staff: Staff) => void;
 }
 
 export default function RosterGrid({
   initialStaff,
-  initialShifts,
-  initialGapEvents,
-  onSelectGap
+  shifts,
+  gapEvents,
+  onSelectGap,
+  onSelectShift
 }: RosterGridProps) {
   const [staffList] = useState<Staff[]>(initialStaff);
-  const [shifts, setShifts] = useState<Shift[]>(initialShifts);
-  const [gapEvents, setGapEvents] = useState<GapEvent[]>(initialGapEvents);
   const [searchTerm, setSearchTerm] = useState('');
-  
-  // Real-time listener for database changes
-  useEffect(() => {
-    console.log('[RosterGrid] Subscribing to Supabase real-time changes on schema: jadwal...');
-    const channel = supabaseClient
-      .channel('roster-changes')
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'jadwal', table: 'shifts' },
-        (payload) => {
-          console.log('[RosterGrid] Real-time shift update received:', payload);
-          const updatedShift = payload.new as Shift;
-          setShifts((prev) =>
-            prev.map((s) => (s.id === updatedShift.id ? updatedShift : s))
-          );
-        }
-      )
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'jadwal', table: 'gap_events' },
-        (payload) => {
-          console.log('[RosterGrid] Real-time gap event received:', payload);
-          const updatedGap = payload.new as GapEvent;
-          setGapEvents((prev) => {
-            if (payload.eventType === 'INSERT') {
-              return [...prev, updatedGap];
-            } else if (payload.eventType === 'UPDATE') {
-              return prev.map((g) => (g.id === updatedGap.id ? { ...g, ...updatedGap } : g));
-            } else if (payload.eventType === 'DELETE') {
-              return prev.filter((g) => g.id !== (payload.old as any).id);
-            }
-            return prev;
-          });
-        }
-      )
-      .subscribe();
-
-    return () => {
-      console.log('[RosterGrid] Unsubscribing from real-time changes.');
-      supabaseClient.removeChannel(channel);
-    };
-  }, []);
 
   // Filter staff by search term
   const filteredStaff = staffList.filter(s => 
@@ -174,8 +132,13 @@ export default function RosterGrid({
                       return (
                         <td key={day} className="p-1 text-center border-r border-slate-850">
                           <button
-                            disabled={!pendingGap}
-                            onClick={() => pendingGap && shift && onSelectGap(pendingGap, shift)}
+                            onClick={() => {
+                              if (pendingGap && shift) {
+                                onSelectGap(pendingGap, shift);
+                              } else if (shift) {
+                                onSelectShift(shift, staff);
+                              }
+                            }}
                             className={`w-9 h-9 text-xs rounded transition-all flex items-center justify-center ${getShiftStyle(shift, pendingGap)}`}
                           >
                             {pendingGap ? (

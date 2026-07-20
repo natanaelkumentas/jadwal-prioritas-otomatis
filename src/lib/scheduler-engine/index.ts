@@ -13,51 +13,50 @@ if (!supabaseAdmin) {
 }
 
 /**
- * Main function to generate ranked candidate recommendations for a given gap event.
+ * Generate candidate recommendations directly for a given shift.
  * 
- * @param gapEventId The ID of the gap event database record
+ * @param shiftId The ID of the shift database record
  */
-export async function getReplacementRecommendations(
-  gapEventId: string
+export async function getShiftReplacementRecommendations(
+  shiftId: string
 ): Promise<CandidateRecommendation[]> {
-  console.log(`[scheduler-engine] Generating recommendations for gap_event: ${gapEventId}`);
+  console.log(`[scheduler-engine] Generating recommendations for shift: ${shiftId}`);
 
-  // 1. Fetch Gap Event and Shift Details
-  const { data: gapEventData, error: gapErr } = await supabaseAdmin!
-    .from('gap_events')
-    .select('*, shift:shifts(*, staff:staff(*))')
-    .eq('id', gapEventId)
+  // 1. Fetch Shift Details
+  const { data: shiftData, error: shiftErr } = await supabaseAdmin!
+    .from('shifts')
+    .select('*, staff:staff(*)')
+    .eq('id', shiftId)
     .single();
 
-  if (gapErr || !gapEventData) {
-    throw new Error(`Failed to retrieve gap event: ${gapErr?.message || 'Not found'}`);
+  if (shiftErr || !shiftData) {
+    throw new Error(`Failed to retrieve shift: ${shiftErr?.message || 'Not found'}`);
   }
 
-  const gapEvent = gapEventData as any;
-  const targetShift = gapEvent.shift as Shift;
+  const targetShift = shiftData as any;
   const absentStaff = targetShift.staff_id; // Original staff scheduled
   const targetDate = targetShift.date;
   const targetShiftCode = targetShift.shift_code;
   const targetGroup = targetShift.group;
 
   // Retrieve details of the original absent staff profile
-  const absentStaffProfile = gapEvent.shift.staff as Staff;
+  const absentStaffProfile = targetShift.staff as Staff;
   
   if (absentStaffProfile?.role_level === 'Manager Teknik') {
-    console.log('[scheduler-engine] Absent staff is Manager Teknik. No replacement suggestions needed.');
+    console.log('[scheduler-engine] Shift belongs to Manager Teknik. No replacement suggestions needed.');
     return [];
   }
 
   const targetSubGroup = absentStaffProfile.sub_group;
 
-  // 2. Fetch the required ratings (inherited from the absent technician)
+  // 2. Fetch the required ratings (inherited from the technician originally on this shift)
   const { data: absentRatingsData, error: ratingErr } = await supabaseAdmin!
     .from('staff_ratings')
     .select('rating:ratings(code)')
     .eq('staff_id', absentStaff);
 
   if (ratingErr) {
-    throw new Error(`Failed to retrieve ratings for absent technician: ${ratingErr.message}`);
+    throw new Error(`Failed to retrieve ratings for technician: ${ratingErr.message}`);
   }
 
   const requiredRatingCodes = (absentRatingsData as any[] || []).map(r => r.rating?.code).filter(Boolean);
@@ -148,4 +147,26 @@ export async function getReplacementRecommendations(
   );
 
   return recommendations;
+}
+
+/**
+ * Generate candidate recommendations for a gap event.
+ * Delegates to getShiftReplacementRecommendations.
+ */
+export async function getReplacementRecommendations(
+  gapEventId: string
+): Promise<CandidateRecommendation[]> {
+  console.log(`[scheduler-engine] Generating recommendations for gap_event: ${gapEventId}`);
+  
+  const { data: gapEventData, error: gapErr } = await supabaseAdmin!
+    .from('gap_events')
+    .select('shift_id')
+    .eq('id', gapEventId)
+    .single();
+
+  if (gapErr || !gapEventData) {
+    throw new Error(`Failed to retrieve gap event: ${gapErr?.message || 'Not found'}`);
+  }
+
+  return getShiftReplacementRecommendations(gapEventData.shift_id);
 }
