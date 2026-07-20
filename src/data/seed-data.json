@@ -1,0 +1,7853 @@
+{
+  "staff": [
+    {
+      "staff_id": "T-001",
+      "name": "SUBHAN A. SYAWIE",
+      "group": "CNS",
+      "sub_group": "Management",
+      "role_level": "Manager Teknik",
+      "ratings": [
+        "C"
+      ],
+      "location": "Cabang Manado"
+    },
+    {
+      "staff_id": "T-002",
+      "name": "RIDWAN",
+      "group": "CNS",
+      "sub_group": "Grup 1",
+      "role_level": "Teknisi",
+      "ratings": [
+        "C"
+      ],
+      "location": "Cabang Manado"
+    },
+    {
+      "staff_id": "T-003",
+      "name": "MICHAELOVERYAN MONE",
+      "group": "CNS",
+      "sub_group": "Grup 1",
+      "role_level": "Teknisi",
+      "ratings": [
+        "C",
+        "N"
+      ],
+      "location": "Cabang Manado"
+    },
+    {
+      "staff_id": "T-004",
+      "name": "ROBBY AKBAR",
+      "group": "CNS",
+      "sub_group": "Grup 1",
+      "role_level": "Teknisi",
+      "ratings": [
+        "C"
+      ],
+      "location": "Cabang Manado"
+    },
+    {
+      "staff_id": "T-005",
+      "name": "NURJANNAH",
+      "group": "CNS",
+      "sub_group": "Grup 1",
+      "role_level": "Teknisi",
+      "ratings": [
+        "C",
+        "D"
+      ],
+      "location": "Cabang Manado"
+    },
+    {
+      "staff_id": "T-006",
+      "name": "GUNAWAN PRASETYO",
+      "group": "CNS",
+      "sub_group": "Grup 2",
+      "role_level": "Teknisi",
+      "ratings": [
+        "C"
+      ],
+      "location": "Cabang Manado"
+    },
+    {
+      "staff_id": "T-007",
+      "name": "BENEDITH KELVIN",
+      "group": "CNS",
+      "sub_group": "Grup 2",
+      "role_level": "Teknisi",
+      "ratings": [
+        "D",
+        "N"
+      ],
+      "location": "Cabang Manado"
+    },
+    {
+      "staff_id": "T-008",
+      "name": "FADJAR RAMADHAN",
+      "group": "CNS",
+      "sub_group": "Grup 2",
+      "role_level": "Teknisi",
+      "ratings": [
+        "C"
+      ],
+      "location": "Cabang Manado"
+    },
+    {
+      "staff_id": "T-009",
+      "name": "MELKIAS TARRU PADANG",
+      "group": "CNS",
+      "sub_group": "Grup 3",
+      "role_level": "Teknisi",
+      "ratings": [
+        "C",
+        "D",
+        "S"
+      ],
+      "location": "Cabang Manado"
+    },
+    {
+      "staff_id": "T-010",
+      "name": "ANDI NURFAJRIANA",
+      "group": "CNS",
+      "sub_group": "Grup 3",
+      "role_level": "Teknisi",
+      "ratings": [
+        "D"
+      ],
+      "location": "Cabang Manado"
+    },
+    {
+      "staff_id": "T-011",
+      "name": "JOP A. LIMBENG",
+      "group": "CNS",
+      "sub_group": "Grup 3",
+      "role_level": "Teknisi",
+      "ratings": [
+        "D",
+        "N"
+      ],
+      "location": "Cabang Manado"
+    },
+    {
+      "staff_id": "T-012",
+      "name": "DEIVY TUMIIR",
+      "group": "CNS",
+      "sub_group": "Grup 4",
+      "role_level": "Teknisi",
+      "ratings": [
+        "C",
+        "S"
+      ],
+      "location": "Cabang Manado"
+    },
+    {
+      "staff_id": "T-013",
+      "name": "ALLAN M. LENGKONG",
+      "group": "CNS",
+      "sub_group": "Grup 4",
+      "role_level": "Teknisi",
+      "ratings": [
+        "C",
+        "N"
+      ],
+      "location": "Cabang Manado"
+    },
+    {
+      "staff_id": "T-014",
+      "name": "KURNIAWAN JAMAL",
+      "group": "CNS",
+      "sub_group": "Grup 4",
+      "role_level": "Teknisi",
+      "ratings": [
+        "D"
+      ],
+      "location": "Cabang Manado"
+    },
+    {
+      "staff_id": "T-015",
+      "name": "RHIDO NAINGGOLAN",
+      "group": "CNS",
+      "sub_group": "Grup 5",
+      "role_level": "Teknisi",
+      "ratings": [
+        "C",
+        "S"
+      ],
+      "location": "Cabang Manado"
+    },
+    {
+      "staff_id": "T-016",
+      "name": "PRAYOGO WICAKSONO",
+      "group": "CNS",
+      "sub_group": "Grup 5",
+      "role_level": "Teknisi",
+      "ratings": [
+        "D"
+      ],
+      "location": "Cabang Manado"
+    },
+    {
+      "staff_id": "T-017",
+      "name": "SEACHER JUNEDI",
+      "group": "CNS",
+      "sub_group": "Grup 5",
+      "role_level": "Teknisi",
+      "ratings": [
+        "C"
+      ],
+      "location": "Cabang Manado"
+    },
+    {
+      "staff_id": "E-001",
+      "name": "JEFRI RANTE",
+      "group": "ESS",
+      "sub_group": "ESS Grup",
+      "role_level": "Teknisi",
+      "ratings": [
+        "E1",
+        "E2"
+      ],
+      "location": "Cabang Manado"
+    },
+    {
+      "staff_id": "E-002",
+      "name": "UMMU N. FATHI",
+      "group": "ESS",
+      "sub_group": "ESS Grup",
+      "role_level": "Teknisi",
+      "ratings": [
+        "E2",
+        "E3"
+      ],
+      "location": "Cabang Manado"
+    },
+    {
+      "staff_id": "E-003",
+      "name": "TUNAS TIO MADA",
+      "group": "ESS",
+      "sub_group": "ESS Grup",
+      "role_level": "Teknisi",
+      "ratings": [
+        "E1"
+      ],
+      "location": "Cabang Manado"
+    },
+    {
+      "staff_id": "E-004",
+      "name": "PRABOWO DARMINTO",
+      "group": "ESS",
+      "sub_group": "ESS Grup",
+      "role_level": "Teknisi",
+      "ratings": [
+        "E3"
+      ],
+      "location": "Cabang Manado"
+    },
+    {
+      "staff_id": "E-005",
+      "name": "DAVID K. NANDA",
+      "group": "ESS",
+      "sub_group": "ESS Grup",
+      "role_level": "Teknisi",
+      "ratings": [
+        "E1",
+        "E3"
+      ],
+      "location": "Cabang Manado"
+    },
+    {
+      "staff_id": "E-006",
+      "name": "WISNU HARI BIMANYU",
+      "group": "ESS",
+      "sub_group": "ESS Grup",
+      "role_level": "Teknisi",
+      "ratings": [
+        "E2"
+      ],
+      "location": "Cabang Manado"
+    },
+    {
+      "staff_id": "E-007",
+      "name": "RIZKY SEBAYANG",
+      "group": "ESS",
+      "sub_group": "ESS Grup",
+      "role_level": "Teknisi",
+      "ratings": [
+        "E1",
+        "E2",
+        "E3"
+      ],
+      "location": "Cabang Manado"
+    },
+    {
+      "staff_id": "E-008",
+      "name": "TONI DWI TINDAK",
+      "group": "ESS",
+      "sub_group": "ESS Grup",
+      "role_level": "Teknisi",
+      "ratings": [
+        "E1",
+        "E2"
+      ],
+      "location": "Cabang Manado"
+    },
+    {
+      "staff_id": "E-009",
+      "name": "EVAN SIPAYUNG",
+      "group": "ESS",
+      "sub_group": "ESS Grup",
+      "role_level": "Teknisi",
+      "ratings": [
+        "E2",
+        "E3"
+      ],
+      "location": "Cabang Manado"
+    },
+    {
+      "staff_id": "E-010",
+      "name": "BHIMA ANDIKA PUTRA",
+      "group": "ESS",
+      "sub_group": "ESS Grup",
+      "role_level": "Teknisi",
+      "ratings": [
+        "E1",
+        "E3"
+      ],
+      "location": "Cabang Manado"
+    }
+  ],
+  "shifts": [
+    {
+      "staff_id": "T-001",
+      "staff_name": "SUBHAN A. SYAWIE",
+      "group": "CNS",
+      "date": "2026-07-01",
+      "shift_code": "D",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-001",
+      "staff_name": "SUBHAN A. SYAWIE",
+      "group": "CNS",
+      "date": "2026-07-02",
+      "shift_code": "D",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-001",
+      "staff_name": "SUBHAN A. SYAWIE",
+      "group": "CNS",
+      "date": "2026-07-03",
+      "shift_code": "D",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-001",
+      "staff_name": "SUBHAN A. SYAWIE",
+      "group": "CNS",
+      "date": "2026-07-04",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-001",
+      "staff_name": "SUBHAN A. SYAWIE",
+      "group": "CNS",
+      "date": "2026-07-05",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-001",
+      "staff_name": "SUBHAN A. SYAWIE",
+      "group": "CNS",
+      "date": "2026-07-06",
+      "shift_code": "D",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-001",
+      "staff_name": "SUBHAN A. SYAWIE",
+      "group": "CNS",
+      "date": "2026-07-07",
+      "shift_code": "D",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-001",
+      "staff_name": "SUBHAN A. SYAWIE",
+      "group": "CNS",
+      "date": "2026-07-08",
+      "shift_code": "D",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-001",
+      "staff_name": "SUBHAN A. SYAWIE",
+      "group": "CNS",
+      "date": "2026-07-09",
+      "shift_code": "D",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-001",
+      "staff_name": "SUBHAN A. SYAWIE",
+      "group": "CNS",
+      "date": "2026-07-10",
+      "shift_code": "D",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-001",
+      "staff_name": "SUBHAN A. SYAWIE",
+      "group": "CNS",
+      "date": "2026-07-11",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-001",
+      "staff_name": "SUBHAN A. SYAWIE",
+      "group": "CNS",
+      "date": "2026-07-12",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-001",
+      "staff_name": "SUBHAN A. SYAWIE",
+      "group": "CNS",
+      "date": "2026-07-13",
+      "shift_code": "D",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-001",
+      "staff_name": "SUBHAN A. SYAWIE",
+      "group": "CNS",
+      "date": "2026-07-14",
+      "shift_code": "D",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-001",
+      "staff_name": "SUBHAN A. SYAWIE",
+      "group": "CNS",
+      "date": "2026-07-15",
+      "shift_code": "D",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-001",
+      "staff_name": "SUBHAN A. SYAWIE",
+      "group": "CNS",
+      "date": "2026-07-16",
+      "shift_code": "D",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-001",
+      "staff_name": "SUBHAN A. SYAWIE",
+      "group": "CNS",
+      "date": "2026-07-17",
+      "shift_code": "D",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-001",
+      "staff_name": "SUBHAN A. SYAWIE",
+      "group": "CNS",
+      "date": "2026-07-18",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-001",
+      "staff_name": "SUBHAN A. SYAWIE",
+      "group": "CNS",
+      "date": "2026-07-19",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-001",
+      "staff_name": "SUBHAN A. SYAWIE",
+      "group": "CNS",
+      "date": "2026-07-20",
+      "shift_code": "D",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-001",
+      "staff_name": "SUBHAN A. SYAWIE",
+      "group": "CNS",
+      "date": "2026-07-21",
+      "shift_code": "D",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-001",
+      "staff_name": "SUBHAN A. SYAWIE",
+      "group": "CNS",
+      "date": "2026-07-22",
+      "shift_code": "D",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-001",
+      "staff_name": "SUBHAN A. SYAWIE",
+      "group": "CNS",
+      "date": "2026-07-23",
+      "shift_code": "D",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-001",
+      "staff_name": "SUBHAN A. SYAWIE",
+      "group": "CNS",
+      "date": "2026-07-24",
+      "shift_code": "D",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-001",
+      "staff_name": "SUBHAN A. SYAWIE",
+      "group": "CNS",
+      "date": "2026-07-25",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-001",
+      "staff_name": "SUBHAN A. SYAWIE",
+      "group": "CNS",
+      "date": "2026-07-26",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-001",
+      "staff_name": "SUBHAN A. SYAWIE",
+      "group": "CNS",
+      "date": "2026-07-27",
+      "shift_code": "D",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-001",
+      "staff_name": "SUBHAN A. SYAWIE",
+      "group": "CNS",
+      "date": "2026-07-28",
+      "shift_code": "D",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-001",
+      "staff_name": "SUBHAN A. SYAWIE",
+      "group": "CNS",
+      "date": "2026-07-29",
+      "shift_code": "D",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-001",
+      "staff_name": "SUBHAN A. SYAWIE",
+      "group": "CNS",
+      "date": "2026-07-30",
+      "shift_code": "D",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-001",
+      "staff_name": "SUBHAN A. SYAWIE",
+      "group": "CNS",
+      "date": "2026-07-31",
+      "shift_code": "D",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-002",
+      "staff_name": "RIDWAN",
+      "group": "CNS",
+      "date": "2026-07-01",
+      "shift_code": "OH",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-002",
+      "staff_name": "RIDWAN",
+      "group": "CNS",
+      "date": "2026-07-02",
+      "shift_code": "OH",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-002",
+      "staff_name": "RIDWAN",
+      "group": "CNS",
+      "date": "2026-07-03",
+      "shift_code": "OH",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-002",
+      "staff_name": "RIDWAN",
+      "group": "CNS",
+      "date": "2026-07-04",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-002",
+      "staff_name": "RIDWAN",
+      "group": "CNS",
+      "date": "2026-07-05",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-002",
+      "staff_name": "RIDWAN",
+      "group": "CNS",
+      "date": "2026-07-06",
+      "shift_code": "OH",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-002",
+      "staff_name": "RIDWAN",
+      "group": "CNS",
+      "date": "2026-07-07",
+      "shift_code": "OH",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-002",
+      "staff_name": "RIDWAN",
+      "group": "CNS",
+      "date": "2026-07-08",
+      "shift_code": "OH",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-002",
+      "staff_name": "RIDWAN",
+      "group": "CNS",
+      "date": "2026-07-09",
+      "shift_code": "OH",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-002",
+      "staff_name": "RIDWAN",
+      "group": "CNS",
+      "date": "2026-07-10",
+      "shift_code": "OH",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-002",
+      "staff_name": "RIDWAN",
+      "group": "CNS",
+      "date": "2026-07-11",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-002",
+      "staff_name": "RIDWAN",
+      "group": "CNS",
+      "date": "2026-07-12",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-002",
+      "staff_name": "RIDWAN",
+      "group": "CNS",
+      "date": "2026-07-13",
+      "shift_code": "OH",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-002",
+      "staff_name": "RIDWAN",
+      "group": "CNS",
+      "date": "2026-07-14",
+      "shift_code": "OH",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-002",
+      "staff_name": "RIDWAN",
+      "group": "CNS",
+      "date": "2026-07-15",
+      "shift_code": "OH",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-002",
+      "staff_name": "RIDWAN",
+      "group": "CNS",
+      "date": "2026-07-16",
+      "shift_code": "OH",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-002",
+      "staff_name": "RIDWAN",
+      "group": "CNS",
+      "date": "2026-07-17",
+      "shift_code": "OH",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-002",
+      "staff_name": "RIDWAN",
+      "group": "CNS",
+      "date": "2026-07-18",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-002",
+      "staff_name": "RIDWAN",
+      "group": "CNS",
+      "date": "2026-07-19",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-002",
+      "staff_name": "RIDWAN",
+      "group": "CNS",
+      "date": "2026-07-20",
+      "shift_code": "OH",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-002",
+      "staff_name": "RIDWAN",
+      "group": "CNS",
+      "date": "2026-07-21",
+      "shift_code": "OH",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-002",
+      "staff_name": "RIDWAN",
+      "group": "CNS",
+      "date": "2026-07-22",
+      "shift_code": "OH",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-002",
+      "staff_name": "RIDWAN",
+      "group": "CNS",
+      "date": "2026-07-23",
+      "shift_code": "OH",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-002",
+      "staff_name": "RIDWAN",
+      "group": "CNS",
+      "date": "2026-07-24",
+      "shift_code": "OH",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-002",
+      "staff_name": "RIDWAN",
+      "group": "CNS",
+      "date": "2026-07-25",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-002",
+      "staff_name": "RIDWAN",
+      "group": "CNS",
+      "date": "2026-07-26",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-002",
+      "staff_name": "RIDWAN",
+      "group": "CNS",
+      "date": "2026-07-27",
+      "shift_code": "OH",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-002",
+      "staff_name": "RIDWAN",
+      "group": "CNS",
+      "date": "2026-07-28",
+      "shift_code": "OH",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-002",
+      "staff_name": "RIDWAN",
+      "group": "CNS",
+      "date": "2026-07-29",
+      "shift_code": "OH",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-002",
+      "staff_name": "RIDWAN",
+      "group": "CNS",
+      "date": "2026-07-30",
+      "shift_code": "OH",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-002",
+      "staff_name": "RIDWAN",
+      "group": "CNS",
+      "date": "2026-07-31",
+      "shift_code": "OH",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-003",
+      "staff_name": "MICHAELOVERYAN MONE",
+      "group": "CNS",
+      "date": "2026-07-01",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-003",
+      "staff_name": "MICHAELOVERYAN MONE",
+      "group": "CNS",
+      "date": "2026-07-02",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-003",
+      "staff_name": "MICHAELOVERYAN MONE",
+      "group": "CNS",
+      "date": "2026-07-03",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-003",
+      "staff_name": "MICHAELOVERYAN MONE",
+      "group": "CNS",
+      "date": "2026-07-04",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-003",
+      "staff_name": "MICHAELOVERYAN MONE",
+      "group": "CNS",
+      "date": "2026-07-05",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-003",
+      "staff_name": "MICHAELOVERYAN MONE",
+      "group": "CNS",
+      "date": "2026-07-06",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-003",
+      "staff_name": "MICHAELOVERYAN MONE",
+      "group": "CNS",
+      "date": "2026-07-07",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-003",
+      "staff_name": "MICHAELOVERYAN MONE",
+      "group": "CNS",
+      "date": "2026-07-08",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-003",
+      "staff_name": "MICHAELOVERYAN MONE",
+      "group": "CNS",
+      "date": "2026-07-09",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-003",
+      "staff_name": "MICHAELOVERYAN MONE",
+      "group": "CNS",
+      "date": "2026-07-10",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-003",
+      "staff_name": "MICHAELOVERYAN MONE",
+      "group": "CNS",
+      "date": "2026-07-11",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-003",
+      "staff_name": "MICHAELOVERYAN MONE",
+      "group": "CNS",
+      "date": "2026-07-12",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-003",
+      "staff_name": "MICHAELOVERYAN MONE",
+      "group": "CNS",
+      "date": "2026-07-13",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-003",
+      "staff_name": "MICHAELOVERYAN MONE",
+      "group": "CNS",
+      "date": "2026-07-14",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-003",
+      "staff_name": "MICHAELOVERYAN MONE",
+      "group": "CNS",
+      "date": "2026-07-15",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-003",
+      "staff_name": "MICHAELOVERYAN MONE",
+      "group": "CNS",
+      "date": "2026-07-16",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-003",
+      "staff_name": "MICHAELOVERYAN MONE",
+      "group": "CNS",
+      "date": "2026-07-17",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-003",
+      "staff_name": "MICHAELOVERYAN MONE",
+      "group": "CNS",
+      "date": "2026-07-18",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-003",
+      "staff_name": "MICHAELOVERYAN MONE",
+      "group": "CNS",
+      "date": "2026-07-19",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-003",
+      "staff_name": "MICHAELOVERYAN MONE",
+      "group": "CNS",
+      "date": "2026-07-20",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-003",
+      "staff_name": "MICHAELOVERYAN MONE",
+      "group": "CNS",
+      "date": "2026-07-21",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-003",
+      "staff_name": "MICHAELOVERYAN MONE",
+      "group": "CNS",
+      "date": "2026-07-22",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-003",
+      "staff_name": "MICHAELOVERYAN MONE",
+      "group": "CNS",
+      "date": "2026-07-23",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-003",
+      "staff_name": "MICHAELOVERYAN MONE",
+      "group": "CNS",
+      "date": "2026-07-24",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-003",
+      "staff_name": "MICHAELOVERYAN MONE",
+      "group": "CNS",
+      "date": "2026-07-25",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-003",
+      "staff_name": "MICHAELOVERYAN MONE",
+      "group": "CNS",
+      "date": "2026-07-26",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-003",
+      "staff_name": "MICHAELOVERYAN MONE",
+      "group": "CNS",
+      "date": "2026-07-27",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-003",
+      "staff_name": "MICHAELOVERYAN MONE",
+      "group": "CNS",
+      "date": "2026-07-28",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-003",
+      "staff_name": "MICHAELOVERYAN MONE",
+      "group": "CNS",
+      "date": "2026-07-29",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-003",
+      "staff_name": "MICHAELOVERYAN MONE",
+      "group": "CNS",
+      "date": "2026-07-30",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-003",
+      "staff_name": "MICHAELOVERYAN MONE",
+      "group": "CNS",
+      "date": "2026-07-31",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-004",
+      "staff_name": "ROBBY AKBAR",
+      "group": "CNS",
+      "date": "2026-07-01",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-004",
+      "staff_name": "ROBBY AKBAR",
+      "group": "CNS",
+      "date": "2026-07-02",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-004",
+      "staff_name": "ROBBY AKBAR",
+      "group": "CNS",
+      "date": "2026-07-03",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-004",
+      "staff_name": "ROBBY AKBAR",
+      "group": "CNS",
+      "date": "2026-07-04",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-004",
+      "staff_name": "ROBBY AKBAR",
+      "group": "CNS",
+      "date": "2026-07-05",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-004",
+      "staff_name": "ROBBY AKBAR",
+      "group": "CNS",
+      "date": "2026-07-06",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-004",
+      "staff_name": "ROBBY AKBAR",
+      "group": "CNS",
+      "date": "2026-07-07",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-004",
+      "staff_name": "ROBBY AKBAR",
+      "group": "CNS",
+      "date": "2026-07-08",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-004",
+      "staff_name": "ROBBY AKBAR",
+      "group": "CNS",
+      "date": "2026-07-09",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-004",
+      "staff_name": "ROBBY AKBAR",
+      "group": "CNS",
+      "date": "2026-07-10",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-004",
+      "staff_name": "ROBBY AKBAR",
+      "group": "CNS",
+      "date": "2026-07-11",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-004",
+      "staff_name": "ROBBY AKBAR",
+      "group": "CNS",
+      "date": "2026-07-12",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-004",
+      "staff_name": "ROBBY AKBAR",
+      "group": "CNS",
+      "date": "2026-07-13",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-004",
+      "staff_name": "ROBBY AKBAR",
+      "group": "CNS",
+      "date": "2026-07-14",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-004",
+      "staff_name": "ROBBY AKBAR",
+      "group": "CNS",
+      "date": "2026-07-15",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-004",
+      "staff_name": "ROBBY AKBAR",
+      "group": "CNS",
+      "date": "2026-07-16",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-004",
+      "staff_name": "ROBBY AKBAR",
+      "group": "CNS",
+      "date": "2026-07-17",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-004",
+      "staff_name": "ROBBY AKBAR",
+      "group": "CNS",
+      "date": "2026-07-18",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-004",
+      "staff_name": "ROBBY AKBAR",
+      "group": "CNS",
+      "date": "2026-07-19",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-004",
+      "staff_name": "ROBBY AKBAR",
+      "group": "CNS",
+      "date": "2026-07-20",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-004",
+      "staff_name": "ROBBY AKBAR",
+      "group": "CNS",
+      "date": "2026-07-21",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-004",
+      "staff_name": "ROBBY AKBAR",
+      "group": "CNS",
+      "date": "2026-07-22",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-004",
+      "staff_name": "ROBBY AKBAR",
+      "group": "CNS",
+      "date": "2026-07-23",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-004",
+      "staff_name": "ROBBY AKBAR",
+      "group": "CNS",
+      "date": "2026-07-24",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-004",
+      "staff_name": "ROBBY AKBAR",
+      "group": "CNS",
+      "date": "2026-07-25",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-004",
+      "staff_name": "ROBBY AKBAR",
+      "group": "CNS",
+      "date": "2026-07-26",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-004",
+      "staff_name": "ROBBY AKBAR",
+      "group": "CNS",
+      "date": "2026-07-27",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-004",
+      "staff_name": "ROBBY AKBAR",
+      "group": "CNS",
+      "date": "2026-07-28",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-004",
+      "staff_name": "ROBBY AKBAR",
+      "group": "CNS",
+      "date": "2026-07-29",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-004",
+      "staff_name": "ROBBY AKBAR",
+      "group": "CNS",
+      "date": "2026-07-30",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-004",
+      "staff_name": "ROBBY AKBAR",
+      "group": "CNS",
+      "date": "2026-07-31",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-005",
+      "staff_name": "NURJANNAH",
+      "group": "CNS",
+      "date": "2026-07-01",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-005",
+      "staff_name": "NURJANNAH",
+      "group": "CNS",
+      "date": "2026-07-02",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-005",
+      "staff_name": "NURJANNAH",
+      "group": "CNS",
+      "date": "2026-07-03",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-005",
+      "staff_name": "NURJANNAH",
+      "group": "CNS",
+      "date": "2026-07-04",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-005",
+      "staff_name": "NURJANNAH",
+      "group": "CNS",
+      "date": "2026-07-05",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-005",
+      "staff_name": "NURJANNAH",
+      "group": "CNS",
+      "date": "2026-07-06",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-005",
+      "staff_name": "NURJANNAH",
+      "group": "CNS",
+      "date": "2026-07-07",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-005",
+      "staff_name": "NURJANNAH",
+      "group": "CNS",
+      "date": "2026-07-08",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-005",
+      "staff_name": "NURJANNAH",
+      "group": "CNS",
+      "date": "2026-07-09",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-005",
+      "staff_name": "NURJANNAH",
+      "group": "CNS",
+      "date": "2026-07-10",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-005",
+      "staff_name": "NURJANNAH",
+      "group": "CNS",
+      "date": "2026-07-11",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-005",
+      "staff_name": "NURJANNAH",
+      "group": "CNS",
+      "date": "2026-07-12",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-005",
+      "staff_name": "NURJANNAH",
+      "group": "CNS",
+      "date": "2026-07-13",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-005",
+      "staff_name": "NURJANNAH",
+      "group": "CNS",
+      "date": "2026-07-14",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-005",
+      "staff_name": "NURJANNAH",
+      "group": "CNS",
+      "date": "2026-07-15",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-005",
+      "staff_name": "NURJANNAH",
+      "group": "CNS",
+      "date": "2026-07-16",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-005",
+      "staff_name": "NURJANNAH",
+      "group": "CNS",
+      "date": "2026-07-17",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-005",
+      "staff_name": "NURJANNAH",
+      "group": "CNS",
+      "date": "2026-07-18",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-005",
+      "staff_name": "NURJANNAH",
+      "group": "CNS",
+      "date": "2026-07-19",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-005",
+      "staff_name": "NURJANNAH",
+      "group": "CNS",
+      "date": "2026-07-20",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-005",
+      "staff_name": "NURJANNAH",
+      "group": "CNS",
+      "date": "2026-07-21",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-005",
+      "staff_name": "NURJANNAH",
+      "group": "CNS",
+      "date": "2026-07-22",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-005",
+      "staff_name": "NURJANNAH",
+      "group": "CNS",
+      "date": "2026-07-23",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-005",
+      "staff_name": "NURJANNAH",
+      "group": "CNS",
+      "date": "2026-07-24",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-005",
+      "staff_name": "NURJANNAH",
+      "group": "CNS",
+      "date": "2026-07-25",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-005",
+      "staff_name": "NURJANNAH",
+      "group": "CNS",
+      "date": "2026-07-26",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-005",
+      "staff_name": "NURJANNAH",
+      "group": "CNS",
+      "date": "2026-07-27",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-005",
+      "staff_name": "NURJANNAH",
+      "group": "CNS",
+      "date": "2026-07-28",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-005",
+      "staff_name": "NURJANNAH",
+      "group": "CNS",
+      "date": "2026-07-29",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-005",
+      "staff_name": "NURJANNAH",
+      "group": "CNS",
+      "date": "2026-07-30",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-005",
+      "staff_name": "NURJANNAH",
+      "group": "CNS",
+      "date": "2026-07-31",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-006",
+      "staff_name": "GUNAWAN PRASETYO",
+      "group": "CNS",
+      "date": "2026-07-01",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-006",
+      "staff_name": "GUNAWAN PRASETYO",
+      "group": "CNS",
+      "date": "2026-07-02",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-006",
+      "staff_name": "GUNAWAN PRASETYO",
+      "group": "CNS",
+      "date": "2026-07-03",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-006",
+      "staff_name": "GUNAWAN PRASETYO",
+      "group": "CNS",
+      "date": "2026-07-04",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-006",
+      "staff_name": "GUNAWAN PRASETYO",
+      "group": "CNS",
+      "date": "2026-07-05",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-006",
+      "staff_name": "GUNAWAN PRASETYO",
+      "group": "CNS",
+      "date": "2026-07-06",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-006",
+      "staff_name": "GUNAWAN PRASETYO",
+      "group": "CNS",
+      "date": "2026-07-07",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-006",
+      "staff_name": "GUNAWAN PRASETYO",
+      "group": "CNS",
+      "date": "2026-07-08",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-006",
+      "staff_name": "GUNAWAN PRASETYO",
+      "group": "CNS",
+      "date": "2026-07-09",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-006",
+      "staff_name": "GUNAWAN PRASETYO",
+      "group": "CNS",
+      "date": "2026-07-10",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-006",
+      "staff_name": "GUNAWAN PRASETYO",
+      "group": "CNS",
+      "date": "2026-07-11",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-006",
+      "staff_name": "GUNAWAN PRASETYO",
+      "group": "CNS",
+      "date": "2026-07-12",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-006",
+      "staff_name": "GUNAWAN PRASETYO",
+      "group": "CNS",
+      "date": "2026-07-13",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-006",
+      "staff_name": "GUNAWAN PRASETYO",
+      "group": "CNS",
+      "date": "2026-07-14",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-006",
+      "staff_name": "GUNAWAN PRASETYO",
+      "group": "CNS",
+      "date": "2026-07-15",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-006",
+      "staff_name": "GUNAWAN PRASETYO",
+      "group": "CNS",
+      "date": "2026-07-16",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-006",
+      "staff_name": "GUNAWAN PRASETYO",
+      "group": "CNS",
+      "date": "2026-07-17",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-006",
+      "staff_name": "GUNAWAN PRASETYO",
+      "group": "CNS",
+      "date": "2026-07-18",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-006",
+      "staff_name": "GUNAWAN PRASETYO",
+      "group": "CNS",
+      "date": "2026-07-19",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-006",
+      "staff_name": "GUNAWAN PRASETYO",
+      "group": "CNS",
+      "date": "2026-07-20",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-006",
+      "staff_name": "GUNAWAN PRASETYO",
+      "group": "CNS",
+      "date": "2026-07-21",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-006",
+      "staff_name": "GUNAWAN PRASETYO",
+      "group": "CNS",
+      "date": "2026-07-22",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-006",
+      "staff_name": "GUNAWAN PRASETYO",
+      "group": "CNS",
+      "date": "2026-07-23",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-006",
+      "staff_name": "GUNAWAN PRASETYO",
+      "group": "CNS",
+      "date": "2026-07-24",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-006",
+      "staff_name": "GUNAWAN PRASETYO",
+      "group": "CNS",
+      "date": "2026-07-25",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-006",
+      "staff_name": "GUNAWAN PRASETYO",
+      "group": "CNS",
+      "date": "2026-07-26",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-006",
+      "staff_name": "GUNAWAN PRASETYO",
+      "group": "CNS",
+      "date": "2026-07-27",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-006",
+      "staff_name": "GUNAWAN PRASETYO",
+      "group": "CNS",
+      "date": "2026-07-28",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-006",
+      "staff_name": "GUNAWAN PRASETYO",
+      "group": "CNS",
+      "date": "2026-07-29",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-006",
+      "staff_name": "GUNAWAN PRASETYO",
+      "group": "CNS",
+      "date": "2026-07-30",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-006",
+      "staff_name": "GUNAWAN PRASETYO",
+      "group": "CNS",
+      "date": "2026-07-31",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-007",
+      "staff_name": "BENEDITH KELVIN",
+      "group": "CNS",
+      "date": "2026-07-01",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-007",
+      "staff_name": "BENEDITH KELVIN",
+      "group": "CNS",
+      "date": "2026-07-02",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-007",
+      "staff_name": "BENEDITH KELVIN",
+      "group": "CNS",
+      "date": "2026-07-03",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-007",
+      "staff_name": "BENEDITH KELVIN",
+      "group": "CNS",
+      "date": "2026-07-04",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-007",
+      "staff_name": "BENEDITH KELVIN",
+      "group": "CNS",
+      "date": "2026-07-05",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-007",
+      "staff_name": "BENEDITH KELVIN",
+      "group": "CNS",
+      "date": "2026-07-06",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-007",
+      "staff_name": "BENEDITH KELVIN",
+      "group": "CNS",
+      "date": "2026-07-07",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-007",
+      "staff_name": "BENEDITH KELVIN",
+      "group": "CNS",
+      "date": "2026-07-08",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-007",
+      "staff_name": "BENEDITH KELVIN",
+      "group": "CNS",
+      "date": "2026-07-09",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-007",
+      "staff_name": "BENEDITH KELVIN",
+      "group": "CNS",
+      "date": "2026-07-10",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-007",
+      "staff_name": "BENEDITH KELVIN",
+      "group": "CNS",
+      "date": "2026-07-11",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-007",
+      "staff_name": "BENEDITH KELVIN",
+      "group": "CNS",
+      "date": "2026-07-12",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-007",
+      "staff_name": "BENEDITH KELVIN",
+      "group": "CNS",
+      "date": "2026-07-13",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-007",
+      "staff_name": "BENEDITH KELVIN",
+      "group": "CNS",
+      "date": "2026-07-14",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-007",
+      "staff_name": "BENEDITH KELVIN",
+      "group": "CNS",
+      "date": "2026-07-15",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-007",
+      "staff_name": "BENEDITH KELVIN",
+      "group": "CNS",
+      "date": "2026-07-16",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-007",
+      "staff_name": "BENEDITH KELVIN",
+      "group": "CNS",
+      "date": "2026-07-17",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-007",
+      "staff_name": "BENEDITH KELVIN",
+      "group": "CNS",
+      "date": "2026-07-18",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-007",
+      "staff_name": "BENEDITH KELVIN",
+      "group": "CNS",
+      "date": "2026-07-19",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-007",
+      "staff_name": "BENEDITH KELVIN",
+      "group": "CNS",
+      "date": "2026-07-20",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-007",
+      "staff_name": "BENEDITH KELVIN",
+      "group": "CNS",
+      "date": "2026-07-21",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-007",
+      "staff_name": "BENEDITH KELVIN",
+      "group": "CNS",
+      "date": "2026-07-22",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-007",
+      "staff_name": "BENEDITH KELVIN",
+      "group": "CNS",
+      "date": "2026-07-23",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-007",
+      "staff_name": "BENEDITH KELVIN",
+      "group": "CNS",
+      "date": "2026-07-24",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-007",
+      "staff_name": "BENEDITH KELVIN",
+      "group": "CNS",
+      "date": "2026-07-25",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-007",
+      "staff_name": "BENEDITH KELVIN",
+      "group": "CNS",
+      "date": "2026-07-26",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-007",
+      "staff_name": "BENEDITH KELVIN",
+      "group": "CNS",
+      "date": "2026-07-27",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-007",
+      "staff_name": "BENEDITH KELVIN",
+      "group": "CNS",
+      "date": "2026-07-28",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-007",
+      "staff_name": "BENEDITH KELVIN",
+      "group": "CNS",
+      "date": "2026-07-29",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-007",
+      "staff_name": "BENEDITH KELVIN",
+      "group": "CNS",
+      "date": "2026-07-30",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-007",
+      "staff_name": "BENEDITH KELVIN",
+      "group": "CNS",
+      "date": "2026-07-31",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-008",
+      "staff_name": "FADJAR RAMADHAN",
+      "group": "CNS",
+      "date": "2026-07-01",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-008",
+      "staff_name": "FADJAR RAMADHAN",
+      "group": "CNS",
+      "date": "2026-07-02",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-008",
+      "staff_name": "FADJAR RAMADHAN",
+      "group": "CNS",
+      "date": "2026-07-03",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-008",
+      "staff_name": "FADJAR RAMADHAN",
+      "group": "CNS",
+      "date": "2026-07-04",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-008",
+      "staff_name": "FADJAR RAMADHAN",
+      "group": "CNS",
+      "date": "2026-07-05",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-008",
+      "staff_name": "FADJAR RAMADHAN",
+      "group": "CNS",
+      "date": "2026-07-06",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-008",
+      "staff_name": "FADJAR RAMADHAN",
+      "group": "CNS",
+      "date": "2026-07-07",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-008",
+      "staff_name": "FADJAR RAMADHAN",
+      "group": "CNS",
+      "date": "2026-07-08",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-008",
+      "staff_name": "FADJAR RAMADHAN",
+      "group": "CNS",
+      "date": "2026-07-09",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-008",
+      "staff_name": "FADJAR RAMADHAN",
+      "group": "CNS",
+      "date": "2026-07-10",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-008",
+      "staff_name": "FADJAR RAMADHAN",
+      "group": "CNS",
+      "date": "2026-07-11",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-008",
+      "staff_name": "FADJAR RAMADHAN",
+      "group": "CNS",
+      "date": "2026-07-12",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-008",
+      "staff_name": "FADJAR RAMADHAN",
+      "group": "CNS",
+      "date": "2026-07-13",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-008",
+      "staff_name": "FADJAR RAMADHAN",
+      "group": "CNS",
+      "date": "2026-07-14",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-008",
+      "staff_name": "FADJAR RAMADHAN",
+      "group": "CNS",
+      "date": "2026-07-15",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-008",
+      "staff_name": "FADJAR RAMADHAN",
+      "group": "CNS",
+      "date": "2026-07-16",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-008",
+      "staff_name": "FADJAR RAMADHAN",
+      "group": "CNS",
+      "date": "2026-07-17",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-008",
+      "staff_name": "FADJAR RAMADHAN",
+      "group": "CNS",
+      "date": "2026-07-18",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-008",
+      "staff_name": "FADJAR RAMADHAN",
+      "group": "CNS",
+      "date": "2026-07-19",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-008",
+      "staff_name": "FADJAR RAMADHAN",
+      "group": "CNS",
+      "date": "2026-07-20",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-008",
+      "staff_name": "FADJAR RAMADHAN",
+      "group": "CNS",
+      "date": "2026-07-21",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-008",
+      "staff_name": "FADJAR RAMADHAN",
+      "group": "CNS",
+      "date": "2026-07-22",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-008",
+      "staff_name": "FADJAR RAMADHAN",
+      "group": "CNS",
+      "date": "2026-07-23",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-008",
+      "staff_name": "FADJAR RAMADHAN",
+      "group": "CNS",
+      "date": "2026-07-24",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-008",
+      "staff_name": "FADJAR RAMADHAN",
+      "group": "CNS",
+      "date": "2026-07-25",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-008",
+      "staff_name": "FADJAR RAMADHAN",
+      "group": "CNS",
+      "date": "2026-07-26",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-008",
+      "staff_name": "FADJAR RAMADHAN",
+      "group": "CNS",
+      "date": "2026-07-27",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-008",
+      "staff_name": "FADJAR RAMADHAN",
+      "group": "CNS",
+      "date": "2026-07-28",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-008",
+      "staff_name": "FADJAR RAMADHAN",
+      "group": "CNS",
+      "date": "2026-07-29",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-008",
+      "staff_name": "FADJAR RAMADHAN",
+      "group": "CNS",
+      "date": "2026-07-30",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-008",
+      "staff_name": "FADJAR RAMADHAN",
+      "group": "CNS",
+      "date": "2026-07-31",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-009",
+      "staff_name": "MELKIAS TARRU PADANG",
+      "group": "CNS",
+      "date": "2026-07-01",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-009",
+      "staff_name": "MELKIAS TARRU PADANG",
+      "group": "CNS",
+      "date": "2026-07-02",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-009",
+      "staff_name": "MELKIAS TARRU PADANG",
+      "group": "CNS",
+      "date": "2026-07-03",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-009",
+      "staff_name": "MELKIAS TARRU PADANG",
+      "group": "CNS",
+      "date": "2026-07-04",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-009",
+      "staff_name": "MELKIAS TARRU PADANG",
+      "group": "CNS",
+      "date": "2026-07-05",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-009",
+      "staff_name": "MELKIAS TARRU PADANG",
+      "group": "CNS",
+      "date": "2026-07-06",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-009",
+      "staff_name": "MELKIAS TARRU PADANG",
+      "group": "CNS",
+      "date": "2026-07-07",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-009",
+      "staff_name": "MELKIAS TARRU PADANG",
+      "group": "CNS",
+      "date": "2026-07-08",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-009",
+      "staff_name": "MELKIAS TARRU PADANG",
+      "group": "CNS",
+      "date": "2026-07-09",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-009",
+      "staff_name": "MELKIAS TARRU PADANG",
+      "group": "CNS",
+      "date": "2026-07-10",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-009",
+      "staff_name": "MELKIAS TARRU PADANG",
+      "group": "CNS",
+      "date": "2026-07-11",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-009",
+      "staff_name": "MELKIAS TARRU PADANG",
+      "group": "CNS",
+      "date": "2026-07-12",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-009",
+      "staff_name": "MELKIAS TARRU PADANG",
+      "group": "CNS",
+      "date": "2026-07-13",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-009",
+      "staff_name": "MELKIAS TARRU PADANG",
+      "group": "CNS",
+      "date": "2026-07-14",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-009",
+      "staff_name": "MELKIAS TARRU PADANG",
+      "group": "CNS",
+      "date": "2026-07-15",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-009",
+      "staff_name": "MELKIAS TARRU PADANG",
+      "group": "CNS",
+      "date": "2026-07-16",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-009",
+      "staff_name": "MELKIAS TARRU PADANG",
+      "group": "CNS",
+      "date": "2026-07-17",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-009",
+      "staff_name": "MELKIAS TARRU PADANG",
+      "group": "CNS",
+      "date": "2026-07-18",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-009",
+      "staff_name": "MELKIAS TARRU PADANG",
+      "group": "CNS",
+      "date": "2026-07-19",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-009",
+      "staff_name": "MELKIAS TARRU PADANG",
+      "group": "CNS",
+      "date": "2026-07-20",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-009",
+      "staff_name": "MELKIAS TARRU PADANG",
+      "group": "CNS",
+      "date": "2026-07-21",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-009",
+      "staff_name": "MELKIAS TARRU PADANG",
+      "group": "CNS",
+      "date": "2026-07-22",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-009",
+      "staff_name": "MELKIAS TARRU PADANG",
+      "group": "CNS",
+      "date": "2026-07-23",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-009",
+      "staff_name": "MELKIAS TARRU PADANG",
+      "group": "CNS",
+      "date": "2026-07-24",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-009",
+      "staff_name": "MELKIAS TARRU PADANG",
+      "group": "CNS",
+      "date": "2026-07-25",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-009",
+      "staff_name": "MELKIAS TARRU PADANG",
+      "group": "CNS",
+      "date": "2026-07-26",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-009",
+      "staff_name": "MELKIAS TARRU PADANG",
+      "group": "CNS",
+      "date": "2026-07-27",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-009",
+      "staff_name": "MELKIAS TARRU PADANG",
+      "group": "CNS",
+      "date": "2026-07-28",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-009",
+      "staff_name": "MELKIAS TARRU PADANG",
+      "group": "CNS",
+      "date": "2026-07-29",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-009",
+      "staff_name": "MELKIAS TARRU PADANG",
+      "group": "CNS",
+      "date": "2026-07-30",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-009",
+      "staff_name": "MELKIAS TARRU PADANG",
+      "group": "CNS",
+      "date": "2026-07-31",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-010",
+      "staff_name": "ANDI NURFAJRIANA",
+      "group": "CNS",
+      "date": "2026-07-01",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-010",
+      "staff_name": "ANDI NURFAJRIANA",
+      "group": "CNS",
+      "date": "2026-07-02",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-010",
+      "staff_name": "ANDI NURFAJRIANA",
+      "group": "CNS",
+      "date": "2026-07-03",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-010",
+      "staff_name": "ANDI NURFAJRIANA",
+      "group": "CNS",
+      "date": "2026-07-04",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-010",
+      "staff_name": "ANDI NURFAJRIANA",
+      "group": "CNS",
+      "date": "2026-07-05",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-010",
+      "staff_name": "ANDI NURFAJRIANA",
+      "group": "CNS",
+      "date": "2026-07-06",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-010",
+      "staff_name": "ANDI NURFAJRIANA",
+      "group": "CNS",
+      "date": "2026-07-07",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-010",
+      "staff_name": "ANDI NURFAJRIANA",
+      "group": "CNS",
+      "date": "2026-07-08",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-010",
+      "staff_name": "ANDI NURFAJRIANA",
+      "group": "CNS",
+      "date": "2026-07-09",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-010",
+      "staff_name": "ANDI NURFAJRIANA",
+      "group": "CNS",
+      "date": "2026-07-10",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-010",
+      "staff_name": "ANDI NURFAJRIANA",
+      "group": "CNS",
+      "date": "2026-07-11",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-010",
+      "staff_name": "ANDI NURFAJRIANA",
+      "group": "CNS",
+      "date": "2026-07-12",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-010",
+      "staff_name": "ANDI NURFAJRIANA",
+      "group": "CNS",
+      "date": "2026-07-13",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-010",
+      "staff_name": "ANDI NURFAJRIANA",
+      "group": "CNS",
+      "date": "2026-07-14",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-010",
+      "staff_name": "ANDI NURFAJRIANA",
+      "group": "CNS",
+      "date": "2026-07-15",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-010",
+      "staff_name": "ANDI NURFAJRIANA",
+      "group": "CNS",
+      "date": "2026-07-16",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-010",
+      "staff_name": "ANDI NURFAJRIANA",
+      "group": "CNS",
+      "date": "2026-07-17",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-010",
+      "staff_name": "ANDI NURFAJRIANA",
+      "group": "CNS",
+      "date": "2026-07-18",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-010",
+      "staff_name": "ANDI NURFAJRIANA",
+      "group": "CNS",
+      "date": "2026-07-19",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-010",
+      "staff_name": "ANDI NURFAJRIANA",
+      "group": "CNS",
+      "date": "2026-07-20",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-010",
+      "staff_name": "ANDI NURFAJRIANA",
+      "group": "CNS",
+      "date": "2026-07-21",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-010",
+      "staff_name": "ANDI NURFAJRIANA",
+      "group": "CNS",
+      "date": "2026-07-22",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-010",
+      "staff_name": "ANDI NURFAJRIANA",
+      "group": "CNS",
+      "date": "2026-07-23",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-010",
+      "staff_name": "ANDI NURFAJRIANA",
+      "group": "CNS",
+      "date": "2026-07-24",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-010",
+      "staff_name": "ANDI NURFAJRIANA",
+      "group": "CNS",
+      "date": "2026-07-25",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-010",
+      "staff_name": "ANDI NURFAJRIANA",
+      "group": "CNS",
+      "date": "2026-07-26",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-010",
+      "staff_name": "ANDI NURFAJRIANA",
+      "group": "CNS",
+      "date": "2026-07-27",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-010",
+      "staff_name": "ANDI NURFAJRIANA",
+      "group": "CNS",
+      "date": "2026-07-28",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-010",
+      "staff_name": "ANDI NURFAJRIANA",
+      "group": "CNS",
+      "date": "2026-07-29",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-010",
+      "staff_name": "ANDI NURFAJRIANA",
+      "group": "CNS",
+      "date": "2026-07-30",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-010",
+      "staff_name": "ANDI NURFAJRIANA",
+      "group": "CNS",
+      "date": "2026-07-31",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-011",
+      "staff_name": "JOP A. LIMBENG",
+      "group": "CNS",
+      "date": "2026-07-01",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-011",
+      "staff_name": "JOP A. LIMBENG",
+      "group": "CNS",
+      "date": "2026-07-02",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-011",
+      "staff_name": "JOP A. LIMBENG",
+      "group": "CNS",
+      "date": "2026-07-03",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-011",
+      "staff_name": "JOP A. LIMBENG",
+      "group": "CNS",
+      "date": "2026-07-04",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-011",
+      "staff_name": "JOP A. LIMBENG",
+      "group": "CNS",
+      "date": "2026-07-05",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-011",
+      "staff_name": "JOP A. LIMBENG",
+      "group": "CNS",
+      "date": "2026-07-06",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-011",
+      "staff_name": "JOP A. LIMBENG",
+      "group": "CNS",
+      "date": "2026-07-07",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-011",
+      "staff_name": "JOP A. LIMBENG",
+      "group": "CNS",
+      "date": "2026-07-08",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-011",
+      "staff_name": "JOP A. LIMBENG",
+      "group": "CNS",
+      "date": "2026-07-09",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-011",
+      "staff_name": "JOP A. LIMBENG",
+      "group": "CNS",
+      "date": "2026-07-10",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-011",
+      "staff_name": "JOP A. LIMBENG",
+      "group": "CNS",
+      "date": "2026-07-11",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-011",
+      "staff_name": "JOP A. LIMBENG",
+      "group": "CNS",
+      "date": "2026-07-12",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-011",
+      "staff_name": "JOP A. LIMBENG",
+      "group": "CNS",
+      "date": "2026-07-13",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-011",
+      "staff_name": "JOP A. LIMBENG",
+      "group": "CNS",
+      "date": "2026-07-14",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-011",
+      "staff_name": "JOP A. LIMBENG",
+      "group": "CNS",
+      "date": "2026-07-15",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-011",
+      "staff_name": "JOP A. LIMBENG",
+      "group": "CNS",
+      "date": "2026-07-16",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-011",
+      "staff_name": "JOP A. LIMBENG",
+      "group": "CNS",
+      "date": "2026-07-17",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-011",
+      "staff_name": "JOP A. LIMBENG",
+      "group": "CNS",
+      "date": "2026-07-18",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-011",
+      "staff_name": "JOP A. LIMBENG",
+      "group": "CNS",
+      "date": "2026-07-19",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-011",
+      "staff_name": "JOP A. LIMBENG",
+      "group": "CNS",
+      "date": "2026-07-20",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-011",
+      "staff_name": "JOP A. LIMBENG",
+      "group": "CNS",
+      "date": "2026-07-21",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-011",
+      "staff_name": "JOP A. LIMBENG",
+      "group": "CNS",
+      "date": "2026-07-22",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-011",
+      "staff_name": "JOP A. LIMBENG",
+      "group": "CNS",
+      "date": "2026-07-23",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-011",
+      "staff_name": "JOP A. LIMBENG",
+      "group": "CNS",
+      "date": "2026-07-24",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-011",
+      "staff_name": "JOP A. LIMBENG",
+      "group": "CNS",
+      "date": "2026-07-25",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-011",
+      "staff_name": "JOP A. LIMBENG",
+      "group": "CNS",
+      "date": "2026-07-26",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-011",
+      "staff_name": "JOP A. LIMBENG",
+      "group": "CNS",
+      "date": "2026-07-27",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-011",
+      "staff_name": "JOP A. LIMBENG",
+      "group": "CNS",
+      "date": "2026-07-28",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-011",
+      "staff_name": "JOP A. LIMBENG",
+      "group": "CNS",
+      "date": "2026-07-29",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-011",
+      "staff_name": "JOP A. LIMBENG",
+      "group": "CNS",
+      "date": "2026-07-30",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-011",
+      "staff_name": "JOP A. LIMBENG",
+      "group": "CNS",
+      "date": "2026-07-31",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-012",
+      "staff_name": "DEIVY TUMIIR",
+      "group": "CNS",
+      "date": "2026-07-01",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-012",
+      "staff_name": "DEIVY TUMIIR",
+      "group": "CNS",
+      "date": "2026-07-02",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-012",
+      "staff_name": "DEIVY TUMIIR",
+      "group": "CNS",
+      "date": "2026-07-03",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-012",
+      "staff_name": "DEIVY TUMIIR",
+      "group": "CNS",
+      "date": "2026-07-04",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-012",
+      "staff_name": "DEIVY TUMIIR",
+      "group": "CNS",
+      "date": "2026-07-05",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-012",
+      "staff_name": "DEIVY TUMIIR",
+      "group": "CNS",
+      "date": "2026-07-06",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-012",
+      "staff_name": "DEIVY TUMIIR",
+      "group": "CNS",
+      "date": "2026-07-07",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-012",
+      "staff_name": "DEIVY TUMIIR",
+      "group": "CNS",
+      "date": "2026-07-08",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-012",
+      "staff_name": "DEIVY TUMIIR",
+      "group": "CNS",
+      "date": "2026-07-09",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-012",
+      "staff_name": "DEIVY TUMIIR",
+      "group": "CNS",
+      "date": "2026-07-10",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-012",
+      "staff_name": "DEIVY TUMIIR",
+      "group": "CNS",
+      "date": "2026-07-11",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-012",
+      "staff_name": "DEIVY TUMIIR",
+      "group": "CNS",
+      "date": "2026-07-12",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-012",
+      "staff_name": "DEIVY TUMIIR",
+      "group": "CNS",
+      "date": "2026-07-13",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-012",
+      "staff_name": "DEIVY TUMIIR",
+      "group": "CNS",
+      "date": "2026-07-14",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-012",
+      "staff_name": "DEIVY TUMIIR",
+      "group": "CNS",
+      "date": "2026-07-15",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-012",
+      "staff_name": "DEIVY TUMIIR",
+      "group": "CNS",
+      "date": "2026-07-16",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-012",
+      "staff_name": "DEIVY TUMIIR",
+      "group": "CNS",
+      "date": "2026-07-17",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-012",
+      "staff_name": "DEIVY TUMIIR",
+      "group": "CNS",
+      "date": "2026-07-18",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-012",
+      "staff_name": "DEIVY TUMIIR",
+      "group": "CNS",
+      "date": "2026-07-19",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-012",
+      "staff_name": "DEIVY TUMIIR",
+      "group": "CNS",
+      "date": "2026-07-20",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-012",
+      "staff_name": "DEIVY TUMIIR",
+      "group": "CNS",
+      "date": "2026-07-21",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-012",
+      "staff_name": "DEIVY TUMIIR",
+      "group": "CNS",
+      "date": "2026-07-22",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-012",
+      "staff_name": "DEIVY TUMIIR",
+      "group": "CNS",
+      "date": "2026-07-23",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-012",
+      "staff_name": "DEIVY TUMIIR",
+      "group": "CNS",
+      "date": "2026-07-24",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-012",
+      "staff_name": "DEIVY TUMIIR",
+      "group": "CNS",
+      "date": "2026-07-25",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-012",
+      "staff_name": "DEIVY TUMIIR",
+      "group": "CNS",
+      "date": "2026-07-26",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-012",
+      "staff_name": "DEIVY TUMIIR",
+      "group": "CNS",
+      "date": "2026-07-27",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-012",
+      "staff_name": "DEIVY TUMIIR",
+      "group": "CNS",
+      "date": "2026-07-28",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-012",
+      "staff_name": "DEIVY TUMIIR",
+      "group": "CNS",
+      "date": "2026-07-29",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-012",
+      "staff_name": "DEIVY TUMIIR",
+      "group": "CNS",
+      "date": "2026-07-30",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-012",
+      "staff_name": "DEIVY TUMIIR",
+      "group": "CNS",
+      "date": "2026-07-31",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-013",
+      "staff_name": "ALLAN M. LENGKONG",
+      "group": "CNS",
+      "date": "2026-07-01",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-013",
+      "staff_name": "ALLAN M. LENGKONG",
+      "group": "CNS",
+      "date": "2026-07-02",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-013",
+      "staff_name": "ALLAN M. LENGKONG",
+      "group": "CNS",
+      "date": "2026-07-03",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-013",
+      "staff_name": "ALLAN M. LENGKONG",
+      "group": "CNS",
+      "date": "2026-07-04",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-013",
+      "staff_name": "ALLAN M. LENGKONG",
+      "group": "CNS",
+      "date": "2026-07-05",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-013",
+      "staff_name": "ALLAN M. LENGKONG",
+      "group": "CNS",
+      "date": "2026-07-06",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-013",
+      "staff_name": "ALLAN M. LENGKONG",
+      "group": "CNS",
+      "date": "2026-07-07",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-013",
+      "staff_name": "ALLAN M. LENGKONG",
+      "group": "CNS",
+      "date": "2026-07-08",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-013",
+      "staff_name": "ALLAN M. LENGKONG",
+      "group": "CNS",
+      "date": "2026-07-09",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-013",
+      "staff_name": "ALLAN M. LENGKONG",
+      "group": "CNS",
+      "date": "2026-07-10",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-013",
+      "staff_name": "ALLAN M. LENGKONG",
+      "group": "CNS",
+      "date": "2026-07-11",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-013",
+      "staff_name": "ALLAN M. LENGKONG",
+      "group": "CNS",
+      "date": "2026-07-12",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-013",
+      "staff_name": "ALLAN M. LENGKONG",
+      "group": "CNS",
+      "date": "2026-07-13",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-013",
+      "staff_name": "ALLAN M. LENGKONG",
+      "group": "CNS",
+      "date": "2026-07-14",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-013",
+      "staff_name": "ALLAN M. LENGKONG",
+      "group": "CNS",
+      "date": "2026-07-15",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-013",
+      "staff_name": "ALLAN M. LENGKONG",
+      "group": "CNS",
+      "date": "2026-07-16",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-013",
+      "staff_name": "ALLAN M. LENGKONG",
+      "group": "CNS",
+      "date": "2026-07-17",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-013",
+      "staff_name": "ALLAN M. LENGKONG",
+      "group": "CNS",
+      "date": "2026-07-18",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-013",
+      "staff_name": "ALLAN M. LENGKONG",
+      "group": "CNS",
+      "date": "2026-07-19",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-013",
+      "staff_name": "ALLAN M. LENGKONG",
+      "group": "CNS",
+      "date": "2026-07-20",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-013",
+      "staff_name": "ALLAN M. LENGKONG",
+      "group": "CNS",
+      "date": "2026-07-21",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-013",
+      "staff_name": "ALLAN M. LENGKONG",
+      "group": "CNS",
+      "date": "2026-07-22",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-013",
+      "staff_name": "ALLAN M. LENGKONG",
+      "group": "CNS",
+      "date": "2026-07-23",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-013",
+      "staff_name": "ALLAN M. LENGKONG",
+      "group": "CNS",
+      "date": "2026-07-24",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-013",
+      "staff_name": "ALLAN M. LENGKONG",
+      "group": "CNS",
+      "date": "2026-07-25",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-013",
+      "staff_name": "ALLAN M. LENGKONG",
+      "group": "CNS",
+      "date": "2026-07-26",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-013",
+      "staff_name": "ALLAN M. LENGKONG",
+      "group": "CNS",
+      "date": "2026-07-27",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-013",
+      "staff_name": "ALLAN M. LENGKONG",
+      "group": "CNS",
+      "date": "2026-07-28",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-013",
+      "staff_name": "ALLAN M. LENGKONG",
+      "group": "CNS",
+      "date": "2026-07-29",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-013",
+      "staff_name": "ALLAN M. LENGKONG",
+      "group": "CNS",
+      "date": "2026-07-30",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-013",
+      "staff_name": "ALLAN M. LENGKONG",
+      "group": "CNS",
+      "date": "2026-07-31",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-014",
+      "staff_name": "KURNIAWAN JAMAL",
+      "group": "CNS",
+      "date": "2026-07-01",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-014",
+      "staff_name": "KURNIAWAN JAMAL",
+      "group": "CNS",
+      "date": "2026-07-02",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-014",
+      "staff_name": "KURNIAWAN JAMAL",
+      "group": "CNS",
+      "date": "2026-07-03",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-014",
+      "staff_name": "KURNIAWAN JAMAL",
+      "group": "CNS",
+      "date": "2026-07-04",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-014",
+      "staff_name": "KURNIAWAN JAMAL",
+      "group": "CNS",
+      "date": "2026-07-05",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-014",
+      "staff_name": "KURNIAWAN JAMAL",
+      "group": "CNS",
+      "date": "2026-07-06",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-014",
+      "staff_name": "KURNIAWAN JAMAL",
+      "group": "CNS",
+      "date": "2026-07-07",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-014",
+      "staff_name": "KURNIAWAN JAMAL",
+      "group": "CNS",
+      "date": "2026-07-08",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-014",
+      "staff_name": "KURNIAWAN JAMAL",
+      "group": "CNS",
+      "date": "2026-07-09",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-014",
+      "staff_name": "KURNIAWAN JAMAL",
+      "group": "CNS",
+      "date": "2026-07-10",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-014",
+      "staff_name": "KURNIAWAN JAMAL",
+      "group": "CNS",
+      "date": "2026-07-11",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-014",
+      "staff_name": "KURNIAWAN JAMAL",
+      "group": "CNS",
+      "date": "2026-07-12",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-014",
+      "staff_name": "KURNIAWAN JAMAL",
+      "group": "CNS",
+      "date": "2026-07-13",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-014",
+      "staff_name": "KURNIAWAN JAMAL",
+      "group": "CNS",
+      "date": "2026-07-14",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-014",
+      "staff_name": "KURNIAWAN JAMAL",
+      "group": "CNS",
+      "date": "2026-07-15",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-014",
+      "staff_name": "KURNIAWAN JAMAL",
+      "group": "CNS",
+      "date": "2026-07-16",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-014",
+      "staff_name": "KURNIAWAN JAMAL",
+      "group": "CNS",
+      "date": "2026-07-17",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-014",
+      "staff_name": "KURNIAWAN JAMAL",
+      "group": "CNS",
+      "date": "2026-07-18",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-014",
+      "staff_name": "KURNIAWAN JAMAL",
+      "group": "CNS",
+      "date": "2026-07-19",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-014",
+      "staff_name": "KURNIAWAN JAMAL",
+      "group": "CNS",
+      "date": "2026-07-20",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-014",
+      "staff_name": "KURNIAWAN JAMAL",
+      "group": "CNS",
+      "date": "2026-07-21",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-014",
+      "staff_name": "KURNIAWAN JAMAL",
+      "group": "CNS",
+      "date": "2026-07-22",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-014",
+      "staff_name": "KURNIAWAN JAMAL",
+      "group": "CNS",
+      "date": "2026-07-23",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-014",
+      "staff_name": "KURNIAWAN JAMAL",
+      "group": "CNS",
+      "date": "2026-07-24",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "T-014",
+      "staff_name": "KURNIAWAN JAMAL",
+      "group": "CNS",
+      "date": "2026-07-25",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-014",
+      "staff_name": "KURNIAWAN JAMAL",
+      "group": "CNS",
+      "date": "2026-07-26",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-014",
+      "staff_name": "KURNIAWAN JAMAL",
+      "group": "CNS",
+      "date": "2026-07-27",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-014",
+      "staff_name": "KURNIAWAN JAMAL",
+      "group": "CNS",
+      "date": "2026-07-28",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-014",
+      "staff_name": "KURNIAWAN JAMAL",
+      "group": "CNS",
+      "date": "2026-07-29",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-014",
+      "staff_name": "KURNIAWAN JAMAL",
+      "group": "CNS",
+      "date": "2026-07-30",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-014",
+      "staff_name": "KURNIAWAN JAMAL",
+      "group": "CNS",
+      "date": "2026-07-31",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-015",
+      "staff_name": "RHIDO NAINGGOLAN",
+      "group": "CNS",
+      "date": "2026-07-01",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-015",
+      "staff_name": "RHIDO NAINGGOLAN",
+      "group": "CNS",
+      "date": "2026-07-02",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-015",
+      "staff_name": "RHIDO NAINGGOLAN",
+      "group": "CNS",
+      "date": "2026-07-03",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-015",
+      "staff_name": "RHIDO NAINGGOLAN",
+      "group": "CNS",
+      "date": "2026-07-04",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-015",
+      "staff_name": "RHIDO NAINGGOLAN",
+      "group": "CNS",
+      "date": "2026-07-05",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-015",
+      "staff_name": "RHIDO NAINGGOLAN",
+      "group": "CNS",
+      "date": "2026-07-06",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-015",
+      "staff_name": "RHIDO NAINGGOLAN",
+      "group": "CNS",
+      "date": "2026-07-07",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-015",
+      "staff_name": "RHIDO NAINGGOLAN",
+      "group": "CNS",
+      "date": "2026-07-08",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-015",
+      "staff_name": "RHIDO NAINGGOLAN",
+      "group": "CNS",
+      "date": "2026-07-09",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-015",
+      "staff_name": "RHIDO NAINGGOLAN",
+      "group": "CNS",
+      "date": "2026-07-10",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-015",
+      "staff_name": "RHIDO NAINGGOLAN",
+      "group": "CNS",
+      "date": "2026-07-11",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-015",
+      "staff_name": "RHIDO NAINGGOLAN",
+      "group": "CNS",
+      "date": "2026-07-12",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-015",
+      "staff_name": "RHIDO NAINGGOLAN",
+      "group": "CNS",
+      "date": "2026-07-13",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-015",
+      "staff_name": "RHIDO NAINGGOLAN",
+      "group": "CNS",
+      "date": "2026-07-14",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-015",
+      "staff_name": "RHIDO NAINGGOLAN",
+      "group": "CNS",
+      "date": "2026-07-15",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-015",
+      "staff_name": "RHIDO NAINGGOLAN",
+      "group": "CNS",
+      "date": "2026-07-16",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-015",
+      "staff_name": "RHIDO NAINGGOLAN",
+      "group": "CNS",
+      "date": "2026-07-17",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-015",
+      "staff_name": "RHIDO NAINGGOLAN",
+      "group": "CNS",
+      "date": "2026-07-18",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-015",
+      "staff_name": "RHIDO NAINGGOLAN",
+      "group": "CNS",
+      "date": "2026-07-19",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-015",
+      "staff_name": "RHIDO NAINGGOLAN",
+      "group": "CNS",
+      "date": "2026-07-20",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-015",
+      "staff_name": "RHIDO NAINGGOLAN",
+      "group": "CNS",
+      "date": "2026-07-21",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-015",
+      "staff_name": "RHIDO NAINGGOLAN",
+      "group": "CNS",
+      "date": "2026-07-22",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-015",
+      "staff_name": "RHIDO NAINGGOLAN",
+      "group": "CNS",
+      "date": "2026-07-23",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-015",
+      "staff_name": "RHIDO NAINGGOLAN",
+      "group": "CNS",
+      "date": "2026-07-24",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-015",
+      "staff_name": "RHIDO NAINGGOLAN",
+      "group": "CNS",
+      "date": "2026-07-25",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-015",
+      "staff_name": "RHIDO NAINGGOLAN",
+      "group": "CNS",
+      "date": "2026-07-26",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-015",
+      "staff_name": "RHIDO NAINGGOLAN",
+      "group": "CNS",
+      "date": "2026-07-27",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-015",
+      "staff_name": "RHIDO NAINGGOLAN",
+      "group": "CNS",
+      "date": "2026-07-28",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-015",
+      "staff_name": "RHIDO NAINGGOLAN",
+      "group": "CNS",
+      "date": "2026-07-29",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-015",
+      "staff_name": "RHIDO NAINGGOLAN",
+      "group": "CNS",
+      "date": "2026-07-30",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-015",
+      "staff_name": "RHIDO NAINGGOLAN",
+      "group": "CNS",
+      "date": "2026-07-31",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-016",
+      "staff_name": "PRAYOGO WICAKSONO",
+      "group": "CNS",
+      "date": "2026-07-01",
+      "shift_code": "OH",
+      "is_gap": true,
+      "gap_reason": "DIKLAT"
+    },
+    {
+      "staff_id": "T-016",
+      "staff_name": "PRAYOGO WICAKSONO",
+      "group": "CNS",
+      "date": "2026-07-02",
+      "shift_code": "OH",
+      "is_gap": true,
+      "gap_reason": "DIKLAT"
+    },
+    {
+      "staff_id": "T-016",
+      "staff_name": "PRAYOGO WICAKSONO",
+      "group": "CNS",
+      "date": "2026-07-03",
+      "shift_code": "OH",
+      "is_gap": true,
+      "gap_reason": "DIKLAT"
+    },
+    {
+      "staff_id": "T-016",
+      "staff_name": "PRAYOGO WICAKSONO",
+      "group": "CNS",
+      "date": "2026-07-04",
+      "shift_code": "OH",
+      "is_gap": true,
+      "gap_reason": "DIKLAT"
+    },
+    {
+      "staff_id": "T-016",
+      "staff_name": "PRAYOGO WICAKSONO",
+      "group": "CNS",
+      "date": "2026-07-05",
+      "shift_code": "OH",
+      "is_gap": true,
+      "gap_reason": "DIKLAT"
+    },
+    {
+      "staff_id": "T-016",
+      "staff_name": "PRAYOGO WICAKSONO",
+      "group": "CNS",
+      "date": "2026-07-06",
+      "shift_code": "OH",
+      "is_gap": true,
+      "gap_reason": "DIKLAT"
+    },
+    {
+      "staff_id": "T-016",
+      "staff_name": "PRAYOGO WICAKSONO",
+      "group": "CNS",
+      "date": "2026-07-07",
+      "shift_code": "OH",
+      "is_gap": true,
+      "gap_reason": "DIKLAT"
+    },
+    {
+      "staff_id": "T-016",
+      "staff_name": "PRAYOGO WICAKSONO",
+      "group": "CNS",
+      "date": "2026-07-08",
+      "shift_code": "OH",
+      "is_gap": true,
+      "gap_reason": "DIKLAT"
+    },
+    {
+      "staff_id": "T-016",
+      "staff_name": "PRAYOGO WICAKSONO",
+      "group": "CNS",
+      "date": "2026-07-09",
+      "shift_code": "OH",
+      "is_gap": true,
+      "gap_reason": "DIKLAT"
+    },
+    {
+      "staff_id": "T-016",
+      "staff_name": "PRAYOGO WICAKSONO",
+      "group": "CNS",
+      "date": "2026-07-10",
+      "shift_code": "OH",
+      "is_gap": true,
+      "gap_reason": "DIKLAT"
+    },
+    {
+      "staff_id": "T-016",
+      "staff_name": "PRAYOGO WICAKSONO",
+      "group": "CNS",
+      "date": "2026-07-11",
+      "shift_code": "OH",
+      "is_gap": true,
+      "gap_reason": "DIKLAT"
+    },
+    {
+      "staff_id": "T-016",
+      "staff_name": "PRAYOGO WICAKSONO",
+      "group": "CNS",
+      "date": "2026-07-12",
+      "shift_code": "OH",
+      "is_gap": true,
+      "gap_reason": "DIKLAT"
+    },
+    {
+      "staff_id": "T-016",
+      "staff_name": "PRAYOGO WICAKSONO",
+      "group": "CNS",
+      "date": "2026-07-13",
+      "shift_code": "OH",
+      "is_gap": true,
+      "gap_reason": "DIKLAT"
+    },
+    {
+      "staff_id": "T-016",
+      "staff_name": "PRAYOGO WICAKSONO",
+      "group": "CNS",
+      "date": "2026-07-14",
+      "shift_code": "OH",
+      "is_gap": true,
+      "gap_reason": "DIKLAT"
+    },
+    {
+      "staff_id": "T-016",
+      "staff_name": "PRAYOGO WICAKSONO",
+      "group": "CNS",
+      "date": "2026-07-15",
+      "shift_code": "OH",
+      "is_gap": true,
+      "gap_reason": "DIKLAT"
+    },
+    {
+      "staff_id": "T-016",
+      "staff_name": "PRAYOGO WICAKSONO",
+      "group": "CNS",
+      "date": "2026-07-16",
+      "shift_code": "OH",
+      "is_gap": true,
+      "gap_reason": "DIKLAT"
+    },
+    {
+      "staff_id": "T-016",
+      "staff_name": "PRAYOGO WICAKSONO",
+      "group": "CNS",
+      "date": "2026-07-17",
+      "shift_code": "OH",
+      "is_gap": true,
+      "gap_reason": "DIKLAT"
+    },
+    {
+      "staff_id": "T-016",
+      "staff_name": "PRAYOGO WICAKSONO",
+      "group": "CNS",
+      "date": "2026-07-18",
+      "shift_code": "OH",
+      "is_gap": true,
+      "gap_reason": "DIKLAT"
+    },
+    {
+      "staff_id": "T-016",
+      "staff_name": "PRAYOGO WICAKSONO",
+      "group": "CNS",
+      "date": "2026-07-19",
+      "shift_code": "OH",
+      "is_gap": true,
+      "gap_reason": "DIKLAT"
+    },
+    {
+      "staff_id": "T-016",
+      "staff_name": "PRAYOGO WICAKSONO",
+      "group": "CNS",
+      "date": "2026-07-20",
+      "shift_code": "OH",
+      "is_gap": true,
+      "gap_reason": "DIKLAT"
+    },
+    {
+      "staff_id": "T-016",
+      "staff_name": "PRAYOGO WICAKSONO",
+      "group": "CNS",
+      "date": "2026-07-21",
+      "shift_code": "OH",
+      "is_gap": true,
+      "gap_reason": "DIKLAT"
+    },
+    {
+      "staff_id": "T-016",
+      "staff_name": "PRAYOGO WICAKSONO",
+      "group": "CNS",
+      "date": "2026-07-22",
+      "shift_code": "OH",
+      "is_gap": true,
+      "gap_reason": "DIKLAT"
+    },
+    {
+      "staff_id": "T-016",
+      "staff_name": "PRAYOGO WICAKSONO",
+      "group": "CNS",
+      "date": "2026-07-23",
+      "shift_code": "OH",
+      "is_gap": true,
+      "gap_reason": "DIKLAT"
+    },
+    {
+      "staff_id": "T-016",
+      "staff_name": "PRAYOGO WICAKSONO",
+      "group": "CNS",
+      "date": "2026-07-24",
+      "shift_code": "OH",
+      "is_gap": true,
+      "gap_reason": "DIKLAT"
+    },
+    {
+      "staff_id": "T-016",
+      "staff_name": "PRAYOGO WICAKSONO",
+      "group": "CNS",
+      "date": "2026-07-25",
+      "shift_code": "OH",
+      "is_gap": true,
+      "gap_reason": "DIKLAT"
+    },
+    {
+      "staff_id": "T-016",
+      "staff_name": "PRAYOGO WICAKSONO",
+      "group": "CNS",
+      "date": "2026-07-26",
+      "shift_code": "OH",
+      "is_gap": true,
+      "gap_reason": "DIKLAT"
+    },
+    {
+      "staff_id": "T-016",
+      "staff_name": "PRAYOGO WICAKSONO",
+      "group": "CNS",
+      "date": "2026-07-27",
+      "shift_code": "OH",
+      "is_gap": true,
+      "gap_reason": "DIKLAT"
+    },
+    {
+      "staff_id": "T-016",
+      "staff_name": "PRAYOGO WICAKSONO",
+      "group": "CNS",
+      "date": "2026-07-28",
+      "shift_code": "OH",
+      "is_gap": true,
+      "gap_reason": "DIKLAT"
+    },
+    {
+      "staff_id": "T-016",
+      "staff_name": "PRAYOGO WICAKSONO",
+      "group": "CNS",
+      "date": "2026-07-29",
+      "shift_code": "OH",
+      "is_gap": true,
+      "gap_reason": "DIKLAT"
+    },
+    {
+      "staff_id": "T-016",
+      "staff_name": "PRAYOGO WICAKSONO",
+      "group": "CNS",
+      "date": "2026-07-30",
+      "shift_code": "OH",
+      "is_gap": true,
+      "gap_reason": "DIKLAT"
+    },
+    {
+      "staff_id": "T-016",
+      "staff_name": "PRAYOGO WICAKSONO",
+      "group": "CNS",
+      "date": "2026-07-31",
+      "shift_code": "OH",
+      "is_gap": true,
+      "gap_reason": "DIKLAT"
+    },
+    {
+      "staff_id": "T-017",
+      "staff_name": "SEACHER JUNEDI",
+      "group": "CNS",
+      "date": "2026-07-01",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-017",
+      "staff_name": "SEACHER JUNEDI",
+      "group": "CNS",
+      "date": "2026-07-02",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-017",
+      "staff_name": "SEACHER JUNEDI",
+      "group": "CNS",
+      "date": "2026-07-03",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-017",
+      "staff_name": "SEACHER JUNEDI",
+      "group": "CNS",
+      "date": "2026-07-04",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-017",
+      "staff_name": "SEACHER JUNEDI",
+      "group": "CNS",
+      "date": "2026-07-05",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-017",
+      "staff_name": "SEACHER JUNEDI",
+      "group": "CNS",
+      "date": "2026-07-06",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-017",
+      "staff_name": "SEACHER JUNEDI",
+      "group": "CNS",
+      "date": "2026-07-07",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-017",
+      "staff_name": "SEACHER JUNEDI",
+      "group": "CNS",
+      "date": "2026-07-08",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-017",
+      "staff_name": "SEACHER JUNEDI",
+      "group": "CNS",
+      "date": "2026-07-09",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-017",
+      "staff_name": "SEACHER JUNEDI",
+      "group": "CNS",
+      "date": "2026-07-10",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-017",
+      "staff_name": "SEACHER JUNEDI",
+      "group": "CNS",
+      "date": "2026-07-11",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-017",
+      "staff_name": "SEACHER JUNEDI",
+      "group": "CNS",
+      "date": "2026-07-12",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-017",
+      "staff_name": "SEACHER JUNEDI",
+      "group": "CNS",
+      "date": "2026-07-13",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "DINAS LUAR"
+    },
+    {
+      "staff_id": "T-017",
+      "staff_name": "SEACHER JUNEDI",
+      "group": "CNS",
+      "date": "2026-07-14",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "DINAS LUAR"
+    },
+    {
+      "staff_id": "T-017",
+      "staff_name": "SEACHER JUNEDI",
+      "group": "CNS",
+      "date": "2026-07-15",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "DINAS LUAR"
+    },
+    {
+      "staff_id": "T-017",
+      "staff_name": "SEACHER JUNEDI",
+      "group": "CNS",
+      "date": "2026-07-16",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "DINAS LUAR"
+    },
+    {
+      "staff_id": "T-017",
+      "staff_name": "SEACHER JUNEDI",
+      "group": "CNS",
+      "date": "2026-07-17",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "DINAS LUAR"
+    },
+    {
+      "staff_id": "T-017",
+      "staff_name": "SEACHER JUNEDI",
+      "group": "CNS",
+      "date": "2026-07-18",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "DINAS LUAR"
+    },
+    {
+      "staff_id": "T-017",
+      "staff_name": "SEACHER JUNEDI",
+      "group": "CNS",
+      "date": "2026-07-19",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-017",
+      "staff_name": "SEACHER JUNEDI",
+      "group": "CNS",
+      "date": "2026-07-20",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-017",
+      "staff_name": "SEACHER JUNEDI",
+      "group": "CNS",
+      "date": "2026-07-21",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-017",
+      "staff_name": "SEACHER JUNEDI",
+      "group": "CNS",
+      "date": "2026-07-22",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-017",
+      "staff_name": "SEACHER JUNEDI",
+      "group": "CNS",
+      "date": "2026-07-23",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-017",
+      "staff_name": "SEACHER JUNEDI",
+      "group": "CNS",
+      "date": "2026-07-24",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-017",
+      "staff_name": "SEACHER JUNEDI",
+      "group": "CNS",
+      "date": "2026-07-25",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-017",
+      "staff_name": "SEACHER JUNEDI",
+      "group": "CNS",
+      "date": "2026-07-26",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-017",
+      "staff_name": "SEACHER JUNEDI",
+      "group": "CNS",
+      "date": "2026-07-27",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-017",
+      "staff_name": "SEACHER JUNEDI",
+      "group": "CNS",
+      "date": "2026-07-28",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-017",
+      "staff_name": "SEACHER JUNEDI",
+      "group": "CNS",
+      "date": "2026-07-29",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-017",
+      "staff_name": "SEACHER JUNEDI",
+      "group": "CNS",
+      "date": "2026-07-30",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "T-017",
+      "staff_name": "SEACHER JUNEDI",
+      "group": "CNS",
+      "date": "2026-07-31",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-001",
+      "staff_name": "JEFRI RANTE",
+      "group": "ESS",
+      "date": "2026-07-01",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-001",
+      "staff_name": "JEFRI RANTE",
+      "group": "ESS",
+      "date": "2026-07-02",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-001",
+      "staff_name": "JEFRI RANTE",
+      "group": "ESS",
+      "date": "2026-07-03",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-001",
+      "staff_name": "JEFRI RANTE",
+      "group": "ESS",
+      "date": "2026-07-04",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-001",
+      "staff_name": "JEFRI RANTE",
+      "group": "ESS",
+      "date": "2026-07-05",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-001",
+      "staff_name": "JEFRI RANTE",
+      "group": "ESS",
+      "date": "2026-07-06",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-001",
+      "staff_name": "JEFRI RANTE",
+      "group": "ESS",
+      "date": "2026-07-07",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-001",
+      "staff_name": "JEFRI RANTE",
+      "group": "ESS",
+      "date": "2026-07-08",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-001",
+      "staff_name": "JEFRI RANTE",
+      "group": "ESS",
+      "date": "2026-07-09",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-001",
+      "staff_name": "JEFRI RANTE",
+      "group": "ESS",
+      "date": "2026-07-10",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-001",
+      "staff_name": "JEFRI RANTE",
+      "group": "ESS",
+      "date": "2026-07-11",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-001",
+      "staff_name": "JEFRI RANTE",
+      "group": "ESS",
+      "date": "2026-07-12",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-001",
+      "staff_name": "JEFRI RANTE",
+      "group": "ESS",
+      "date": "2026-07-13",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-001",
+      "staff_name": "JEFRI RANTE",
+      "group": "ESS",
+      "date": "2026-07-14",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-001",
+      "staff_name": "JEFRI RANTE",
+      "group": "ESS",
+      "date": "2026-07-15",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-001",
+      "staff_name": "JEFRI RANTE",
+      "group": "ESS",
+      "date": "2026-07-16",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-001",
+      "staff_name": "JEFRI RANTE",
+      "group": "ESS",
+      "date": "2026-07-17",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-001",
+      "staff_name": "JEFRI RANTE",
+      "group": "ESS",
+      "date": "2026-07-18",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-001",
+      "staff_name": "JEFRI RANTE",
+      "group": "ESS",
+      "date": "2026-07-19",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-001",
+      "staff_name": "JEFRI RANTE",
+      "group": "ESS",
+      "date": "2026-07-20",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-001",
+      "staff_name": "JEFRI RANTE",
+      "group": "ESS",
+      "date": "2026-07-21",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-001",
+      "staff_name": "JEFRI RANTE",
+      "group": "ESS",
+      "date": "2026-07-22",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-001",
+      "staff_name": "JEFRI RANTE",
+      "group": "ESS",
+      "date": "2026-07-23",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-001",
+      "staff_name": "JEFRI RANTE",
+      "group": "ESS",
+      "date": "2026-07-24",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-001",
+      "staff_name": "JEFRI RANTE",
+      "group": "ESS",
+      "date": "2026-07-25",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-001",
+      "staff_name": "JEFRI RANTE",
+      "group": "ESS",
+      "date": "2026-07-26",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-001",
+      "staff_name": "JEFRI RANTE",
+      "group": "ESS",
+      "date": "2026-07-27",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-001",
+      "staff_name": "JEFRI RANTE",
+      "group": "ESS",
+      "date": "2026-07-28",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-001",
+      "staff_name": "JEFRI RANTE",
+      "group": "ESS",
+      "date": "2026-07-29",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-001",
+      "staff_name": "JEFRI RANTE",
+      "group": "ESS",
+      "date": "2026-07-30",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-001",
+      "staff_name": "JEFRI RANTE",
+      "group": "ESS",
+      "date": "2026-07-31",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-002",
+      "staff_name": "UMMU N. FATHI",
+      "group": "ESS",
+      "date": "2026-07-01",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-002",
+      "staff_name": "UMMU N. FATHI",
+      "group": "ESS",
+      "date": "2026-07-02",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-002",
+      "staff_name": "UMMU N. FATHI",
+      "group": "ESS",
+      "date": "2026-07-03",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-002",
+      "staff_name": "UMMU N. FATHI",
+      "group": "ESS",
+      "date": "2026-07-04",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-002",
+      "staff_name": "UMMU N. FATHI",
+      "group": "ESS",
+      "date": "2026-07-05",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-002",
+      "staff_name": "UMMU N. FATHI",
+      "group": "ESS",
+      "date": "2026-07-06",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-002",
+      "staff_name": "UMMU N. FATHI",
+      "group": "ESS",
+      "date": "2026-07-07",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-002",
+      "staff_name": "UMMU N. FATHI",
+      "group": "ESS",
+      "date": "2026-07-08",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-002",
+      "staff_name": "UMMU N. FATHI",
+      "group": "ESS",
+      "date": "2026-07-09",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-002",
+      "staff_name": "UMMU N. FATHI",
+      "group": "ESS",
+      "date": "2026-07-10",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-002",
+      "staff_name": "UMMU N. FATHI",
+      "group": "ESS",
+      "date": "2026-07-11",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-002",
+      "staff_name": "UMMU N. FATHI",
+      "group": "ESS",
+      "date": "2026-07-12",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-002",
+      "staff_name": "UMMU N. FATHI",
+      "group": "ESS",
+      "date": "2026-07-13",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-002",
+      "staff_name": "UMMU N. FATHI",
+      "group": "ESS",
+      "date": "2026-07-14",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-002",
+      "staff_name": "UMMU N. FATHI",
+      "group": "ESS",
+      "date": "2026-07-15",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-002",
+      "staff_name": "UMMU N. FATHI",
+      "group": "ESS",
+      "date": "2026-07-16",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-002",
+      "staff_name": "UMMU N. FATHI",
+      "group": "ESS",
+      "date": "2026-07-17",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "E-002",
+      "staff_name": "UMMU N. FATHI",
+      "group": "ESS",
+      "date": "2026-07-18",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "E-002",
+      "staff_name": "UMMU N. FATHI",
+      "group": "ESS",
+      "date": "2026-07-19",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "E-002",
+      "staff_name": "UMMU N. FATHI",
+      "group": "ESS",
+      "date": "2026-07-20",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "E-002",
+      "staff_name": "UMMU N. FATHI",
+      "group": "ESS",
+      "date": "2026-07-21",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-002",
+      "staff_name": "UMMU N. FATHI",
+      "group": "ESS",
+      "date": "2026-07-22",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-002",
+      "staff_name": "UMMU N. FATHI",
+      "group": "ESS",
+      "date": "2026-07-23",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-002",
+      "staff_name": "UMMU N. FATHI",
+      "group": "ESS",
+      "date": "2026-07-24",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-002",
+      "staff_name": "UMMU N. FATHI",
+      "group": "ESS",
+      "date": "2026-07-25",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-002",
+      "staff_name": "UMMU N. FATHI",
+      "group": "ESS",
+      "date": "2026-07-26",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-002",
+      "staff_name": "UMMU N. FATHI",
+      "group": "ESS",
+      "date": "2026-07-27",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-002",
+      "staff_name": "UMMU N. FATHI",
+      "group": "ESS",
+      "date": "2026-07-28",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-002",
+      "staff_name": "UMMU N. FATHI",
+      "group": "ESS",
+      "date": "2026-07-29",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-002",
+      "staff_name": "UMMU N. FATHI",
+      "group": "ESS",
+      "date": "2026-07-30",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-002",
+      "staff_name": "UMMU N. FATHI",
+      "group": "ESS",
+      "date": "2026-07-31",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-003",
+      "staff_name": "TUNAS TIO MADA",
+      "group": "ESS",
+      "date": "2026-07-01",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-003",
+      "staff_name": "TUNAS TIO MADA",
+      "group": "ESS",
+      "date": "2026-07-02",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-003",
+      "staff_name": "TUNAS TIO MADA",
+      "group": "ESS",
+      "date": "2026-07-03",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-003",
+      "staff_name": "TUNAS TIO MADA",
+      "group": "ESS",
+      "date": "2026-07-04",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-003",
+      "staff_name": "TUNAS TIO MADA",
+      "group": "ESS",
+      "date": "2026-07-05",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-003",
+      "staff_name": "TUNAS TIO MADA",
+      "group": "ESS",
+      "date": "2026-07-06",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "E-003",
+      "staff_name": "TUNAS TIO MADA",
+      "group": "ESS",
+      "date": "2026-07-07",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "E-003",
+      "staff_name": "TUNAS TIO MADA",
+      "group": "ESS",
+      "date": "2026-07-08",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "E-003",
+      "staff_name": "TUNAS TIO MADA",
+      "group": "ESS",
+      "date": "2026-07-09",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "E-003",
+      "staff_name": "TUNAS TIO MADA",
+      "group": "ESS",
+      "date": "2026-07-10",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "E-003",
+      "staff_name": "TUNAS TIO MADA",
+      "group": "ESS",
+      "date": "2026-07-11",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-003",
+      "staff_name": "TUNAS TIO MADA",
+      "group": "ESS",
+      "date": "2026-07-12",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-003",
+      "staff_name": "TUNAS TIO MADA",
+      "group": "ESS",
+      "date": "2026-07-13",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-003",
+      "staff_name": "TUNAS TIO MADA",
+      "group": "ESS",
+      "date": "2026-07-14",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-003",
+      "staff_name": "TUNAS TIO MADA",
+      "group": "ESS",
+      "date": "2026-07-15",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-003",
+      "staff_name": "TUNAS TIO MADA",
+      "group": "ESS",
+      "date": "2026-07-16",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-003",
+      "staff_name": "TUNAS TIO MADA",
+      "group": "ESS",
+      "date": "2026-07-17",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-003",
+      "staff_name": "TUNAS TIO MADA",
+      "group": "ESS",
+      "date": "2026-07-18",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-003",
+      "staff_name": "TUNAS TIO MADA",
+      "group": "ESS",
+      "date": "2026-07-19",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-003",
+      "staff_name": "TUNAS TIO MADA",
+      "group": "ESS",
+      "date": "2026-07-20",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-003",
+      "staff_name": "TUNAS TIO MADA",
+      "group": "ESS",
+      "date": "2026-07-21",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-003",
+      "staff_name": "TUNAS TIO MADA",
+      "group": "ESS",
+      "date": "2026-07-22",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-003",
+      "staff_name": "TUNAS TIO MADA",
+      "group": "ESS",
+      "date": "2026-07-23",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-003",
+      "staff_name": "TUNAS TIO MADA",
+      "group": "ESS",
+      "date": "2026-07-24",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-003",
+      "staff_name": "TUNAS TIO MADA",
+      "group": "ESS",
+      "date": "2026-07-25",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-003",
+      "staff_name": "TUNAS TIO MADA",
+      "group": "ESS",
+      "date": "2026-07-26",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-003",
+      "staff_name": "TUNAS TIO MADA",
+      "group": "ESS",
+      "date": "2026-07-27",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-003",
+      "staff_name": "TUNAS TIO MADA",
+      "group": "ESS",
+      "date": "2026-07-28",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-003",
+      "staff_name": "TUNAS TIO MADA",
+      "group": "ESS",
+      "date": "2026-07-29",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-003",
+      "staff_name": "TUNAS TIO MADA",
+      "group": "ESS",
+      "date": "2026-07-30",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-003",
+      "staff_name": "TUNAS TIO MADA",
+      "group": "ESS",
+      "date": "2026-07-31",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-004",
+      "staff_name": "PRABOWO DARMINTO",
+      "group": "ESS",
+      "date": "2026-07-01",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-004",
+      "staff_name": "PRABOWO DARMINTO",
+      "group": "ESS",
+      "date": "2026-07-02",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-004",
+      "staff_name": "PRABOWO DARMINTO",
+      "group": "ESS",
+      "date": "2026-07-03",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-004",
+      "staff_name": "PRABOWO DARMINTO",
+      "group": "ESS",
+      "date": "2026-07-04",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-004",
+      "staff_name": "PRABOWO DARMINTO",
+      "group": "ESS",
+      "date": "2026-07-05",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-004",
+      "staff_name": "PRABOWO DARMINTO",
+      "group": "ESS",
+      "date": "2026-07-06",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-004",
+      "staff_name": "PRABOWO DARMINTO",
+      "group": "ESS",
+      "date": "2026-07-07",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-004",
+      "staff_name": "PRABOWO DARMINTO",
+      "group": "ESS",
+      "date": "2026-07-08",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-004",
+      "staff_name": "PRABOWO DARMINTO",
+      "group": "ESS",
+      "date": "2026-07-09",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-004",
+      "staff_name": "PRABOWO DARMINTO",
+      "group": "ESS",
+      "date": "2026-07-10",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-004",
+      "staff_name": "PRABOWO DARMINTO",
+      "group": "ESS",
+      "date": "2026-07-11",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-004",
+      "staff_name": "PRABOWO DARMINTO",
+      "group": "ESS",
+      "date": "2026-07-12",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-004",
+      "staff_name": "PRABOWO DARMINTO",
+      "group": "ESS",
+      "date": "2026-07-13",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-004",
+      "staff_name": "PRABOWO DARMINTO",
+      "group": "ESS",
+      "date": "2026-07-14",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "E-004",
+      "staff_name": "PRABOWO DARMINTO",
+      "group": "ESS",
+      "date": "2026-07-15",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "E-004",
+      "staff_name": "PRABOWO DARMINTO",
+      "group": "ESS",
+      "date": "2026-07-16",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "E-004",
+      "staff_name": "PRABOWO DARMINTO",
+      "group": "ESS",
+      "date": "2026-07-17",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "E-004",
+      "staff_name": "PRABOWO DARMINTO",
+      "group": "ESS",
+      "date": "2026-07-18",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "E-004",
+      "staff_name": "PRABOWO DARMINTO",
+      "group": "ESS",
+      "date": "2026-07-19",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "E-004",
+      "staff_name": "PRABOWO DARMINTO",
+      "group": "ESS",
+      "date": "2026-07-20",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "E-004",
+      "staff_name": "PRABOWO DARMINTO",
+      "group": "ESS",
+      "date": "2026-07-21",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-004",
+      "staff_name": "PRABOWO DARMINTO",
+      "group": "ESS",
+      "date": "2026-07-22",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-004",
+      "staff_name": "PRABOWO DARMINTO",
+      "group": "ESS",
+      "date": "2026-07-23",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-004",
+      "staff_name": "PRABOWO DARMINTO",
+      "group": "ESS",
+      "date": "2026-07-24",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-004",
+      "staff_name": "PRABOWO DARMINTO",
+      "group": "ESS",
+      "date": "2026-07-25",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-004",
+      "staff_name": "PRABOWO DARMINTO",
+      "group": "ESS",
+      "date": "2026-07-26",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-004",
+      "staff_name": "PRABOWO DARMINTO",
+      "group": "ESS",
+      "date": "2026-07-27",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-004",
+      "staff_name": "PRABOWO DARMINTO",
+      "group": "ESS",
+      "date": "2026-07-28",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-004",
+      "staff_name": "PRABOWO DARMINTO",
+      "group": "ESS",
+      "date": "2026-07-29",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-004",
+      "staff_name": "PRABOWO DARMINTO",
+      "group": "ESS",
+      "date": "2026-07-30",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-004",
+      "staff_name": "PRABOWO DARMINTO",
+      "group": "ESS",
+      "date": "2026-07-31",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-005",
+      "staff_name": "DAVID K. NANDA",
+      "group": "ESS",
+      "date": "2026-07-01",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-005",
+      "staff_name": "DAVID K. NANDA",
+      "group": "ESS",
+      "date": "2026-07-02",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-005",
+      "staff_name": "DAVID K. NANDA",
+      "group": "ESS",
+      "date": "2026-07-03",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-005",
+      "staff_name": "DAVID K. NANDA",
+      "group": "ESS",
+      "date": "2026-07-04",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-005",
+      "staff_name": "DAVID K. NANDA",
+      "group": "ESS",
+      "date": "2026-07-05",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-005",
+      "staff_name": "DAVID K. NANDA",
+      "group": "ESS",
+      "date": "2026-07-06",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-005",
+      "staff_name": "DAVID K. NANDA",
+      "group": "ESS",
+      "date": "2026-07-07",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-005",
+      "staff_name": "DAVID K. NANDA",
+      "group": "ESS",
+      "date": "2026-07-08",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-005",
+      "staff_name": "DAVID K. NANDA",
+      "group": "ESS",
+      "date": "2026-07-09",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-005",
+      "staff_name": "DAVID K. NANDA",
+      "group": "ESS",
+      "date": "2026-07-10",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-005",
+      "staff_name": "DAVID K. NANDA",
+      "group": "ESS",
+      "date": "2026-07-11",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-005",
+      "staff_name": "DAVID K. NANDA",
+      "group": "ESS",
+      "date": "2026-07-12",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-005",
+      "staff_name": "DAVID K. NANDA",
+      "group": "ESS",
+      "date": "2026-07-13",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-005",
+      "staff_name": "DAVID K. NANDA",
+      "group": "ESS",
+      "date": "2026-07-14",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-005",
+      "staff_name": "DAVID K. NANDA",
+      "group": "ESS",
+      "date": "2026-07-15",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-005",
+      "staff_name": "DAVID K. NANDA",
+      "group": "ESS",
+      "date": "2026-07-16",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-005",
+      "staff_name": "DAVID K. NANDA",
+      "group": "ESS",
+      "date": "2026-07-17",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-005",
+      "staff_name": "DAVID K. NANDA",
+      "group": "ESS",
+      "date": "2026-07-18",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-005",
+      "staff_name": "DAVID K. NANDA",
+      "group": "ESS",
+      "date": "2026-07-19",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-005",
+      "staff_name": "DAVID K. NANDA",
+      "group": "ESS",
+      "date": "2026-07-20",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-005",
+      "staff_name": "DAVID K. NANDA",
+      "group": "ESS",
+      "date": "2026-07-21",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-005",
+      "staff_name": "DAVID K. NANDA",
+      "group": "ESS",
+      "date": "2026-07-22",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-005",
+      "staff_name": "DAVID K. NANDA",
+      "group": "ESS",
+      "date": "2026-07-23",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-005",
+      "staff_name": "DAVID K. NANDA",
+      "group": "ESS",
+      "date": "2026-07-24",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-005",
+      "staff_name": "DAVID K. NANDA",
+      "group": "ESS",
+      "date": "2026-07-25",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-005",
+      "staff_name": "DAVID K. NANDA",
+      "group": "ESS",
+      "date": "2026-07-26",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-005",
+      "staff_name": "DAVID K. NANDA",
+      "group": "ESS",
+      "date": "2026-07-27",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-005",
+      "staff_name": "DAVID K. NANDA",
+      "group": "ESS",
+      "date": "2026-07-28",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-005",
+      "staff_name": "DAVID K. NANDA",
+      "group": "ESS",
+      "date": "2026-07-29",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-005",
+      "staff_name": "DAVID K. NANDA",
+      "group": "ESS",
+      "date": "2026-07-30",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-005",
+      "staff_name": "DAVID K. NANDA",
+      "group": "ESS",
+      "date": "2026-07-31",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-006",
+      "staff_name": "WISNU HARI BIMANYU",
+      "group": "ESS",
+      "date": "2026-07-01",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "CUTI"
+    },
+    {
+      "staff_id": "E-006",
+      "staff_name": "WISNU HARI BIMANYU",
+      "group": "ESS",
+      "date": "2026-07-02",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-006",
+      "staff_name": "WISNU HARI BIMANYU",
+      "group": "ESS",
+      "date": "2026-07-03",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-006",
+      "staff_name": "WISNU HARI BIMANYU",
+      "group": "ESS",
+      "date": "2026-07-04",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-006",
+      "staff_name": "WISNU HARI BIMANYU",
+      "group": "ESS",
+      "date": "2026-07-05",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-006",
+      "staff_name": "WISNU HARI BIMANYU",
+      "group": "ESS",
+      "date": "2026-07-06",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-006",
+      "staff_name": "WISNU HARI BIMANYU",
+      "group": "ESS",
+      "date": "2026-07-07",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-006",
+      "staff_name": "WISNU HARI BIMANYU",
+      "group": "ESS",
+      "date": "2026-07-08",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-006",
+      "staff_name": "WISNU HARI BIMANYU",
+      "group": "ESS",
+      "date": "2026-07-09",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "DINAS LUAR"
+    },
+    {
+      "staff_id": "E-006",
+      "staff_name": "WISNU HARI BIMANYU",
+      "group": "ESS",
+      "date": "2026-07-10",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "DINAS LUAR"
+    },
+    {
+      "staff_id": "E-006",
+      "staff_name": "WISNU HARI BIMANYU",
+      "group": "ESS",
+      "date": "2026-07-11",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "DINAS LUAR"
+    },
+    {
+      "staff_id": "E-006",
+      "staff_name": "WISNU HARI BIMANYU",
+      "group": "ESS",
+      "date": "2026-07-12",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-006",
+      "staff_name": "WISNU HARI BIMANYU",
+      "group": "ESS",
+      "date": "2026-07-13",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-006",
+      "staff_name": "WISNU HARI BIMANYU",
+      "group": "ESS",
+      "date": "2026-07-14",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-006",
+      "staff_name": "WISNU HARI BIMANYU",
+      "group": "ESS",
+      "date": "2026-07-15",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-006",
+      "staff_name": "WISNU HARI BIMANYU",
+      "group": "ESS",
+      "date": "2026-07-16",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-006",
+      "staff_name": "WISNU HARI BIMANYU",
+      "group": "ESS",
+      "date": "2026-07-17",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-006",
+      "staff_name": "WISNU HARI BIMANYU",
+      "group": "ESS",
+      "date": "2026-07-18",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-006",
+      "staff_name": "WISNU HARI BIMANYU",
+      "group": "ESS",
+      "date": "2026-07-19",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-006",
+      "staff_name": "WISNU HARI BIMANYU",
+      "group": "ESS",
+      "date": "2026-07-20",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-006",
+      "staff_name": "WISNU HARI BIMANYU",
+      "group": "ESS",
+      "date": "2026-07-21",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-006",
+      "staff_name": "WISNU HARI BIMANYU",
+      "group": "ESS",
+      "date": "2026-07-22",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-006",
+      "staff_name": "WISNU HARI BIMANYU",
+      "group": "ESS",
+      "date": "2026-07-23",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-006",
+      "staff_name": "WISNU HARI BIMANYU",
+      "group": "ESS",
+      "date": "2026-07-24",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-006",
+      "staff_name": "WISNU HARI BIMANYU",
+      "group": "ESS",
+      "date": "2026-07-25",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-006",
+      "staff_name": "WISNU HARI BIMANYU",
+      "group": "ESS",
+      "date": "2026-07-26",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-006",
+      "staff_name": "WISNU HARI BIMANYU",
+      "group": "ESS",
+      "date": "2026-07-27",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-006",
+      "staff_name": "WISNU HARI BIMANYU",
+      "group": "ESS",
+      "date": "2026-07-28",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-006",
+      "staff_name": "WISNU HARI BIMANYU",
+      "group": "ESS",
+      "date": "2026-07-29",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-006",
+      "staff_name": "WISNU HARI BIMANYU",
+      "group": "ESS",
+      "date": "2026-07-30",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-006",
+      "staff_name": "WISNU HARI BIMANYU",
+      "group": "ESS",
+      "date": "2026-07-31",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-007",
+      "staff_name": "RIZKY SEBAYANG",
+      "group": "ESS",
+      "date": "2026-07-01",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-007",
+      "staff_name": "RIZKY SEBAYANG",
+      "group": "ESS",
+      "date": "2026-07-02",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-007",
+      "staff_name": "RIZKY SEBAYANG",
+      "group": "ESS",
+      "date": "2026-07-03",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-007",
+      "staff_name": "RIZKY SEBAYANG",
+      "group": "ESS",
+      "date": "2026-07-04",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-007",
+      "staff_name": "RIZKY SEBAYANG",
+      "group": "ESS",
+      "date": "2026-07-05",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-007",
+      "staff_name": "RIZKY SEBAYANG",
+      "group": "ESS",
+      "date": "2026-07-06",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-007",
+      "staff_name": "RIZKY SEBAYANG",
+      "group": "ESS",
+      "date": "2026-07-07",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-007",
+      "staff_name": "RIZKY SEBAYANG",
+      "group": "ESS",
+      "date": "2026-07-08",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-007",
+      "staff_name": "RIZKY SEBAYANG",
+      "group": "ESS",
+      "date": "2026-07-09",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-007",
+      "staff_name": "RIZKY SEBAYANG",
+      "group": "ESS",
+      "date": "2026-07-10",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-007",
+      "staff_name": "RIZKY SEBAYANG",
+      "group": "ESS",
+      "date": "2026-07-11",
+      "shift_code": "P",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-007",
+      "staff_name": "RIZKY SEBAYANG",
+      "group": "ESS",
+      "date": "2026-07-12",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-007",
+      "staff_name": "RIZKY SEBAYANG",
+      "group": "ESS",
+      "date": "2026-07-13",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-007",
+      "staff_name": "RIZKY SEBAYANG",
+      "group": "ESS",
+      "date": "2026-07-14",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-007",
+      "staff_name": "RIZKY SEBAYANG",
+      "group": "ESS",
+      "date": "2026-07-15",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-007",
+      "staff_name": "RIZKY SEBAYANG",
+      "group": "ESS",
+      "date": "2026-07-16",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-007",
+      "staff_name": "RIZKY SEBAYANG",
+      "group": "ESS",
+      "date": "2026-07-17",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-007",
+      "staff_name": "RIZKY SEBAYANG",
+      "group": "ESS",
+      "date": "2026-07-18",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-007",
+      "staff_name": "RIZKY SEBAYANG",
+      "group": "ESS",
+      "date": "2026-07-19",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-007",
+      "staff_name": "RIZKY SEBAYANG",
+      "group": "ESS",
+      "date": "2026-07-20",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-007",
+      "staff_name": "RIZKY SEBAYANG",
+      "group": "ESS",
+      "date": "2026-07-21",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-007",
+      "staff_name": "RIZKY SEBAYANG",
+      "group": "ESS",
+      "date": "2026-07-22",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-007",
+      "staff_name": "RIZKY SEBAYANG",
+      "group": "ESS",
+      "date": "2026-07-23",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-007",
+      "staff_name": "RIZKY SEBAYANG",
+      "group": "ESS",
+      "date": "2026-07-24",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-007",
+      "staff_name": "RIZKY SEBAYANG",
+      "group": "ESS",
+      "date": "2026-07-25",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-007",
+      "staff_name": "RIZKY SEBAYANG",
+      "group": "ESS",
+      "date": "2026-07-26",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-007",
+      "staff_name": "RIZKY SEBAYANG",
+      "group": "ESS",
+      "date": "2026-07-27",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-007",
+      "staff_name": "RIZKY SEBAYANG",
+      "group": "ESS",
+      "date": "2026-07-28",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-007",
+      "staff_name": "RIZKY SEBAYANG",
+      "group": "ESS",
+      "date": "2026-07-29",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-007",
+      "staff_name": "RIZKY SEBAYANG",
+      "group": "ESS",
+      "date": "2026-07-30",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-007",
+      "staff_name": "RIZKY SEBAYANG",
+      "group": "ESS",
+      "date": "2026-07-31",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-008",
+      "staff_name": "TONI DWI TINDAK",
+      "group": "ESS",
+      "date": "2026-07-01",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-008",
+      "staff_name": "TONI DWI TINDAK",
+      "group": "ESS",
+      "date": "2026-07-02",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-008",
+      "staff_name": "TONI DWI TINDAK",
+      "group": "ESS",
+      "date": "2026-07-03",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-008",
+      "staff_name": "TONI DWI TINDAK",
+      "group": "ESS",
+      "date": "2026-07-04",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-008",
+      "staff_name": "TONI DWI TINDAK",
+      "group": "ESS",
+      "date": "2026-07-05",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-008",
+      "staff_name": "TONI DWI TINDAK",
+      "group": "ESS",
+      "date": "2026-07-06",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-008",
+      "staff_name": "TONI DWI TINDAK",
+      "group": "ESS",
+      "date": "2026-07-07",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-008",
+      "staff_name": "TONI DWI TINDAK",
+      "group": "ESS",
+      "date": "2026-07-08",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-008",
+      "staff_name": "TONI DWI TINDAK",
+      "group": "ESS",
+      "date": "2026-07-09",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-008",
+      "staff_name": "TONI DWI TINDAK",
+      "group": "ESS",
+      "date": "2026-07-10",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-008",
+      "staff_name": "TONI DWI TINDAK",
+      "group": "ESS",
+      "date": "2026-07-11",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-008",
+      "staff_name": "TONI DWI TINDAK",
+      "group": "ESS",
+      "date": "2026-07-12",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-008",
+      "staff_name": "TONI DWI TINDAK",
+      "group": "ESS",
+      "date": "2026-07-13",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-008",
+      "staff_name": "TONI DWI TINDAK",
+      "group": "ESS",
+      "date": "2026-07-14",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-008",
+      "staff_name": "TONI DWI TINDAK",
+      "group": "ESS",
+      "date": "2026-07-15",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-008",
+      "staff_name": "TONI DWI TINDAK",
+      "group": "ESS",
+      "date": "2026-07-16",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-008",
+      "staff_name": "TONI DWI TINDAK",
+      "group": "ESS",
+      "date": "2026-07-17",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-008",
+      "staff_name": "TONI DWI TINDAK",
+      "group": "ESS",
+      "date": "2026-07-18",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-008",
+      "staff_name": "TONI DWI TINDAK",
+      "group": "ESS",
+      "date": "2026-07-19",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-008",
+      "staff_name": "TONI DWI TINDAK",
+      "group": "ESS",
+      "date": "2026-07-20",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-008",
+      "staff_name": "TONI DWI TINDAK",
+      "group": "ESS",
+      "date": "2026-07-21",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-008",
+      "staff_name": "TONI DWI TINDAK",
+      "group": "ESS",
+      "date": "2026-07-22",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-008",
+      "staff_name": "TONI DWI TINDAK",
+      "group": "ESS",
+      "date": "2026-07-23",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-008",
+      "staff_name": "TONI DWI TINDAK",
+      "group": "ESS",
+      "date": "2026-07-24",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-008",
+      "staff_name": "TONI DWI TINDAK",
+      "group": "ESS",
+      "date": "2026-07-25",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-008",
+      "staff_name": "TONI DWI TINDAK",
+      "group": "ESS",
+      "date": "2026-07-26",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-008",
+      "staff_name": "TONI DWI TINDAK",
+      "group": "ESS",
+      "date": "2026-07-27",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-008",
+      "staff_name": "TONI DWI TINDAK",
+      "group": "ESS",
+      "date": "2026-07-28",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-008",
+      "staff_name": "TONI DWI TINDAK",
+      "group": "ESS",
+      "date": "2026-07-29",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-008",
+      "staff_name": "TONI DWI TINDAK",
+      "group": "ESS",
+      "date": "2026-07-30",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-008",
+      "staff_name": "TONI DWI TINDAK",
+      "group": "ESS",
+      "date": "2026-07-31",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-009",
+      "staff_name": "EVAN SIPAYUNG",
+      "group": "ESS",
+      "date": "2026-07-01",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "DINAS LUAR"
+    },
+    {
+      "staff_id": "E-009",
+      "staff_name": "EVAN SIPAYUNG",
+      "group": "ESS",
+      "date": "2026-07-02",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "DINAS LUAR"
+    },
+    {
+      "staff_id": "E-009",
+      "staff_name": "EVAN SIPAYUNG",
+      "group": "ESS",
+      "date": "2026-07-03",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "DINAS LUAR"
+    },
+    {
+      "staff_id": "E-009",
+      "staff_name": "EVAN SIPAYUNG",
+      "group": "ESS",
+      "date": "2026-07-04",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "DINAS LUAR"
+    },
+    {
+      "staff_id": "E-009",
+      "staff_name": "EVAN SIPAYUNG",
+      "group": "ESS",
+      "date": "2026-07-05",
+      "shift_code": "L",
+      "is_gap": true,
+      "gap_reason": "DINAS LUAR"
+    },
+    {
+      "staff_id": "E-009",
+      "staff_name": "EVAN SIPAYUNG",
+      "group": "ESS",
+      "date": "2026-07-06",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-009",
+      "staff_name": "EVAN SIPAYUNG",
+      "group": "ESS",
+      "date": "2026-07-07",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-009",
+      "staff_name": "EVAN SIPAYUNG",
+      "group": "ESS",
+      "date": "2026-07-08",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-009",
+      "staff_name": "EVAN SIPAYUNG",
+      "group": "ESS",
+      "date": "2026-07-09",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-009",
+      "staff_name": "EVAN SIPAYUNG",
+      "group": "ESS",
+      "date": "2026-07-10",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-009",
+      "staff_name": "EVAN SIPAYUNG",
+      "group": "ESS",
+      "date": "2026-07-11",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-009",
+      "staff_name": "EVAN SIPAYUNG",
+      "group": "ESS",
+      "date": "2026-07-12",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-009",
+      "staff_name": "EVAN SIPAYUNG",
+      "group": "ESS",
+      "date": "2026-07-13",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-009",
+      "staff_name": "EVAN SIPAYUNG",
+      "group": "ESS",
+      "date": "2026-07-14",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-009",
+      "staff_name": "EVAN SIPAYUNG",
+      "group": "ESS",
+      "date": "2026-07-15",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-009",
+      "staff_name": "EVAN SIPAYUNG",
+      "group": "ESS",
+      "date": "2026-07-16",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-009",
+      "staff_name": "EVAN SIPAYUNG",
+      "group": "ESS",
+      "date": "2026-07-17",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-009",
+      "staff_name": "EVAN SIPAYUNG",
+      "group": "ESS",
+      "date": "2026-07-18",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-009",
+      "staff_name": "EVAN SIPAYUNG",
+      "group": "ESS",
+      "date": "2026-07-19",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-009",
+      "staff_name": "EVAN SIPAYUNG",
+      "group": "ESS",
+      "date": "2026-07-20",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-009",
+      "staff_name": "EVAN SIPAYUNG",
+      "group": "ESS",
+      "date": "2026-07-21",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-009",
+      "staff_name": "EVAN SIPAYUNG",
+      "group": "ESS",
+      "date": "2026-07-22",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-009",
+      "staff_name": "EVAN SIPAYUNG",
+      "group": "ESS",
+      "date": "2026-07-23",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-009",
+      "staff_name": "EVAN SIPAYUNG",
+      "group": "ESS",
+      "date": "2026-07-24",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-009",
+      "staff_name": "EVAN SIPAYUNG",
+      "group": "ESS",
+      "date": "2026-07-25",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-009",
+      "staff_name": "EVAN SIPAYUNG",
+      "group": "ESS",
+      "date": "2026-07-26",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-009",
+      "staff_name": "EVAN SIPAYUNG",
+      "group": "ESS",
+      "date": "2026-07-27",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-009",
+      "staff_name": "EVAN SIPAYUNG",
+      "group": "ESS",
+      "date": "2026-07-28",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-009",
+      "staff_name": "EVAN SIPAYUNG",
+      "group": "ESS",
+      "date": "2026-07-29",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-009",
+      "staff_name": "EVAN SIPAYUNG",
+      "group": "ESS",
+      "date": "2026-07-30",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-009",
+      "staff_name": "EVAN SIPAYUNG",
+      "group": "ESS",
+      "date": "2026-07-31",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-010",
+      "staff_name": "BHIMA ANDIKA PUTRA",
+      "group": "ESS",
+      "date": "2026-07-01",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-010",
+      "staff_name": "BHIMA ANDIKA PUTRA",
+      "group": "ESS",
+      "date": "2026-07-02",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-010",
+      "staff_name": "BHIMA ANDIKA PUTRA",
+      "group": "ESS",
+      "date": "2026-07-03",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-010",
+      "staff_name": "BHIMA ANDIKA PUTRA",
+      "group": "ESS",
+      "date": "2026-07-04",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-010",
+      "staff_name": "BHIMA ANDIKA PUTRA",
+      "group": "ESS",
+      "date": "2026-07-05",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-010",
+      "staff_name": "BHIMA ANDIKA PUTRA",
+      "group": "ESS",
+      "date": "2026-07-06",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-010",
+      "staff_name": "BHIMA ANDIKA PUTRA",
+      "group": "ESS",
+      "date": "2026-07-07",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-010",
+      "staff_name": "BHIMA ANDIKA PUTRA",
+      "group": "ESS",
+      "date": "2026-07-08",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-010",
+      "staff_name": "BHIMA ANDIKA PUTRA",
+      "group": "ESS",
+      "date": "2026-07-09",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-010",
+      "staff_name": "BHIMA ANDIKA PUTRA",
+      "group": "ESS",
+      "date": "2026-07-10",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-010",
+      "staff_name": "BHIMA ANDIKA PUTRA",
+      "group": "ESS",
+      "date": "2026-07-11",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-010",
+      "staff_name": "BHIMA ANDIKA PUTRA",
+      "group": "ESS",
+      "date": "2026-07-12",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-010",
+      "staff_name": "BHIMA ANDIKA PUTRA",
+      "group": "ESS",
+      "date": "2026-07-13",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-010",
+      "staff_name": "BHIMA ANDIKA PUTRA",
+      "group": "ESS",
+      "date": "2026-07-14",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-010",
+      "staff_name": "BHIMA ANDIKA PUTRA",
+      "group": "ESS",
+      "date": "2026-07-15",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-010",
+      "staff_name": "BHIMA ANDIKA PUTRA",
+      "group": "ESS",
+      "date": "2026-07-16",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-010",
+      "staff_name": "BHIMA ANDIKA PUTRA",
+      "group": "ESS",
+      "date": "2026-07-17",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-010",
+      "staff_name": "BHIMA ANDIKA PUTRA",
+      "group": "ESS",
+      "date": "2026-07-18",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-010",
+      "staff_name": "BHIMA ANDIKA PUTRA",
+      "group": "ESS",
+      "date": "2026-07-19",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-010",
+      "staff_name": "BHIMA ANDIKA PUTRA",
+      "group": "ESS",
+      "date": "2026-07-20",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-010",
+      "staff_name": "BHIMA ANDIKA PUTRA",
+      "group": "ESS",
+      "date": "2026-07-21",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-010",
+      "staff_name": "BHIMA ANDIKA PUTRA",
+      "group": "ESS",
+      "date": "2026-07-22",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-010",
+      "staff_name": "BHIMA ANDIKA PUTRA",
+      "group": "ESS",
+      "date": "2026-07-23",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-010",
+      "staff_name": "BHIMA ANDIKA PUTRA",
+      "group": "ESS",
+      "date": "2026-07-24",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-010",
+      "staff_name": "BHIMA ANDIKA PUTRA",
+      "group": "ESS",
+      "date": "2026-07-25",
+      "shift_code": "PS",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-010",
+      "staff_name": "BHIMA ANDIKA PUTRA",
+      "group": "ESS",
+      "date": "2026-07-26",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-010",
+      "staff_name": "BHIMA ANDIKA PUTRA",
+      "group": "ESS",
+      "date": "2026-07-27",
+      "shift_code": "Y",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-010",
+      "staff_name": "BHIMA ANDIKA PUTRA",
+      "group": "ESS",
+      "date": "2026-07-28",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-010",
+      "staff_name": "BHIMA ANDIKA PUTRA",
+      "group": "ESS",
+      "date": "2026-07-29",
+      "shift_code": "S",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-010",
+      "staff_name": "BHIMA ANDIKA PUTRA",
+      "group": "ESS",
+      "date": "2026-07-30",
+      "shift_code": "L",
+      "is_gap": false,
+      "gap_reason": null
+    },
+    {
+      "staff_id": "E-010",
+      "staff_name": "BHIMA ANDIKA PUTRA",
+      "group": "ESS",
+      "date": "2026-07-31",
+      "shift_code": "M",
+      "is_gap": false,
+      "gap_reason": null
+    }
+  ]
+}
