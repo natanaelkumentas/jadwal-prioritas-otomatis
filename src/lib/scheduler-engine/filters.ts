@@ -191,3 +191,51 @@ export function checkConsecutiveShifts(
 
   return true;
 }
+
+/**
+ * Get a relative date string (YYYY-MM-DD) shifted by a number of days.
+ */
+export function getRelativeDateStr(dateStr: string, days: number): string {
+  const date = new Date(dateStr);
+  date.setDate(date.getDate() + days);
+  return date.toISOString().split('T')[0];
+}
+
+/**
+ * Post-Night fatigue constraint:
+ * 1. If the candidate worked 'M' on the day before (D-1), they cannot work any active shift on Day D.
+ * 2. If the target shift is 'M' on Day D, the candidate cannot be scheduled to work on Day D+1.
+ */
+export function checkPostNightConstraint(
+  candidateId: string,
+  date: string,
+  targetShiftCode: string,
+  allShifts: Shift[]
+): boolean {
+  const targetCode = targetShiftCode.toUpperCase();
+  const isTargetWorkingShift = !['L', 'Y'].includes(targetCode);
+
+  const candidateShifts = allShifts.filter(s => s.staff_id === candidateId);
+
+  // 1. If candidate worked 'M' yesterday (D-1), they must rest today (cannot work any active shift today)
+  const yesterdayStr = getRelativeDateStr(date, -1);
+  const yesterdayShift = candidateShifts.find(s => s.date === yesterdayStr);
+  if (yesterdayShift && yesterdayShift.shift_code.toUpperCase() === 'M' && isTargetWorkingShift) {
+    return false;
+  }
+
+  // 2. If target shift is 'M' today, the candidate must rest tomorrow (D+1)
+  if (targetCode === 'M') {
+    const tomorrowStr = getRelativeDateStr(date, 1);
+    const tomorrowShift = candidateShifts.find(s => s.date === tomorrowStr);
+    if (tomorrowShift) {
+      const tomorrowCode = tomorrowShift.shift_code.toUpperCase();
+      // If tomorrow is a working shift, they cannot do 'M' today
+      if (!['L', 'Y'].includes(tomorrowCode)) {
+        return false;
+      }
+    }
+  }
+
+  return true;
+}

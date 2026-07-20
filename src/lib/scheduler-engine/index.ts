@@ -4,7 +4,8 @@ import {
   checkRatingEligibility, 
   checkAvailability, 
   checkRestPeriod, 
-  checkConsecutiveShifts 
+  checkConsecutiveShifts,
+  checkPostNightConstraint
 } from './filters';
 import { scoreCandidates } from './scoring';
 
@@ -130,6 +131,9 @@ export async function getShiftReplacementRecommendations(
 
     // G: Exclude Manager Teknik from being considered as a replacement candidate
     if (c.role_level === 'Manager Teknik') return false;
+
+    // H: Post-Night rest recovery constraints (yesterday 'M' means rest today, today 'M' means rest tomorrow)
+    if (!checkPostNightConstraint(c.id, targetDate, targetShiftCode, allShifts)) return false;
 
     return true;
   });
