@@ -42,6 +42,12 @@ export async function getReplacementRecommendations(
 
   // Retrieve details of the original absent staff profile
   const absentStaffProfile = gapEvent.shift.staff as Staff;
+  
+  if (absentStaffProfile?.role_level === 'Manager Teknik') {
+    console.log('[scheduler-engine] Absent staff is Manager Teknik. No replacement suggestions needed.');
+    return [];
+  }
+
   const targetSubGroup = absentStaffProfile.sub_group;
 
   // 2. Fetch the required ratings (inherited from the absent technician)
@@ -122,6 +128,9 @@ export async function getReplacementRecommendations(
 
     // F: Exclude candidates in the same sub-group as the absent technician (cross-group replacement rule)
     if (c.sub_group === targetSubGroup) return false;
+
+    // G: Exclude Manager Teknik from being considered as a replacement candidate
+    if (c.role_level === 'Manager Teknik') return false;
 
     return true;
   });

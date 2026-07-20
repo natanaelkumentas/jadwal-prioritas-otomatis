@@ -22,3 +22,8 @@ All significant project changes, updates, and releases are logged below.
 - Created `RecommendationDrawer.tsx` client component featuring score breakdown bars and override reason validation.
 - Created `DashboardContainer.tsx` client component managing selection states and metrics.
 - Refactored `src/app/page.tsx` to handle initial data fetch and render the main dashboard.
+## [0.2.1] - 2026-07-21 04:46:00 UTC+8
+### Fixed
+- Grouped ESS technicians into 5 subgroups of 2 in data seed, matching the layout structure in the reference PDF.
+- Implemented subgroup exclusion rule in `src/lib/scheduler-engine/index.ts`: when a technician goes on leave, the candidate recommendations exclude members of the same sub-group (who are already working their scheduled rotation).
+- Updated `RosterGrid.tsx` rendering to group and render both CNS and ESS technicians by their respective subgroups.
