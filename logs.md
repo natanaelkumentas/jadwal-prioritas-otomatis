@@ -47,3 +47,10 @@ All significant project changes, updates, and releases are logged below.
   - Added hard rule: If a candidate works a Night shift (`M`) on Day D-1, they cannot cover any active shift on Day D (ensures Day D is recovery `Y` or leave).
   - Added hard rule: If a candidate is proposed to cover a Night shift (`M`) on Day D, their scheduled shift on Day D+1 must be an Off day (`Y`, `L`, or leave).
   - Maintained MCDA scoring behavior: The scorer naturally prioritizes candidates with 2 days off (`Y` then `L`) over 1 day off (`Y`) because their cumulative rest hour buffer is larger.
+## [0.4.0] - 2026-07-23 07:28:00 UTC+8
+### Added
+- Implemented **On-the-Fly Leave Assignment & Cascading Shift Replacements**:
+  - Added `assignLeaveAndReplacement` Server Action in `src/app/actions/scheduler.ts` to handle updating absent technician's shift to leave status (`CUTI`, `DINAS LUAR`, `DIKLAT`, `SAKIT`) while optionally assigning a recommended replacement or creating a pending `gap_event`.
+  - Updated `ShiftEditDrawer.tsx` to detect when a technician's active duty shift is changed to a leave status, automatically running the recommendation engine for the vacated shift.
+  - Added unified controls in the drawer allowing the manager to confirm leave with an eligible replacement or leave the shift unstaffed as a pending gap event.
+

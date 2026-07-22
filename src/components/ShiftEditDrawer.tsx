@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Staff, Shift, CandidateRecommendation } from '@/lib/scheduler-engine/types';
-import { updateShiftCode, swapShifts } from '@/app/actions/scheduler';
+import { updateShiftCode, swapShifts, assignLeaveAndReplacement } from '@/app/actions/scheduler';
 
 interface ShiftEditDrawerProps {
   shift: Shift;
@@ -12,6 +12,9 @@ interface ShiftEditDrawerProps {
   onClose: () => void;
   onAssignSuccess: () => void;
 }
+
+const LEAVE_CODES = ['CUTI', 'DINAS LUAR', 'DIKLAT', 'SAKIT'];
+const WORK_SHIFT_CODES = ['P', 'S', 'M', 'PS', 'OH', 'D'];
 
 export default function ShiftEditDrawer({
   shift,
@@ -27,16 +30,26 @@ export default function ShiftEditDrawer({
   const [conflictShift, setConflictShift] = useState<Shift | null>(null);
   const [conflictStaff, setConflictStaff] = useState<Staff | null>(null);
 
-  // Cascading recommendations state
+  // Cascading recommendations state for shift displacement (swap conflict)
   const [recommendations, setRecommendations] = useState<CandidateRecommendation[]>([]);
   const [loadingRecs, setLoadingRecs] = useState(false);
   const [selectedRecStaffId, setSelectedRecStaffId] = useState<string | null>(null);
   const [recError, setRecError] = useState<string | null>(null);
 
+  // Cascading recommendations state for leave assignment (vacating work shift)
+  const [vacatedRecs, setVacatedRecs] = useState<CandidateRecommendation[]>([]);
+  const [loadingVacatedRecs, setLoadingVacatedRecs] = useState(false);
+  const [selectedVacatedStaffId, setSelectedVacatedStaffId] = useState<string | null>(null);
+  const [vacatedRecError, setVacatedRecError] = useState<string | null>(null);
+
+  const isSelectedLeave = LEAVE_CODES.includes(selectedCode.toUpperCase());
+  const isOriginalWorkShift = WORK_SHIFT_CODES.includes(shift.shift_code.toUpperCase());
+  const isVacatingWorkShift = isSelectedLeave && isOriginalWorkShift;
+
   // Available shift codes based on group
   const shiftOptions = shift.group === 'CNS' 
-    ? ['P', 'S', 'M', 'PS', 'OH', 'D', 'L', 'Y']
-    : ['P', 'S', 'M', 'PS', 'L', 'Y'];
+    ? ['P', 'S', 'M', 'PS', 'OH', 'D', 'L', 'Y', 'CUTI', 'DINAS LUAR', 'DIKLAT', 'SAKIT']
+    : ['P', 'S', 'M', 'PS', 'L', 'Y', 'CUTI', 'DINAS LUAR', 'DIKLAT', 'SAKIT'];
 
   // Check conflicts when shift code changes
   useEffect(() => {
@@ -46,8 +59,8 @@ export default function ShiftEditDrawer({
       return;
     }
 
-    // L and Y do not conflict as multiple people can be off
-    if (['L', 'Y'].includes(selectedCode.toUpperCase())) {
+    // Leave, L, and Y do not conflict as multiple people can be off / on leave
+    if (['L', 'Y', ...LEAVE_CODES].includes(selectedCode.toUpperCase())) {
       setConflictShift(null);
       setConflictStaff(null);
       return;
@@ -102,6 +115,37 @@ export default function ShiftEditDrawer({
     fetchDisplacedRecommendations();
   }, [conflictShift]);
 
+  // Fetch recommendations for vacated work shift when assigning leave
+  useEffect(() => {
+    if (!isVacatingWorkShift) {
+      setVacatedRecs([]);
+      setSelectedVacatedStaffId(null);
+      return;
+    }
+
+    async function fetchVacatedRecommendations() {
+      setLoadingVacatedRecs(true);
+      setVacatedRecError(null);
+      try {
+        const response = await fetch(`/api/recommendations/shift?shift_id=${shift.id}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch replacement recommendations.');
+        }
+        const data = await response.json();
+        setVacatedRecs(data);
+        if (data.length > 0) {
+          setSelectedVacatedStaffId(data[0].staff_id);
+        }
+      } catch (err: any) {
+        setVacatedRecError(err.message || 'Error fetching replacement recommendations.');
+      } finally {
+        setLoadingVacatedRecs(false);
+      }
+    }
+
+    fetchVacatedRecommendations();
+  }, [isVacatingWorkShift, shift.id]);
+
   const handleSaveSimple = async () => {
     setIsSubmitting(true);
     try {
@@ -151,7 +195,7 @@ export default function ShiftEditDrawer({
     if (!conflictShift || !conflictStaff || !selectedRecStaffId) return;
     setIsSubmitting(true);
     try {
-      // 1. Move current technician (A) into new shift code (P/S/M/PS)
+      // Move current technician (A) into new shift code (P/S/M/PS)
       const moveRes = await updateShiftCode({
         shiftId: shift.id,
         newShiftCode: selectedCode,
@@ -162,35 +206,44 @@ export default function ShiftEditDrawer({
         throw new Error(moveRes.error || 'Failed to assign new shift code.');
       }
 
-      // 2. Assign the recommended candidate to conflict shift (B)
-      const assignRes = await updateShiftCode({
-        shiftId: conflictShift.id,
-        newShiftCode: conflictShift.shift_code, // Maintain original shift code
-        justification: `Displaced replacement assignment: ${conflictStaff.name} replaced by candidate`
-      });
-
-      // 3. Assign candidate's staff_id to conflictShift
-      const { error: dbErr } = await fetch('/api/recommendations', {
-        method: 'POST', // Just a placeholder, we can use a server action or direct update
-      }).then(() => ({ error: null })).catch(err => ({ error: err })); // fallback
-
-      // Since we already have updateShiftCode, let's call it to assign the candidate!
+      // Assign the recommended candidate to conflict shift (B)
       const replaceRes = await updateShiftCode({
         shiftId: conflictShift.id,
         newShiftCode: conflictShift.shift_code,
         justification: `Displaced replacement: ${selectedRecStaffId} covering for ${conflictStaff.name}`
       });
 
-      // Note: we need to update the assignee of conflictShift. We can do that by updating staff_id in DB.
-      // Wait! We can write a specific action in scheduler.ts or use updateShiftCode if we enhance it, 
-      // or we can write a specific Action 'assignCandidateToShift' in scheduler.ts!
-      // Let's check how we can do it directly.
-      // Actually, let's write a Server Action 'assignStaffToShift(shiftId, staffId)'! That is extremely direct and safe!
-      
+      if (!replaceRes.success) {
+        throw new Error(replaceRes.error || 'Failed to assign replacement.');
+      }
+
       onAssignSuccess();
       onClose();
     } catch (err: any) {
       alert('Error during cascading assignment: ' + err.message);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleAssignLeave = async (withReplacement: boolean) => {
+    setIsSubmitting(true);
+    try {
+      const res = await assignLeaveAndReplacement({
+        shiftId: shift.id,
+        leaveCode: selectedCode,
+        replacementStaffId: withReplacement ? selectedVacatedStaffId : null,
+        justification: justification.trim() || `Assigned ${selectedCode} to ${staff.name}`
+      });
+
+      if (res.success) {
+        onAssignSuccess();
+        onClose();
+      } else {
+        alert(res.error || 'Failed to assign leave.');
+      }
+    } catch (err: any) {
+      alert('Error during leave assignment: ' + err.message);
     } finally {
       setIsSubmitting(false);
     }
@@ -249,14 +302,94 @@ export default function ShiftEditDrawer({
           >
             {shiftOptions.map(code => (
               <option key={code} value={code}>
-                {code} — {code === 'L' || code === 'Y' ? 'Libur/Off' : `Shift Duty ${code}`}
+                {code} — {
+                  code === 'L' || code === 'Y' ? 'Libur / Off' :
+                  code === 'CUTI' ? 'Cuti Tahunan (Annual Leave)' :
+                  code === 'DINAS LUAR' ? 'Dinas Luar (External Duty)' :
+                  code === 'DIKLAT' ? 'Diklat (Training)' :
+                  code === 'SAKIT' ? 'Sakit (Sick Leave)' :
+                  `Shift Duty ${code}`
+                }
               </option>
             ))}
           </select>
         </div>
 
-        {/* Conflict & Cascading Recommendations View */}
-        {conflictShift && conflictStaff ? (
+        {/* View 1: Vacating Duty Shift for Leave */}
+        {isVacatingWorkShift ? (
+          <div className="mb-6 space-y-4">
+            <div className="p-3 bg-blue-500/10 border border-blue-500/20 text-blue-300 rounded-lg text-xs leading-relaxed">
+              ℹ️ <strong>Vacating Duty Shift:</strong> Changing <strong>{staff.name}</strong> to <strong>{selectedCode}</strong> vacates duty shift <strong>{shift.shift_code}</strong> on {shift.date}.
+            </div>
+
+            <div className="p-3 bg-slate-950/40 border border-slate-800 rounded-lg space-y-3">
+              <h4 className="font-semibold text-slate-200 text-xs uppercase tracking-wider">
+                Vacated Shift ({shift.shift_code}) Replacements
+              </h4>
+              <p className="text-xs text-slate-400">
+                Select an eligible candidate to cover {staff.name}&apos;s vacated <strong>{shift.shift_code}</strong> shift:
+              </p>
+
+              {loadingVacatedRecs ? (
+                <div className="text-center py-4 text-xs text-slate-500 animate-pulse">
+                  Running eligibility filters...
+                </div>
+              ) : vacatedRecError ? (
+                <div className="text-xs text-red-400 py-2">
+                  {vacatedRecError}
+                </div>
+              ) : vacatedRecs.length === 0 ? (
+                <div className="text-xs text-rose-400 font-medium py-2 bg-rose-500/5 rounded border border-rose-500/10 p-2">
+                  No eligible replacement candidates found (satisfying license ratings and rest periods).
+                </div>
+              ) : (
+                <div className="max-h-48 overflow-y-auto space-y-2 pr-1">
+                  {vacatedRecs.map(r => (
+                    <label
+                      key={r.staff_id}
+                      onClick={() => setSelectedVacatedStaffId(r.staff_id)}
+                      className={`flex flex-col p-2.5 border rounded cursor-pointer text-xs transition-all ${
+                        selectedVacatedStaffId === r.staff_id
+                          ? 'border-slate-400 bg-slate-800/40'
+                          : 'border-slate-800 bg-slate-900/40 hover:bg-slate-800/20'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="font-semibold text-slate-300">{r.name}</span>
+                        <span className="font-bold text-slate-200">{r.score.toFixed(3)}</span>
+                      </div>
+                      {selectedVacatedStaffId === r.staff_id && (
+                        <div className="mt-2 pt-2 border-t border-slate-800">
+                          {renderScoreBar('Workload Balance', r.breakdown.workloadBalance, 0.25)}
+                          {renderScoreBar('Fatigue Margin', r.breakdown.fatigueMargin, 0.20)}
+                        </div>
+                      )}
+                    </label>
+                  ))}
+                </div>
+              )}
+
+              <div className="pt-2 space-y-2 border-t border-slate-800">
+                <button
+                  onClick={() => handleAssignLeave(true)}
+                  disabled={isSubmitting || !selectedVacatedStaffId || vacatedRecs.length === 0}
+                  className="w-full py-2 bg-slate-200 hover:bg-slate-100 disabled:opacity-50 text-slate-900 font-semibold rounded text-xs transition-colors"
+                >
+                  {isSubmitting ? 'Processing...' : `Confirm ${selectedCode} & Assign Replacement`}
+                </button>
+
+                <button
+                  onClick={() => handleAssignLeave(false)}
+                  disabled={isSubmitting}
+                  className="w-full py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold rounded text-xs border border-slate-700 transition-colors"
+                >
+                  Confirm {selectedCode} Only (Mark as Pending Gap)
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : conflictShift && conflictStaff ? (
+          /* View 2: Conflict & Cascading Swap Recommendations View */
           <div className="mb-6 space-y-4">
             <div className="p-3 bg-amber-500/10 border border-amber-500/20 text-amber-400 rounded-lg text-xs leading-relaxed">
               ⚠️ <strong>Conflict Detected:</strong> <strong>{conflictStaff.name}</strong> is already assigned to shift <strong>{selectedCode}</strong> on this date.
@@ -340,7 +473,7 @@ export default function ShiftEditDrawer({
             </div>
           </div>
         ) : (
-          /* Normal simple update if no conflicts */
+          /* View 3: Normal simple update if no conflicts and no leave vacating */
           <div className="space-y-5">
             <div>
               <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">

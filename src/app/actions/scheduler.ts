@@ -255,3 +255,162 @@ export async function swapShifts({
     return { success: false, error: error.message || 'Failed to complete swap' };
   }
 }
+
+interface AssignLeaveAndReplacementParams {
+  shiftId: string;
+  leaveCode: string;
+  replacementStaffId?: string | null;
+  justification?: string;
+  actorId?: string;
+}
+
+/**
+ * Server Action to assign leave (CUTI, DINAS LUAR, DIKLAT, SAKIT) to a technician
+ * and optionally assign a recommended replacement to cover their vacated work shift.
+ */
+export async function assignLeaveAndReplacement({
+  shiftId,
+  leaveCode,
+  replacementStaffId = null,
+  justification = 'LEAVE_ASSIGNMENT',
+  actorId = 'Manager Teknik'
+}: AssignLeaveAndReplacementParams) {
+  console.log(`[actions/scheduler] Assigning leave ${leaveCode} to shift ${shiftId}, replacement: ${replacementStaffId || 'None'}`);
+
+  try {
+    // 1. Fetch current shift details (absent technician's shift)
+    const { data: currentShift, error: fetchErr } = await supabaseAdmin!
+      .from('shifts')
+      .select('*')
+      .eq('id', shiftId)
+      .single();
+
+    if (fetchErr || !currentShift) {
+      throw new Error(`Failed to fetch current shift info: ${fetchErr?.message}`);
+    }
+
+    const originalShiftCode = currentShift.shift_code;
+    const absentStaffId = currentShift.staff_id;
+    const shiftDate = currentShift.date;
+    const group = currentShift.group;
+
+    if (replacementStaffId) {
+      // Case A: Replacement candidate selected
+      // Update absent technician's shift to leaveCode and Filled status
+      const { error: updateAbsentErr } = await supabaseAdmin!
+        .from('shifts')
+        .update({
+          shift_code: leaveCode,
+          status: 'Filled'
+        })
+        .eq('id', shiftId);
+
+      if (updateAbsentErr) {
+        throw new Error(`Failed to update absent staff shift: ${updateAbsentErr.message}`);
+      }
+
+      // Find replacement staff's shift on the same date and group
+      const { data: replacementShift, error: replFetchErr } = await supabaseAdmin!
+        .from('shifts')
+        .select('*')
+        .eq('staff_id', replacementStaffId)
+        .eq('date', shiftDate)
+        .eq('group', group)
+        .single();
+
+      if (replFetchErr || !replacementShift) {
+        throw new Error(`Failed to find shift for replacement staff on date ${shiftDate}`);
+      }
+
+      // Update replacement staff's shift to originalShiftCode and status Filled
+      const { error: updateReplErr } = await supabaseAdmin!
+        .from('shifts')
+        .update({
+          shift_code: originalShiftCode,
+          status: 'Filled'
+        })
+        .eq('id', replacementShift.id);
+
+      if (updateReplErr) {
+        throw new Error(`Failed to update replacement staff shift: ${updateReplErr.message}`);
+      }
+
+      // Resolve any pending gap event for either shift
+      await supabaseAdmin!
+        .from('gap_events')
+        .update({ status: 'Resolved' })
+        .in('shift_id', [shiftId, replacementShift.id])
+        .eq('status', 'Pending');
+
+      // Log in audit_log
+      await supabaseAdmin!
+        .from('audit_log')
+        .insert({
+          actor_id: actorId,
+          action: 'LEAVE_WITH_REPLACEMENT',
+          entity: 'shifts',
+          entity_id: shiftId,
+          metadata: {
+            absent_staff_id: absentStaffId,
+            leave_code: leaveCode,
+            original_shift_code: originalShiftCode,
+            replacement_staff_id: replacementStaffId,
+            replacement_shift_id: replacementShift.id,
+            justification,
+            timestamp: new Date().toISOString()
+          }
+        });
+    } else {
+      // Case B: No replacement selected (leave assigned, pending gap created)
+      // Update absent technician's shift to leaveCode and status Gap
+      const { error: updateAbsentErr } = await supabaseAdmin!
+        .from('shifts')
+        .update({
+          shift_code: leaveCode,
+          status: 'Gap'
+        })
+        .eq('id', shiftId);
+
+      if (updateAbsentErr) {
+        throw new Error(`Failed to update absent staff shift: ${updateAbsentErr.message}`);
+      }
+
+      // Create a pending gap_event
+      const { error: createGapErr } = await supabaseAdmin!
+        .from('gap_events')
+        .insert({
+          shift_id: shiftId,
+          reason: leaveCode,
+          status: 'Pending'
+        });
+
+      if (createGapErr) {
+        console.warn(`[actions/scheduler] Warning creating gap event:`, createGapErr.message);
+      }
+
+      // Log in audit_log
+      await supabaseAdmin!
+        .from('audit_log')
+        .insert({
+          actor_id: actorId,
+          action: 'LEAVE_PENDING_GAP',
+          entity: 'shifts',
+          entity_id: shiftId,
+          metadata: {
+            absent_staff_id: absentStaffId,
+            leave_code: leaveCode,
+            original_shift_code: originalShiftCode,
+            justification,
+            timestamp: new Date().toISOString()
+          }
+        });
+    }
+
+    revalidatePath('/');
+    return { success: true };
+  } catch (error: any) {
+    console.error('[actions/scheduler] Error during leave assignment:', error);
+    return { success: false, error: error.message || 'Failed to assign leave' };
+  }
+}
+

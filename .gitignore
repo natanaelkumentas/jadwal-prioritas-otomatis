@@ -51,4 +51,6 @@ __pycache__/
 # backups and temp files
 temp_init_backup/
 .system_generated/
+scratch/
+
 
