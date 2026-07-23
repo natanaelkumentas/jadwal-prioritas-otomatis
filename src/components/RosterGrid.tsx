@@ -163,6 +163,10 @@ export default function RosterGrid({
     );
   };
 
+  // Separate Manager Teknik from technician groups to render at top
+  const managerStaff = filteredStaff.filter(s => s.role_level === 'Manager Teknik');
+  const nonManagerCNS = cnsStaff.filter(s => s.role_level !== 'Manager Teknik');
+
   return (
     <div>
       <div className="mb-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
@@ -195,11 +199,16 @@ export default function RosterGrid({
         </div>
       </div>
 
+      {/* Top Row Section: Management / Manager Teknik */}
+      {renderSection('Management / Head of Unit', managerStaff, 'management-section')}
+
+      {/* CNS Technical Subgroups */}
       {cnsSubGroups.map(subGroup => {
-        const staffInSubGroup = cnsStaff.filter(s => s.sub_group === subGroup);
+        const staffInSubGroup = nonManagerCNS.filter(s => s.sub_group === subGroup);
         return renderSection(`CNS Technical Group - ${subGroup}`, staffInSubGroup, subGroup);
       })}
 
+      {/* ESS Technical Subgroups */}
       {essSubGroups.map(subGroup => {
         const staffInSubGroup = essStaff.filter(s => s.sub_group === subGroup);
         return renderSection(`ESS Technical Group - ${subGroup}`, staffInSubGroup, subGroup);

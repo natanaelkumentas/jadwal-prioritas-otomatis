@@ -59,4 +59,9 @@ All significant project changes, updates, and releases are logged below.
   - `M ➔ Y` remains a strict non-negotiable recovery rule (yesterday `M` ➔ today cannot work duty shift).
   - `Y ➔ L` pattern preference is integrated into MCDA fatigue scoring; technicians completing `Y` yesterday remain eligible to cover duty shifts today when staffing is tight.
 
+## [0.5.1] - 2026-07-23 08:17:00 UTC+8
+### Fixed
+- Positioned **Manager Teknik** (`SUBHAN A. SYAWIE`) as the top section (`Management / Head of Unit`) on the Roster Grid (`src/components/RosterGrid.tsx`), ensuring management personnel appear on the very first row of the monthly grid view.
+
+
 
