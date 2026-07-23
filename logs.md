@@ -72,6 +72,19 @@ All significant project changes, updates, and releases are logged below.
   - Expanded side-over drawers to full width (`w-full sm:w-[480px]`) on mobile screens to prevent overflow.
   - Stacked summary metric cards into a single column layout on mobile view.
 
+## [0.6.1] - 2026-07-23 08:44:00 UTC+8
+### Fixed
+- **Schedule Generation Display Bug**: Fixed critical bug where newly generated monthly schedules did not appear on the grid after successful creation.
+  - Removed `revalidatePath('/')` from `src/app/actions/generator.ts` — it was causing Next.js to re-render the server component with stale initial data, overwriting client-side state for the newly generated month.
+  - Fixed real-time Supabase subscription INSERT handler in `src/components/DashboardContainer.tsx` — previously only handled UPDATE events; now properly adds new shift records to state.
+### Added
+- **Toast Notification System** (`src/components/ToastProvider.tsx`):
+  - Created React Context-based toast notification provider with `useToast()` hook (`toast.success()`, `toast.error()`, `toast.info()`).
+  - Auto-dismissing animated toast components (slide-in from top-right, fade out after 4 seconds).
+  - Color-coded styles: emerald for success, red for errors, blue for info.
+  - Replaced all 12 `alert()` calls across `MonthSelector.tsx`, `RecommendationDrawer.tsx`, and `ShiftEditDrawer.tsx` with non-blocking toast notifications.
+
+
 
 
 

@@ -95,15 +95,15 @@ export default function RosterGrid({
     if (staffGroup.length === 0) return null;
 
     return (
-      <div key={key} className="mb-8">
-        <h3 className="text-base sm:text-lg font-semibold text-slate-300 border-b border-slate-700 pb-2 mb-4">
+      <div key={key} className="mb-6 sm:mb-8">
+        <h3 className="text-sm sm:text-lg font-semibold text-slate-300 border-b border-slate-700 pb-2 mb-3 sm:mb-4 truncate">
           {title}
         </h3>
         <div className="overflow-x-auto rounded-lg border border-slate-700 bg-slate-900/50 shadow-md">
           <table className="min-w-full divide-y divide-slate-800 text-sm">
             <thead className="bg-slate-950/90 sticky top-0 z-10">
               <tr>
-                <th scope="col" className="px-3 sm:px-4 py-3 text-left font-semibold text-slate-300 w-48 sm:w-64 border-r border-slate-800 sticky left-0 bg-slate-950 z-20">
+                <th scope="col" className="px-2 sm:px-4 py-2 sm:py-3 text-left font-semibold text-slate-300 w-32 sm:w-56 md:w-64 border-r border-slate-800 sticky left-0 bg-slate-950 z-20 text-[11px] sm:text-sm">
                   {i18n.tableColName}
                 </th>
                 {daysInMonth.map(day => (
@@ -118,21 +118,21 @@ export default function RosterGrid({
               {staffGroup.map(staff => {
                 return (
                   <tr key={staff.id} className="hover:bg-slate-900/30 transition-colors">
-                    <td className="px-3 sm:px-4 py-3 border-r border-slate-800 sticky left-0 bg-slate-950/95 z-10 w-48 sm:w-64 shadow-md">
+                    <td className="px-2 sm:px-4 py-2 sm:py-3 border-r border-slate-800 sticky left-0 bg-slate-950/95 z-10 w-32 sm:w-56 md:w-64 shadow-md">
                       <div className="flex flex-col">
-                        <span className="font-medium text-slate-200 truncate max-w-[140px] sm:max-w-[180px]">
+                        <span className="font-medium text-slate-200 truncate max-w-[100px] sm:max-w-[160px] md:max-w-[180px] text-[11px] sm:text-sm">
                           {staff.name}
                         </span>
-                        <div className="flex flex-wrap gap-1 mt-1">
+                        <div className="hidden sm:flex flex-wrap gap-1 mt-1">
                           {staff.ratings?.map(r => (
                             <span 
                               key={r} 
-                              className="px-1 py-0.5 text-[9px] sm:text-[10px] font-mono font-bold bg-slate-800 border border-slate-700 text-slate-400 rounded"
+                              className="px-1 py-0.5 text-[10px] font-mono font-bold bg-slate-800 border border-slate-700 text-slate-400 rounded"
                             >
                               {r}
                             </span>
                           ))}
-                          <span className="px-1 py-0.5 text-[8px] sm:text-[9px] bg-slate-900 border border-slate-800 text-slate-500 rounded truncate max-w-[70px] sm:max-w-[80px]">
+                          <span className="px-1 py-0.5 text-[9px] bg-slate-900 border border-slate-800 text-slate-500 rounded truncate max-w-[80px]">
                             {staff.sub_group}
                           </span>
                         </div>
@@ -192,21 +192,21 @@ export default function RosterGrid({
           <span className="absolute left-3 top-2.5 text-slate-500 text-xs sm:text-sm">🔍</span>
         </div>
 
-        <div className="flex flex-wrap gap-1.5 sm:gap-2 text-[11px] sm:text-xs text-slate-400">
-          <span className="flex items-center gap-1.5 px-2 py-0.5 sm:px-2.5 sm:py-1 bg-amber-500/10 border border-amber-500/20 text-amber-500 rounded">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span> {i18n.legendMorning}
+        <div className="flex flex-wrap gap-1 sm:gap-2 text-[10px] sm:text-xs text-slate-400">
+          <span className="flex items-center gap-1 px-1.5 py-0.5 sm:px-2.5 sm:py-1 bg-amber-500/10 border border-amber-500/20 text-amber-500 rounded">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span> <span className="hidden sm:inline">{i18n.legendMorning}</span><span className="sm:hidden">P</span>
           </span>
-          <span className="flex items-center gap-1.5 px-2 py-0.5 sm:px-2.5 sm:py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 rounded">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> {i18n.legendAfternoon}
+          <span className="flex items-center gap-1 px-1.5 py-0.5 sm:px-2.5 sm:py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 rounded">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> <span className="hidden sm:inline">{i18n.legendAfternoon}</span><span className="sm:hidden">S</span>
           </span>
-          <span className="flex items-center gap-1.5 px-2 py-0.5 sm:px-2.5 sm:py-1 bg-indigo-500/10 border border-indigo-500/20 text-indigo-500 rounded">
-            <span className="w-1.5 h-1.5 rounded-full bg-indigo-500"></span> {i18n.legendNight}
+          <span className="flex items-center gap-1 px-1.5 py-0.5 sm:px-2.5 sm:py-1 bg-indigo-500/10 border border-indigo-500/20 text-indigo-500 rounded">
+            <span className="w-1.5 h-1.5 rounded-full bg-indigo-500"></span> <span className="hidden sm:inline">{i18n.legendNight}</span><span className="sm:hidden">M</span>
           </span>
-          <span className="flex items-center gap-1.5 px-2 py-0.5 sm:px-2.5 sm:py-1 bg-rose-500/10 border border-rose-500/20 text-rose-500 rounded">
-            <span className="w-1.5 h-1.5 rounded-full bg-rose-500"></span> {i18n.legendLongDay}
+          <span className="flex items-center gap-1 px-1.5 py-0.5 sm:px-2.5 sm:py-1 bg-rose-500/10 border border-rose-500/20 text-rose-500 rounded">
+            <span className="w-1.5 h-1.5 rounded-full bg-rose-500"></span> <span className="hidden sm:inline">{i18n.legendLongDay}</span><span className="sm:hidden">PS</span>
           </span>
-          <span className="flex items-center gap-1.5 px-2 py-0.5 sm:px-2.5 sm:py-1 bg-red-500/10 border border-red-500/20 text-red-500 rounded animate-pulse">
-            <span className="w-1.5 h-1.5 rounded-full bg-red-500"></span> {i18n.legendGap}
+          <span className="flex items-center gap-1 px-1.5 py-0.5 sm:px-2.5 sm:py-1 bg-red-500/10 border border-red-500/20 text-red-500 rounded animate-pulse">
+            <span className="w-1.5 h-1.5 rounded-full bg-red-500"></span> <span className="hidden sm:inline">{i18n.legendGap}</span><span className="sm:hidden">GAP</span>
           </span>
         </div>
       </div>

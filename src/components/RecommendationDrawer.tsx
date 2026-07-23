@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Staff, Shift, GapEvent, CandidateRecommendation } from '@/lib/scheduler-engine/types';
 import { assignReplacement } from '@/app/actions/scheduler';
 import { i18n } from '@/lib/i18n';
+import { useToast } from '@/components/ToastProvider';
 
 interface RecommendationDrawerProps {
   gapEvent: GapEvent;
@@ -25,6 +26,7 @@ export default function RecommendationDrawer({
   const [justification, setJustification] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [justificationError, setJustificationError] = useState<string | null>(null);
+  const toast = useToast();
 
   useEffect(() => {
     async function fetchRecommendations() {
@@ -78,10 +80,10 @@ export default function RecommendationDrawer({
         onAssignSuccess();
         onClose();
       } else {
-        alert(result.error || 'Gagal menyimpan penugasan pengganti.');
+        toast.error(result.error || 'Gagal menyimpan penugasan pengganti.');
       }
     } catch (err: any) {
-      alert('Terjadi kesalahan saat menyimpan penugasan: ' + err.message);
+      toast.error('Terjadi kesalahan saat menyimpan penugasan: ' + err.message);
     } finally {
       setIsSubmitting(false);
     }

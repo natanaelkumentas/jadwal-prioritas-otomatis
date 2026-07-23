@@ -1,7 +1,7 @@
 'use server';
 
 import { supabaseAdmin } from '@/lib/supabase';
-import { revalidatePath } from 'next/cache';
+
 
 if (!supabaseAdmin) {
   throw new Error('Supabase Admin client must be initialized on the server (requires SUPABASE_SERVICE_ROLE_KEY)');
@@ -139,7 +139,6 @@ export async function generateMonthlyRoster({
         }
       });
 
-    revalidatePath('/');
     return { 
       success: true, 
       totalShifts: shiftsToInsert.length, 

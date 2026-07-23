@@ -47,9 +47,18 @@ export default function DashboardContainer({
         (payload) => {
           console.log('[DashboardContainer] Real-time shift update received:', payload);
           const updatedShift = payload.new as Shift;
-          setShifts((prev) =>
-            prev.map((s) => (s.id === updatedShift.id ? updatedShift : s))
-          );
+          setShifts((prev) => {
+            if (payload.eventType === 'INSERT') {
+              // Only add if not already present
+              if (prev.some(s => s.id === updatedShift.id)) return prev;
+              return [...prev, updatedShift];
+            } else if (payload.eventType === 'UPDATE') {
+              return prev.map((s) => (s.id === updatedShift.id ? updatedShift : s));
+            } else if (payload.eventType === 'DELETE') {
+              return prev.filter((s) => s.id !== (payload.old as any).id);
+            }
+            return prev;
+          });
         }
       )
       .on(
@@ -139,43 +148,44 @@ export default function DashboardContainer({
         onRefreshData={handleRefreshData}
       />
 
-      {/* Top Banner Dashboard Stats (Responsive grid: 1 col on mobile, 3 cols on md+) */}
-      <div className="mb-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="p-4 bg-slate-900 border border-slate-800 rounded-lg">
-          <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+      {/* Top Banner Dashboard Stats */}
+      <div className="mb-4 sm:mb-6 grid grid-cols-3 gap-2 sm:gap-4">
+        <div className="p-2.5 sm:p-4 bg-slate-900 border border-slate-800 rounded-lg">
+          <div className="text-[9px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider">
             {i18n.statsTotalStaff}
           </div>
-          <div className="text-2xl font-bold text-slate-200 mt-1">
-            {initialStaff.length} {i18n.statsTechnicians}
+          <div className="text-lg sm:text-2xl font-bold text-slate-200 mt-0.5 sm:mt-1">
+            {initialStaff.length} <span className="hidden sm:inline">{i18n.statsTechnicians}</span>
           </div>
-          <div className="text-xs text-slate-400 mt-1">
+          <div className="hidden sm:block text-xs text-slate-400 mt-1">
             {i18n.statsStaffDetail}
           </div>
         </div>
 
-        <div className="p-4 bg-slate-900 border border-slate-800 rounded-lg">
-          <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+        <div className="p-2.5 sm:p-4 bg-slate-900 border border-slate-800 rounded-lg">
+          <div className="text-[9px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider">
             {i18n.statsGapsCount}
           </div>
-          <div className="text-2xl font-bold text-rose-500 mt-1 flex items-center gap-2">
-            {activeGapsCount} {i18n.statsGaps}
+          <div className="text-lg sm:text-2xl font-bold text-rose-500 mt-0.5 sm:mt-1 flex items-center gap-1 sm:gap-2">
+            {activeGapsCount} <span className="hidden sm:inline">{i18n.statsGaps}</span>
             {activeGapsCount > 0 && (
-              <span className="inline-block w-2.5 h-2.5 bg-rose-500 rounded-full animate-ping"></span>
+              <span className="inline-block w-2 h-2 sm:w-2.5 sm:h-2.5 bg-rose-500 rounded-full animate-ping"></span>
             )}
           </div>
-          <div className="text-xs text-slate-400 mt-1">
+          <div className="hidden sm:block text-xs text-slate-400 mt-1">
             {i18n.statsGapsDetail}
           </div>
         </div>
 
-        <div className="p-4 bg-slate-900 border border-slate-800 rounded-lg">
-          <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+        <div className="p-2.5 sm:p-4 bg-slate-900 border border-slate-800 rounded-lg">
+          <div className="text-[9px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider">
             {i18n.statsSyncStatus}
           </div>
-          <div className="text-2xl font-bold text-emerald-400 mt-1">
-            Supabase Cloud
+          <div className="text-lg sm:text-2xl font-bold text-emerald-400 mt-0.5 sm:mt-1">
+            <span className="hidden sm:inline">Supabase Cloud</span>
+            <span className="sm:hidden">Aktif</span>
           </div>
-          <div className="text-xs text-slate-400 mt-1">
+          <div className="hidden sm:block text-xs text-slate-400 mt-1">
             {i18n.statsSyncDetail}
           </div>
         </div>

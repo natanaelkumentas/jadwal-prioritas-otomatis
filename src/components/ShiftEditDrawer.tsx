@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Staff, Shift, CandidateRecommendation } from '@/lib/scheduler-engine/types';
 import { updateShiftCode, swapShifts, assignLeaveAndReplacement } from '@/app/actions/scheduler';
 import { i18n } from '@/lib/i18n';
+import { useToast } from '@/components/ToastProvider';
 
 interface ShiftEditDrawerProps {
   shift: Shift;
@@ -43,6 +44,7 @@ export default function ShiftEditDrawer({
   const [selectedVacatedStaffId, setSelectedVacatedStaffId] = useState<string | null>(null);
 
   const shiftOptions = ['P', 'S', 'M', 'PS', 'OH', 'D', 'L', 'Y', 'CUTI', 'DINAS LUAR', 'DIKLAT', 'SAKIT'];
+  const toast = useToast();
 
   const isLeaveCode = ['CUTI', 'DINAS LUAR', 'DIKLAT', 'SAKIT'].includes(selectedCode);
   const wasWorkingShift = !['L', 'Y'].includes(shift.shift_code.toUpperCase());
@@ -147,10 +149,10 @@ export default function ShiftEditDrawer({
         onAssignSuccess();
         onClose();
       } else {
-        alert(res.error || 'Gagal mengubah kode shift.');
+        toast.error(res.error || 'Gagal mengubah kode shift.');
       }
     } catch (err: any) {
-      alert('Terjadi kesalahan saat mengubah kode shift: ' + err.message);
+      toast.error('Terjadi kesalahan saat mengubah kode shift: ' + err.message);
     } finally {
       setIsSubmitting(false);
     }
@@ -170,10 +172,10 @@ export default function ShiftEditDrawer({
         onAssignSuccess();
         onClose();
       } else {
-        alert(res.error || 'Gagal melakukan tukar shift.');
+        toast.error(res.error || 'Gagal melakukan tukar shift.');
       }
     } catch (err: any) {
-      alert('Terjadi kesalahan saat melakukan tukar shift: ' + err.message);
+      toast.error('Terjadi kesalahan saat melakukan tukar shift: ' + err.message);
     } finally {
       setIsSubmitting(false);
     }
@@ -206,7 +208,7 @@ export default function ShiftEditDrawer({
       onAssignSuccess();
       onClose();
     } catch (err: any) {
-      alert('Terjadi kesalahan saat memproses penugasan bertingkat: ' + err.message);
+      toast.error('Terjadi kesalahan saat memproses penugasan bertingkat: ' + err.message);
     } finally {
       setIsSubmitting(false);
     }
@@ -226,10 +228,10 @@ export default function ShiftEditDrawer({
         onAssignSuccess();
         onClose();
       } else {
-        alert(res.error || 'Gagal menetapkan izin/cuti.');
+        toast.error(res.error || 'Gagal menetapkan izin/cuti.');
       }
     } catch (err: any) {
-      alert('Terjadi kesalahan saat menetapkan izin: ' + err.message);
+      toast.error('Terjadi kesalahan saat menetapkan izin: ' + err.message);
     } finally {
       setIsSubmitting(false);
     }
