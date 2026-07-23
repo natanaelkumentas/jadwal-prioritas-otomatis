@@ -150,6 +150,13 @@ All significant project changes, updates, and releases are logged below.
   - Replaced intra-month `(day - 1)` day indexing in `generateMonthlyRoster` (`src/app/actions/generator.ts`) and `assignReplacement` (`src/app/actions/scheduler.ts`) with cumulative epoch day calculations relative to anchor date `2025-01-01`: `getDaysDiff('2025-01-01', dateStr) % 5`.
   - Guarantees that AirNav's official 5-day rotation pattern (`L ➔ P ➔ S ➔ M ➔ Y`) flows 100% seamlessly across 31-day month boundaries without repeating index 0.
 
+## [0.9.5] - 2026-07-23 11:17:00 UTC+8
+### Fixed
+- **MCDA Scoring Engine Date Math Standardization**:
+  - Replaced raw `new Date()` timestamp subtractions in `getRecencyCount` (`src/lib/scheduler-engine/scoring.ts`) with timezone-safe `getDaysDiff(s.date, date)`.
+  - Prevents floating-point fractional day offsets across DST and timezone boundaries from skewing 7-day shift recency scoring.
+
+
 
 
 

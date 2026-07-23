@@ -57,16 +57,13 @@ export function getRecencyCount(
   targetShiftCode: string,
   allShifts: Shift[]
 ): number {
-  const targetDate = new Date(date);
   const targetCode = targetShiftCode.toUpperCase();
 
   return allShifts.filter(s => {
     if (s.staff_id !== candidateId || s.shift_code.toUpperCase() !== targetCode) {
       return false;
     }
-    const sDate = new Date(s.date);
-    const diffTime = targetDate.getTime() - sDate.getTime();
-    const diffDays = diffTime / (1000 * 60 * 60 * 24);
+    const diffDays = getDaysDiff(s.date, date);
     return diffDays > 0 && diffDays <= 7;
   }).length;
 }
