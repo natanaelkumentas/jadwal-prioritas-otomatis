@@ -80,7 +80,9 @@ export function scoreCandidates(
   targetShiftCode: string,
   targetGroup: 'CNS' | 'ESS',
   targetSubGroup: string,
-  allShifts: Shift[]
+  allShifts: Shift[],
+  isFallback: boolean = false,
+  fallbackReason: string = ''
 ): CandidateRecommendation[] {
   if (eligibleCandidates.length === 0) return [];
 
@@ -166,7 +168,8 @@ export function scoreCandidates(
       name: c.name,
       score: finalScore,
       rank: 1, // Will be updated during sorting
-      breakdown
+      breakdown,
+      ...(isFallback ? { is_fallback: true, fallback_reason: fallbackReason } : {})
     };
   });
 

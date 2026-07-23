@@ -107,50 +107,87 @@ export async function getShiftReplacementRecommendations(
 
   const allGapEvents = gapEventsData as GapEvent[];
 
-  // 6. Filter candidates using hard constraints
-  console.log(`[scheduler-engine] Evaluating ${allStaff.length} candidates against hard rules...`);
+  // 6. Filter candidates using hard constraints (3-Tier Cascade)
+  console.log(`[scheduler-engine] Evaluating ${allStaff.length} candidates against hard rules (Tier 1)...`);
   
-  const eligibleCandidates = allStaff.filter(c => {
-    // A: Exclude the absent staff member themselves
+  // Tier 1: Strict hard rules (cross-group, strict rest, strict post-night Y recovery)
+  const tier1Candidates = allStaff.filter(c => {
     if (c.id === absentStaff) return false;
-
-    // B: FR-3 Rating Competency filter
     if (!checkRatingEligibility(c, requiredRatingCodes)) return false;
-
-    // C: FR-4 & FR-7 Availability & Leave filter
     if (!checkAvailability(c.id, targetDate, allShifts, allGapEvents)) return false;
-
-    // D: FR-5 Minimum rest period of 11 hours filter
     if (!checkRestPeriod(c.id, targetDate, targetShiftCode, targetGroup, allShifts)) return false;
-
-    // E: FR-6 Consecutive shift limits filter
     if (!checkConsecutiveShifts(c.id, targetDate, targetShiftCode, allShifts)) return false;
-
-    // F: Exclude candidates in the same sub-group as the absent technician (cross-group replacement rule)
-    if (c.sub_group === targetSubGroup) return false;
-
-    // G: Exclude Manager Teknik from being considered as a replacement candidate
+    if (c.sub_group === targetSubGroup) return false; // Cross-group rule
     if (c.role_level === 'Manager Teknik') return false;
-
-    // H: Post-Night rest recovery constraints (yesterday 'M' means rest today, today 'M' means rest tomorrow)
     if (!checkPostNightConstraint(c.id, targetDate, targetShiftCode, allShifts)) return false;
-
     return true;
   });
 
-  console.log(`[scheduler-engine] Found ${eligibleCandidates.length} eligible candidates.`);
+  if (tier1Candidates.length > 0) {
+    console.log(`[scheduler-engine] Tier 1 found ${tier1Candidates.length} eligible candidates.`);
+    return scoreCandidates(
+      tier1Candidates,
+      targetDate,
+      targetShiftCode,
+      targetGroup,
+      targetSubGroup,
+      allShifts,
+      false,
+      ''
+    );
+  }
 
-  // 7. Rank candidates using the MCDA scoring model
-  const recommendations = scoreCandidates(
-    eligibleCandidates,
+  // Tier 2 Fallback: Relax subgroup exclusion (allow same subgroup off-duty staff)
+  console.log(`[scheduler-engine] Tier 1 empty. Running Tier 2 (relaxing subgroup exclusion)...`);
+  const tier2Candidates = allStaff.filter(c => {
+    if (c.id === absentStaff) return false;
+    if (c.role_level === 'Manager Teknik') return false;
+    if (!checkRatingEligibility(c, requiredRatingCodes)) return false;
+    if (!checkAvailability(c.id, targetDate, allShifts, allGapEvents)) return false;
+    if (!checkPostNightConstraint(c.id, targetDate, targetShiftCode, allShifts)) return false;
+    return true;
+  });
+
+  if (tier2Candidates.length > 0) {
+    console.log(`[scheduler-engine] Tier 2 found ${tier2Candidates.length} fallback candidates.`);
+    return scoreCandidates(
+      tier2Candidates,
+      targetDate,
+      targetShiftCode,
+      targetGroup,
+      targetSubGroup,
+      allShifts,
+      true,
+      'Same Subgroup Member'
+    );
+  }
+
+  // Tier 3 Fallback: Emergency rotation (off-duty staff holding matching rating)
+  console.log(`[scheduler-engine] Tier 2 empty. Running Tier 3 (Emergency Rotation Fallback)...`);
+  const tier3Candidates = allStaff.filter(c => {
+    if (c.id === absentStaff) return false;
+    if (c.role_level === 'Manager Teknik') return false;
+    if (!checkRatingEligibility(c, requiredRatingCodes)) return false;
+    // Must be off-duty on target date
+    const candidateShift = allShifts.find(s => s.staff_id === c.id && s.date === targetDate);
+    if (candidateShift) {
+      const code = candidateShift.shift_code.toUpperCase();
+      if (code !== 'L' && code !== 'Y') return false;
+    }
+    return true;
+  });
+
+  console.log(`[scheduler-engine] Tier 3 found ${tier3Candidates.length} emergency candidates.`);
+  return scoreCandidates(
+    tier3Candidates,
     targetDate,
     targetShiftCode,
     targetGroup,
     targetSubGroup,
-    allShifts
+    allShifts,
+    true,
+    'Emergency Rotation Fallback'
   );
-
-  return recommendations;
 }
 
 /**

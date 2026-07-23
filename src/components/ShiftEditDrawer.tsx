@@ -355,7 +355,14 @@ export default function ShiftEditDrawer({
                       }`}
                     >
                       <div className="flex items-center justify-between">
-                        <span className="font-semibold text-slate-300">{r.name}</span>
+                        <div className="flex flex-col">
+                          <span className="font-semibold text-slate-300">{r.name}</span>
+                          {r.is_fallback && (
+                            <span className="text-[9px] bg-amber-500/10 border border-amber-500/30 text-amber-400 font-bold px-1 py-0.5 rounded mt-0.5 w-max">
+                              ⚠️ {r.fallback_reason || 'Fallback Match'}
+                            </span>
+                          )}
+                        </div>
                         <span className="font-bold text-slate-200">{r.score.toFixed(3)}</span>
                       </div>
                       {selectedVacatedStaffId === r.staff_id && (
@@ -448,7 +455,14 @@ export default function ShiftEditDrawer({
                           }`}
                         >
                           <div className="flex items-center justify-between">
-                            <span className="font-semibold text-slate-300">{r.name}</span>
+                            <div className="flex flex-col">
+                              <span className="font-semibold text-slate-300">{r.name}</span>
+                              {r.is_fallback && (
+                                <span className="text-[9px] bg-amber-500/10 border border-amber-500/30 text-amber-400 font-bold px-1 py-0.5 rounded mt-0.5 w-max">
+                                  ⚠️ {r.fallback_reason || 'Fallback Match'}
+                                </span>
+                              )}
+                            </div>
                             <span className="font-bold text-slate-200">{r.score.toFixed(3)}</span>
                           </div>
                           {selectedRecStaffId === r.staff_id && (

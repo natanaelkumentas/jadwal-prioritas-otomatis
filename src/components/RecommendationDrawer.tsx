@@ -173,11 +173,18 @@ export default function RecommendationDrawer({
                         <span className="font-semibold text-slate-200 text-sm">
                           {c.name}
                         </span>
-                        {c.rank === 1 && (
-                          <span className="text-[10px] bg-slate-800 text-slate-400 font-bold px-1.5 py-0.5 rounded mt-0.5 max-w-[85px]">
-                            ★ RECOMMENDED
-                          </span>
-                        )}
+                        <div className="flex flex-wrap gap-1 mt-0.5">
+                          {c.rank === 1 && (
+                            <span className="text-[10px] bg-slate-800 text-slate-400 font-bold px-1.5 py-0.5 rounded">
+                              ★ RECOMMENDED
+                            </span>
+                          )}
+                          {c.is_fallback && (
+                            <span className="text-[10px] bg-amber-500/10 border border-amber-500/30 text-amber-400 font-bold px-1.5 py-0.5 rounded">
+                              ⚠️ {c.fallback_reason || 'Fallback Match'}
+                            </span>
+                          )}
+                        </div>
                       </div>
                     </div>
                     <div className="text-right">

@@ -55,4 +55,6 @@ export interface CandidateRecommendation {
   score: number; // Final MCDA score
   rank: number;
   breakdown: ScoreBreakdown;
+  is_fallback?: boolean;
+  fallback_reason?: string;
 }
