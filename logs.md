@@ -156,6 +156,13 @@ All significant project changes, updates, and releases are logged below.
   - Replaced raw `new Date()` timestamp subtractions in `getRecencyCount` (`src/lib/scheduler-engine/scoring.ts`) with timezone-safe `getDaysDiff(s.date, date)`.
   - Prevents floating-point fractional day offsets across DST and timezone boundaries from skewing 7-day shift recency scoring.
 
+## [0.9.6] - 2026-07-23 11:19:00 UTC+8
+### Fixed
+- **Personnel CRUD Roster Sync & Subgroup Reassignment**:
+  - In `createPersonnel` (`src/app/actions/personnel.ts`), auto-generate populated shift records for newly created technicians across all existing roster dates, eliminating blank grid rows.
+  - In `updatePersonnel` (`src/app/actions/personnel.ts`), automatically update non-leave shift records when a technician's subgroup, group, or role level is reassigned to match their new 5-day rotation pattern.
+
+
 
 
 

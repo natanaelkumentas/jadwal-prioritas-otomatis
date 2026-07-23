@@ -4,6 +4,7 @@ import { supabaseAdmin } from '@/lib/supabase';
 import { revalidatePath } from 'next/cache';
 
 import { Staff } from '@/lib/scheduler-engine/types';
+import { getDaysDiff } from '@/lib/scheduler-engine/filters';
 
 if (!supabaseAdmin) {
   throw new Error('Supabase Admin client must be initialized on the server (requires SUPABASE_SERVICE_ROLE_KEY)');
@@ -117,9 +118,10 @@ export async function createPersonnel({
     }
 
     // 3. Insert staff ratings if selected
+    const cleanId = id.trim().toUpperCase();
     if (ratingIds.length > 0) {
       const staffRatingsInsert = ratingIds.map(ratingId => ({
-        staff_id: id.trim().toUpperCase(),
+        staff_id: cleanId,
         rating_id: ratingId
       }));
 
@@ -132,14 +134,69 @@ export async function createPersonnel({
       }
     }
 
-    // 4. Audit log
+    // 4. Auto-generate roster shift rows for newly created technician for existing roster dates
+    const cnsPatterns: Record<string, string[]> = {
+      'Grup 1': ['L', 'P', 'S', 'M', 'Y'],
+      'Grup 2': ['P', 'S', 'M', 'Y', 'L'],
+      'Grup 3': ['S', 'M', 'Y', 'L', 'P'],
+      'Grup 4': ['M', 'Y', 'L', 'P', 'S'],
+      'Grup 5': ['Y', 'L', 'P', 'S', 'M']
+    };
+
+    const essPatterns: Record<string, string[]> = {
+      'ESS Grup 1': ['M', 'Y', 'L', 'PS', 'P'],
+      'ESS Grup 2': ['P', 'M', 'Y', 'L', 'PS'],
+      'ESS Grup 3': ['PS', 'P', 'M', 'Y', 'L'],
+      'ESS Grup 4': ['L', 'PS', 'P', 'M', 'Y'],
+      'ESS Grup 5': ['Y', 'L', 'PS', 'P', 'M']
+    };
+
+    const { data: existingShiftDates } = await supabaseAdmin!
+      .from('shifts')
+      .select('date');
+
+    if (existingShiftDates && existingShiftDates.length > 0) {
+      const uniqueDates = Array.from(new Set(existingShiftDates.map(d => d.date))).sort();
+      const isManager = role_level === 'Manager Teknik';
+
+      const newShiftsToInsert = uniqueDates.map(dateStr => {
+        const dateObj = new Date(dateStr);
+        const dayOfWeek = dateObj.getDay();
+        const daysFromAnchor = Math.abs(getDaysDiff('2025-01-01', dateStr));
+
+        let shiftCode = 'L';
+        if (isManager) {
+          shiftCode = (dayOfWeek === 0 || dayOfWeek === 6) ? 'L' : 'D';
+        } else if (group === 'CNS') {
+          const pattern = cnsPatterns[sub_group] || ['P', 'S', 'M', 'Y', 'L'];
+          shiftCode = pattern[daysFromAnchor % pattern.length];
+        } else if (group === 'ESS') {
+          const pattern = essPatterns[sub_group] || ['M', 'Y', 'L', 'PS', 'P'];
+          shiftCode = pattern[daysFromAnchor % pattern.length];
+        }
+
+        return {
+          staff_id: cleanId,
+          date: dateStr,
+          shift_code: shiftCode,
+          group,
+          status: 'Filled'
+        };
+      });
+
+      if (newShiftsToInsert.length > 0) {
+        await supabaseAdmin!.from('shifts').insert(newShiftsToInsert);
+      }
+    }
+
+    // 5. Audit log
     await supabaseAdmin!
       .from('audit_log')
       .insert({
         actor_id: 'Manager Teknik',
         action: 'CREATE_PERSONNEL',
         entity: 'staff',
-        entity_id: id,
+        entity_id: cleanId,
         metadata: { name, group, sub_group, role_level, rating_count: ratingIds.length }
       });
 
@@ -200,6 +257,60 @@ export async function updatePersonnel({
 
       if (ratingErr) {
         console.warn(`[actions/personnel] Warning updating staff ratings:`, ratingErr.message);
+      }
+    }
+
+    // 3. Recalculate shift rotation pattern for future shifts if group/subgroup/role changed
+    const cnsPatterns: Record<string, string[]> = {
+      'Grup 1': ['L', 'P', 'S', 'M', 'Y'],
+      'Grup 2': ['P', 'S', 'M', 'Y', 'L'],
+      'Grup 3': ['S', 'M', 'Y', 'L', 'P'],
+      'Grup 4': ['M', 'Y', 'L', 'P', 'S'],
+      'Grup 5': ['Y', 'L', 'P', 'S', 'M']
+    };
+
+    const essPatterns: Record<string, string[]> = {
+      'ESS Grup 1': ['M', 'Y', 'L', 'PS', 'P'],
+      'ESS Grup 2': ['P', 'M', 'Y', 'L', 'PS'],
+      'ESS Grup 3': ['PS', 'P', 'M', 'Y', 'L'],
+      'ESS Grup 4': ['L', 'PS', 'P', 'M', 'Y'],
+      'ESS Grup 5': ['Y', 'L', 'PS', 'P', 'M']
+    };
+
+    const { data: staffShifts } = await supabaseAdmin!
+      .from('shifts')
+      .select('id, date, shift_code')
+      .eq('staff_id', id);
+
+    if (staffShifts && staffShifts.length > 0) {
+      const isManager = role_level === 'Manager Teknik';
+      const leaveCodes = ['CUTI', 'DINAS LUAR', 'DIKLAT', 'SAKIT'];
+
+      for (const shift of staffShifts) {
+        const currentCode = (shift.shift_code || '').toUpperCase();
+        if (leaveCodes.includes(currentCode)) continue; // Keep approved leaves intact
+
+        const dateObj = new Date(shift.date);
+        const dayOfWeek = dateObj.getDay();
+        const daysFromAnchor = Math.abs(getDaysDiff('2025-01-01', shift.date));
+
+        let newShiftCode = 'L';
+        if (isManager) {
+          newShiftCode = (dayOfWeek === 0 || dayOfWeek === 6) ? 'L' : 'D';
+        } else if (group === 'CNS') {
+          const pattern = cnsPatterns[sub_group] || ['P', 'S', 'M', 'Y', 'L'];
+          newShiftCode = pattern[daysFromAnchor % pattern.length];
+        } else if (group === 'ESS') {
+          const pattern = essPatterns[sub_group] || ['M', 'Y', 'L', 'PS', 'P'];
+          newShiftCode = pattern[daysFromAnchor % pattern.length];
+        }
+
+        if (newShiftCode !== currentCode) {
+          await supabaseAdmin!
+            .from('shifts')
+            .update({ shift_code: newShiftCode, group })
+            .eq('id', shift.id);
+        }
       }
     }
 
