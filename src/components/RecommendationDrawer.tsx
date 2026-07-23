@@ -260,7 +260,7 @@ export default function RecommendationDrawer({
       </div>
 
       {/* Footer Close Button */}
-      <div className="p-4 border-t border-slate-800 bg-slate-950/80">
+      <div className="p-4 border-t border-slate-800 bg-slate-950/80 safe-area-bottom">
         <button
           onClick={onClose}
           className="w-full py-2 border border-slate-750 text-slate-400 hover:text-slate-200 text-xs sm:text-sm font-semibold rounded-lg transition-colors"

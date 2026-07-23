@@ -125,6 +125,12 @@ All significant project changes, updates, and releases are logged below.
   - Converted month navigation controls in `MonthSelector.tsx` to icon-only buttons (`<FiChevronLeft />`, `<FiChevronRight />`).
   - Streamlined primary call-to-action buttons (`<FiPlus /> Buat Jadwal`, `<FiUserPlus /> Tambah`, `<FiCalendar />`).
 
+## [0.9.1] - 2026-07-23 10:35:00 UTC+8
+### Improved
+- **Mobile Drawer & Safe Area Optimization**:
+  - Added `safe-area-bottom` padding to `RecommendationDrawer.tsx` and `ShiftEditDrawer.tsx` slide-over footers for notched mobile devices (iPhone home indicator bar).
+
+
 
 
 
