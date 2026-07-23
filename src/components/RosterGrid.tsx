@@ -103,13 +103,13 @@ export default function RosterGrid({
           <table className="min-w-full divide-y divide-slate-800 text-sm">
             <thead className="bg-slate-950/90 sticky top-0 z-10">
               <tr>
-                <th scope="col" className="px-2 sm:px-4 py-2 sm:py-3 text-left font-semibold text-slate-300 w-32 sm:w-56 md:w-64 border-r border-slate-800 sticky left-0 bg-slate-950 z-20 text-[11px] sm:text-sm">
+                <th scope="col" className="px-2 sm:px-4 py-2 sm:py-3 text-left font-semibold text-slate-300 w-28 sm:w-56 md:w-64 border-r border-slate-800 sticky left-0 bg-slate-950 z-20 text-[10px] sm:text-sm">
                   {i18n.tableColName}
                 </th>
                 {daysInMonth.map(day => (
-                  <th key={day} scope="col" className="px-1 py-2 text-center text-xs font-semibold text-slate-400 w-8 sm:w-10">
+                  <th key={day} scope="col" className="px-0.5 sm:px-1 py-1.5 sm:py-2 text-center text-[11px] sm:text-xs font-semibold text-slate-400 w-7 sm:w-10">
                     <div>{day}</div>
-                    <div className="text-[10px] text-slate-500 uppercase">{getDayLabel(day)}</div>
+                    <div className="text-[9px] sm:text-[10px] text-slate-500 uppercase">{getDayLabel(day)}</div>
                   </th>
                 ))}
               </tr>
@@ -118,9 +118,9 @@ export default function RosterGrid({
               {staffGroup.map(staff => {
                 return (
                   <tr key={staff.id} className="hover:bg-slate-900/30 transition-colors">
-                    <td className="px-2 sm:px-4 py-2 sm:py-3 border-r border-slate-800 sticky left-0 bg-slate-950/95 z-10 w-32 sm:w-56 md:w-64 shadow-md">
+                    <td className="px-2 sm:px-4 py-1.5 sm:py-3 border-r border-slate-800 sticky left-0 bg-slate-950/95 z-10 w-28 sm:w-56 md:w-64 shadow-md">
                       <div className="flex flex-col">
-                        <span className="font-medium text-slate-200 truncate max-w-[100px] sm:max-w-[160px] md:max-w-[180px] text-[11px] sm:text-sm">
+                        <span className="font-medium text-slate-200 truncate max-w-[88px] sm:max-w-[160px] md:max-w-[180px] text-[10px] sm:text-sm">
                           {staff.name}
                         </span>
                         <div className="hidden sm:flex flex-wrap gap-1 mt-1">
@@ -144,7 +144,7 @@ export default function RosterGrid({
                       const pendingGap = gapEvents.find(g => g.shift_id === shift?.id && g.status === 'Pending');
 
                       return (
-                        <td key={day} className="p-0.5 sm:p-1 text-center border-r border-slate-850">
+                        <td key={day} className="p-0.5 text-center border-r border-slate-850">
                           <button
                             onClick={() => {
                               if (pendingGap && shift) {
@@ -153,12 +153,12 @@ export default function RosterGrid({
                                 onSelectShift(shift, staff);
                               }
                             }}
-                            className={`w-8 h-8 sm:w-9 sm:h-9 text-[11px] sm:text-xs rounded transition-all flex items-center justify-center ${getShiftStyle(shift, pendingGap)}`}
+                            className={`w-7 h-7 sm:w-9 sm:h-9 text-[10px] sm:text-xs rounded transition-all flex items-center justify-center ${getShiftStyle(shift, pendingGap)}`}
                           >
                             {pendingGap ? (
                               <div className="flex flex-col items-center">
-                                <span className="font-bold text-[8px] sm:text-[9px] uppercase leading-none truncate max-w-[28px]">{pendingGap.reason.split(' ')[0]}</span>
-                                <span className="text-[9px] sm:text-[10px] leading-none mt-0.5">⚠️</span>
+                                <span className="font-bold text-[7px] sm:text-[9px] uppercase leading-none truncate max-w-[24px]">{pendingGap.reason.split(' ')[0]}</span>
+                                <span className="text-[8px] sm:text-[10px] leading-none mt-0.5">⚠️</span>
                               </div>
                             ) : (
                               shift?.shift_code || 'L'

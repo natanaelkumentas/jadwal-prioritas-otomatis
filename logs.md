@@ -110,6 +110,14 @@ All significant project changes, updates, and releases are logged below.
   - Enabled **Promote to Manager Teknik** action, updating Manager Teknik role and anchoring to top `Management` roster row.
   - Added real-time Supabase subscription listener for `staff` table updates in `DashboardContainer.tsx`.
 
+## [0.8.1] - 2026-07-23 09:16:00 UTC+8
+### Improved
+- **Mobile Screen View Optimization**:
+  - Refined main container side margins (`px-2.5 sm:px-6 py-4`) and header typography spacing in `page.tsx`.
+  - Optimized Roster Grid sticky column width (`w-28 sm:w-56 md:w-64`) and name truncation (`max-w-[88px]`) to maximize visible shift cells on 360px–414px mobile devices.
+  - Adjusted touch target sizes (`w-7 h-7 sm:w-9 sm:h-9`) and day header column spacing for responsive horizontal touch scrolling.
+
+
 
 
 

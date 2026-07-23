@@ -54,19 +54,20 @@ export default async function Page() {
   const initialGapEvents = (gapEventsData || []) as GapEvent[];
 
   return (
-    <main className="min-h-screen bg-slate-955 text-slate-100 px-4 sm:px-6 py-6 sm:py-8">
+    <main className="min-h-screen bg-slate-955 text-slate-100 px-2.5 sm:px-6 py-4 sm:py-8">
       {/* Dashboard Top Header */}
-      <div className="mb-6 flex flex-col md:flex-row items-start md:items-center justify-between border-b border-slate-800 pb-4 gap-4">
+      <div className="mb-4 sm:mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-slate-800 pb-3 sm:pb-4 gap-2 sm:gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-slate-100 tracking-tight flex flex-wrap items-center gap-2">
-            {i18n.appTitle} <span className="text-xs bg-slate-800 border border-slate-700 text-slate-400 px-2 py-0.5 rounded font-mono font-normal">SAPS</span>
+          <h1 className="text-base sm:text-2xl font-bold text-slate-100 tracking-tight flex flex-wrap items-center gap-1.5 sm:gap-2">
+            <span>{i18n.appTitle}</span>
+            <span className="text-[10px] sm:text-xs bg-slate-800 border border-slate-700 text-slate-400 px-1.5 py-0.5 rounded font-mono font-normal">SAPS</span>
           </h1>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1">
+          <p className="text-[11px] sm:text-sm text-slate-400 mt-0.5">
             {i18n.appSubtitle}
           </p>
         </div>
-        <div className="flex items-center gap-2 text-xs">
-          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+        <div className="flex items-center gap-1.5 text-[11px] sm:text-xs">
+          <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
           <span className="text-slate-400 font-medium">Sistem Rekomendasi Aktif</span>
         </div>
       </div>
