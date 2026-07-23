@@ -5,6 +5,7 @@ import { Staff, Shift, CandidateRecommendation } from '@/lib/scheduler-engine/ty
 import { updateShiftCode, swapShifts, assignLeaveAndReplacement } from '@/app/actions/scheduler';
 import { i18n } from '@/lib/i18n';
 import { useToast } from '@/components/ToastProvider';
+import { FiAlertTriangle, FiRefreshCw, FiX, FiCheck } from 'react-icons/fi';
 
 interface ShiftEditDrawerProps {
   shift: Shift;
@@ -269,9 +270,10 @@ export default function ShiftEditDrawer({
         </div>
         <button 
           onClick={onClose}
-          className="text-slate-500 hover:text-slate-300 p-1 rounded-lg hover:bg-slate-800 transition-colors text-sm"
+          className="text-slate-400 hover:text-slate-200 p-1.5 rounded-lg hover:bg-slate-800 transition-colors"
+          title="Tutup"
         >
-          ✕
+          <FiX className="w-4 h-4" />
         </button>
       </div>
 

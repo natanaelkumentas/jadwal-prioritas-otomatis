@@ -5,6 +5,15 @@ import { i18n } from '@/lib/i18n';
 import { useToast } from '@/components/ToastProvider';
 import { generateMonthlyRoster } from '@/app/actions/generator';
 import MonthYearPickerModal from './MonthYearPickerModal';
+import {
+  FiChevronLeft,
+  FiChevronRight,
+  FiCalendar,
+  FiChevronDown,
+  FiPlus,
+  FiLoader,
+  FiX
+} from 'react-icons/fi';
 
 interface MonthSelectorProps {
   currentYear: number;
@@ -77,45 +86,52 @@ export default function MonthSelector({
     <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-slate-900 border border-slate-800 rounded-lg flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4 shadow-sm">
       {/* Month Navigation Controls */}
       <div className="flex items-center justify-between sm:justify-start gap-2 sm:gap-3">
+        {/* Icon-only Prev Month button */}
         <button
           onClick={handlePrevMonth}
-          className="px-2.5 sm:px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded border border-slate-700 transition-colors flex items-center gap-1"
+          className="p-2 sm:px-3 sm:py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg border border-slate-700 transition-colors flex items-center gap-1"
+          title="Bulan Sebelumnya"
+          aria-label="Bulan Sebelumnya"
         >
-          <span>◄</span>
-          <span className="hidden sm:inline">Bulan Sebelumnya</span>
+          <FiChevronLeft className="w-4 h-4" />
+          <span className="hidden md:inline text-xs font-semibold">Bulan Sebelumnya</span>
         </button>
 
         {/* Clickable Month & Year Display */}
         <button
           onClick={() => setShowPickerModal(true)}
-          className="text-center sm:px-3 min-w-0 px-2 py-1 bg-slate-950/80 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 rounded-lg transition-all cursor-pointer group"
+          className="text-center sm:px-3.5 min-w-0 px-2 py-1 bg-slate-950/80 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 rounded-lg transition-all cursor-pointer group"
           title="Klik untuk memilih bulan & tahun secara langsung"
         >
           <span className="text-[10px] sm:text-xs text-slate-400 group-hover:text-slate-300 font-semibold uppercase tracking-wider block flex items-center justify-center gap-1">
-            <span>📅</span> {i18n.monthSelectLabel} <span>▼</span>
+            <FiCalendar className="w-3 h-3 text-emerald-400" />
+            <span>{i18n.monthSelectLabel}</span>
+            <FiChevronDown className="w-3 h-3" />
           </span>
           <span className="text-base sm:text-lg font-bold text-slate-100 group-hover:text-emerald-400 transition-colors">
             {MONTH_NAMES_ID[currentMonth - 1]} {currentYear}
           </span>
         </button>
 
+        {/* Icon-only Next Month button */}
         <button
           onClick={handleNextMonth}
-          className="px-2.5 sm:px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded border border-slate-700 transition-colors flex items-center gap-1"
+          className="p-2 sm:px-3 sm:py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg border border-slate-700 transition-colors flex items-center gap-1"
+          title="Bulan Berikutnya"
+          aria-label="Bulan Berikutnya"
         >
-          <span className="hidden sm:inline">Bulan Berikutnya</span>
-          <span>►</span>
+          <span className="hidden md:inline text-xs font-semibold">Bulan Berikutnya</span>
+          <FiChevronRight className="w-4 h-4" />
         </button>
       </div>
 
       {/* Auto-Generate Button */}
       <button
         onClick={() => setShowModal(true)}
-        className="py-2 px-3 sm:px-4 bg-slate-200 hover:bg-slate-100 text-slate-900 text-[11px] sm:text-xs font-bold rounded-lg transition-colors flex items-center justify-center gap-1.5 sm:gap-2 shadow-sm"
+        className="py-2 px-3 sm:px-4 bg-slate-200 hover:bg-slate-100 text-slate-900 text-xs font-bold rounded-lg transition-colors flex items-center justify-center gap-1.5 shadow-sm"
       >
-        <span>➕</span>
-        <span className="hidden sm:inline">{i18n.btnGenerateNextMonth} ({MONTH_NAMES_ID[currentMonth - 1]} {currentYear})</span>
-        <span className="sm:hidden">Buat Jadwal</span>
+        <FiPlus className="w-4 h-4" />
+        <span>Buat Jadwal</span>
       </button>
 
       {/* Direct Month & Year Picker Modal Popup */}
@@ -140,9 +156,10 @@ export default function MonthSelector({
               </h3>
               <button 
                 onClick={() => setShowModal(false)}
-                className="text-slate-500 hover:text-slate-300 text-sm"
+                className="text-slate-400 hover:text-slate-200 p-1 rounded"
+                title="Tutup"
               >
-                ✕
+                <FiX className="w-4 h-4" />
               </button>
             </div>
 
@@ -168,7 +185,7 @@ export default function MonthSelector({
                 className="px-4 py-2 bg-slate-200 hover:bg-slate-100 text-slate-900 text-xs font-bold rounded-lg transition-colors flex items-center gap-1.5"
               >
                 {isGenerating ? (
-                  <span className="animate-spin">🔄</span>
+                  <FiLoader className="w-4 h-4 animate-spin" />
                 ) : null}
                 <span>{isGenerating ? i18n.generatingStatus : i18n.modalConfirmBtn}</span>
               </button>

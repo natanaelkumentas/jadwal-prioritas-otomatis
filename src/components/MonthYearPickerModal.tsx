@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { i18n } from '@/lib/i18n';
+import { FiCalendar, FiX, FiChevronRight } from 'react-icons/fi';
 
 interface MonthYearPickerModalProps {
   currentYear: number;
@@ -37,16 +38,17 @@ export default function MonthYearPickerModal({
         {/* Header */}
         <div className="flex items-center justify-between border-b border-slate-800 pb-3">
           <div className="flex items-center gap-2">
-            <span className="text-lg">📅</span>
+            <FiCalendar className="w-5 h-5 text-emerald-400" />
             <h3 className="text-base font-bold text-slate-100">
               Pilih Bulan & Tahun Jadwal
             </h3>
           </div>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-200 text-sm"
+            className="text-slate-400 hover:text-slate-200 p-1 rounded"
+            title="Tutup"
           >
-            ✕
+            <FiX className="w-4 h-4" />
           </button>
         </div>
 
@@ -119,7 +121,7 @@ export default function MonthYearPickerModal({
             className="px-4 py-2 bg-slate-200 hover:bg-slate-100 text-slate-900 text-xs font-bold rounded-lg transition-colors flex items-center gap-1.5 shadow-md"
           >
             <span>Tampilkan Jadwal</span>
-            <span>►</span>
+            <FiChevronRight className="w-4 h-4" />
           </button>
         </div>
       </div>

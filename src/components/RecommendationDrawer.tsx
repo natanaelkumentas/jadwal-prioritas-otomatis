@@ -5,6 +5,7 @@ import { Staff, Shift, GapEvent, CandidateRecommendation } from '@/lib/scheduler
 import { assignReplacement } from '@/app/actions/scheduler';
 import { i18n } from '@/lib/i18n';
 import { useToast } from '@/components/ToastProvider';
+import { FiStar, FiAlertTriangle, FiRefreshCw, FiX, FiCheck } from 'react-icons/fi';
 
 interface RecommendationDrawerProps {
   gapEvent: GapEvent;
@@ -121,9 +122,10 @@ export default function RecommendationDrawer({
         </div>
         <button 
           onClick={onClose}
-          className="text-slate-500 hover:text-slate-300 p-1 rounded-lg hover:bg-slate-800 transition-colors text-sm"
+          className="text-slate-400 hover:text-slate-200 p-1.5 rounded-lg hover:bg-slate-800 transition-colors"
+          title="Tutup"
         >
-          ✕
+          <FiX className="w-4 h-4" />
         </button>
       </div>
 
@@ -131,12 +133,13 @@ export default function RecommendationDrawer({
       <div className="flex-1 overflow-y-auto p-4 sm:p-5">
         {loading ? (
           <div className="flex flex-col items-center justify-center h-48 text-slate-400 text-xs sm:text-sm">
-            <span className="animate-spin text-xl mb-3">🔄</span>
+            <FiRefreshCw className="w-5 h-5 animate-spin text-emerald-400 mb-3" />
             <span>{i18n.gapLoadingText}</span>
           </div>
         ) : error ? (
-          <div className="p-4 bg-red-500/10 border border-red-500/20 text-red-400 rounded-lg text-xs sm:text-sm">
-            ⚠️ {error}
+          <div className="p-4 bg-red-500/10 border border-red-500/20 text-red-400 rounded-lg text-xs sm:text-sm flex items-center gap-2">
+            <FiAlertTriangle className="w-4 h-4 text-red-400 flex-shrink-0" />
+            <span>{error}</span>
           </div>
         ) : candidates.length === 0 ? (
           <div className="p-4 bg-amber-500/10 border border-amber-500/20 text-amber-400 rounded-lg text-xs sm:text-sm">

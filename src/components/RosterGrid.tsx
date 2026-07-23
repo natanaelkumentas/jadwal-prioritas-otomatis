@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Staff, Shift, GapEvent } from '@/lib/scheduler-engine/types';
 import { i18n } from '@/lib/i18n';
+import { FiSearch, FiAlertTriangle } from 'react-icons/fi';
 
 interface RosterGridProps {
   initialStaff: Staff[];
@@ -155,14 +156,7 @@ export default function RosterGrid({
                             }}
                             className={`w-7 h-7 sm:w-9 sm:h-9 text-[10px] sm:text-xs rounded transition-all flex items-center justify-center ${getShiftStyle(shift, pendingGap)}`}
                           >
-                            {pendingGap ? (
-                              <div className="flex flex-col items-center">
-                                <span className="font-bold text-[7px] sm:text-[9px] uppercase leading-none truncate max-w-[24px]">{pendingGap.reason.split(' ')[0]}</span>
-                                <span className="text-[8px] sm:text-[10px] leading-none mt-0.5">⚠️</span>
-                              </div>
-                            ) : (
-                              shift?.shift_code || 'L'
-                            )}
+                            {shift?.shift_code || 'L'}
                           </button>
                         </td>
                       );
@@ -187,9 +181,9 @@ export default function RosterGrid({
             placeholder={i18n.searchPlaceholder}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-slate-900 border border-slate-700 rounded-lg text-slate-200 placeholder-slate-500 focus:outline-none focus:border-slate-500 text-xs sm:text-sm transition-colors"
+            className="w-full pl-9 pr-4 py-2 bg-slate-900 border border-slate-700 rounded-lg text-slate-200 placeholder-slate-500 focus:outline-none focus:border-slate-500 text-xs sm:text-sm transition-colors"
           />
-          <span className="absolute left-3 top-2.5 text-slate-500 text-xs sm:text-sm">🔍</span>
+          <FiSearch className="absolute left-3 top-3 text-slate-500 w-3.5 h-3.5" />
         </div>
 
         <div className="flex flex-wrap gap-1 sm:gap-2 text-[10px] sm:text-xs text-slate-400">

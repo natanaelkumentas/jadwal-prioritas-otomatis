@@ -117,6 +117,15 @@ All significant project changes, updates, and releases are logged below.
   - Optimized Roster Grid sticky column width (`w-28 sm:w-56 md:w-64`) and name truncation (`max-w-[88px]`) to maximize visible shift cells on 360px–414px mobile devices.
   - Adjusted touch target sizes (`w-7 h-7 sm:w-9 sm:h-9`) and day header column spacing for responsive horizontal touch scrolling.
 
+## [0.9.0] - 2026-07-23 10:17:00 UTC+8
+### Changed
+- **Vector Icons Modernization & Icon-Only Action Buttons**:
+  - Installed `react-icons` package and replaced 100% of raw text emojis across all 9 UI components with clean SVG Feather icons (`react-icons/fi`).
+  - Converted table/directory row actions (Edit, Promote Manager, Delete) in `PersonnelManagementModal.tsx` into minimalist **icon-only action buttons** with tooltips (`<FiEdit3 />`, `<FiShield />`, `<FiTrash2 />`).
+  - Converted month navigation controls in `MonthSelector.tsx` to icon-only buttons (`<FiChevronLeft />`, `<FiChevronRight />`).
+  - Streamlined primary call-to-action buttons (`<FiPlus /> Buat Jadwal`, `<FiUserPlus /> Tambah`, `<FiCalendar />`).
+
+
 
 
 

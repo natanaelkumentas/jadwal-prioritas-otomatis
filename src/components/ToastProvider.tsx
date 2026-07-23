@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useCallback } from 'react';
+import { FiCheckCircle, FiAlertCircle, FiInfo, FiX } from 'react-icons/fi';
 
 type ToastType = 'success' | 'error' | 'info';
 
@@ -60,11 +61,14 @@ export default function ToastProvider({ children }: { children: React.ReactNode 
     }
   };
 
-  const getToastIcon = (type: ToastType) => {
+  const renderToastIcon = (type: ToastType) => {
     switch (type) {
-      case 'success': return '✅';
-      case 'error': return '❌';
-      case 'info': return 'ℹ️';
+      case 'success':
+        return <FiCheckCircle className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />;
+      case 'error':
+        return <FiAlertCircle className="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5" />;
+      case 'info':
+        return <FiInfo className="w-4 h-4 text-blue-400 flex-shrink-0 mt-0.5" />;
     }
   };
 
@@ -79,13 +83,14 @@ export default function ToastProvider({ children }: { children: React.ReactNode 
             key={toast.id}
             className={`pointer-events-auto flex items-start gap-2.5 px-4 py-3 rounded-lg border backdrop-blur-md shadow-xl text-xs sm:text-sm leading-relaxed animate-slide-in-right ${getToastStyles(toast.type)}`}
           >
-            <span className="text-sm flex-shrink-0 mt-0.5">{getToastIcon(toast.type)}</span>
+            {renderToastIcon(toast.type)}
             <span className="flex-1 font-medium">{toast.message}</span>
             <button
               onClick={() => removeToast(toast.id)}
-              className="text-slate-400 hover:text-slate-200 text-xs flex-shrink-0 ml-1"
+              className="text-slate-400 hover:text-slate-200 p-0.5 rounded flex-shrink-0 ml-1 transition-colors"
+              title="Tutup"
             >
-              ✕
+              <FiX className="w-3.5 h-3.5" />
             </button>
           </div>
         ))}
