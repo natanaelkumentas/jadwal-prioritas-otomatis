@@ -5,12 +5,13 @@ export function parseDate(dateStr: string): Date {
   return new Date(dateStr);
 }
 
-// Get day difference (dateB - dateA)
+// Get day difference (dateB - dateA) in exact calendar days
 export function getDaysDiff(dateAStr: string, dateBStr: string): number {
-  const dateA = new Date(dateAStr);
-  const dateB = new Date(dateBStr);
-  const diffTime = dateB.getTime() - dateA.getTime();
-  return Math.round(diffTime / (1000 * 60 * 60 * 24));
+  const [y1, m1, d1] = dateAStr.split('-').map(Number);
+  const [y2, m2, d2] = dateBStr.split('-').map(Number);
+  const utcA = Date.UTC(y1, m1 - 1, d1);
+  const utcB = Date.UTC(y2, m2 - 1, d2);
+  return Math.round((utcB - utcA) / (1000 * 60 * 60 * 24));
 }
 
 export interface ShiftHours {
@@ -170,13 +171,19 @@ export function checkConsecutiveShifts(
   const sortedDates = Array.from(scheduleMap.keys()).sort();
   
   let consecutiveCount = 0;
+  let lastMatchingDate: string | null = null;
+
   for (const d of sortedDates) {
     const code = scheduleMap.get(d);
     if (code === codeToCheck) {
-      consecutiveCount++;
+      if (lastMatchingDate !== null && getDaysDiff(lastMatchingDate, d) === 1) {
+        consecutiveCount++;
+      } else {
+        consecutiveCount = 1;
+      }
+      lastMatchingDate = d;
+
       if (consecutiveCount > maxConsecutive) {
-        // Double check: does this consecutive sequence span our target date?
-        // Let's trace back from the current date to verify if target date is in this sequence
         const dateIndex = sortedDates.indexOf(date);
         const targetSeqStart = sortedDates.indexOf(d) - consecutiveCount + 1;
         const targetSeqEnd = sortedDates.indexOf(d);
@@ -186,6 +193,7 @@ export function checkConsecutiveShifts(
       }
     } else {
       consecutiveCount = 0;
+      lastMatchingDate = null;
     }
   }
 
@@ -196,9 +204,12 @@ export function checkConsecutiveShifts(
  * Get a relative date string (YYYY-MM-DD) shifted by a number of days.
  */
 export function getRelativeDateStr(dateStr: string, days: number): string {
-  const date = new Date(dateStr);
-  date.setDate(date.getDate() + days);
-  return date.toISOString().split('T')[0];
+  const [y, m, d] = dateStr.split('-').map(Number);
+  const targetDate = new Date(y, m - 1, d + days);
+  const year = targetDate.getFullYear();
+  const month = (targetDate.getMonth() + 1).toString().padStart(2, '0');
+  const day = targetDate.getDate().toString().padStart(2, '0');
+  return `${year}-${month}-${day}`;
 }
 
 /**

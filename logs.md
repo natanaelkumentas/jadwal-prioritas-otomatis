@@ -137,6 +137,14 @@ All significant project changes, updates, and releases are logged below.
   - Now, `assignReplacement` preserves the absent technician's leave record intact (`CUTI` status `Filled`) and updates the candidate replacement technician's shift on that target date to the required work shift code (`P`/`S`/`M`/`PS`).
   - Updated `getShiftReplacementRecommendations` in `src/lib/scheduler-engine/index.ts` to derive the underlying work shift pattern when evaluating rest periods & MCDA fatigue scoring for leave gaps.
 
+## [0.9.3] - 2026-07-23 11:07:00 UTC+8
+### Fixed
+- **Filter Precision & Timezone Drift Fixes** (`src/lib/scheduler-engine/filters.ts`):
+  - Fixed timezone drift in `getRelativeDateStr` by parsing local date components `[y, m, d]` directly, eliminating UTC midnight date shifts in UTC+8 timezones.
+  - Fixed false-positive consecutive shift counting in `checkConsecutiveShifts` by verifying that adjacent matching shift dates satisfy `getDaysDiff === 1`.
+  - Updated `getDaysDiff` to calculate exact calendar day differences using `Date.UTC(y, m - 1, d)`.
+
+
 
 
 
