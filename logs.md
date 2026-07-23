@@ -162,6 +162,13 @@ All significant project changes, updates, and releases are logged below.
   - In `createPersonnel` (`src/app/actions/personnel.ts`), auto-generate populated shift records for newly created technicians across all existing roster dates, eliminating blank grid rows.
   - In `updatePersonnel` (`src/app/actions/personnel.ts`), automatically update non-leave shift records when a technician's subgroup, group, or role level is reassigned to match their new 5-day rotation pattern.
 
+## [0.9.7] - 2026-07-23 11:22:00 UTC+8
+### Fixed
+- **Drawer Operation Fallback State Refresh**:
+  - In `DashboardContainer.tsx`, updated `handleAssignSuccess` callback to invoke `fetchMonthShifts(currentYear, currentMonth)` upon successful drawer actions.
+  - Ensures immediate non-blocking roster re-fetch even if Supabase real-time WebSocket events lag or are restricted by client network firewalls.
+
+
 
 
 

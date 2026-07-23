@@ -154,7 +154,8 @@ export default function DashboardContainer({
   };
 
   const handleAssignSuccess = () => {
-    console.log('[DashboardContainer] Operation successful. Real-time updates should sync.');
+    console.log('[DashboardContainer] Operation successful. Refreshing month shifts...');
+    fetchMonthShifts(currentYear, currentMonth);
   };
 
   // Compute stats
