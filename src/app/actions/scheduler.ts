@@ -27,38 +27,137 @@ export async function assignReplacement({
   score,
   breakdown,
   reason = 'SYSTEM_RECOMMENDED',
-  actorId = 'Manager Teknik' // Default actor role for MVP
+  actorId = 'Manager Teknik'
 }: AssignParams) {
-  console.log(`[actions/scheduler] Assigning replacement staff ${candidateStaffId} to shift ${shiftId}`);
+  console.log(`[actions/scheduler] Assigning replacement staff ${candidateStaffId} to gap event ${gapEventId} (shift ${shiftId})`);
 
   try {
-    // 1. Update the shift record with the new staff ID and set status to Filled
-    const { error: shiftErr } = await supabaseAdmin!
-      .from('shifts')
-      .update({
-        staff_id: candidateStaffId,
-        status: 'Filled'
-      })
-      .eq('id', shiftId);
+    // 1. Fetch details of gap event and target shift
+    const { data: gapData, error: gapFetchErr } = await supabaseAdmin!
+      .from('gap_events')
+      .select('*')
+      .eq('id', gapEventId)
+      .single();
 
-    if (shiftErr) {
-      throw new Error(`Failed to update shift: ${shiftErr.message}`);
+    if (gapFetchErr || !gapData) {
+      throw new Error(`Failed to fetch gap event details: ${gapFetchErr?.message}`);
+    }
+
+    const { data: shiftData, error: shiftFetchErr } = await supabaseAdmin!
+      .from('shifts')
+      .select('*, staff:staff(*)')
+      .eq('id', shiftId)
+      .single();
+
+    if (shiftFetchErr || !shiftData) {
+      throw new Error(`Failed to fetch shift details: ${shiftFetchErr?.message}`);
+    }
+
+    const targetShift = shiftData as any;
+    const leaveCodes = ['CUTI', 'DINAS LUAR', 'DIKLAT', 'SAKIT'];
+    const gapReason = (gapData.reason || '').toUpperCase();
+    const currentShiftCode = (targetShift.shift_code || '').toUpperCase();
+
+    const isLeaveGap = leaveCodes.includes(gapReason) || leaveCodes.includes(currentShiftCode);
+
+    if (isLeaveGap) {
+      // Case A: Gap created due to leave/absence (e.g. CUTI)
+      // 1a. Ensure absent technician's shift stays marked as leave and Filled
+      const leaveCodeToKeep = leaveCodes.includes(currentShiftCode) ? currentShiftCode : (gapReason || 'CUTI');
+      const { error: updateAbsentErr } = await supabaseAdmin!
+        .from('shifts')
+        .update({
+          shift_code: leaveCodeToKeep,
+          status: 'Filled'
+        })
+        .eq('id', shiftId);
+
+      if (updateAbsentErr) {
+        throw new Error(`Failed to update absent staff shift status: ${updateAbsentErr.message}`);
+      }
+
+      // 1b. Determine original work shift code to assign to replacement
+      let workShiftCodeToAssign = 'P';
+      if (!leaveCodes.includes(currentShiftCode) && currentShiftCode !== 'L' && currentShiftCode !== 'Y') {
+        workShiftCodeToAssign = currentShiftCode;
+      } else {
+        const day = new Date(targetShift.date).getDate();
+        if (targetShift.group === 'ESS') {
+          const essPatterns: Record<string, string[]> = {
+            'ESS Grup 1': ['M', 'Y', 'L', 'PS', 'P'],
+            'ESS Grup 2': ['P', 'M', 'Y', 'L', 'PS'],
+            'ESS Grup 3': ['PS', 'P', 'M', 'Y', 'L'],
+            'ESS Grup 4': ['L', 'PS', 'P', 'M', 'Y'],
+            'ESS Grup 5': ['Y', 'L', 'PS', 'P', 'M']
+          };
+          const pat = essPatterns[targetShift.staff?.sub_group] || ['M', 'Y', 'L', 'PS', 'P'];
+          workShiftCodeToAssign = pat[(day - 1) % pat.length];
+        } else {
+          const cnsPatterns: Record<string, string[]> = {
+            'Grup 1': ['L', 'P', 'S', 'M', 'Y'],
+            'Grup 2': ['P', 'S', 'M', 'Y', 'L'],
+            'Grup 3': ['S', 'M', 'Y', 'L', 'P'],
+            'Grup 4': ['M', 'Y', 'L', 'P', 'S'],
+            'Grup 5': ['Y', 'L', 'P', 'S', 'M']
+          };
+          const pat = cnsPatterns[targetShift.staff?.sub_group] || ['P', 'S', 'M', 'Y', 'L'];
+          workShiftCodeToAssign = pat[(day - 1) % pat.length];
+        }
+
+        if (workShiftCodeToAssign === 'L' || workShiftCodeToAssign === 'Y') {
+          workShiftCodeToAssign = 'P';
+        }
+      }
+
+      // 1c. Find replacement staff's shift on the same date and group
+      const { data: replShift } = await supabaseAdmin!
+        .from('shifts')
+        .select('id')
+        .eq('staff_id', candidateStaffId)
+        .eq('date', targetShift.date)
+        .eq('group', targetShift.group)
+        .maybeSingle();
+
+      if (replShift) {
+        const { error: updateReplErr } = await supabaseAdmin!
+          .from('shifts')
+          .update({
+            shift_code: workShiftCodeToAssign,
+            status: 'Filled'
+          })
+          .eq('id', replShift.id);
+
+        if (updateReplErr) {
+          throw new Error(`Failed to update replacement staff shift: ${updateReplErr.message}`);
+        }
+      }
+    } else {
+      // Case B: Unstaffed/empty shift gap — assign candidate directly to target shift
+      const { error: shiftErr } = await supabaseAdmin!
+        .from('shifts')
+        .update({
+          staff_id: candidateStaffId,
+          status: 'Filled'
+        })
+        .eq('id', shiftId);
+
+      if (shiftErr) {
+        throw new Error(`Failed to update shift: ${shiftErr.message}`);
+      }
     }
 
     // 2. Update the gap event status to Resolved
     const { error: gapErr } = await supabaseAdmin!
       .from('gap_events')
-      .update({
-        status: 'Resolved'
-      })
+      .update({ status: 'Resolved' })
       .eq('id', gapEventId);
 
     if (gapErr) {
       throw new Error(`Failed to resolve gap event: ${gapErr.message}`);
     }
 
-    // 3. Write record into audit log
-    const { error: auditErr } = await supabaseAdmin!
+    // 3. Audit log
+    await supabaseAdmin!
       .from('audit_log')
       .insert({
         actor_id: actorId,
@@ -68,6 +167,7 @@ export async function assignReplacement({
         metadata: {
           gap_event_id: gapEventId,
           replacement_staff_id: candidateStaffId,
+          is_leave_gap: isLeaveGap,
           recommendation_score: score,
           score_breakdown: breakdown,
           justification: reason,
@@ -75,11 +175,6 @@ export async function assignReplacement({
         }
       });
 
-    if (auditErr) {
-      console.warn('[actions/scheduler] Warning writing to audit_log:', auditErr.message);
-    }
-
-    // Revalidate the main roster page to push new server components layout state
     revalidatePath('/');
     return { success: true };
   } catch (error: any) {

@@ -37,7 +37,7 @@ export async function getShiftReplacementRecommendations(
   const targetShift = shiftData as any;
   const absentStaff = targetShift.staff_id; // Original staff scheduled
   const targetDate = targetShift.date;
-  const targetShiftCode = targetShift.shift_code;
+  const rawShiftCode = (targetShift.shift_code || '').toUpperCase();
   const targetGroup = targetShift.group;
 
   // Retrieve details of the original absent staff profile
@@ -48,7 +48,38 @@ export async function getShiftReplacementRecommendations(
     return [];
   }
 
-  const targetSubGroup = absentStaffProfile.sub_group;
+  const targetSubGroup = absentStaffProfile?.sub_group || 'Grup 1';
+
+  // Determine effective work shift code to be covered (if raw is leave code, derive rotation work shift)
+  const leaveCodes = ['CUTI', 'DINAS LUAR', 'DIKLAT', 'SAKIT'];
+  let effectiveShiftCode = rawShiftCode;
+  if (leaveCodes.includes(rawShiftCode) || rawShiftCode === 'L' || rawShiftCode === 'Y') {
+    const day = new Date(targetDate).getDate();
+    if (targetGroup === 'ESS') {
+      const essPatterns: Record<string, string[]> = {
+        'ESS Grup 1': ['M', 'Y', 'L', 'PS', 'P'],
+        'ESS Grup 2': ['P', 'M', 'Y', 'L', 'PS'],
+        'ESS Grup 3': ['PS', 'P', 'M', 'Y', 'L'],
+        'ESS Grup 4': ['L', 'PS', 'P', 'M', 'Y'],
+        'ESS Grup 5': ['Y', 'L', 'PS', 'P', 'M']
+      };
+      const pat = essPatterns[targetSubGroup] || ['M', 'Y', 'L', 'PS', 'P'];
+      effectiveShiftCode = pat[(day - 1) % pat.length];
+    } else {
+      const cnsPatterns: Record<string, string[]> = {
+        'Grup 1': ['L', 'P', 'S', 'M', 'Y'],
+        'Grup 2': ['P', 'S', 'M', 'Y', 'L'],
+        'Grup 3': ['S', 'M', 'Y', 'L', 'P'],
+        'Grup 4': ['M', 'Y', 'L', 'P', 'S'],
+        'Grup 5': ['Y', 'L', 'P', 'S', 'M']
+      };
+      const pat = cnsPatterns[targetSubGroup] || ['P', 'S', 'M', 'Y', 'L'];
+      effectiveShiftCode = pat[(day - 1) % pat.length];
+    }
+    if (effectiveShiftCode === 'L' || effectiveShiftCode === 'Y') {
+      effectiveShiftCode = 'P';
+    }
+  }
 
   // 2. Fetch the required ratings (inherited from the technician originally on this shift)
   const { data: absentRatingsData, error: ratingErr } = await supabaseAdmin!
@@ -108,18 +139,18 @@ export async function getShiftReplacementRecommendations(
   const allGapEvents = gapEventsData as GapEvent[];
 
   // 6. Filter candidates using hard constraints (3-Tier Cascade)
-  console.log(`[scheduler-engine] Evaluating ${allStaff.length} candidates against hard rules (Tier 1)...`);
+  console.log(`[scheduler-engine] Evaluating ${allStaff.length} candidates against hard rules (Tier 1) for shift ${effectiveShiftCode}...`);
   
   // Tier 1: Strict hard rules (cross-group, strict rest, strict post-night Y recovery)
   const tier1Candidates = allStaff.filter(c => {
     if (c.id === absentStaff) return false;
     if (!checkRatingEligibility(c, requiredRatingCodes)) return false;
     if (!checkAvailability(c.id, targetDate, allShifts, allGapEvents)) return false;
-    if (!checkRestPeriod(c.id, targetDate, targetShiftCode, targetGroup, allShifts)) return false;
-    if (!checkConsecutiveShifts(c.id, targetDate, targetShiftCode, allShifts)) return false;
+    if (!checkRestPeriod(c.id, targetDate, effectiveShiftCode, targetGroup, allShifts)) return false;
+    if (!checkConsecutiveShifts(c.id, targetDate, effectiveShiftCode, allShifts)) return false;
     if (c.sub_group === targetSubGroup) return false; // Cross-group rule
     if (c.role_level === 'Manager Teknik') return false;
-    if (!checkPostNightConstraint(c.id, targetDate, targetShiftCode, allShifts)) return false;
+    if (!checkPostNightConstraint(c.id, targetDate, effectiveShiftCode, allShifts)) return false;
     return true;
   });
 
@@ -128,7 +159,7 @@ export async function getShiftReplacementRecommendations(
     return scoreCandidates(
       tier1Candidates,
       targetDate,
-      targetShiftCode,
+      effectiveShiftCode,
       targetGroup,
       targetSubGroup,
       allShifts,
@@ -144,7 +175,7 @@ export async function getShiftReplacementRecommendations(
     if (c.role_level === 'Manager Teknik') return false;
     if (!checkRatingEligibility(c, requiredRatingCodes)) return false;
     if (!checkAvailability(c.id, targetDate, allShifts, allGapEvents)) return false;
-    if (!checkPostNightConstraint(c.id, targetDate, targetShiftCode, allShifts)) return false;
+    if (!checkPostNightConstraint(c.id, targetDate, effectiveShiftCode, allShifts)) return false;
     return true;
   });
 
@@ -153,7 +184,7 @@ export async function getShiftReplacementRecommendations(
     return scoreCandidates(
       tier2Candidates,
       targetDate,
-      targetShiftCode,
+      effectiveShiftCode,
       targetGroup,
       targetSubGroup,
       allShifts,
@@ -181,7 +212,7 @@ export async function getShiftReplacementRecommendations(
   return scoreCandidates(
     tier3Candidates,
     targetDate,
-    targetShiftCode,
+    effectiveShiftCode,
     targetGroup,
     targetSubGroup,
     allShifts,

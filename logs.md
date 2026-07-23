@@ -130,6 +130,14 @@ All significant project changes, updates, and releases are logged below.
 - **Mobile Drawer & Safe Area Optimization**:
   - Added `safe-area-bottom` padding to `RecommendationDrawer.tsx` and `ShiftEditDrawer.tsx` slide-over footers for notched mobile devices (iPhone home indicator bar).
 
+## [0.9.2] - 2026-07-23 11:03:00 UTC+8
+### Fixed
+- **Leave Gap Replacement Assignment & MCDA Engine Bug**:
+  - Fixed critical bug in `assignReplacement` in `src/app/actions/scheduler.ts` where resolving a leave gap (`CUTI`, `DINAS LUAR`, `DIKLAT`, `SAKIT`) previously overwrote the absent technician's `staff_id` and assigned the replacement technician a `CUTI` shift code.
+  - Now, `assignReplacement` preserves the absent technician's leave record intact (`CUTI` status `Filled`) and updates the candidate replacement technician's shift on that target date to the required work shift code (`P`/`S`/`M`/`PS`).
+  - Updated `getShiftReplacementRecommendations` in `src/lib/scheduler-engine/index.ts` to derive the underlying work shift pattern when evaluating rest periods & MCDA fatigue scoring for leave gaps.
+
+
 
 
 
