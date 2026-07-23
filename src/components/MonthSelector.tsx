@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { i18n } from '@/lib/i18n';
 import { useToast } from '@/components/ToastProvider';
 import { generateMonthlyRoster } from '@/app/actions/generator';
+import MonthYearPickerModal from './MonthYearPickerModal';
 
 interface MonthSelectorProps {
   currentYear: number;
@@ -24,6 +25,7 @@ export default function MonthSelector({
   onRefreshData
 }: MonthSelectorProps) {
   const [showModal, setShowModal] = useState(false);
+  const [showPickerModal, setShowPickerModal] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const toast = useToast();
 
@@ -83,14 +85,19 @@ export default function MonthSelector({
           <span className="hidden sm:inline">Bulan Sebelumnya</span>
         </button>
 
-        <div className="text-center sm:px-3 min-w-0">
-          <span className="text-[10px] sm:text-xs text-slate-400 font-semibold uppercase tracking-wider block">
-            {i18n.monthSelectLabel}
+        {/* Clickable Month & Year Display */}
+        <button
+          onClick={() => setShowPickerModal(true)}
+          className="text-center sm:px-3 min-w-0 px-2 py-1 bg-slate-950/80 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 rounded-lg transition-all cursor-pointer group"
+          title="Klik untuk memilih bulan & tahun secara langsung"
+        >
+          <span className="text-[10px] sm:text-xs text-slate-400 group-hover:text-slate-300 font-semibold uppercase tracking-wider block flex items-center justify-center gap-1">
+            <span>📅</span> {i18n.monthSelectLabel} <span>▼</span>
           </span>
-          <span className="text-base sm:text-lg font-bold text-slate-100">
+          <span className="text-base sm:text-lg font-bold text-slate-100 group-hover:text-emerald-400 transition-colors">
             {MONTH_NAMES_ID[currentMonth - 1]} {currentYear}
           </span>
-        </div>
+        </button>
 
         <button
           onClick={handleNextMonth}
@@ -110,6 +117,18 @@ export default function MonthSelector({
         <span className="hidden sm:inline">{i18n.btnGenerateNextMonth} ({MONTH_NAMES_ID[currentMonth - 1]} {currentYear})</span>
         <span className="sm:hidden">Buat Jadwal</span>
       </button>
+
+      {/* Direct Month & Year Picker Modal Popup */}
+      {showPickerModal && (
+        <MonthYearPickerModal
+          currentYear={currentYear}
+          currentMonth={currentMonth}
+          onSelect={(year, month) => {
+            onMonthChange(year, month);
+          }}
+          onClose={() => setShowPickerModal(false)}
+        />
+      )}
 
       {/* Generator Confirmation Modal */}
       {showModal && (

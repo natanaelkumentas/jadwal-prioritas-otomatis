@@ -92,6 +92,16 @@ All significant project changes, updates, and releases are logged below.
   - Filtered initial `page.tsx` shift query to July 2026 (`gte 2026-07-01` & `lte 2026-07-31`) to prevent hitting Supabase's 1000-row default REST API limit.
   - Handled `sudah tersedia` info toast in `MonthSelector.tsx` to display non-blocking notification and trigger `onRefreshData()`, immediately displaying existing shifts on the roster grid.
 
+## [0.7.0] - 2026-07-23 08:59:00 UTC+8
+### Added
+- **Skeleton Loading Screen** (`src/components/RosterSkeleton.tsx`):
+  - Added smooth pulsing skeleton loading component for the Roster Grid table during all database fetch states (`isLoading`).
+  - Integrated into `DashboardContainer.tsx` to eliminate layout shift or blank fallback cells when switching months or auto-generating schedules.
+- **Interactive Year & Month Picker Modal** (`src/components/MonthYearPickerModal.tsx`):
+  - Added dedicated popup modal allowing direct target selection of Year (2025–2028) and Month (Januari–Desember).
+  - Made Month & Year display in `MonthSelector.tsx` interactive with hover styles and calendar icon `📅`.
+
+
 
 
 

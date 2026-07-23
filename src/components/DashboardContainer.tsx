@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import RosterGrid from './RosterGrid';
+import RosterSkeleton from './RosterSkeleton';
 import RecommendationDrawer from './RecommendationDrawer';
 import ShiftEditDrawer from './ShiftEditDrawer';
 import MonthSelector from './MonthSelector';
@@ -26,6 +27,7 @@ export default function DashboardContainer({
 
   const [currentYear, setCurrentYear] = useState<number>(2026);
   const [currentMonth, setCurrentMonth] = useState<number>(7); // July 2026 default
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   
   const [activeSelection, setActiveSelection] = useState<{
     gapEvent: GapEvent;
@@ -39,12 +41,19 @@ export default function DashboardContainer({
 
   // Fetch shifts for selected month using server action
   const fetchMonthShifts = async (year: number, month: number) => {
+    setIsLoading(true);
     console.log(`[DashboardContainer] Fetching month shifts for ${year}-${month}`);
-    const res = await getShiftsForMonth(year, month);
-    if (res.success && res.shifts) {
-      setShifts(res.shifts as Shift[]);
-    } else {
-      console.warn('[DashboardContainer] Failed to fetch month shifts:', res.error);
+    try {
+      const res = await getShiftsForMonth(year, month);
+      if (res.success && res.shifts) {
+        setShifts(res.shifts as Shift[]);
+      } else {
+        console.warn('[DashboardContainer] Failed to fetch month shifts:', res.error);
+      }
+    } catch (err) {
+      console.error('[DashboardContainer] Error fetching shifts:', err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -61,7 +70,6 @@ export default function DashboardContainer({
           const updatedShift = payload.new as Shift;
           setShifts((prev) => {
             if (payload.eventType === 'INSERT') {
-              // Only add if not already present
               if (prev.some(s => s.id === updatedShift.id)) return prev;
               return [...prev, updatedShift];
             } else if (payload.eventType === 'UPDATE') {
@@ -99,8 +107,6 @@ export default function DashboardContainer({
     };
   }, []);
 
-
-
   const handleMonthChange = (year: number, month: number) => {
     setCurrentYear(year);
     setCurrentMonth(month);
@@ -133,6 +139,7 @@ export default function DashboardContainer({
 
   // Compute stats
   const activeGapsCount = gapEvents.filter(g => g.status === 'Pending').length;
+  const daysInMonthCount = new Date(currentYear, currentMonth, 0).getDate();
 
   return (
     <div className="relative min-h-screen flex flex-col bg-slate-950 text-slate-100">
@@ -187,16 +194,20 @@ export default function DashboardContainer({
         </div>
       </div>
 
-      {/* Main Roster Grid */}
-      <RosterGrid
-        initialStaff={initialStaff}
-        shifts={shifts}
-        gapEvents={gapEvents}
-        currentYear={currentYear}
-        currentMonth={currentMonth}
-        onSelectGap={handleSelectGap}
-        onSelectShift={handleSelectShift}
-      />
+      {/* Main Content Area: Render Skeleton when loading, else RosterGrid */}
+      {isLoading ? (
+        <RosterSkeleton daysInMonth={daysInMonthCount} />
+      ) : (
+        <RosterGrid
+          initialStaff={initialStaff}
+          shifts={shifts}
+          gapEvents={gapEvents}
+          currentYear={currentYear}
+          currentMonth={currentMonth}
+          onSelectGap={handleSelectGap}
+          onSelectShift={handleSelectShift}
+        />
+      )}
 
       {/* Slide-out recommendation drawer panel */}
       {activeSelection && (
