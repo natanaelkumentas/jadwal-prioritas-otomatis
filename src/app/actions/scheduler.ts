@@ -414,3 +414,33 @@ export async function assignLeaveAndReplacement({
   }
 }
 
+/**
+ * Server Action to fetch shifts for a specific month using Supabase Admin client.
+ */
+export async function getShiftsForMonth(year: number, month: number) {
+  const formattedMonth = month.toString().padStart(2, '0');
+  const totalDays = new Date(year, month, 0).getDate();
+  const startDate = `${year}-${formattedMonth}-01`;
+  const endDate = `${year}-${formattedMonth}-${totalDays.toString().padStart(2, '0')}`;
+
+  try {
+    const { data: monthShifts, error } = await supabaseAdmin!
+      .from('shifts')
+      .select('*')
+      .gte('date', startDate)
+      .lte('date', endDate)
+      .order('date', { ascending: true });
+
+    if (error) {
+      console.error('[actions/scheduler] Error fetching month shifts:', error);
+      return { success: false, error: error.message, shifts: [] };
+    }
+
+    return { success: true, shifts: (monthShifts || []) as any[] };
+  } catch (err: any) {
+    console.error('[actions/scheduler] Error in getShiftsForMonth:', err);
+    return { success: false, error: err.message, shifts: [] };
+  }
+}
+
+

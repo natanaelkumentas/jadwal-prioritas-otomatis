@@ -5,6 +5,7 @@ import RosterGrid from './RosterGrid';
 import RecommendationDrawer from './RecommendationDrawer';
 import ShiftEditDrawer from './ShiftEditDrawer';
 import MonthSelector from './MonthSelector';
+import { getShiftsForMonth } from '@/app/actions/scheduler';
 import { supabaseClient } from '@/lib/supabase';
 import { i18n } from '@/lib/i18n';
 import { Staff, Shift, GapEvent } from '@/lib/scheduler-engine/types';
@@ -35,6 +36,17 @@ export default function DashboardContainer({
     shift: Shift;
     staff: Staff;
   } | null>(null);
+
+  // Fetch shifts for selected month using server action
+  const fetchMonthShifts = async (year: number, month: number) => {
+    console.log(`[DashboardContainer] Fetching month shifts for ${year}-${month}`);
+    const res = await getShiftsForMonth(year, month);
+    if (res.success && res.shifts) {
+      setShifts(res.shifts as Shift[]);
+    } else {
+      console.warn('[DashboardContainer] Failed to fetch month shifts:', res.error);
+    }
+  };
 
   // Real-time listener for database changes
   useEffect(() => {
@@ -87,23 +99,7 @@ export default function DashboardContainer({
     };
   }, []);
 
-  // Fetch shifts for selected month
-  const fetchMonthShifts = async (year: number, month: number) => {
-    const formattedMonth = month.toString().padStart(2, '0');
-    const totalDays = new Date(year, month, 0).getDate();
-    const startDate = `${year}-${formattedMonth}-01`;
-    const endDate = `${year}-${formattedMonth}-${totalDays.toString().padStart(2, '0')}`;
 
-    const { data: monthShifts, error: shiftsErr } = await supabaseClient
-      .from('shifts')
-      .select('*')
-      .gte('date', startDate)
-      .lte('date', endDate);
-
-    if (!shiftsErr && monthShifts) {
-      setShifts(monthShifts as Shift[]);
-    }
-  };
 
   const handleMonthChange = (year: number, month: number) => {
     setCurrentYear(year);

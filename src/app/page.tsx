@@ -30,6 +30,8 @@ export default async function Page() {
   const { data: shiftsData } = await supabaseAdmin!
     .from('shifts')
     .select('*')
+    .gte('date', '2026-07-01')
+    .lte('date', '2026-07-31')
     .order('date', { ascending: true });
 
   const { data: gapEventsData } = await supabaseAdmin!

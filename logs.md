@@ -84,6 +84,14 @@ All significant project changes, updates, and releases are logged below.
   - Color-coded styles: emerald for success, red for errors, blue for info.
   - Replaced all 12 `alert()` calls across `MonthSelector.tsx`, `RecommendationDrawer.tsx`, and `ShiftEditDrawer.tsx` with non-blocking toast notifications.
 
+## [0.6.2] - 2026-07-23 08:53:00 UTC+8
+### Fixed
+- **Supabase Client RLS & Query Limit Bug**:
+  - Implemented Server Action `getShiftsForMonth(year, month)` in `src/app/actions/scheduler.ts` using `supabaseAdmin` to query month shifts on server side.
+  - Replaced client-side `supabaseClient` fetch in `DashboardContainer.tsx` with `getShiftsForMonth`, fixing the issue where Row Level Security (RLS) returned 0 shifts when switching months (causing all grid cells to show "L").
+  - Filtered initial `page.tsx` shift query to July 2026 (`gte 2026-07-01` & `lte 2026-07-31`) to prevent hitting Supabase's 1000-row default REST API limit.
+  - Handled `sudah tersedia` info toast in `MonthSelector.tsx` to display non-blocking notification and trigger `onRefreshData()`, immediately displaying existing shifts on the roster grid.
+
 
 
 

@@ -56,7 +56,13 @@ export default function MonthSelector({
         setShowModal(false);
         onRefreshData();
       } else {
-        toast.error(res.error || 'Gagal membuat jadwal.');
+        if (res.error?.includes('sudah tersedia')) {
+          toast.info(res.error);
+          setShowModal(false);
+          onRefreshData();
+        } else {
+          toast.error(res.error || 'Gagal membuat jadwal.');
+        }
       }
     } catch (err: any) {
       toast.error('Terjadi kesalahan saat memproses pembuatan jadwal: ' + err.message);
