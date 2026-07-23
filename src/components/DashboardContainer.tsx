@@ -4,7 +4,9 @@ import React, { useState, useEffect } from 'react';
 import RosterGrid from './RosterGrid';
 import RecommendationDrawer from './RecommendationDrawer';
 import ShiftEditDrawer from './ShiftEditDrawer';
+import MonthSelector from './MonthSelector';
 import { supabaseClient } from '@/lib/supabase';
+import { i18n } from '@/lib/i18n';
 import { Staff, Shift, GapEvent } from '@/lib/scheduler-engine/types';
 
 interface DashboardContainerProps {
@@ -20,6 +22,9 @@ export default function DashboardContainer({
 }: DashboardContainerProps) {
   const [shifts, setShifts] = useState<Shift[]>(initialShifts);
   const [gapEvents, setGapEvents] = useState<GapEvent[]>(initialGapEvents);
+
+  const [currentYear, setCurrentYear] = useState<number>(2026);
+  const [currentMonth, setCurrentMonth] = useState<number>(7); // July 2026 default
   
   const [activeSelection, setActiveSelection] = useState<{
     gapEvent: GapEvent;
@@ -73,6 +78,34 @@ export default function DashboardContainer({
     };
   }, []);
 
+  // Fetch shifts for selected month
+  const fetchMonthShifts = async (year: number, month: number) => {
+    const formattedMonth = month.toString().padStart(2, '0');
+    const totalDays = new Date(year, month, 0).getDate();
+    const startDate = `${year}-${formattedMonth}-01`;
+    const endDate = `${year}-${formattedMonth}-${totalDays.toString().padStart(2, '0')}`;
+
+    const { data: monthShifts, error: shiftsErr } = await supabaseClient
+      .from('shifts')
+      .select('*')
+      .gte('date', startDate)
+      .lte('date', endDate);
+
+    if (!shiftsErr && monthShifts) {
+      setShifts(monthShifts as Shift[]);
+    }
+  };
+
+  const handleMonthChange = (year: number, month: number) => {
+    setCurrentYear(year);
+    setCurrentMonth(month);
+    fetchMonthShifts(year, month);
+  };
+
+  const handleRefreshData = () => {
+    fetchMonthShifts(currentYear, currentMonth);
+  };
+
   const handleSelectGap = (gapEvent: GapEvent, shift: Shift) => {
     setActiveSelection({ gapEvent, shift });
   };
@@ -98,44 +131,52 @@ export default function DashboardContainer({
 
   return (
     <div className="relative min-h-screen flex flex-col bg-slate-950 text-slate-100">
-      {/* Top Banner Dashboard Stats */}
-      <div className="mb-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+      {/* Month Selector & Auto Generator */}
+      <MonthSelector
+        currentYear={currentYear}
+        currentMonth={currentMonth}
+        onMonthChange={handleMonthChange}
+        onRefreshData={handleRefreshData}
+      />
+
+      {/* Top Banner Dashboard Stats (Responsive grid: 1 col on mobile, 3 cols on md+) */}
+      <div className="mb-6 grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="p-4 bg-slate-900 border border-slate-800 rounded-lg">
           <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-            Total Active Staff
+            {i18n.statsTotalStaff}
           </div>
           <div className="text-2xl font-bold text-slate-200 mt-1">
-            {initialStaff.length} Technicians
+            {initialStaff.length} {i18n.statsTechnicians}
           </div>
           <div className="text-xs text-slate-400 mt-1">
-            CNS Unit (17) & ESS Unit (10)
+            {i18n.statsStaffDetail}
           </div>
         </div>
 
         <div className="p-4 bg-slate-900 border border-slate-800 rounded-lg">
           <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-            Unstaffed Shift Gaps
+            {i18n.statsGapsCount}
           </div>
           <div className="text-2xl font-bold text-rose-500 mt-1 flex items-center gap-2">
-            {activeGapsCount} Gaps
+            {activeGapsCount} {i18n.statsGaps}
             {activeGapsCount > 0 && (
               <span className="inline-block w-2.5 h-2.5 bg-rose-500 rounded-full animate-ping"></span>
             )}
           </div>
           <div className="text-xs text-slate-400 mt-1">
-            Requires replacement assignments
+            {i18n.statsGapsDetail}
           </div>
         </div>
 
         <div className="p-4 bg-slate-900 border border-slate-800 rounded-lg">
           <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-            System Database Sync
+            {i18n.statsSyncStatus}
           </div>
           <div className="text-2xl font-bold text-emerald-400 mt-1">
             Supabase Cloud
           </div>
           <div className="text-xs text-slate-400 mt-1">
-            Connected & Real-time Active
+            {i18n.statsSyncDetail}
           </div>
         </div>
       </div>
@@ -145,6 +186,8 @@ export default function DashboardContainer({
         initialStaff={initialStaff}
         shifts={shifts}
         gapEvents={gapEvents}
+        currentYear={currentYear}
+        currentMonth={currentMonth}
         onSelectGap={handleSelectGap}
         onSelectShift={handleSelectShift}
       />

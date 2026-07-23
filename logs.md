@@ -59,9 +59,19 @@ All significant project changes, updates, and releases are logged below.
   - `M ➔ Y` remains a strict non-negotiable recovery rule (yesterday `M` ➔ today cannot work duty shift).
   - `Y ➔ L` pattern preference is integrated into MCDA fatigue scoring; technicians completing `Y` yesterday remain eligible to cover duty shifts today when staffing is tight.
 
-## [0.5.1] - 2026-07-23 08:17:00 UTC+8
-### Fixed
-- Positioned **Manager Teknik** (`SUBHAN A. SYAWIE`) as the top section (`Management / Head of Unit`) on the Roster Grid (`src/components/RosterGrid.tsx`), ensuring management personnel appear on the very first row of the monthly grid view.
+## [0.6.0] - 2026-07-23 08:31:00 UTC+8
+### Added
+- Implemented **Monthly Schedule Auto-Generator** (`src/app/actions/generator.ts` & `src/components/MonthSelector.tsx`):
+  - Month navigation bar supporting month selection across 2026/2027.
+  - Server Action `generateMonthlyRoster` that projects 5-subgroup rotating patterns (`P ➔ S ➔ M ➔ Y ➔ L` for CNS/ESS, fixed `D`/`OH` for Manager Teknik) for any selected month length (30/31 days) and saves to database.
+- Implemented **100% Bahasa Indonesia Contextual Localization** (`src/lib/i18n.ts`):
+  - Centralized translation dictionary translating 100% of static UI labels, headings, legends, buttons, status badges, drawer headers, and override inputs into professional Bahasa Indonesia tailored for AirNav Indonesia Cabang Manado ATS Engineering.
+- Implemented **Mobile UI Layout Optimization**:
+  - Made the monthly Roster Grid horizontally scrollable with a sticky technician name column (`sticky left-0 bg-slate-950`).
+  - Added touch-friendly cell targets (`w-8 h-8 sm:w-9 sm:h-9`).
+  - Expanded side-over drawers to full width (`w-full sm:w-[480px]`) on mobile screens to prevent overflow.
+  - Stacked summary metric cards into a single column layout on mobile view.
+
 
 
 

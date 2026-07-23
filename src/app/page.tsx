@@ -1,6 +1,7 @@
 import { supabaseAdmin } from '@/lib/supabase';
 import { Staff, Shift, GapEvent } from '@/lib/scheduler-engine/types';
 import DashboardContainer from '@/components/DashboardContainer';
+import { i18n } from '@/lib/i18n';
 
 export const revalidate = 0; // Disable static cache for live page refresh
 
@@ -11,9 +12,9 @@ export default async function Page() {
     return (
       <div className="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center p-6">
         <div className="max-w-md w-full p-6 bg-slate-900 border border-slate-800 rounded-xl shadow-lg">
-          <h2 className="text-xl font-bold text-red-400 mb-2">Supabase Missing Configuration</h2>
+          <h2 className="text-xl font-bold text-red-400 mb-2">Konfigurasi Supabase Belum Lengkap</h2>
           <p className="text-sm text-slate-400 mb-4">
-            Please configure your `.env` file with `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, and `SUPABASE_SERVICE_ROLE_KEY` to run the application.
+            Silakan lengkapi berkas `.env` dengan `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, dan `SUPABASE_SERVICE_ROLE_KEY` untuk menjalankan aplikasi.
           </p>
         </div>
       </div>
@@ -51,20 +52,20 @@ export default async function Page() {
   const initialGapEvents = (gapEventsData || []) as GapEvent[];
 
   return (
-    <main className="min-h-screen bg-slate-955 text-slate-100 px-6 py-8">
+    <main className="min-h-screen bg-slate-955 text-slate-100 px-4 sm:px-6 py-6 sm:py-8">
       {/* Dashboard Top Header */}
       <div className="mb-6 flex flex-col md:flex-row items-start md:items-center justify-between border-b border-slate-800 pb-4 gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-100 tracking-tight flex items-center gap-2">
-            Smart Automatic Priority Scheduler <span className="text-xs bg-slate-800 border border-slate-700 text-slate-400 px-2 py-0.5 rounded font-mono font-normal">SAPS</span>
+          <h1 className="text-xl sm:text-2xl font-bold text-slate-100 tracking-tight flex flex-wrap items-center gap-2">
+            {i18n.appTitle} <span className="text-xs bg-slate-800 border border-slate-700 text-slate-400 px-2 py-0.5 rounded font-mono font-normal">SAPS</span>
           </h1>
-          <p className="text-sm text-slate-400 mt-1">
-            ATS Engineering Unit — Perum LPPNPI Cabang Manado
+          <p className="text-xs sm:text-sm text-slate-400 mt-1">
+            {i18n.appSubtitle}
           </p>
         </div>
         <div className="flex items-center gap-2 text-xs">
           <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span className="text-slate-400 font-medium">DSS Engine Online</span>
+          <span className="text-slate-400 font-medium">Sistem Rekomendasi Aktif</span>
         </div>
       </div>
 
