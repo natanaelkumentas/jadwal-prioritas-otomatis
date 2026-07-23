@@ -109,5 +109,27 @@ export const i18n = {
     'DINAS LUAR': 'DINAS LUAR — Tugas Luar Kota (External Duty)',
     DIKLAT: 'DIKLAT — Pelatihan / Diklat (Training)',
     SAKIT: 'SAKIT — Sakit (Sick Leave)'
-  }
+  },
+
+  // Personnel CRUD Management UI
+  personnelManageTitle: 'Kelola Data Personel Teknik',
+  personnelManageDesc: 'Tambah personel baru, ubah sub-grup rotasi, tetapkan Manager Teknik, atur rating lisensi, atau hapus data.',
+  btnManagePersonnel: 'Kelola Personel',
+  btnAddPersonnel: 'Tambah Personel Baru',
+  btnEditPersonnel: 'Ubah Data',
+  btnAssignManager: 'Jadikan Manager',
+  btnDeletePersonnel: 'Hapus Personel',
+  personnelColId: 'ID / NIP',
+  personnelColName: 'Nama Personel',
+  personnelColGroup: 'Kelompok Utama',
+  personnelColSubGroup: 'Sub-Grup Rotasi',
+  personnelColRole: 'Peran / Jabatan',
+  personnelColRatings: 'Rating Lisensi Kompetensi',
+  personnelColActions: 'Aksi',
+  modalAddPersonnelTitle: 'Tambah Personel Teknik Baru',
+  modalEditPersonnelTitle: 'Ubah Data Personel Teknik',
+  confirmDeleteTitle: 'Hapus Data Personel',
+  confirmDeleteDesc: 'Apakah Anda yakin ingin menghapus data personel ini? Data shift yang terkait akan dihapus.',
+  btnSavePersonnel: 'Simpan Data Personel',
+  btnUpdatePersonnel: 'Simpan Perubahan'
 };

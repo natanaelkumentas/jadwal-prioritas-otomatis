@@ -101,6 +101,16 @@ All significant project changes, updates, and releases are logged below.
   - Added dedicated popup modal allowing direct target selection of Year (2025–2028) and Month (Januari–Desember).
   - Made Month & Year display in `MonthSelector.tsx` interactive with hover styles and calendar icon `📅`.
 
+## [0.8.0] - 2026-07-23 09:05:00 UTC+8
+### Added
+- **Full Personnel CRUD Management Module**:
+  - Created Server Action module `src/app/actions/personnel.ts` (`getStaffList`, `createPersonnel`, `updatePersonnel`, `assignManager`, `deletePersonnel`, `getAllRatings`).
+  - Created Mobile-Optimized `src/components/PersonnelManagementModal.tsx` with responsive desktop table and mobile card listing (<640px).
+  - Integrated full personnel creation form with NIP validation, group assignment (`CNS` / `ESS`), sub-group rotation assignment (`Grup 1-5`, `ESS Grup 1-5`), role level (`Manager Teknik`, `Senior Teknisi`, `Teknisi`), and competency license ratings checkboxes (`C`, `N`, `S`, `D`, `E1-E3`).
+  - Enabled **Promote to Manager Teknik** action, updating Manager Teknik role and anchoring to top `Management` roster row.
+  - Added real-time Supabase subscription listener for `staff` table updates in `DashboardContainer.tsx`.
+
+
 
 
 

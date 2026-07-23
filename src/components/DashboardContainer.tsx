@@ -6,7 +6,9 @@ import RosterSkeleton from './RosterSkeleton';
 import RecommendationDrawer from './RecommendationDrawer';
 import ShiftEditDrawer from './ShiftEditDrawer';
 import MonthSelector from './MonthSelector';
+import PersonnelManagementModal from './PersonnelManagementModal';
 import { getShiftsForMonth } from '@/app/actions/scheduler';
+import { getStaffList } from '@/app/actions/personnel';
 import { supabaseClient } from '@/lib/supabase';
 import { i18n } from '@/lib/i18n';
 import { Staff, Shift, GapEvent } from '@/lib/scheduler-engine/types';
@@ -22,12 +24,14 @@ export default function DashboardContainer({
   initialShifts,
   initialGapEvents
 }: DashboardContainerProps) {
+  const [staffList, setStaffList] = useState<Staff[]>(initialStaff);
   const [shifts, setShifts] = useState<Shift[]>(initialShifts);
   const [gapEvents, setGapEvents] = useState<GapEvent[]>(initialGapEvents);
 
   const [currentYear, setCurrentYear] = useState<number>(2026);
   const [currentMonth, setCurrentMonth] = useState<number>(7); // July 2026 default
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showPersonnelModal, setShowPersonnelModal] = useState<boolean>(false);
   
   const [activeSelection, setActiveSelection] = useState<{
     gapEvent: GapEvent;
@@ -39,19 +43,24 @@ export default function DashboardContainer({
     staff: Staff;
   } | null>(null);
 
-  // Fetch shifts for selected month using server action
+  // Fetch shifts & fresh staff list
   const fetchMonthShifts = async (year: number, month: number) => {
     setIsLoading(true);
-    console.log(`[DashboardContainer] Fetching month shifts for ${year}-${month}`);
+    console.log(`[DashboardContainer] Fetching month shifts & staff list for ${year}-${month}`);
     try {
-      const res = await getShiftsForMonth(year, month);
-      if (res.success && res.shifts) {
-        setShifts(res.shifts as Shift[]);
-      } else {
-        console.warn('[DashboardContainer] Failed to fetch month shifts:', res.error);
+      const [shiftsRes, staffRes] = await Promise.all([
+        getShiftsForMonth(year, month),
+        getStaffList()
+      ]);
+
+      if (shiftsRes.success && shiftsRes.shifts) {
+        setShifts(shiftsRes.shifts as Shift[]);
+      }
+      if (staffRes.success && staffRes.staff) {
+        setStaffList(staffRes.staff);
       }
     } catch (err) {
-      console.error('[DashboardContainer] Error fetching shifts:', err);
+      console.error('[DashboardContainer] Error fetching data:', err);
     } finally {
       setIsLoading(false);
     }
@@ -96,6 +105,16 @@ export default function DashboardContainer({
               return prev.filter((g) => g.id !== (payload.old as any).id);
             }
             return prev;
+          });
+        }
+      )
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'jadwal', table: 'staff' },
+        () => {
+          console.log('[DashboardContainer] Real-time staff update received. Refreshing staff directory...');
+          getStaffList().then(res => {
+            if (res.success && res.staff) setStaffList(res.staff);
           });
         }
       )
@@ -151,17 +170,27 @@ export default function DashboardContainer({
         onRefreshData={handleRefreshData}
       />
 
-      {/* Top Banner Dashboard Stats */}
+      {/* Top Banner Dashboard Stats & Management Button */}
       <div className="mb-4 sm:mb-6 grid grid-cols-3 gap-2 sm:gap-4">
-        <div className="p-2.5 sm:p-4 bg-slate-900 border border-slate-800 rounded-lg">
-          <div className="text-[9px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider">
-            {i18n.statsTotalStaff}
+        {/* Total Staff Card (Clickable to manage personnel) */}
+        <div 
+          onClick={() => setShowPersonnelModal(true)}
+          className="p-2.5 sm:p-4 bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-lg cursor-pointer transition-all group relative overflow-hidden"
+          title="Klik untuk Kelola Data Personel"
+        >
+          <div className="flex items-center justify-between">
+            <div className="text-[9px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider group-hover:text-slate-300 transition-colors">
+              {i18n.statsTotalStaff}
+            </div>
+            <span className="text-xs bg-slate-800 group-hover:bg-slate-700 text-slate-300 px-2 py-0.5 rounded font-bold transition-all border border-slate-700">
+              👤 <span className="hidden sm:inline">Kelola</span>
+            </span>
           </div>
-          <div className="text-lg sm:text-2xl font-bold text-slate-200 mt-0.5 sm:mt-1">
-            {initialStaff.length} <span className="hidden sm:inline">{i18n.statsTechnicians}</span>
+          <div className="text-lg sm:text-2xl font-bold text-slate-200 group-hover:text-emerald-400 transition-colors mt-0.5 sm:mt-1">
+            {staffList.length} <span className="hidden sm:inline">{i18n.statsTechnicians}</span>
           </div>
           <div className="hidden sm:block text-xs text-slate-400 mt-1">
-            {i18n.statsStaffDetail}
+            Klik untuk tambah, ubah, atau hapus personel
           </div>
         </div>
 
@@ -199,13 +228,22 @@ export default function DashboardContainer({
         <RosterSkeleton daysInMonth={daysInMonthCount} />
       ) : (
         <RosterGrid
-          initialStaff={initialStaff}
+          initialStaff={staffList}
           shifts={shifts}
           gapEvents={gapEvents}
           currentYear={currentYear}
           currentMonth={currentMonth}
           onSelectGap={handleSelectGap}
           onSelectShift={handleSelectShift}
+        />
+      )}
+
+      {/* Personnel Management Modal Popup */}
+      {showPersonnelModal && (
+        <PersonnelManagementModal
+          initialStaff={staffList}
+          onClose={() => setShowPersonnelModal(false)}
+          onRefreshData={handleRefreshData}
         />
       )}
 
@@ -225,7 +263,7 @@ export default function DashboardContainer({
           shift={activeEditSelection.shift}
           staff={activeEditSelection.staff}
           allShifts={shifts}
-          allStaff={initialStaff}
+          allStaff={staffList}
           onClose={handleCloseEditDrawer}
           onAssignSuccess={handleAssignSuccess}
         />
