@@ -2,6 +2,7 @@
 
 import { supabaseAdmin } from '@/lib/supabase';
 import { revalidatePath } from 'next/cache';
+import { getDaysDiff } from '@/lib/scheduler-engine/filters';
 
 if (!supabaseAdmin) {
   throw new Error('Supabase Admin client must be initialized on the server (requires SUPABASE_SERVICE_ROLE_KEY)');
@@ -81,7 +82,7 @@ export async function assignReplacement({
       if (!leaveCodes.includes(currentShiftCode) && currentShiftCode !== 'L' && currentShiftCode !== 'Y') {
         workShiftCodeToAssign = currentShiftCode;
       } else {
-        const day = new Date(targetShift.date).getDate();
+        const daysFromAnchor = Math.abs(getDaysDiff('2025-01-01', targetShift.date));
         if (targetShift.group === 'ESS') {
           const essPatterns: Record<string, string[]> = {
             'ESS Grup 1': ['M', 'Y', 'L', 'PS', 'P'],
@@ -91,7 +92,7 @@ export async function assignReplacement({
             'ESS Grup 5': ['Y', 'L', 'PS', 'P', 'M']
           };
           const pat = essPatterns[targetShift.staff?.sub_group] || ['M', 'Y', 'L', 'PS', 'P'];
-          workShiftCodeToAssign = pat[(day - 1) % pat.length];
+          workShiftCodeToAssign = pat[daysFromAnchor % pat.length];
         } else {
           const cnsPatterns: Record<string, string[]> = {
             'Grup 1': ['L', 'P', 'S', 'M', 'Y'],
@@ -101,7 +102,7 @@ export async function assignReplacement({
             'Grup 5': ['Y', 'L', 'P', 'S', 'M']
           };
           const pat = cnsPatterns[targetShift.staff?.sub_group] || ['P', 'S', 'M', 'Y', 'L'];
-          workShiftCodeToAssign = pat[(day - 1) % pat.length];
+          workShiftCodeToAssign = pat[daysFromAnchor % pat.length];
         }
 
         if (workShiftCodeToAssign === 'L' || workShiftCodeToAssign === 'Y') {

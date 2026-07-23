@@ -144,6 +144,13 @@ All significant project changes, updates, and releases are logged below.
   - Fixed false-positive consecutive shift counting in `checkConsecutiveShifts` by verifying that adjacent matching shift dates satisfy `getDaysDiff === 1`.
   - Updated `getDaysDiff` to calculate exact calendar day differences using `Date.UTC(y, m - 1, d)`.
 
+## [0.9.4] - 2026-07-23 11:13:00 UTC+8
+### Fixed
+- **Monthly Shift Rotation Boundary Discontinuity**:
+  - Replaced intra-month `(day - 1)` day indexing in `generateMonthlyRoster` (`src/app/actions/generator.ts`) and `assignReplacement` (`src/app/actions/scheduler.ts`) with cumulative epoch day calculations relative to anchor date `2025-01-01`: `getDaysDiff('2025-01-01', dateStr) % 5`.
+  - Guarantees that AirNav's official 5-day rotation pattern (`L ➔ P ➔ S ➔ M ➔ Y`) flows 100% seamlessly across 31-day month boundaries without repeating index 0.
+
+
 
 
 

@@ -1,6 +1,7 @@
 'use server';
 
 import { supabaseAdmin } from '@/lib/supabase';
+import { getDaysDiff } from '@/lib/scheduler-engine/filters';
 
 
 if (!supabaseAdmin) {
@@ -87,15 +88,17 @@ export async function generateMonthlyRoster({
 
         let shiftCode = 'L';
 
+        const daysFromAnchor = Math.abs(getDaysDiff('2025-01-01', dateStr));
+
         if (isManager) {
           // Manager Teknik: Fixed office hours D Monday-Friday, L Saturday-Sunday
           shiftCode = (dayOfWeek === 0 || dayOfWeek === 6) ? 'L' : 'D';
         } else if (staff.group === 'CNS') {
           const pattern = cnsPatterns[staff.sub_group] || ['P', 'S', 'M', 'Y', 'L'];
-          shiftCode = pattern[(day - 1) % pattern.length];
+          shiftCode = pattern[daysFromAnchor % pattern.length];
         } else if (staff.group === 'ESS') {
           const pattern = essPatterns[staff.sub_group] || ['M', 'Y', 'L', 'PS', 'P'];
-          shiftCode = pattern[(day - 1) % pattern.length];
+          shiftCode = pattern[daysFromAnchor % pattern.length];
         }
 
         shiftsToInsert.push({
