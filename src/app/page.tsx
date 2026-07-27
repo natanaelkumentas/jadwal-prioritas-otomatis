@@ -64,19 +64,20 @@ export default async function Page() {
   return (
     <main className="min-h-screen bg-slate-955 text-slate-100 px-2.5 sm:px-6 py-4 sm:py-8">
       {/* Dashboard Top Header */}
-      <div className="mb-4 sm:mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-slate-800 pb-3 sm:pb-4 gap-2 sm:gap-4">
-        <div>
-          <h1 className="text-base sm:text-2xl font-bold text-slate-100 tracking-tight flex flex-wrap items-center gap-1.5 sm:gap-2">
-            <span>{i18n.appTitle}</span>
-            <span className="text-[10px] sm:text-xs bg-slate-800 border border-slate-700 text-slate-400 px-1.5 py-0.5 rounded font-mono font-normal">SAPS</span>
+      <div className="mb-3 sm:mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-slate-800 pb-2.5 sm:pb-4 gap-1.5 sm:gap-4">
+        <div className="min-w-0">
+          <h1 className="text-sm sm:text-2xl font-bold text-slate-100 tracking-tight flex flex-wrap items-center gap-1 sm:gap-2">
+            <span className="sm:hidden truncate">Penjadwalan Otomatis ATS</span>
+            <span className="hidden sm:inline">{i18n.appTitle}</span>
+            <span className="text-[9px] sm:text-xs bg-slate-800 border border-slate-700 text-slate-400 px-1 sm:px-1.5 py-0.5 rounded font-mono font-normal flex-shrink-0">SAPS</span>
           </h1>
-          <p className="text-[11px] sm:text-sm text-slate-400 mt-0.5">
+          <p className="text-[10px] sm:text-sm text-slate-400 mt-0.5 truncate">
             {i18n.appSubtitle}
           </p>
         </div>
-        <div className="flex items-center gap-1.5 text-[11px] sm:text-xs">
-          <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span className="text-slate-400 font-medium">Sistem Rekomendasi Aktif</span>
+        <div className="flex items-center gap-1.5 text-[10px] sm:text-xs flex-shrink-0">
+          <span className="w-1.5 h-1.5 sm:w-2.5 sm:h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span className="text-slate-400 font-medium">Sistem Aktif</span>
         </div>
       </div>
 

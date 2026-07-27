@@ -33,8 +33,11 @@ export default function MonthYearPickerModal({
   };
 
   return (
-    <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-slate-900 border border-slate-700 rounded-xl max-w-md w-full p-6 shadow-2xl space-y-5 animate-slide-in-right">
+    <div className="fixed inset-0 bg-slate-955/80 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+      {/* Click outside to close backdrop */}
+      <div className="fixed inset-0" onClick={onClose} />
+      
+      <div className="relative bg-slate-900 border border-slate-700 rounded-t-2xl sm:rounded-xl max-w-md w-full p-5 sm:p-6 shadow-2xl space-y-4 sm:space-y-5 animate-slide-in-right z-10 safe-area-bottom">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-slate-800 pb-3">
           <div className="flex items-center gap-2">

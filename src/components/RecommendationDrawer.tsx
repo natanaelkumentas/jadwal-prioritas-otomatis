@@ -109,7 +109,14 @@ export default function RecommendationDrawer({
   };
 
   return (
-    <div className="fixed inset-y-0 right-0 w-full sm:w-[480px] bg-slate-900 border-l border-slate-700 shadow-2xl z-50 flex flex-col transition-transform duration-300 transform translate-x-0">
+    <>
+      {/* Backdrop overlay */}
+      <div 
+        className="fixed inset-0 bg-slate-955/70 backdrop-blur-xs z-40 transition-opacity" 
+        onClick={onClose}
+      />
+
+      <div className="fixed inset-y-0 right-0 w-full sm:w-[480px] bg-slate-900 border-l border-slate-700 shadow-2xl z-50 flex flex-col transition-transform duration-300 transform translate-x-0">
       {/* Header */}
       <div className="px-5 py-4 border-b border-slate-800 flex items-center justify-between bg-slate-950/80">
         <div>
@@ -272,5 +279,6 @@ export default function RecommendationDrawer({
         </button>
       </div>
     </div>
+  </>
   );
 }

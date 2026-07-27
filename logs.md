@@ -189,7 +189,14 @@ All significant project changes, updates, and releases are logged below.
 - Added `fallbackBadgeNoRating` and `fallbackBadgeAllBusy` i18n keys in `src/lib/i18n.ts`.
 - Updated fallback badge rendering in `RecommendationDrawer.tsx` and `ShiftEditDrawer.tsx` to display all 4 fallback reason badges.
 
-
+## [0.9.9] - 2026-07-28 07:57:00 UTC+8
+### Improved
+- **Mobile & Small Screen Layout Optimization**:
+  - In `src/app/page.tsx`, truncated long app header title on small screens (`sm:hidden`) for clean single-line header on mobile.
+  - In `src/components/MonthSelector.tsx`, hidden verbose `Pilih Bulan & Tahun:` text label on small mobile screens to keep navigation buttons compact.
+  - In `src/components/MonthYearPickerModal.tsx`, converted modal to a mobile bottom sheet layout (`items-end sm:items-center`, `rounded-t-2xl sm:rounded-xl`) with safe-area padding and backdrop tap-to-close.
+  - In `src/components/RecommendationDrawer.tsx` and `src/components/ShiftEditDrawer.tsx`, added fixed semi-transparent backdrop overlays (`fixed inset-0 bg-slate-955/70 backdrop-blur-xs`) for tap-to-dismiss on touch screens.
+  - In `src/components/PersonnelManagementModal.tsx`, added backdrop tap-to-close overlay and `safe-area-bottom` padding to modal footer.
 
 
 

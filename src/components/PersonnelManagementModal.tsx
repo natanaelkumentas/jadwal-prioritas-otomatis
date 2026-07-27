@@ -223,7 +223,10 @@ export default function PersonnelManagementModal({
 
   return (
     <div className="fixed inset-0 bg-slate-955/85 backdrop-blur-md z-50 flex items-center justify-center p-2 sm:p-4">
-      <div className="bg-slate-900 border border-slate-700 rounded-xl w-full max-w-4xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden animate-slide-in-right">
+      {/* Click outside backdrop */}
+      <div className="fixed inset-0" onClick={onClose} />
+
+      <div className="relative bg-slate-900 border border-slate-700 rounded-xl w-full max-w-4xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden animate-slide-in-right z-10">
         
         {/* Header */}
         <div className="p-4 sm:p-5 border-b border-slate-800 flex items-center justify-between bg-slate-950/80">
@@ -430,7 +433,7 @@ export default function PersonnelManagementModal({
         </div>
 
         {/* Footer */}
-        <div className="p-3 sm:p-4 border-t border-slate-800 bg-slate-950 flex items-center justify-between text-xs text-slate-400">
+        <div className="p-3 sm:p-4 border-t border-slate-800 bg-slate-950 flex items-center justify-between text-xs text-slate-400 safe-area-bottom">
           <span>Total: <strong className="text-slate-200">{filteredStaff.length} Personel</strong></span>
           <button
             onClick={onClose}

@@ -100,15 +100,15 @@ export default function MonthSelector({
         {/* Clickable Month & Year Display */}
         <button
           onClick={() => setShowPickerModal(true)}
-          className="text-center sm:px-3.5 min-w-0 px-2 py-1 bg-slate-950/80 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 rounded-lg transition-all cursor-pointer group"
+          className="text-center sm:px-3.5 min-w-0 px-2 py-1 bg-slate-950/80 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 rounded-lg transition-all cursor-pointer group flex-1 sm:flex-initial"
           title="Klik untuk memilih bulan & tahun secara langsung"
         >
-          <span className="text-[10px] sm:text-xs text-slate-400 group-hover:text-slate-300 font-semibold uppercase tracking-wider block flex items-center justify-center gap-1">
+          <span className="text-[9px] sm:text-xs text-slate-400 group-hover:text-slate-300 font-semibold uppercase tracking-wider block flex items-center justify-center gap-1">
             <FiCalendar className="w-3 h-3 text-emerald-400" />
-            <span>{i18n.monthSelectLabel}</span>
+            <span className="hidden sm:inline">{i18n.monthSelectLabel}</span>
             <FiChevronDown className="w-3 h-3" />
           </span>
-          <span className="text-base sm:text-lg font-bold text-slate-100 group-hover:text-emerald-400 transition-colors">
+          <span className="text-sm sm:text-lg font-bold text-slate-100 group-hover:text-emerald-400 transition-colors whitespace-nowrap">
             {MONTH_NAMES_ID[currentMonth - 1]} {currentYear}
           </span>
         </button>
