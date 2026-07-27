@@ -412,23 +412,40 @@ export async function assignLeaveAndReplacement({
         .eq('staff_id', replacementStaffId)
         .eq('date', shiftDate)
         .eq('group', group)
-        .single();
+        .maybeSingle();
 
-      if (replFetchErr || !replacementShift) {
-        throw new Error(`Failed to find shift for replacement staff on date ${shiftDate}`);
+      if (replFetchErr) {
+        throw new Error(`Failed to find shift for replacement staff on date ${shiftDate}: ${replFetchErr.message}`);
       }
 
-      // Update replacement staff's shift to originalShiftCode and status Filled
-      const { error: updateReplErr } = await supabaseAdmin!
-        .from('shifts')
-        .update({
-          shift_code: originalShiftCode,
-          status: 'Filled'
-        })
-        .eq('id', replacementShift.id);
+      if (replacementShift) {
+        // Update existing replacement staff's shift to originalShiftCode and status Filled
+        const { error: updateReplErr } = await supabaseAdmin!
+          .from('shifts')
+          .update({
+            shift_code: originalShiftCode,
+            status: 'Filled'
+          })
+          .eq('id', replacementShift.id);
 
-      if (updateReplErr) {
-        throw new Error(`Failed to update replacement staff shift: ${updateReplErr.message}`);
+        if (updateReplErr) {
+          throw new Error(`Failed to update replacement staff shift: ${updateReplErr.message}`);
+        }
+      } else {
+        // No existing shift row — insert a new one for the replacement staff
+        const { error: insertReplErr } = await supabaseAdmin!
+          .from('shifts')
+          .insert({
+            staff_id: replacementStaffId,
+            date: shiftDate,
+            shift_code: originalShiftCode,
+            group,
+            status: 'Filled'
+          });
+
+        if (insertReplErr) {
+          throw new Error(`Failed to create shift for replacement staff: ${insertReplErr.message}`);
+        }
       }
 
       // Resolve any pending gap event for either shift

@@ -94,6 +94,8 @@ export const i18n = {
   // Fallback Notice Badges
   fallbackBadgeSameGroup: '⚠️ Anggota Sub-Grup Sama',
   fallbackBadgeEmergency: '⚠️ Rotasi Darurat',
+  fallbackBadgeNoRating: '⚠️ Darurat Tanpa Rating',
+  fallbackBadgeAllBusy: '⚠️ Darurat Semua Terisi',
 
   // Shift Code Full Descriptions
   shiftCodeDesc: {

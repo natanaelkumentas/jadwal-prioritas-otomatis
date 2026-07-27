@@ -22,6 +22,14 @@ export default async function Page() {
   }
 
   // 1. Fetch initial database records
+  const now = new Date();
+  const initialYear = now.getFullYear();
+  const initialMonth = now.getMonth() + 1; // 1-12
+  const formattedMonth = initialMonth.toString().padStart(2, '0');
+  const totalDays = new Date(initialYear, initialMonth, 0).getDate();
+  const startDate = `${initialYear}-${formattedMonth}-01`;
+  const endDate = `${initialYear}-${formattedMonth}-${totalDays.toString().padStart(2, '0')}`;
+
   const { data: staffData } = await supabaseAdmin!
     .from('staff')
     .select('*, staff_ratings(rating:ratings(code))')
@@ -30,8 +38,8 @@ export default async function Page() {
   const { data: shiftsData } = await supabaseAdmin!
     .from('shifts')
     .select('*')
-    .gte('date', '2026-07-01')
-    .lte('date', '2026-07-31')
+    .gte('date', startDate)
+    .lte('date', endDate)
     .order('date', { ascending: true });
 
   const { data: gapEventsData } = await supabaseAdmin!
@@ -76,6 +84,8 @@ export default async function Page() {
         initialStaff={initialStaff}
         initialShifts={initialShifts}
         initialGapEvents={initialGapEvents}
+        initialYear={initialYear}
+        initialMonth={initialMonth}
       />
     </main>
   );

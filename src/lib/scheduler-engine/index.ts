@@ -5,7 +5,8 @@ import {
   checkAvailability, 
   checkRestPeriod, 
   checkConsecutiveShifts,
-  checkPostNightConstraint
+  checkPostNightConstraint,
+  getDaysDiff
 } from './filters';
 import { scoreCandidates } from './scoring';
 
@@ -51,10 +52,11 @@ export async function getShiftReplacementRecommendations(
   const targetSubGroup = absentStaffProfile?.sub_group || 'Grup 1';
 
   // Determine effective work shift code to be covered (if raw is leave code, derive rotation work shift)
+  // Uses the same daysFromAnchor formula as generator.ts, personnel.ts, and scheduler.ts
   const leaveCodes = ['CUTI', 'DINAS LUAR', 'DIKLAT', 'SAKIT'];
   let effectiveShiftCode = rawShiftCode;
   if (leaveCodes.includes(rawShiftCode) || rawShiftCode === 'L' || rawShiftCode === 'Y') {
-    const day = new Date(targetDate).getDate();
+    const daysFromAnchor = Math.abs(getDaysDiff('2025-01-01', targetDate));
     if (targetGroup === 'ESS') {
       const essPatterns: Record<string, string[]> = {
         'ESS Grup 1': ['M', 'Y', 'L', 'PS', 'P'],
@@ -64,7 +66,7 @@ export async function getShiftReplacementRecommendations(
         'ESS Grup 5': ['Y', 'L', 'PS', 'P', 'M']
       };
       const pat = essPatterns[targetSubGroup] || ['M', 'Y', 'L', 'PS', 'P'];
-      effectiveShiftCode = pat[(day - 1) % pat.length];
+      effectiveShiftCode = pat[daysFromAnchor % pat.length];
     } else {
       const cnsPatterns: Record<string, string[]> = {
         'Grup 1': ['L', 'P', 'S', 'M', 'Y'],
@@ -74,7 +76,7 @@ export async function getShiftReplacementRecommendations(
         'Grup 5': ['Y', 'L', 'P', 'S', 'M']
       };
       const pat = cnsPatterns[targetSubGroup] || ['P', 'S', 'M', 'Y', 'L'];
-      effectiveShiftCode = pat[(day - 1) % pat.length];
+      effectiveShiftCode = pat[daysFromAnchor % pat.length];
     }
     if (effectiveShiftCode === 'L' || effectiveShiftCode === 'Y') {
       effectiveShiftCode = 'P';
@@ -208,16 +210,71 @@ export async function getShiftReplacementRecommendations(
     return true;
   });
 
-  console.log(`[scheduler-engine] Tier 3 found ${tier3Candidates.length} emergency candidates.`);
+  if (tier3Candidates.length > 0) {
+    console.log(`[scheduler-engine] Tier 3 found ${tier3Candidates.length} emergency candidates.`);
+    return scoreCandidates(
+      tier3Candidates,
+      targetDate,
+      effectiveShiftCode,
+      targetGroup,
+      targetSubGroup,
+      allShifts,
+      true,
+      'Emergency Rotation Fallback'
+    );
+  }
+
+  // Tier 4 Absolute Fallback: Off-duty staff WITHOUT rating check
+  console.log(`[scheduler-engine] Tier 3 empty. Running Tier 4 (Off-Duty Without Rating Check)...`);
+  const tier4Candidates = allStaff.filter(c => {
+    if (c.id === absentStaff) return false;
+    if (c.role_level === 'Manager Teknik') return false;
+    const candidateShift = allShifts.find(s => s.staff_id === c.id && s.date === targetDate);
+    if (candidateShift) {
+      const code = candidateShift.shift_code.toUpperCase();
+      if (code !== 'L' && code !== 'Y') return false;
+    }
+    return true;
+  });
+
+  if (tier4Candidates.length > 0) {
+    console.log(`[scheduler-engine] Tier 4 found ${tier4Candidates.length} absolute fallback candidates.`);
+    return scoreCandidates(
+      tier4Candidates,
+      targetDate,
+      effectiveShiftCode,
+      targetGroup,
+      targetSubGroup,
+      allShifts,
+      true,
+      'Darurat Tanpa Rating'
+    );
+  }
+
+  // Tier 5 Last Resort: ANY non-absent, non-Manager staff (regardless of schedule)
+  console.log(`[scheduler-engine] Tier 4 empty. Running Tier 5 (Last Resort — All Staff)...`);
+  const tier5Candidates = allStaff.filter(c => {
+    if (c.id === absentStaff) return false;
+    if (c.role_level === 'Manager Teknik') return false;
+    // Exclude staff who have active gap events (currently absent)
+    const hasAbsence = allGapEvents.some(gap => {
+      const gapShift = allShifts.find(s => s.id === gap.shift_id);
+      return gapShift && gapShift.staff_id === c.id && gapShift.date === targetDate && gap.status === 'Pending';
+    });
+    if (hasAbsence) return false;
+    return true;
+  });
+
+  console.log(`[scheduler-engine] Tier 5 found ${tier5Candidates.length} last-resort candidates.`);
   return scoreCandidates(
-    tier3Candidates,
+    tier5Candidates,
     targetDate,
     effectiveShiftCode,
     targetGroup,
     targetSubGroup,
     allShifts,
     true,
-    'Emergency Rotation Fallback'
+    'Darurat Semua Terisi'
   );
 }
 

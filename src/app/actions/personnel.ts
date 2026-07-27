@@ -405,7 +405,21 @@ export async function deletePersonnel(staffId: string) {
       .delete()
       .eq('staff_id', staffId);
 
-    // 2. Delete linked shifts (or keep history)
+    // 2. Delete linked gap_events referencing this staff's shifts
+    const { data: staffShifts } = await supabaseAdmin!
+      .from('shifts')
+      .select('id')
+      .eq('staff_id', staffId);
+
+    if (staffShifts && staffShifts.length > 0) {
+      const shiftIds = staffShifts.map(s => s.id);
+      await supabaseAdmin!
+        .from('gap_events')
+        .delete()
+        .in('shift_id', shiftIds);
+    }
+
+    // 3. Delete linked shifts
     await supabaseAdmin!
       .from('shifts')
       .delete()

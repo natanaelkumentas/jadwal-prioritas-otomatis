@@ -341,7 +341,10 @@ export default function ShiftEditDrawer({
                           <span className="font-semibold text-slate-300">{r.name}</span>
                           {r.is_fallback && (
                             <span className="text-[9px] bg-amber-500/10 border border-amber-500/30 text-amber-400 font-bold px-1 py-0.5 rounded mt-0.5 w-max">
-                              {r.fallback_reason === 'Same Subgroup Member' ? i18n.fallbackBadgeSameGroup : i18n.fallbackBadgeEmergency}
+                              {r.fallback_reason === 'Same Subgroup Member' ? i18n.fallbackBadgeSameGroup
+                                : r.fallback_reason === 'Darurat Tanpa Rating' ? i18n.fallbackBadgeNoRating
+                                : r.fallback_reason === 'Darurat Semua Terisi' ? i18n.fallbackBadgeAllBusy
+                                : i18n.fallbackBadgeEmergency}
                             </span>
                           )}
                         </div>
@@ -441,7 +444,10 @@ export default function ShiftEditDrawer({
                               <span className="font-semibold text-slate-300">{r.name}</span>
                               {r.is_fallback && (
                                 <span className="text-[9px] bg-amber-500/10 border border-amber-500/30 text-amber-400 font-bold px-1 py-0.5 rounded mt-0.5 w-max">
-                                  {r.fallback_reason === 'Same Subgroup Member' ? i18n.fallbackBadgeSameGroup : i18n.fallbackBadgeEmergency}
+                                  {r.fallback_reason === 'Same Subgroup Member' ? i18n.fallbackBadgeSameGroup
+                                    : r.fallback_reason === 'Darurat Tanpa Rating' ? i18n.fallbackBadgeNoRating
+                                    : r.fallback_reason === 'Darurat Semua Terisi' ? i18n.fallbackBadgeAllBusy
+                                    : i18n.fallbackBadgeEmergency}
                                 </span>
                               )}
                             </div>

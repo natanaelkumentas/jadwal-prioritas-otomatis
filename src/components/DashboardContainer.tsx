@@ -18,19 +18,24 @@ interface DashboardContainerProps {
   initialStaff: Staff[];
   initialShifts: Shift[];
   initialGapEvents: GapEvent[];
+  initialYear?: number;
+  initialMonth?: number;
 }
 
 export default function DashboardContainer({
   initialStaff,
   initialShifts,
-  initialGapEvents
+  initialGapEvents,
+  initialYear,
+  initialMonth
 }: DashboardContainerProps) {
   const [staffList, setStaffList] = useState<Staff[]>(initialStaff);
   const [shifts, setShifts] = useState<Shift[]>(initialShifts);
   const [gapEvents, setGapEvents] = useState<GapEvent[]>(initialGapEvents);
 
-  const [currentYear, setCurrentYear] = useState<number>(2026);
-  const [currentMonth, setCurrentMonth] = useState<number>(7); // July 2026 default
+  const now = new Date();
+  const [currentYear, setCurrentYear] = useState<number>(initialYear ?? now.getFullYear());
+  const [currentMonth, setCurrentMonth] = useState<number>(initialMonth ?? (now.getMonth() + 1));
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showPersonnelModal, setShowPersonnelModal] = useState<boolean>(false);
   

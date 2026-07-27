@@ -168,7 +168,26 @@ All significant project changes, updates, and releases are logged below.
   - In `DashboardContainer.tsx`, updated `handleAssignSuccess` callback to invoke `fetchMonthShifts(currentYear, currentMonth)` upon successful drawer actions.
   - Ensures immediate non-blocking roster re-fetch even if Supabase real-time WebSocket events lag or are restricted by client network firewalls.
 
+## [0.9.8] - 2026-07-28 07:37:00 UTC+8
+### Fixed
+- **Guaranteed Non-Empty Recommendations (Bug #1)**:
+  - Added **Tier 4 Absolute Fallback** in `src/lib/scheduler-engine/index.ts` that removes the rating eligibility check and returns any off-duty non-Manager staff, tagged with `⚠️ Darurat Tanpa Rating`.
+  - Added **Tier 5 Last Resort Fallback** that returns ANY non-absent, non-Manager staff regardless of schedule, tagged with `⚠️ Darurat Semua Terisi`.
+  - The 5-tier cascade now guarantees ≥ 1 candidate is always returned as long as the group has at least 2 staff members.
+- **Inconsistent Shift Pattern Formula (Bug #2)**:
+  - Fixed `src/lib/scheduler-engine/index.ts` effective shift code derivation to use `Math.abs(getDaysDiff('2025-01-01', targetDate))` (anchor-based), matching the formula used by `generator.ts`, `scheduler.ts`, and `personnel.ts`.
+  - Previously used `(dayOfMonth - 1) % pattern.length` which produced different results, causing the engine to recommend replacements for the wrong shift type.
+- **Hardcoded Date Range in Initial Fetch (Bug #3)**:
+  - Fixed `src/app/page.tsx` to dynamically calculate the current month's date range instead of hardcoded `2026-07-01` to `2026-07-31`.
+  - Updated `DashboardContainer.tsx` to accept `initialYear`/`initialMonth` props for dynamic month initialization.
+- **Orphaned gap_events on Personnel Deletion (Bug #4)**:
+  - Fixed `deletePersonnel()` in `src/app/actions/personnel.ts` to clean up `gap_events` referencing the staff's shifts before deleting shifts, preventing foreign key constraint errors and orphaned records.
+- **`.single()` Crash in Leave Assignment (Bug #5)**:
+  - Fixed `assignLeaveAndReplacement()` in `src/app/actions/scheduler.ts` to use `.maybeSingle()` instead of `.single()` when looking up the replacement staff's shift. Now gracefully handles missing shift rows by inserting a new one.
 
+### Changed
+- Added `fallbackBadgeNoRating` and `fallbackBadgeAllBusy` i18n keys in `src/lib/i18n.ts`.
+- Updated fallback badge rendering in `RecommendationDrawer.tsx` and `ShiftEditDrawer.tsx` to display all 4 fallback reason badges.
 
 
 

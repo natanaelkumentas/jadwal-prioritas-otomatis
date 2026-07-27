@@ -190,7 +190,10 @@ export default function RecommendationDrawer({
                           )}
                           {c.is_fallback && (
                             <span className="text-[9px] sm:text-[10px] bg-amber-500/10 border border-amber-500/30 text-amber-400 font-bold px-1.5 py-0.5 rounded">
-                              {c.fallback_reason === 'Same Subgroup Member' ? i18n.fallbackBadgeSameGroup : i18n.fallbackBadgeEmergency}
+                              {c.fallback_reason === 'Same Subgroup Member' ? i18n.fallbackBadgeSameGroup
+                                : c.fallback_reason === 'Darurat Tanpa Rating' ? i18n.fallbackBadgeNoRating
+                                : c.fallback_reason === 'Darurat Semua Terisi' ? i18n.fallbackBadgeAllBusy
+                                : i18n.fallbackBadgeEmergency}
                             </span>
                           )}
                         </div>
