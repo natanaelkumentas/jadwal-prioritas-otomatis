@@ -198,7 +198,13 @@ All significant project changes, updates, and releases are logged below.
   - In `src/components/RecommendationDrawer.tsx` and `src/components/ShiftEditDrawer.tsx`, added fixed semi-transparent backdrop overlays (`fixed inset-0 bg-slate-955/70 backdrop-blur-xs`) for tap-to-dismiss on touch screens.
   - In `src/components/PersonnelManagementModal.tsx`, added backdrop tap-to-close overlay and `safe-area-bottom` padding to modal footer.
 
-
+## [0.10.0] - 2026-07-29 07:02:00 UTC+8
+### Fixed
+- **Seed Data Labeling & Schedule Alignment with JULI UPDATE (1).pdf**:
+  - In `scripts/parse-reference-data.py`, updated 31-day schedules for all 27 technicians to 100% accurately reflect `JULI UPDATE (1).pdf` (fixing Prayogo Wicaksono, Seacher Junedi, Wisnu Hari Bimanyu, Evan Sipayung, Prabowo Darminto, etc.).
+  - Fixed shift code mapping logic so leave and duty shifts preserve their explicit codes (`CUTI`, `DINAS LUAR`, `DIKLAT`) with `is_gap: True` instead of overwriting `shift_code` to `L` or `OH`.
+  - Re-generated `src/data/seed-data.json` containing 27 staff profiles, 837 July 2026 shifts, and explicit gap reasons.
+  - Re-seeded Supabase Cloud database via `scripts/seed-database.ts`, successfully creating 27 staff members, 44 staff-ratings associations, 837 shift records, and 99 active gap events.
 
 
 

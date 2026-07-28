@@ -283,15 +283,15 @@ def main():
         "ALLAN M. LENGKONG": ["M","M","Y","L","PS","S","M","Y","L","P","S","M","CUTI","CUTI","CUTI","CUTI","CUTI","CUTI","CUTI","CUTI","S","M","Y","L","P","S","M","Y","L","P","S"],
         "KURNIAWAN JAMAL": ["S","PS","PS","PS","PS","L","PS","PS","PS","PS","P","M","Y","L","CUTI","CUTI","CUTI","CUTI","CUTI","CUTI","CUTI","CUTI","CUTI","CUTI","P","S","M","Y","L","P","S"],
         "RHIDO NAINGGOLAN": ["Y","L","P","PS","M","Y","L","P","S","M","Y","L","P","S","M","Y","L","P","S","M","Y","L","P","S","M","Y","L","P","S","M","Y"],
-        "PRAYOGO WICAKSONO": ["DIKLAT"] * 31,
-        "SEACHER JUNEDI": ["Y","L","P","S","M","Y","L","P","PS","M","Y","L","DL","DL","DL","DL","DL","DL","L","L","S","M","Y","L","P","S","M","Y","L","P","S"],
+        "PRAYOGO WICAKSONO": ["DIKLAT","DIKLAT","DIKLAT","DIKLAT","DIKLAT","DIKLAT","DIKLAT","DIKLAT","DIKLAT","DIKLAT","DIKLAT","DIKLAT","DIKLAT","DIKLAT","DIKLAT","DIKLAT","L","L","S","M","Y","L","P","S","M","Y","L","P","S","M","Y"],
+        "SEACHER JUNEDI": ["Y","L","P","S","M","Y","L","P","PS","M","Y","L","DL","DL","DL","DL","L","L","S","M","Y","L","P","S","M","Y","L","P","S","M","Y"],
         # ESS Group
         "JEFRI RANTE": ["M","Y","L","PS","M","Y","L","L","P","M","S","PS","PS","PS","PS","L","PS","PS","PS","PS","P","L","S","PS","M","Y","L","PS","P","M","Y"],
         "UMMU N. FATHI": ["Y","L","L","PS","M","Y","L","PS","P","M","Y","L","PS","PS","M","Y","CUTI","CUTI","CUTI","CUTI","Y","L","S","PS","M","Y","L","PS","P","M","Y"],
         "TUNAS TIO MADA": ["L","L","PS","M","Y","CUTI","CUTI","CUTI","CUTI","CUTI","L","PS","L","M","Y","L","PS","PS","M","M","Y","L","P","M","Y","L","PS","M","M","Y","L"],
-        "PRABOWO DARMINTO": ["P","PS","PS","M","Y","L","L","PS","M","Y","PS","L","PS","CUTI","CUTI","CUTI","CUTI","CUTI","CUTI","CUTI","S","PS","PS","PS","PS","L","PS","PS","PS","PS","PS"],
+        "PRABOWO DARMINTO": ["P","PS","PS","M","Y","L","L","PS","M","Y","PS","L","PS","CUTI","CUTI","CUTI","CUTI","CUTI","CUTI","S","PS","PS","PS","PS","L","PS","PS","PS","PS","PS","PS"],
         "DAVID K. NANDA": ["PS","M","M","Y","L","PS","PS","M","M","L","PS","PS","M","Y","L","PS","PS","M","Y","L","PS","PS","M","Y","L","PS","PS","M","Y","L","PS"],
-        "WISNU HARI BIMANYU": ["CUTI","M","Y","L","PS","PS","M","M","DL","DL","DL","M","M","Y","L","PS","PS","M","M","Y","L","P","M","Y","L","PS","M","M","L","L","L"],
+        "WISNU HARI BIMANYU": ["CUTI","CUTI","M","Y","L","PS","PS","M","DL","DL","DL","DL","M","M","Y","L","PS","PS","M","M","Y","L","P","M","Y","L","PS","M","M","L","L"],
         "RIZKY SEBAYANG": ["S","PS","PS","PS","PS","L","PS","PS","PS","PS","P","M","Y","L","PS","PS","M","M","Y","L","PS","PS","M","Y","L","PS","M","Y","L","L","PS"],
         "TONI DWI TINDAK": ["M","M","Y","L","PS","M","M","Y","L","PS","PS","M","Y","L","L","PS","M","M","Y","L","PS","PS","M","Y","L","PS","M","Y","L","PS","PS"],
         "EVAN SIPAYUNG": ["DL","DL","DL","DL","DL","Y","L","S","PS","M","Y","L","S","PS","M","Y","L","PS","PS","M","M","Y","L","PS","M","Y","L","S","PS","M","Y"],
@@ -311,6 +311,9 @@ def main():
             print(f"Warning: No profile found for {name}")
             continue
 
+        if len(daily_shifts) != 31:
+            print(f"Warning: Schedule for {name} has {len(daily_shifts)} days instead of 31!")
+
         for day_idx, code in enumerate(daily_shifts):
             day_num = day_idx + 1
             date_str = f"2026-07-{day_num:02d}"
@@ -319,20 +322,19 @@ def main():
             gap_reason = None
             actual_code = code
 
-            # Handle leave/training status mapping
+            # Handle leave/training status mapping (preserve explicit leave shift codes)
             if code == "CUTI":
                 is_gap = True
                 gap_reason = "CUTI"
-                # Infer actual shift code (in rotation usually P/S/M/PS, we will mark default rotation or L)
-                actual_code = "L"
+                actual_code = "CUTI"
             elif code == "DIKLAT":
                 is_gap = True
                 gap_reason = "DIKLAT"
-                actual_code = "OH"
+                actual_code = "DIKLAT"
             elif code == "DL":
                 is_gap = True
                 gap_reason = "DINAS LUAR"
-                actual_code = "L"
+                actual_code = "DINAS LUAR"
 
             shifts_output.append({
                 "staff_id": profile["staff_id"],
