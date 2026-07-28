@@ -206,7 +206,13 @@ All significant project changes, updates, and releases are logged below.
   - Re-generated `src/data/seed-data.json` containing 27 staff profiles, 837 July 2026 shifts, and explicit gap reasons.
   - Re-seeded Supabase Cloud database via `scripts/seed-database.ts`, successfully creating 27 staff members, 44 staff-ratings associations, 837 shift records, and 99 active gap events.
 
-
+## [0.10.1] - 2026-07-29 07:07:00 UTC+8
+### Improved
+- **Mobile View & Small Screen Optimization**:
+  - In `src/components/RosterGrid.tsx`, added compact 2-letter badge formatting for leave/duty shift codes (`CT`, `DL`, `DK`, `SK`) so cells stay neat without text overflowing on mobile screens.
+  - In `src/components/RosterGrid.tsx`, added mobile rating badges under technician names in the sticky column with adjusted `w-32 sm:w-56 md:w-64` width.
+  - In `src/components/ToastProvider.tsx`, made toast notification container responsive (`top-3 left-3 right-3 sm:left-auto sm:right-4`) for small phone screens.
+  - In `src/components/DashboardContainer.tsx`, optimized metric card titles with responsive mobile labels (`Personel`, `Gap Shift`, `Status DB`) preventing text clipping on narrow viewports.
 
 
 

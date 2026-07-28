@@ -76,8 +76,8 @@ export default function ToastProvider({ children }: { children: React.ReactNode 
     <ToastContext.Provider value={contextValue}>
       {children}
 
-      {/* Toast Container - fixed top-right */}
-      <div className="fixed top-4 right-4 z-[100] flex flex-col gap-2 max-w-sm w-full pointer-events-none">
+      {/* Toast Container - fixed top-right on desktop, top-bar on mobile */}
+      <div className="fixed top-3 left-3 right-3 sm:left-auto sm:right-4 z-[100] flex flex-col gap-2 max-w-sm w-auto sm:w-full pointer-events-none">
         {toasts.map(toast => (
           <div
             key={toast.id}

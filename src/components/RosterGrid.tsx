@@ -119,21 +119,22 @@ export default function RosterGrid({
               {staffGroup.map(staff => {
                 return (
                   <tr key={staff.id} className="hover:bg-slate-900/30 transition-colors">
-                    <td className="px-2 sm:px-4 py-1.5 sm:py-3 border-r border-slate-800 sticky left-0 bg-slate-950/95 z-10 w-28 sm:w-56 md:w-64 shadow-md">
+                    <td className="px-2 sm:px-4 py-1.5 sm:py-3 border-r border-slate-800 sticky left-0 bg-slate-955/95 z-10 w-32 sm:w-56 md:w-64 shadow-md">
                       <div className="flex flex-col">
-                        <span className="font-medium text-slate-200 truncate max-w-[88px] sm:max-w-[160px] md:max-w-[180px] text-[10px] sm:text-sm">
+                        <span className="font-medium text-slate-200 truncate max-w-[105px] sm:max-w-[160px] md:max-w-[180px] text-[10px] sm:text-sm">
                           {staff.name}
                         </span>
-                        <div className="hidden sm:flex flex-wrap gap-1 mt-1">
+                        {/* Ratings & Subgroup Pills */}
+                        <div className="flex flex-wrap gap-0.5 sm:gap-1 mt-0.5 sm:mt-1">
                           {staff.ratings?.map(r => (
                             <span 
                               key={r} 
-                              className="px-1 py-0.5 text-[10px] font-mono font-bold bg-slate-800 border border-slate-700 text-slate-400 rounded"
+                              className="px-1 py-0.2 sm:py-0.5 text-[8px] sm:text-[10px] font-mono font-bold bg-slate-800/80 border border-slate-700 text-slate-300 sm:text-slate-400 rounded"
                             >
                               {r}
                             </span>
                           ))}
-                          <span className="px-1 py-0.5 text-[9px] bg-slate-900 border border-slate-800 text-slate-500 rounded truncate max-w-[80px]">
+                          <span className="hidden sm:inline-block px-1 py-0.5 text-[9px] bg-slate-900 border border-slate-800 text-slate-500 rounded truncate max-w-[80px]">
                             {staff.sub_group}
                           </span>
                         </div>
@@ -144,9 +145,17 @@ export default function RosterGrid({
                       const shift = shifts.find(s => s.staff_id === staff.id && s.date === dateStr);
                       const pendingGap = gapEvents.find(g => g.shift_id === shift?.id && g.status === 'Pending');
 
+                      const rawCode = shift?.shift_code || 'L';
+                      let displayCode = rawCode;
+                      if (rawCode === 'CUTI') displayCode = 'CT';
+                      else if (rawCode === 'DINAS LUAR') displayCode = 'DL';
+                      else if (rawCode === 'DIKLAT') displayCode = 'DK';
+                      else if (rawCode === 'SAKIT') displayCode = 'SK';
+
                       return (
                         <td key={day} className="p-0.5 text-center border-r border-slate-850">
                           <button
+                            title={`${staff.name} - ${dateStr}: ${rawCode}`}
                             onClick={() => {
                               if (pendingGap && shift) {
                                 onSelectGap(pendingGap, shift);
@@ -154,9 +163,9 @@ export default function RosterGrid({
                                 onSelectShift(shift, staff);
                               }
                             }}
-                            className={`w-7 h-7 sm:w-9 sm:h-9 text-[10px] sm:text-xs rounded transition-all flex items-center justify-center ${getShiftStyle(shift, pendingGap)}`}
+                            className={`w-7 h-7 sm:w-9 sm:h-9 text-[9px] sm:text-xs rounded transition-all flex items-center justify-center ${getShiftStyle(shift, pendingGap)}`}
                           >
-                            {shift?.shift_code || 'L'}
+                            {displayCode}
                           </button>
                         </td>
                       );
