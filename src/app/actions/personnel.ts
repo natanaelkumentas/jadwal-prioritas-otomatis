@@ -356,6 +356,25 @@ export async function assignManager(staffId: string) {
               sub_group: 'Grup 1'
             })
             .eq('id', mgr.id);
+
+          // Recalculate shift records for demoted manager (Grup 1 rotation)
+          const { data: demotedShifts } = await supabaseAdmin!
+            .from('shifts')
+            .select('id, date, shift_code')
+            .eq('staff_id', mgr.id);
+
+          if (demotedShifts) {
+            const leaveCodes = ['CUTI', 'DINAS LUAR', 'DIKLAT', 'SAKIT'];
+            const pattern = ['L', 'P', 'S', 'M', 'Y'];
+            for (const s of demotedShifts) {
+              if (leaveCodes.includes((s.shift_code || '').toUpperCase())) continue;
+              const daysFromAnchor = Math.abs(getDaysDiff('2025-01-01', s.date));
+              const newCode = pattern[daysFromAnchor % pattern.length];
+              if (newCode !== s.shift_code) {
+                await supabaseAdmin!.from('shifts').update({ shift_code: newCode }).eq('id', s.id);
+              }
+            }
+          }
         }
       }
     }
@@ -371,6 +390,24 @@ export async function assignManager(staffId: string) {
 
     if (promoteErr) {
       throw new Error(`Gagal memperbarui peran Manager Teknik: ${promoteErr.message}`);
+    }
+
+    // Recalculate shift records for new Manager Teknik (D on weekdays, L on weekends)
+    const { data: newManagerShifts } = await supabaseAdmin!
+      .from('shifts')
+      .select('id, date, shift_code')
+      .eq('staff_id', staffId);
+
+    if (newManagerShifts) {
+      const leaveCodes = ['CUTI', 'DINAS LUAR', 'DIKLAT', 'SAKIT'];
+      for (const s of newManagerShifts) {
+        if (leaveCodes.includes((s.shift_code || '').toUpperCase())) continue;
+        const dayOfWeek = new Date(s.date).getDay();
+        const newCode = (dayOfWeek === 0 || dayOfWeek === 6) ? 'L' : 'D';
+        if (newCode !== s.shift_code) {
+          await supabaseAdmin!.from('shifts').update({ shift_code: newCode }).eq('id', s.id);
+        }
+      }
     }
 
     // 3. Audit log

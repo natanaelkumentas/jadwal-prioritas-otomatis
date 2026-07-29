@@ -82,6 +82,16 @@ export default function MonthSelector({
     }
   };
 
+  const handleTodayMonth = () => {
+    const now = new Date();
+    onMonthChange(now.getFullYear(), now.getMonth() + 1);
+  };
+
+  const isCurrentMonthNow = () => {
+    const now = new Date();
+    return currentYear === now.getFullYear() && currentMonth === (now.getMonth() + 1);
+  };
+
   return (
     <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-slate-900 border border-slate-800 rounded-lg flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4 shadow-sm">
       {/* Month Navigation Controls */}
@@ -123,6 +133,17 @@ export default function MonthSelector({
           <span className="hidden md:inline text-xs font-semibold">Bulan Berikutnya</span>
           <FiChevronRight className="w-4 h-4" />
         </button>
+
+        {/* Today / Current Month Quick Jump Button */}
+        {!isCurrentMonthNow() && (
+          <button
+            onClick={handleTodayMonth}
+            className="px-2.5 py-1.5 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 rounded-lg text-xs font-bold transition-all flex items-center gap-1"
+            title="Kembali ke Bulan Ini"
+          >
+            <span>Bulan Ini</span>
+          </button>
+        )}
       </div>
 
       {/* Auto-Generate Button */}

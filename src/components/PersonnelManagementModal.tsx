@@ -90,11 +90,29 @@ export default function PersonnelManagementModal({
     return matchesSearch && s.group === groupFilter;
   });
 
+  // Helper to auto-suggest next ID based on group (T-0XX for CNS, E-0XX for ESS)
+  const generateNextId = (group: 'CNS' | 'ESS', list: Staff[]) => {
+    const prefix = group === 'CNS' ? 'T-' : 'E-';
+    const groupStaff = list.filter(s => s.id.startsWith(prefix));
+    let maxNum = 0;
+    for (const s of groupStaff) {
+      const numStr = s.id.replace(prefix, '');
+      const num = parseInt(numStr, 10);
+      if (!isNaN(num) && num > maxNum) {
+        maxNum = num;
+      }
+    }
+    const nextNum = maxNum + 1;
+    return `${prefix}${nextNum.toString().padStart(3, '0')}`;
+  };
+
   const openAddForm = () => {
+    const defaultGrp: 'CNS' | 'ESS' = 'CNS';
+    const nextId = generateNextId(defaultGrp, staffList);
     setEditingStaff(null);
-    setFormId(`C-0${staffList.length + 1}`);
+    setFormId(nextId);
     setFormName('');
-    setFormGroup('CNS');
+    setFormGroup(defaultGrp);
     setFormSubGroup('Grup 1');
     setFormRoleLevel('Teknisi');
     setSelectedRatingIds([]);
@@ -105,13 +123,14 @@ export default function PersonnelManagementModal({
     setEditingStaff(staff);
     setFormId(staff.id);
     setFormName(staff.name);
-    setFormGroup((staff.group as 'CNS' | 'ESS') || 'CNS');
+    const grp = (staff.group as 'CNS' | 'ESS') || 'CNS';
+    setFormGroup(grp);
     setFormSubGroup(staff.sub_group);
     setFormRoleLevel(staff.role_level);
 
-    // Map existing staff ratings to rating IDs
+    // Map existing staff ratings to rating IDs matching staff group
     const currentRatingIds = availableRatings
-      .filter(r => staff.ratings?.includes(r.code))
+      .filter(r => r.group === grp && staff.ratings?.includes(r.code))
       .map(r => r.id);
     setSelectedRatingIds(currentRatingIds);
     setShowFormModal(true);
@@ -145,7 +164,7 @@ export default function PersonnelManagementModal({
         });
 
         if (res.success) {
-          toast.success(`Berhasil mengenerasi data personel ${formName}.`);
+          toast.success(`Berhasil memperbarui data personel ${formName}.`);
           setShowFormModal(false);
           onRefreshData();
         } else {
@@ -508,6 +527,12 @@ export default function PersonnelManagementModal({
                     const grp = e.target.value as 'CNS' | 'ESS';
                     setFormGroup(grp);
                     setFormSubGroup(grp === 'CNS' ? 'Grup 1' : 'ESS Grup 1');
+                    if (!editingStaff) {
+                      setFormId(generateNextId(grp, staffList));
+                    }
+                    // Filter selected ratings matching new group
+                    const validRatingIds = availableRatings.filter(r => r.group === grp).map(r => r.id);
+                    setSelectedRatingIds(prev => prev.filter(id => validRatingIds.includes(id)));
                   }}
                   className="w-full px-3 py-1.5 bg-slate-950 border border-slate-700 rounded-lg text-slate-200 text-xs focus:outline-none"
                 >

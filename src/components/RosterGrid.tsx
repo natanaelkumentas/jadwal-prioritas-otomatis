@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import { Staff, Shift, GapEvent } from '@/lib/scheduler-engine/types';
 import { i18n } from '@/lib/i18n';
-import { FiSearch, FiAlertTriangle } from 'react-icons/fi';
+import { FiSearch, FiAlertTriangle, FiInfo } from 'react-icons/fi';
+import ShiftCodeModal from './ShiftCodeModal';
 
 interface RosterGridProps {
   initialStaff: Staff[];
@@ -26,6 +27,14 @@ export default function RosterGrid({
 }: RosterGridProps) {
   const [staffList] = useState<Staff[]>(initialStaff);
   const [searchTerm, setSearchTerm] = useState('');
+  const [showShiftCodeModal, setShowShiftCodeModal] = useState(false);
+
+  // Today's date calculations for highlighting
+  const today = new Date();
+  const todayYear = today.getFullYear();
+  const todayMonth = today.getMonth() + 1;
+  const todayDay = today.getDate();
+  const isCurrentCalendarMonth = currentYear === todayYear && currentMonth === todayMonth;
 
   // Filter staff by search term
   const filteredStaff = staffList.filter(s => 
@@ -107,12 +116,25 @@ export default function RosterGrid({
                 <th scope="col" className="px-2 sm:px-4 py-2 sm:py-3 text-left font-semibold text-slate-300 w-28 sm:w-56 md:w-64 border-r border-slate-800 sticky left-0 bg-slate-950 z-20 text-[10px] sm:text-sm">
                   {i18n.tableColName}
                 </th>
-                {daysInMonth.map(day => (
-                  <th key={day} scope="col" className="px-0.5 sm:px-1 py-1.5 sm:py-2 text-center text-[11px] sm:text-xs font-semibold text-slate-400 w-7 sm:w-10">
-                    <div>{day}</div>
-                    <div className="text-[9px] sm:text-[10px] text-slate-500 uppercase">{getDayLabel(day)}</div>
-                  </th>
-                ))}
+                {daysInMonth.map(day => {
+                  const isToday = isCurrentCalendarMonth && day === todayDay;
+                  return (
+                    <th 
+                      key={day} 
+                      scope="col" 
+                      className={`px-0.5 sm:px-1 py-1.5 sm:py-2 text-center text-[11px] sm:text-xs font-semibold w-7 sm:w-10 transition-colors ${
+                        isToday
+                          ? 'bg-emerald-500/25 text-emerald-300 font-bold border-b-2 border-emerald-400 shadow-inner'
+                          : 'text-slate-400'
+                      }`}
+                    >
+                      <div className="flex flex-col items-center justify-center">
+                        <span>{day}</span>
+                        <span className="text-[9px] sm:text-[10px] uppercase opacity-75">{getDayLabel(day)}</span>
+                      </div>
+                    </th>
+                  );
+                })}
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800">
@@ -141,6 +163,7 @@ export default function RosterGrid({
                       </div>
                     </td>
                     {daysInMonth.map(day => {
+                      const isToday = isCurrentCalendarMonth && day === todayDay;
                       const dateStr = `${currentYear}-${formattedMonthStr}-${day.toString().padStart(2, '0')}`;
                       const shift = shifts.find(s => s.staff_id === staff.id && s.date === dateStr);
                       const pendingGap = gapEvents.find(g => g.shift_id === shift?.id && g.status === 'Pending');
@@ -153,7 +176,7 @@ export default function RosterGrid({
                       else if (rawCode === 'SAKIT') displayCode = 'SK';
 
                       return (
-                        <td key={day} className="p-0.5 text-center border-r border-slate-850">
+                        <td key={day} className={`p-0.5 text-center border-r border-slate-850 ${isToday ? 'bg-emerald-500/10' : ''}`}>
                           <button
                             title={`${staff.name} - ${dateStr}: ${rawCode}`}
                             onClick={() => {
@@ -195,23 +218,13 @@ export default function RosterGrid({
           <FiSearch className="absolute left-3 top-3 text-slate-500 w-3.5 h-3.5" />
         </div>
 
-        <div className="flex flex-wrap gap-1 sm:gap-2 text-[10px] sm:text-xs text-slate-400">
-          <span className="flex items-center gap-1 px-1.5 py-0.5 sm:px-2.5 sm:py-1 bg-amber-500/10 border border-amber-500/20 text-amber-500 rounded">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span> <span className="hidden sm:inline">{i18n.legendMorning}</span><span className="sm:hidden">P</span>
-          </span>
-          <span className="flex items-center gap-1 px-1.5 py-0.5 sm:px-2.5 sm:py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 rounded">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> <span className="hidden sm:inline">{i18n.legendAfternoon}</span><span className="sm:hidden">S</span>
-          </span>
-          <span className="flex items-center gap-1 px-1.5 py-0.5 sm:px-2.5 sm:py-1 bg-indigo-500/10 border border-indigo-500/20 text-indigo-500 rounded">
-            <span className="w-1.5 h-1.5 rounded-full bg-indigo-500"></span> <span className="hidden sm:inline">{i18n.legendNight}</span><span className="sm:hidden">M</span>
-          </span>
-          <span className="flex items-center gap-1 px-1.5 py-0.5 sm:px-2.5 sm:py-1 bg-rose-500/10 border border-rose-500/20 text-rose-500 rounded">
-            <span className="w-1.5 h-1.5 rounded-full bg-rose-500"></span> <span className="hidden sm:inline">{i18n.legendLongDay}</span><span className="sm:hidden">PS</span>
-          </span>
-          <span className="flex items-center gap-1 px-1.5 py-0.5 sm:px-2.5 sm:py-1 bg-red-500/10 border border-red-500/20 text-red-500 rounded animate-pulse">
-            <span className="w-1.5 h-1.5 rounded-full bg-red-500"></span> <span className="hidden sm:inline">{i18n.legendGap}</span><span className="sm:hidden">GAP</span>
-          </span>
-        </div>
+        <button
+          onClick={() => setShowShiftCodeModal(true)}
+          className="py-1.5 px-3 bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-emerald-400 border border-slate-700 hover:border-slate-600 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-sm group whitespace-nowrap self-start sm:self-auto"
+        >
+          <FiInfo className="w-3.5 h-3.5 text-emerald-400 group-hover:scale-110 transition-transform" />
+          <span>Kode Shift</span>
+        </button>
       </div>
 
       {/* Top Row Section: Management / Manager Teknik */}
@@ -228,6 +241,11 @@ export default function RosterGrid({
         const staffInSubGroup = essStaff.filter(s => s.sub_group === subGroup);
         return renderSection(`${i18n.sectionESSGroup} - ${subGroup}`, staffInSubGroup, subGroup);
       })}
+
+      {/* Interactive Shift Code Reference Modal */}
+      {showShiftCodeModal && (
+        <ShiftCodeModal onClose={() => setShowShiftCodeModal(false)} />
+      )}
     </div>
   );
 }

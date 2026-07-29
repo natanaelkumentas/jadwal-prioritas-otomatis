@@ -214,7 +214,24 @@ All significant project changes, updates, and releases are logged below.
   - In `src/components/ToastProvider.tsx`, made toast notification container responsive (`top-3 left-3 right-3 sm:left-auto sm:right-4`) for small phone screens.
   - In `src/components/DashboardContainer.tsx`, optimized metric card titles with responsive mobile labels (`Personel`, `Gap Shift`, `Status DB`) preventing text clipping on narrow viewports.
 
+## [0.11.0] - 2026-07-29 07:22:00 UTC+8
+### Added
+- **Today's Date Column Highlighting**:
+  - In `src/components/RosterGrid.tsx`, added dynamic check for today's date (`day === todayDay && currentMonth === todayMonth && currentYear === todayYear`).
+  - Highlighting today's header column with glowing emerald styling (`bg-emerald-500/25 text-emerald-300 font-bold border-b-2 border-emerald-400`).
+  - Added subtle column tint (`bg-emerald-500/10`) to shift cells for today's date for visual alignment.
+- **Interactive "Kode Shift" Reference Modal**:
+  - Created `src/components/ShiftCodeModal.tsx` component detailing all 12 shift codes (`P`, `S`, `M`, `PS`, `OH`, `D`, `L`, `Y`, `CUTI`, `DINAS LUAR`, `DIKLAT`, `SAKIT`, `GAP`), exact working hours for CNS vs ESS units, descriptions, and color badges.
+  - In `src/components/RosterGrid.tsx`, replaced static header legend items with an interactive **"Kode Shift"** button opening the pop-up modal.
+- **"Bulan Ini" Quick Jump Button**:
+  - In `src/components/MonthSelector.tsx`, added a **"Bulan Ini"** quick navigation button when viewing non-current months, allowing users to return to today's schedule in one tap.
 
+### Fixed
+- **Personnel CRUD System Fixes**:
+  - In `src/app/actions/personnel.ts`, updated `assignManager(staffId)` to automatically recalculate and update shift records for both promoted Manager Teknik (`D`/`L` pattern) and demoted managers (`Grup 1` rotation pattern).
+  - In `src/components/PersonnelManagementModal.tsx`, added smart next-ID auto-suggestion based on group selection (`T-0XX` for CNS, `E-0XX` for ESS).
+  - Fixed group switch handling to reset subgroups and filter rating checkboxes strictly by `group` (`r.group === formGroup`).
+  - Fixed toast copy in personnel update actions (`Berhasil memperbarui data personel...`).
 
 
 
