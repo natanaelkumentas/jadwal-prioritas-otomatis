@@ -244,23 +244,22 @@ export default function PersonnelManagementModal({
     <div className="fixed inset-0 bg-slate-955/85 backdrop-blur-md z-50 flex items-center justify-center p-2 sm:p-4">
       {/* Click outside backdrop */}
       <div className="fixed inset-0" onClick={onClose} />
-
-      <div className="relative bg-slate-900 border border-slate-700 rounded-xl w-full max-w-4xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden animate-slide-in-right z-10">
-        
+      {/* Main Personnel Management Modal Dialog Card */}
+      <div className="relative bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-t-2xl sm:rounded-xl max-w-4xl w-full max-h-[85vh] shadow-2xl flex flex-col overflow-hidden z-10 animate-slide-in-right">
         {/* Header */}
-        <div className="p-4 sm:p-5 border-b border-slate-800 flex items-center justify-between bg-slate-950/80">
+        <div className="p-4 sm:p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50 dark:bg-slate-950/80">
           <div>
-            <h2 className="text-base sm:text-xl font-bold text-slate-100 flex items-center gap-2">
-              <FiUsers className="w-5 h-5 text-emerald-400" />
+            <h2 className="text-base sm:text-xl font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+              <FiUsers className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
               <span>{i18n.personnelManageTitle}</span>
             </h2>
-            <p className="text-xs text-slate-400 mt-0.5 hidden sm:block">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 hidden sm:block">
               {i18n.personnelManageDesc}
             </p>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 text-slate-400 hover:text-slate-200 text-base rounded-lg bg-slate-800 border border-slate-700"
+            className="p-1.5 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 text-base rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 transition-colors"
             title="Tutup"
           >
             <FiX className="w-4 h-4" />
@@ -268,7 +267,7 @@ export default function PersonnelManagementModal({
         </div>
 
         {/* Filter Controls Bar */}
-        <div className="p-3 sm:p-4 border-b border-slate-800 bg-slate-900/60 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+        <div className="p-3 sm:p-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/60 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
           <div className="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0">
             {(['ALL', 'CNS', 'ESS', 'Management'] as const).map(tab => (
               <button
@@ -276,8 +275,8 @@ export default function PersonnelManagementModal({
                 onClick={() => setGroupFilter(tab)}
                 className={`px-3 py-1.5 text-xs font-semibold rounded-lg border transition-all whitespace-nowrap ${
                   groupFilter === tab
-                    ? 'bg-slate-200 text-slate-900 border-slate-100 font-bold'
-                    : 'bg-slate-950 text-slate-400 border-slate-800 hover:border-slate-700'
+                    ? 'bg-slate-900 dark:bg-slate-200 text-white dark:text-slate-900 border-slate-900 dark:border-slate-100 font-bold'
+                    : 'bg-slate-100 dark:bg-slate-955 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'
                 }`}
               >
                 {tab === 'ALL' ? 'Semua' : tab}
@@ -292,9 +291,9 @@ export default function PersonnelManagementModal({
                 placeholder="Cari NIP / Nama..."
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
-                className="w-full pl-8 pr-3 py-1.5 bg-slate-950 border border-slate-700 rounded-lg text-slate-200 text-xs focus:outline-none focus:border-slate-500"
+                className="w-full pl-8 pr-3 py-1.5 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-200 text-xs focus:outline-none focus:border-slate-500 shadow-xs"
               />
-              <FiSearch className="absolute left-2.5 top-2 text-slate-500 w-3.5 h-3.5" />
+              <FiSearch className="absolute left-2.5 top-2 text-slate-400 dark:text-slate-500 w-3.5 h-3.5" />
             </div>
 
             <button
@@ -452,11 +451,11 @@ export default function PersonnelManagementModal({
         </div>
 
         {/* Footer */}
-        <div className="p-3 sm:p-4 border-t border-slate-800 bg-slate-950 flex items-center justify-between text-xs text-slate-400 safe-area-bottom">
-          <span>Total: <strong className="text-slate-200">{filteredStaff.length} Personel</strong></span>
+        <div className="p-3 sm:p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 safe-area-bottom">
+          <span>Total: <strong className="text-slate-800 dark:text-slate-200">{filteredStaff.length} Personel</strong></span>
           <button
             onClick={onClose}
-            className="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg border border-slate-700 font-semibold"
+            className="px-4 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg border border-slate-200 dark:border-slate-700 font-semibold transition-colors"
           >
             Tutup
           </button>
@@ -465,19 +464,19 @@ export default function PersonnelManagementModal({
 
       {/* Add / Edit Form Dialog Modal */}
       {showFormModal && (
-        <div className="fixed inset-0 bg-slate-955/90 backdrop-blur-md z-60 flex items-center justify-center p-3">
+        <div className="fixed inset-0 bg-slate-950/50 dark:bg-slate-955/90 backdrop-blur-xs sm:backdrop-blur-md z-60 flex items-center justify-center p-3">
           <form
             onSubmit={handleFormSubmit}
-            className="bg-slate-900 border border-slate-700 rounded-xl max-w-md w-full p-5 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto"
+            className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl max-w-md w-full p-5 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto"
           >
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <h3 className="text-base font-bold text-slate-100">
+            <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
+              <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">
                 {editingStaff ? i18n.modalEditPersonnelTitle : i18n.modalAddPersonnelTitle}
               </h3>
               <button
                 type="button"
                 onClick={() => setShowFormModal(false)}
-                className="text-slate-400 hover:text-slate-200 p-1 rounded"
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 rounded"
                 title="Tutup"
               >
                 <FiX className="w-4 h-4" />
@@ -487,7 +486,7 @@ export default function PersonnelManagementModal({
             {/* ID & Name */}
             <div className="grid grid-cols-3 gap-3">
               <div>
-                <label className="text-[11px] font-semibold text-slate-400 block mb-1">
+                <label className="text-[11px] font-semibold text-slate-600 dark:text-slate-400 block mb-1">
                   ID / NIP
                 </label>
                 <input
@@ -495,13 +494,13 @@ export default function PersonnelManagementModal({
                   value={formId}
                   disabled={!!editingStaff}
                   onChange={e => setFormId(e.target.value)}
-                  className="w-full px-3 py-1.5 bg-slate-950 border border-slate-700 rounded-lg text-slate-200 font-mono text-xs focus:outline-none disabled:opacity-60"
+                  className="w-full px-3 py-1.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-200 font-mono text-xs focus:outline-none disabled:opacity-60"
                   required
                 />
               </div>
 
               <div className="col-span-2">
-                <label className="text-[11px] font-semibold text-slate-400 block mb-1">
+                <label className="text-[11px] font-semibold text-slate-600 dark:text-slate-400 block mb-1">
                   Nama Lengkap
                 </label>
                 <input
@@ -509,7 +508,7 @@ export default function PersonnelManagementModal({
                   value={formName}
                   onChange={e => setFormName(e.target.value)}
                   placeholder="e.g. SUBHAN A. SYAWIE"
-                  className="w-full px-3 py-1.5 bg-slate-950 border border-slate-700 rounded-lg text-slate-200 text-xs focus:outline-none focus:border-slate-500"
+                  className="w-full px-3 py-1.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-200 text-xs focus:outline-none focus:border-slate-500"
                   required
                 />
               </div>
@@ -518,7 +517,7 @@ export default function PersonnelManagementModal({
             {/* Group & SubGroup */}
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="text-[11px] font-semibold text-slate-400 block mb-1">
+                <label className="text-[11px] font-semibold text-slate-600 dark:text-slate-400 block mb-1">
                   Kelompok Utama
                 </label>
                 <select
@@ -534,7 +533,7 @@ export default function PersonnelManagementModal({
                     const validRatingIds = availableRatings.filter(r => r.group === grp).map(r => r.id);
                     setSelectedRatingIds(prev => prev.filter(id => validRatingIds.includes(id)));
                   }}
-                  className="w-full px-3 py-1.5 bg-slate-950 border border-slate-700 rounded-lg text-slate-200 text-xs focus:outline-none"
+                  className="w-full px-3 py-1.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-200 text-xs focus:outline-none"
                 >
                   <option value="CNS">CNS</option>
                   <option value="ESS">ESS</option>
@@ -542,13 +541,13 @@ export default function PersonnelManagementModal({
               </div>
 
               <div>
-                <label className="text-[11px] font-semibold text-slate-400 block mb-1">
+                <label className="text-[11px] font-semibold text-slate-600 dark:text-slate-400 block mb-1">
                   Sub-Grup Rotasi
                 </label>
                 <select
                   value={formSubGroup}
                   onChange={e => setFormSubGroup(e.target.value)}
-                  className="w-full px-3 py-1.5 bg-slate-950 border border-slate-700 rounded-lg text-slate-200 text-xs focus:outline-none"
+                  className="w-full px-3 py-1.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-200 text-xs focus:outline-none"
                 >
                   {getSubGroupOptions().map(opt => (
                     <option key={opt} value={opt}>{opt}</option>
@@ -559,13 +558,13 @@ export default function PersonnelManagementModal({
 
             {/* Role Level */}
             <div>
-              <label className="text-[11px] font-semibold text-slate-400 block mb-1">
+              <label className="text-[11px] font-semibold text-slate-600 dark:text-slate-400 block mb-1">
                 Tingkat Peran / Jabatan
               </label>
               <select
                 value={formRoleLevel}
                 onChange={e => setFormRoleLevel(e.target.value)}
-                className="w-full px-3 py-1.5 bg-slate-950 border border-slate-700 rounded-lg text-slate-200 text-xs focus:outline-none"
+                className="w-full px-3 py-1.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-200 text-xs focus:outline-none"
               >
                 <option value="Teknisi">Teknisi</option>
                 <option value="Senior Teknisi">Senior Teknisi</option>

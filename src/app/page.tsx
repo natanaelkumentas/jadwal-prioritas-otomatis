@@ -1,6 +1,7 @@
 import { supabaseAdmin } from '@/lib/supabase';
 import { Staff, Shift, GapEvent } from '@/lib/scheduler-engine/types';
 import DashboardContainer from '@/components/DashboardContainer';
+import ThemeToggle from '@/components/ThemeToggle';
 import { i18n } from '@/lib/i18n';
 
 export const revalidate = 0; // Disable static cache for live page refresh
@@ -10,10 +11,10 @@ export default async function Page() {
 
   if (!supabaseAdmin) {
     return (
-      <div className="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center p-6">
-        <div className="max-w-md w-full p-6 bg-slate-900 border border-slate-800 rounded-xl shadow-lg">
-          <h2 className="text-xl font-bold text-red-400 mb-2">Konfigurasi Supabase Belum Lengkap</h2>
-          <p className="text-sm text-slate-400 mb-4">
+      <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex items-center justify-center p-6">
+        <div className="max-w-md w-full p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-lg">
+          <h2 className="text-xl font-bold text-red-500 dark:text-red-400 mb-2">Konfigurasi Supabase Belum Lengkap</h2>
+          <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
             Silakan lengkapi berkas `.env` dengan `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, dan `SUPABASE_SERVICE_ROLE_KEY` untuk menjalankan aplikasi.
           </p>
         </div>
@@ -62,22 +63,25 @@ export default async function Page() {
   const initialGapEvents = (gapEventsData || []) as GapEvent[];
 
   return (
-    <main className="min-h-screen bg-slate-955 text-slate-100 px-2.5 sm:px-6 py-4 sm:py-8">
+    <main className="min-h-screen bg-slate-50 dark:bg-slate-955 text-slate-900 dark:text-slate-100 px-2.5 sm:px-6 py-4 sm:py-8 transition-colors duration-200">
       {/* Dashboard Top Header */}
-      <div className="mb-3 sm:mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-slate-800 pb-2.5 sm:pb-4 gap-1.5 sm:gap-4">
+      <div className="mb-3 sm:mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2.5 sm:pb-4 gap-1.5 sm:gap-4">
         <div className="min-w-0">
-          <h1 className="text-sm sm:text-2xl font-bold text-slate-100 tracking-tight flex flex-wrap items-center gap-1 sm:gap-2">
+          <h1 className="text-sm sm:text-2xl font-bold text-slate-900 dark:text-slate-100 tracking-tight flex flex-wrap items-center gap-1 sm:gap-2">
             <span className="sm:hidden truncate">Penjadwalan Otomatis ATS</span>
             <span className="hidden sm:inline">{i18n.appTitle}</span>
-            <span className="text-[9px] sm:text-xs bg-slate-800 border border-slate-700 text-slate-400 px-1 sm:px-1.5 py-0.5 rounded font-mono font-normal flex-shrink-0">SAPS</span>
+            <span className="text-[9px] sm:text-xs bg-slate-200 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400 px-1 sm:px-1.5 py-0.5 rounded font-mono font-normal flex-shrink-0">SAPS</span>
           </h1>
-          <p className="text-[10px] sm:text-sm text-slate-400 mt-0.5 truncate">
+          <p className="text-[10px] sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5 truncate">
             {i18n.appSubtitle}
           </p>
         </div>
-        <div className="flex items-center gap-1.5 text-[10px] sm:text-xs flex-shrink-0">
-          <span className="w-1.5 h-1.5 sm:w-2.5 sm:h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span className="text-slate-400 font-medium">Sistem Aktif</span>
+        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+          <div className="flex items-center gap-1.5 text-[10px] sm:text-xs">
+            <span className="w-1.5 h-1.5 sm:w-2.5 sm:h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span className="text-slate-600 dark:text-slate-400 font-medium">Sistem Aktif</span>
+          </div>
+          <ThemeToggle />
         </div>
       </div>
 

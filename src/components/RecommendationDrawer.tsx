@@ -110,26 +110,26 @@ export default function RecommendationDrawer({
 
   return (
     <>
-      {/* Backdrop overlay */}
+      {/* Tap-to-dismiss Backdrop Overlay */}
       <div 
-        className="fixed inset-0 bg-slate-955/70 backdrop-blur-xs z-40 transition-opacity" 
+        className="fixed inset-0 bg-slate-950/50 dark:bg-slate-955/70 backdrop-blur-xs z-40 transition-opacity" 
         onClick={onClose}
       />
 
-      <div className="fixed inset-y-0 right-0 w-full sm:w-[480px] bg-slate-900 border-l border-slate-700 shadow-2xl z-50 flex flex-col transition-transform duration-300 transform translate-x-0">
+      <div className="fixed inset-y-0 right-0 w-full sm:w-[480px] bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-700 shadow-2xl z-50 flex flex-col transition-transform duration-300 transform translate-x-0">
       {/* Header */}
-      <div className="px-5 py-4 border-b border-slate-800 flex items-center justify-between bg-slate-950/80">
+      <div className="px-5 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50 dark:bg-slate-950/80">
         <div>
-          <h3 className="text-sm sm:text-base font-semibold text-slate-100">
+          <h3 className="text-sm sm:text-base font-semibold text-slate-900 dark:text-slate-100">
             {i18n.gapDrawerTitle}
           </h3>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
             {i18n.gapDrawerSub} {shift.date} ({shift.shift_code}) — {i18n.gapDrawerReason} {gapEvent.reason}
           </p>
         </div>
         <button 
           onClick={onClose}
-          className="text-slate-400 hover:text-slate-200 p-1.5 rounded-lg hover:bg-slate-800 transition-colors"
+          className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
           title="Tutup"
         >
           <FiX className="w-4 h-4" />

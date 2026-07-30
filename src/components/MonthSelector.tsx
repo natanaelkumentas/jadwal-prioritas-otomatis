@@ -93,32 +93,32 @@ export default function MonthSelector({
   };
 
   return (
-    <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-slate-900 border border-slate-800 rounded-lg flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4 shadow-sm">
+    <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4 shadow-xs">
       {/* Month Navigation Controls */}
       <div className="flex items-center justify-between sm:justify-start gap-2 sm:gap-3">
         {/* Icon-only Prev Month button */}
         <button
           onClick={handlePrevMonth}
-          className="p-2 sm:px-3 sm:py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg border border-slate-700 transition-colors flex items-center gap-1"
+          className="p-2 sm:px-3 sm:py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg border border-slate-200 dark:border-slate-700 transition-colors flex items-center gap-1 text-xs font-semibold"
           title="Bulan Sebelumnya"
           aria-label="Bulan Sebelumnya"
         >
           <FiChevronLeft className="w-4 h-4" />
-          <span className="hidden md:inline text-xs font-semibold">Bulan Sebelumnya</span>
+          <span className="hidden md:inline">Bulan Sebelumnya</span>
         </button>
 
         {/* Clickable Month & Year Display */}
         <button
           onClick={() => setShowPickerModal(true)}
-          className="text-center sm:px-3.5 min-w-0 px-2 py-1 bg-slate-950/80 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 rounded-lg transition-all cursor-pointer group flex-1 sm:flex-initial"
+          className="text-center sm:px-3.5 min-w-0 px-2 py-1 bg-slate-50 dark:bg-slate-955 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 rounded-lg transition-all cursor-pointer group flex-1 sm:flex-initial"
           title="Klik untuk memilih bulan & tahun secara langsung"
         >
-          <span className="text-[9px] sm:text-xs text-slate-400 group-hover:text-slate-300 font-semibold uppercase tracking-wider block flex items-center justify-center gap-1">
-            <FiCalendar className="w-3 h-3 text-emerald-400" />
+          <span className="text-[9px] sm:text-xs text-slate-500 dark:text-slate-400 group-hover:text-slate-800 dark:group-hover:text-slate-300 font-semibold uppercase tracking-wider block flex items-center justify-center gap-1">
+            <FiCalendar className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
             <span className="hidden sm:inline">{i18n.monthSelectLabel}</span>
             <FiChevronDown className="w-3 h-3" />
           </span>
-          <span className="text-sm sm:text-lg font-bold text-slate-100 group-hover:text-emerald-400 transition-colors whitespace-nowrap">
+          <span className="text-sm sm:text-lg font-bold text-slate-800 dark:text-slate-100 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors whitespace-nowrap">
             {MONTH_NAMES_ID[currentMonth - 1]} {currentYear}
           </span>
         </button>
@@ -126,11 +126,11 @@ export default function MonthSelector({
         {/* Icon-only Next Month button */}
         <button
           onClick={handleNextMonth}
-          className="p-2 sm:px-3 sm:py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg border border-slate-700 transition-colors flex items-center gap-1"
+          className="p-2 sm:px-3 sm:py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg border border-slate-200 dark:border-slate-700 transition-colors flex items-center gap-1 text-xs font-semibold"
           title="Bulan Berikutnya"
           aria-label="Bulan Berikutnya"
         >
-          <span className="hidden md:inline text-xs font-semibold">Bulan Berikutnya</span>
+          <span className="hidden md:inline">Bulan Berikutnya</span>
           <FiChevronRight className="w-4 h-4" />
         </button>
 
@@ -138,7 +138,7 @@ export default function MonthSelector({
         {!isCurrentMonthNow() && (
           <button
             onClick={handleTodayMonth}
-            className="px-2.5 py-1.5 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 rounded-lg text-xs font-bold transition-all flex items-center gap-1"
+            className="px-2.5 py-1.5 bg-emerald-50 dark:bg-emerald-500/10 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 border border-emerald-300 dark:border-emerald-500/30 rounded-lg text-xs font-bold transition-all flex items-center gap-1"
             title="Kembali ke Bulan Ini"
           >
             <span>Bulan Ini</span>
@@ -149,7 +149,7 @@ export default function MonthSelector({
       {/* Auto-Generate Button */}
       <button
         onClick={() => setShowModal(true)}
-        className="py-2 px-3 sm:px-4 bg-slate-200 hover:bg-slate-100 text-slate-900 text-xs font-bold rounded-lg transition-colors flex items-center justify-center gap-1.5 shadow-sm"
+        className="py-2 px-3 sm:px-4 bg-slate-900 dark:bg-slate-200 hover:bg-slate-800 dark:hover:bg-slate-100 text-white dark:text-slate-900 text-xs font-bold rounded-lg transition-colors flex items-center justify-center gap-1.5 shadow-xs"
       >
         <FiPlus className="w-4 h-4" />
         <span>Buat Jadwal</span>

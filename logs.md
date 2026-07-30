@@ -233,7 +233,12 @@ All significant project changes, updates, and releases are logged below.
   - Fixed group switch handling to reset subgroups and filter rating checkboxes strictly by `group` (`r.group === formGroup`).
   - Fixed toast copy in personnel update actions (`Berhasil memperbarui data personel...`).
 
-
+## [0.12.0] - 2026-07-30 09:45:00 UTC+8
+### Added
+- **Default Light Theme Support & Theme Switcher**:
+  - Created `src/components/ThemeProvider.tsx` context provider defaulting application to a clean, crisp **Light Theme** (`bg-slate-50`, white card containers, dark slate typography, clean light borders) with `localStorage` persistence (`saps-theme`).
+  - Created `src/components/ThemeToggle.tsx` featuring a Sun/Moon interactive theme switcher button placed in the top dashboard header.
+  - Refactored `src/app/page.tsx`, `DashboardContainer.tsx`, `MonthSelector.tsx`, `RosterGrid.tsx`, `ShiftCodeModal.tsx`, `RecommendationDrawer.tsx`, `ShiftEditDrawer.tsx`, `PersonnelManagementModal.tsx`, and `MonthYearPickerModal.tsx` to support both **Light** and **Dark** themes seamlessly.
 
 
 

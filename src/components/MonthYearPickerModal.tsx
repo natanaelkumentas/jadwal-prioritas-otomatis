@@ -33,22 +33,22 @@ export default function MonthYearPickerModal({
   };
 
   return (
-    <div className="fixed inset-0 bg-slate-955/80 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
-      {/* Click outside to close backdrop */}
+    <div className="fixed inset-0 bg-slate-950/50 dark:bg-slate-955/80 backdrop-blur-xs sm:backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+      {/* Backdrop tap to close */}
       <div className="fixed inset-0" onClick={onClose} />
-      
-      <div className="relative bg-slate-900 border border-slate-700 rounded-t-2xl sm:rounded-xl max-w-md w-full p-5 sm:p-6 shadow-2xl space-y-4 sm:space-y-5 animate-slide-in-right z-10 safe-area-bottom">
+
+      <div className="relative bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-t-2xl sm:rounded-xl max-w-md w-full p-5 sm:p-6 shadow-2xl space-y-4 sm:space-y-5 animate-slide-in-right z-10 safe-area-bottom">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
           <div className="flex items-center gap-2">
-            <FiCalendar className="w-5 h-5 text-emerald-400" />
-            <h3 className="text-base font-bold text-slate-100">
+            <FiCalendar className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+            <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">
               Pilih Bulan & Tahun Jadwal
             </h3>
           </div>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-200 p-1 rounded"
+            className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 rounded"
             title="Tutup"
           >
             <FiX className="w-4 h-4" />
@@ -57,7 +57,7 @@ export default function MonthYearPickerModal({
 
         {/* Year Selection Section */}
         <div>
-          <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-2">
+          <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-2">
             1. Pilih Tahun
           </label>
           <div className="grid grid-cols-4 gap-2">
@@ -67,8 +67,8 @@ export default function MonthYearPickerModal({
                 onClick={() => setSelectedYear(y)}
                 className={`py-2 text-xs font-bold rounded-lg border transition-all ${
                   selectedYear === y
-                    ? 'bg-slate-200 text-slate-900 border-slate-100 shadow-md scale-105'
-                    : 'bg-slate-950 text-slate-300 border-slate-800 hover:border-slate-700'
+                    ? 'bg-slate-900 dark:bg-slate-200 text-white dark:text-slate-900 border-slate-900 dark:border-slate-100 shadow-xs scale-105'
+                    : 'bg-slate-50 dark:bg-slate-950 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'
                 }`}
               >
                 {y}
@@ -79,7 +79,7 @@ export default function MonthYearPickerModal({
 
         {/* Month Selection Section */}
         <div>
-          <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-2">
+          <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-2">
             2. Pilih Bulan
           </label>
           <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
@@ -92,8 +92,8 @@ export default function MonthYearPickerModal({
                   onClick={() => setSelectedMonth(monthNum)}
                   className={`py-2 px-1 text-xs font-semibold rounded-lg border transition-all text-center ${
                     isSelected
-                      ? 'bg-emerald-500 text-slate-950 border-emerald-400 font-bold shadow-md scale-105'
-                      : 'bg-slate-950 text-slate-300 border-slate-800 hover:border-slate-700'
+                      ? 'bg-emerald-600 dark:bg-emerald-500 text-white dark:text-slate-950 border-emerald-500 dark:border-emerald-400 font-bold shadow-xs scale-105'
+                      : 'bg-slate-50 dark:bg-slate-950 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'
                   }`}
                 >
                   {name}
@@ -104,9 +104,9 @@ export default function MonthYearPickerModal({
         </div>
 
         {/* Preview Selected */}
-        <div className="p-3 bg-slate-950 border border-slate-800 rounded-lg text-xs text-slate-400 flex items-center justify-between">
+        <div className="p-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg text-xs text-slate-500 dark:text-slate-400 flex items-center justify-between">
           <span>Target Terpilih:</span>
-          <strong className="text-slate-100 text-sm">
+          <strong className="text-slate-900 dark:text-slate-100 text-sm">
             {MONTH_NAMES_ID[selectedMonth - 1]} {selectedYear}
           </strong>
         </div>
