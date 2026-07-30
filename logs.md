@@ -299,3 +299,9 @@ All significant project changes, updates, and releases are logged below.
   - Created `src/components/SkeletonOverlay.tsx` reusable absolute skeleton shimmer overlay component (`absolute inset-0 bg-slate-200/80 dark:bg-slate-800/80 backdrop-blur-[2px] animate-pulse`).
   - Connected `ThemeProvider.tsx` state so clicking the theme toggle triggers a 320ms skeleton shimmer overlay directly over stat cards, month navigation, and schedule table cells.
   - Guaranteed 0px layout shifts while presenting the user with an animated skeleton loading transition.
+
+## [0.13.4] - 2026-07-30 12:03:00 UTC+8
+### Improved
+- **High-Visibility Prominent Skeleton Overlay & Extended 800ms Duration**:
+  - Upgraded `SkeletonOverlay.tsx` with high-contrast shimmer bars, solid backdrop (`bg-slate-100/90 dark:bg-slate-900/90`), and a spinning theme loader badge ("Memuat Tema...").
+  - Extended transition duration in `ThemeProvider.tsx` from 320ms to 800ms so the animated skeleton shimmer layer is 100% clearly visible to the user every time the theme is toggled.
