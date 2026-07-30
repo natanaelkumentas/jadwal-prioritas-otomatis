@@ -261,3 +261,9 @@ All significant project changes, updates, and releases are logged below.
   - In `src/components/MonthSelector.tsx`, fixed Month/Year center button (`Juli 2026`) text readability in Dark Mode (`bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-white`).
   - In `src/components/DashboardContainer.tsx`, enhanced stat card titles (`text-slate-700 dark:text-slate-300 font-bold`) and numbers (`text-slate-900 dark:text-white font-extrabold`).
   - In `src/components/RosterGrid.tsx`, updated shift badges (`P`, `S`, `M`, `PS`, `OH`, `D`, `L`, `CT`) to render with high-contrast text and border definition in both Light and Dark themes.
+
+## [0.12.4] - 2026-07-30 10:23:00 UTC+8
+### Fixed
+- **Blocking Head Script Theme Initialization & Hydration Fix**:
+  - In `src/app/layout.tsx`, added `suppressHydrationWarning` to `<html>` and injected an inline blocking theme script in `<head>` to execute `localStorage` theme reading before initial paint and React hydration.
+  - In `src/components/ThemeProvider.tsx`, updated state synchronization to immediately apply DOM class changes synchronously on toggle.

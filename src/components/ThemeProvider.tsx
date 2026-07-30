@@ -27,35 +27,38 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
     // Read saved theme from localStorage, default to 'light'
     const savedTheme = localStorage.getItem('saps-theme') as Theme | null;
     const initialTheme = (savedTheme === 'dark' || savedTheme === 'light') ? savedTheme : 'light';
-    
     setThemeState(initialTheme);
-    const root = document.documentElement;
-    if (initialTheme === 'dark') {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
     setMounted(true);
   }, []);
 
-  useEffect(() => {
-    if (!mounted) return;
+  const updateTheme = useCallback((newTheme: Theme) => {
+    setThemeState(newTheme);
     const root = document.documentElement;
-    if (theme === 'dark') {
+    if (newTheme === 'dark') {
       root.classList.add('dark');
     } else {
       root.classList.remove('dark');
     }
-    localStorage.setItem('saps-theme', theme);
-  }, [theme, mounted]);
+    localStorage.setItem('saps-theme', newTheme);
+  }, []);
 
   const toggleTheme = useCallback(() => {
-    setThemeState(prev => (prev === 'light' ? 'dark' : 'light'));
+    setThemeState(prev => {
+      const nextTheme = prev === 'light' ? 'dark' : 'light';
+      const root = document.documentElement;
+      if (nextTheme === 'dark') {
+        root.classList.add('dark');
+      } else {
+        root.classList.remove('dark');
+      }
+      localStorage.setItem('saps-theme', nextTheme);
+      return nextTheme;
+    });
   }, []);
 
   const setTheme = useCallback((newTheme: Theme) => {
-    setThemeState(newTheme);
-  }, []);
+    updateTheme(newTheme);
+  }, [updateTheme]);
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme, setTheme }}>
