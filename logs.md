@@ -305,3 +305,11 @@ All significant project changes, updates, and releases are logged below.
 - **High-Visibility Prominent Skeleton Overlay & Extended 800ms Duration**:
   - Upgraded `SkeletonOverlay.tsx` with high-contrast shimmer bars, solid backdrop (`bg-slate-100/90 dark:bg-slate-900/90`), and a spinning theme loader badge ("Memuat Tema...").
   - Extended transition duration in `ThemeProvider.tsx` from 320ms to 800ms so the animated skeleton shimmer layer is 100% clearly visible to the user every time the theme is toggled.
+
+## [0.14.0] - 2026-07-30 12:22:00 UTC+8
+### Added
+- **Cancel Cuti / Leave Override Feature (Switch to Shift Edit from Gap Drawer)**:
+  - In `src/components/RecommendationDrawer.tsx`, added optional `onSwitchToEdit` callback prop and a prominent amber-themed "Batalkan Cuti & Ubah Ke Shift Kerja" button section above the footer. When clicked, closes the RecommendationDrawer and opens the ShiftEditDrawer so users can reassign a regular shift code to personnel whose cuti/leave was set incorrectly.
+  - In `src/components/DashboardContainer.tsx`, added `handleSwitchToEditFromGap()` handler that resolves the staff from the active gap selection and switches drawers seamlessly.
+  - In `src/lib/i18n.ts`, added `btnCancelLeaveOverride` and `cancelLeaveOverrideDesc` Bahasa Indonesia translation keys.
+  - The existing `updateShiftCode` server action already auto-resolves any pending gap event for the shift, so changing CUTI back to a working shift (P/S/M/etc.) automatically clears the gap.

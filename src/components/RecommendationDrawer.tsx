@@ -5,20 +5,22 @@ import { Staff, Shift, GapEvent, CandidateRecommendation } from '@/lib/scheduler
 import { assignReplacement } from '@/app/actions/scheduler';
 import { i18n } from '@/lib/i18n';
 import { useToast } from '@/components/ToastProvider';
-import { FiStar, FiAlertTriangle, FiRefreshCw, FiX, FiCheck } from 'react-icons/fi';
+import { FiStar, FiAlertTriangle, FiRefreshCw, FiX, FiCheck, FiEdit3 } from 'react-icons/fi';
 
 interface RecommendationDrawerProps {
   gapEvent: GapEvent;
   shift: Shift;
   onClose: () => void;
   onAssignSuccess: () => void;
+  onSwitchToEdit?: () => void;
 }
 
 export default function RecommendationDrawer({
   gapEvent,
   shift,
   onClose,
-  onAssignSuccess
+  onAssignSuccess,
+  onSwitchToEdit
 }: RecommendationDrawerProps) {
   const [candidates, setCandidates] = useState<CandidateRecommendation[]>([]);
   const [loading, setLoading] = useState(true);
@@ -95,12 +97,12 @@ export default function RecommendationDrawer({
     return (
       <div className="mb-2">
         <div className="flex justify-between text-[11px] mb-1">
-          <span className="text-slate-400">{label}</span>
-          <span className="text-slate-300 font-semibold">{value.toFixed(3)}</span>
+          <span className="text-slate-600 dark:text-slate-400">{label}</span>
+          <span className="text-slate-700 dark:text-slate-300 font-semibold">{value.toFixed(3)}</span>
         </div>
-        <div className="w-full bg-slate-800 rounded-full h-1.5">
+        <div className="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-1.5">
           <div 
-            className="bg-slate-400 h-1.5 rounded-full transition-all duration-300" 
+            className="bg-emerald-500 dark:bg-slate-400 h-1.5 rounded-full transition-all duration-300" 
             style={{ width: `${percentage}%` }}
           ></div>
         </div>
@@ -160,7 +162,7 @@ export default function RecommendationDrawer({
           </div>
         ) : (
           <div>
-            <h4 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">
+            <h4 className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">
               {i18n.gapCandidatesTitle}
             </h4>
             
@@ -171,8 +173,8 @@ export default function RecommendationDrawer({
                   key={c.staff_id}
                   className={`flex flex-col p-3 border rounded-lg cursor-pointer transition-all ${
                     selectedStaffId === c.staff_id
-                      ? 'border-slate-400 bg-slate-800/30'
-                      : 'border-slate-800 bg-slate-900 hover:bg-slate-800/10'
+                      ? 'border-emerald-500 dark:border-slate-400 bg-emerald-50 dark:bg-slate-800/30'
+                      : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800/10'
                   }`}
                 >
                   <div className="flex items-center justify-between">
@@ -186,15 +188,15 @@ export default function RecommendationDrawer({
                           setSelectedStaffId(c.staff_id);
                           if (c.rank === 1) setJustification('');
                         }}
-                        className="text-slate-400 focus:ring-0 focus:ring-offset-0 bg-slate-900 border-slate-700"
+                        className="text-emerald-600 dark:text-slate-400 focus:ring-0 focus:ring-offset-0 bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-700"
                       />
                       <div className="flex flex-col">
-                        <span className="font-semibold text-slate-200 text-xs sm:text-sm">
+                        <span className="font-semibold text-slate-900 dark:text-slate-200 text-xs sm:text-sm">
                           {c.name}
                         </span>
                         <div className="flex flex-wrap gap-1 mt-0.5">
                           {c.rank === 1 && (
-                            <span className="text-[9px] sm:text-[10px] bg-slate-800 text-slate-400 font-bold px-1.5 py-0.5 rounded">
+                            <span className="text-[9px] sm:text-[10px] bg-emerald-100 dark:bg-slate-800 text-emerald-700 dark:text-slate-400 font-bold px-1.5 py-0.5 rounded">
                               {i18n.gapBadgeRecommended}
                             </span>
                           )}
@@ -210,7 +212,7 @@ export default function RecommendationDrawer({
                       </div>
                     </div>
                     <div className="text-right">
-                      <span className="text-xs sm:text-sm font-bold text-slate-100">
+                      <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-slate-100">
                         {c.score.toFixed(3)}
                       </span>
                       <span className="text-[10px] text-slate-500 block">
@@ -221,8 +223,8 @@ export default function RecommendationDrawer({
 
                   {/* Expand score breakdown for selected candidate */}
                   {selectedStaffId === c.staff_id && (
-                    <div className="mt-3 pt-3 border-t border-slate-800">
-                      <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mb-2">
+                    <div className="mt-3 pt-3 border-t border-slate-200 dark:border-slate-800">
+                      <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-2">
                         {i18n.gapScoreBreakdownTitle}
                       </span>
                       {renderScoreBar(i18n.gapFactorRating, c.breakdown.ratingCoverage, 0.35)}
@@ -239,10 +241,10 @@ export default function RecommendationDrawer({
             {/* Justification Text Area if Override */}
             {isOverride && (
               <div className="mb-6 p-3.5 bg-amber-500/5 border border-amber-500/20 rounded-lg">
-                <label className="block text-xs font-semibold text-amber-400 mb-1">
+                <label className="block text-xs font-semibold text-amber-600 dark:text-amber-400 mb-1">
                   {i18n.gapJustificationLabel} *
                 </label>
-                <p className="text-[11px] text-slate-400 mb-2 leading-relaxed">
+                <p className="text-[11px] text-slate-600 dark:text-slate-400 mb-2 leading-relaxed">
                   Sistem merekomendasikan {candidates[0]?.name}. Sesuai aturan audit, silakan masukkan alasan operasional jika Anda memilih {selectedCandidate?.name}.
                 </p>
                 <textarea
@@ -250,7 +252,7 @@ export default function RecommendationDrawer({
                   value={justification}
                   onChange={(e) => setJustification(e.target.value)}
                   placeholder={i18n.gapJustificationPlaceholder}
-                  className="w-full p-2 bg-slate-950 border border-slate-700 rounded text-slate-200 text-xs focus:outline-none focus:border-slate-500"
+                  className="w-full p-2 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded text-slate-900 dark:text-slate-200 text-xs focus:outline-none focus:border-emerald-500 dark:focus:border-slate-500"
                 />
                 {justificationError && (
                   <span className="text-[11px] text-red-400 mt-1 block">
@@ -264,7 +266,7 @@ export default function RecommendationDrawer({
             <button
               onClick={handleAssign}
               disabled={isSubmitting || !selectedStaffId}
-              className="w-full py-2.5 bg-slate-200 hover:bg-slate-100 disabled:opacity-50 text-slate-900 font-bold rounded-lg text-xs sm:text-sm transition-colors shadow-sm"
+              className="w-full py-2.5 bg-slate-900 dark:bg-slate-200 hover:bg-slate-800 dark:hover:bg-slate-100 disabled:opacity-50 text-white dark:text-slate-900 font-bold rounded-lg text-xs sm:text-sm transition-colors shadow-sm"
             >
               {isSubmitting ? 'Memproses Penugasan...' : i18n.btnConfirmAssignment}
             </button>
@@ -272,11 +274,27 @@ export default function RecommendationDrawer({
         )}
       </div>
 
+      {/* Cancel Leave Override Section */}
+      {onSwitchToEdit && (
+        <div className="px-4 pt-3 pb-1 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/60">
+          <p className="text-[11px] text-slate-500 dark:text-slate-400 mb-2 leading-relaxed">
+            {i18n.cancelLeaveOverrideDesc}
+          </p>
+          <button
+            onClick={onSwitchToEdit}
+            className="w-full py-2 bg-amber-50 dark:bg-amber-500/10 border border-amber-300 dark:border-amber-500/30 text-amber-700 dark:text-amber-400 hover:bg-amber-100 dark:hover:bg-amber-500/20 text-xs sm:text-sm font-semibold rounded-lg transition-colors flex items-center justify-center gap-2"
+          >
+            <FiEdit3 className="w-3.5 h-3.5" />
+            {i18n.btnCancelLeaveOverride}
+          </button>
+        </div>
+      )}
+
       {/* Footer Close Button */}
-      <div className="p-4 border-t border-slate-800 bg-slate-950/80 safe-area-bottom">
+      <div className="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/80 safe-area-bottom">
         <button
           onClick={onClose}
-          className="w-full py-2 border border-slate-750 text-slate-400 hover:text-slate-200 text-xs sm:text-sm font-semibold rounded-lg transition-colors"
+          className="w-full py-2 border border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 text-xs sm:text-sm font-semibold rounded-lg transition-colors"
         >
           {i18n.btnCloseDrawer}
         </button>

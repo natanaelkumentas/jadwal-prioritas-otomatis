@@ -66,6 +66,8 @@ export const i18n = {
   gapJustificationPlaceholder: 'Wajib diisi jika Anda memilih kandidat selain urutan #1...',
   gapJustificationRequiredError: 'Wajib memasukkan alasan justifikasi jika memilih kandidat di luar rekomendasi #1.',
   btnConfirmAssignment: 'Setujui & Tugaskan Pengganti',
+  btnCancelLeaveOverride: 'Batalkan Cuti & Ubah Ke Shift Kerja',
+  cancelLeaveOverrideDesc: 'Jika cuti/izin ditetapkan secara keliru, Anda dapat membatalkannya dan menetapkan shift kerja kembali kepada personel ini.',
 
   // Shift Edit Drawer (ShiftEditDrawer)
   editDrawerTitle: 'Ubah Kode Shift Personel',

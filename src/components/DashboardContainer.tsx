@@ -168,6 +168,18 @@ export default function DashboardContainer({
     fetchMonthShifts(currentYear, currentMonth);
   };
 
+  // Switch from RecommendationDrawer (gap resolution) to ShiftEditDrawer (shift code edit)
+  // Used when a leave/cuti was incorrectly assigned and needs to be changed back to a shift
+  const handleSwitchToEditFromGap = () => {
+    if (!activeSelection) return;
+    const { shift } = activeSelection;
+    const staffForShift = staffList.find(s => s.id === shift.staff_id);
+    if (staffForShift) {
+      setActiveSelection(null);
+      setActiveEditSelection({ shift, staff: staffForShift });
+    }
+  };
+
   // Compute stats
   const activeGapsCount = gapEvents.filter(g => g.status === 'Pending').length;
   const daysInMonthCount = new Date(currentYear, currentMonth, 0).getDate();
@@ -284,6 +296,7 @@ export default function DashboardContainer({
           shift={activeSelection.shift}
           onClose={handleCloseDrawer}
           onAssignSuccess={handleAssignSuccess}
+          onSwitchToEdit={handleSwitchToEditFromGap}
         />
       )}
 
