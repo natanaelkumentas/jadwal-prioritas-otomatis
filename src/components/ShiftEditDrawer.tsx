@@ -243,12 +243,12 @@ export default function ShiftEditDrawer({
     return (
       <div className="mb-2 text-left">
         <div className="flex justify-between text-[11px] mb-0.5">
-          <span className="text-slate-400">{label}</span>
-          <span className="text-slate-300 font-semibold">{value.toFixed(3)}</span>
+          <span className="text-slate-600 dark:text-slate-400">{label}</span>
+          <span className="text-slate-700 dark:text-slate-300 font-semibold">{value.toFixed(3)}</span>
         </div>
-        <div className="w-full bg-slate-800 rounded-full h-1">
+        <div className="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-1">
           <div 
-            className="bg-slate-400 h-1 rounded-full" 
+            className="bg-emerald-500 dark:bg-slate-400 h-1 rounded-full" 
             style={{ width: `${percentage}%` }}
           ></div>
         </div>
@@ -291,13 +291,13 @@ export default function ShiftEditDrawer({
       <div className="flex-1 overflow-y-auto p-4 sm:p-5 text-xs sm:text-sm">
         {/* Dropdown Shift Code Selection */}
         <div className="mb-5">
-          <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
+          <label className="block text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-2">
             {i18n.editSelectCodeLabel}
           </label>
           <select
             value={selectedCode}
             onChange={(e) => setSelectedCode(e.target.value)}
-            className="w-full p-2.5 bg-slate-950 border border-slate-700 rounded-lg text-slate-200 focus:outline-none focus:border-slate-500 text-xs sm:text-sm"
+            className="w-full p-2.5 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-200 focus:outline-none focus:border-emerald-500 dark:focus:border-slate-500 text-xs sm:text-sm"
           >
             {shiftOptions.map(code => (
               <option key={code} value={code}>
@@ -314,11 +314,11 @@ export default function ShiftEditDrawer({
               ℹ️ <strong>{i18n.vacatingShiftAlertTitle}</strong> Mengubah <strong>{staff.name}</strong> menjadi <strong>{selectedCode}</strong> mengosongkan shift kerja <strong>{shift.shift_code}</strong> pada tanggal {shift.date}.
             </div>
 
-            <div className="p-3 bg-slate-950/40 border border-slate-800 rounded-lg space-y-3">
-              <h4 className="font-semibold text-slate-200 text-xs uppercase tracking-wider">
+            <div className="p-3 bg-slate-50 dark:bg-slate-950/40 border border-slate-200 dark:border-slate-800 rounded-lg space-y-3">
+              <h4 className="font-semibold text-slate-900 dark:text-slate-200 text-xs uppercase tracking-wider">
                 {i18n.vacatedRecsTitle} ({shift.shift_code})
               </h4>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-600 dark:text-slate-400">
                 Pilih kandidat layak untuk menggantikan shift <strong>{shift.shift_code}</strong> yang ditinggalkan oleh {staff.name}:
               </p>
 
@@ -342,15 +342,15 @@ export default function ShiftEditDrawer({
                       onClick={() => setSelectedVacatedStaffId(r.staff_id)}
                       className={`flex flex-col p-2.5 border rounded cursor-pointer text-xs transition-all ${
                         selectedVacatedStaffId === r.staff_id
-                          ? 'border-slate-400 bg-slate-800/40'
-                          : 'border-slate-800 bg-slate-900/40 hover:bg-slate-800/20'
+                          ? 'border-emerald-500 dark:border-slate-400 bg-emerald-50 dark:bg-slate-800/40'
+                          : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/40 hover:bg-slate-50 dark:hover:bg-slate-800/20'
                       }`}
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex flex-col">
-                          <span className="font-semibold text-slate-300">{r.name}</span>
+                          <span className="font-semibold text-slate-900 dark:text-slate-300">{r.name}</span>
                           {r.is_fallback && (
-                            <span className="text-[9px] bg-amber-500/10 border border-amber-500/30 text-amber-400 font-bold px-1 py-0.5 rounded mt-0.5 w-max">
+                            <span className="text-[9px] bg-amber-500/10 border border-amber-500/30 text-amber-600 dark:text-amber-400 font-bold px-1 py-0.5 rounded mt-0.5 w-max">
                               {r.fallback_reason === 'Same Subgroup Member' ? i18n.fallbackBadgeSameGroup
                                 : r.fallback_reason === 'Darurat Tanpa Rating' ? i18n.fallbackBadgeNoRating
                                 : r.fallback_reason === 'Darurat Semua Terisi' ? i18n.fallbackBadgeAllBusy
@@ -358,10 +358,10 @@ export default function ShiftEditDrawer({
                             </span>
                           )}
                         </div>
-                        <span className="font-bold text-slate-200">{r.score.toFixed(3)}</span>
+                        <span className="font-bold text-slate-900 dark:text-slate-200">{r.score.toFixed(3)}</span>
                       </div>
                       {selectedVacatedStaffId === r.staff_id && (
-                        <div className="mt-2 pt-2 border-t border-slate-800">
+                        <div className="mt-2 pt-2 border-t border-slate-200 dark:border-slate-800">
                           {renderScoreBar(i18n.gapFactorWorkload, r.breakdown.workloadBalance, 0.25)}
                           {renderScoreBar(i18n.gapFactorFatigue, r.breakdown.fatigueMargin, 0.20)}
                         </div>
@@ -371,11 +371,11 @@ export default function ShiftEditDrawer({
                 </div>
               )}
 
-              <div className="pt-2 space-y-2 border-t border-slate-800">
+              <div className="pt-2 space-y-2 border-t border-slate-200 dark:border-slate-800">
                 <button
                   onClick={() => handleAssignLeave(true)}
                   disabled={isSubmitting || !selectedVacatedStaffId || vacatedRecs.length === 0}
-                  className="w-full py-2.5 bg-slate-200 hover:bg-slate-100 disabled:opacity-50 text-slate-900 font-bold rounded-lg text-xs transition-colors"
+                  className="w-full py-2.5 bg-slate-900 dark:bg-slate-200 hover:bg-slate-800 dark:hover:bg-slate-100 disabled:opacity-50 text-white dark:text-slate-900 font-bold rounded-lg text-xs transition-colors shadow-xs"
                 >
                   {isSubmitting ? 'Memproses...' : i18n.btnConfirmLeaveWithReplacement}
                 </button>
@@ -383,7 +383,7 @@ export default function ShiftEditDrawer({
                 <button
                   onClick={() => handleAssignLeave(false)}
                   disabled={isSubmitting}
-                  className="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold rounded-lg text-xs border border-slate-700 transition-colors"
+                  className="w-full py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold rounded-lg text-xs border border-slate-300 dark:border-slate-700 transition-colors"
                 >
                   {i18n.btnConfirmLeaveOnly}
                 </button>
@@ -400,24 +400,24 @@ export default function ShiftEditDrawer({
             {/* Actions for conflict */}
             <div className="space-y-3">
               {/* Option A: Swap */}
-              <div className="p-3 bg-slate-950/40 border border-slate-800 rounded-lg">
-                <h4 className="font-semibold text-slate-200 mb-1 text-xs uppercase">{i18n.optionSwapTitle}</h4>
-                <p className="text-xs text-slate-400 mb-3">
+              <div className="p-3 bg-slate-50 dark:bg-slate-950/40 border border-slate-200 dark:border-slate-800 rounded-lg">
+                <h4 className="font-semibold text-slate-900 dark:text-slate-200 mb-1 text-xs uppercase">{i18n.optionSwapTitle}</h4>
+                <p className="text-xs text-slate-600 dark:text-slate-400 mb-3">
                   Tugaskan {staff.name} ke shift {selectedCode}, dan tugaskan {conflictStaff.name} ke shift {shift.shift_code}.
                 </p>
                 <button
                   onClick={handleSwap}
                   disabled={isSubmitting}
-                  className="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold rounded-lg text-xs border border-slate-700 transition-colors"
+                  className="w-full py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-semibold rounded-lg text-xs border border-slate-300 dark:border-slate-700 transition-colors"
                 >
                   {i18n.btnConfirmSwap}
                 </button>
               </div>
 
               {/* Option B: Displace and Auto Recommend */}
-              <div className="p-3 bg-slate-950/40 border border-slate-800 rounded-lg">
-                <h4 className="font-semibold text-slate-200 mb-1 text-xs uppercase">{i18n.optionDisplaceTitle}</h4>
-                <p className="text-xs text-slate-400 mb-3">
+              <div className="p-3 bg-slate-50 dark:bg-slate-950/40 border border-slate-200 dark:border-slate-800 rounded-lg">
+                <h4 className="font-semibold text-slate-900 dark:text-slate-200 mb-1 text-xs uppercase">{i18n.optionDisplaceTitle}</h4>
+                <p className="text-xs text-slate-600 dark:text-slate-400 mb-3">
                   Tugaskan {staff.name} ke shift {selectedCode}, dan cari teknisi lain yang tersedia untuk menggantikan {conflictStaff.name}.
                 </p>
 
@@ -436,7 +436,7 @@ export default function ShiftEditDrawer({
                   </div>
                 ) : (
                   <div className="space-y-3">
-                    <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
+                    <div className="text-[11px] font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5">
                       {i18n.displaceRecsTitle} ({conflictStaff.name}):
                     </div>
                     <div className="max-h-48 overflow-y-auto space-y-2 pr-1">
@@ -445,15 +445,15 @@ export default function ShiftEditDrawer({
                           key={r.staff_id}
                           className={`flex flex-col p-2.5 border rounded cursor-pointer text-xs transition-all ${
                             selectedRecStaffId === r.staff_id
-                              ? 'border-slate-450 bg-slate-800/35'
-                              : 'border-slate-800 bg-slate-900/40 hover:bg-slate-800/20'
+                              ? 'border-emerald-500 dark:border-slate-450 bg-emerald-50 dark:bg-slate-800/35'
+                              : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/40 hover:bg-slate-50 dark:hover:bg-slate-800/20'
                           }`}
                         >
                           <div className="flex items-center justify-between">
                             <div className="flex flex-col">
-                              <span className="font-semibold text-slate-300">{r.name}</span>
+                              <span className="font-semibold text-slate-900 dark:text-slate-300">{r.name}</span>
                               {r.is_fallback && (
-                                <span className="text-[9px] bg-amber-500/10 border border-amber-500/30 text-amber-400 font-bold px-1 py-0.5 rounded mt-0.5 w-max">
+                                <span className="text-[9px] bg-amber-500/10 border border-amber-500/30 text-amber-600 dark:text-amber-400 font-bold px-1 py-0.5 rounded mt-0.5 w-max">
                                   {r.fallback_reason === 'Same Subgroup Member' ? i18n.fallbackBadgeSameGroup
                                     : r.fallback_reason === 'Darurat Tanpa Rating' ? i18n.fallbackBadgeNoRating
                                     : r.fallback_reason === 'Darurat Semua Terisi' ? i18n.fallbackBadgeAllBusy
@@ -461,10 +461,10 @@ export default function ShiftEditDrawer({
                                 </span>
                               )}
                             </div>
-                            <span className="font-bold text-slate-200">{r.score.toFixed(3)}</span>
+                            <span className="font-bold text-slate-900 dark:text-slate-200">{r.score.toFixed(3)}</span>
                           </div>
                           {selectedRecStaffId === r.staff_id && (
-                            <div className="mt-2 pt-2 border-t border-slate-800">
+                            <div className="mt-2 pt-2 border-t border-slate-200 dark:border-slate-800">
                               {renderScoreBar(i18n.gapFactorWorkload, r.breakdown.workloadBalance, 0.25)}
                               {renderScoreBar(i18n.gapFactorFatigue, r.breakdown.fatigueMargin, 0.20)}
                             </div>
@@ -475,7 +475,7 @@ export default function ShiftEditDrawer({
                     <button
                       onClick={handleDisplaceAndAssign}
                       disabled={isSubmitting || !selectedRecStaffId}
-                      className="w-full py-2 bg-slate-200 hover:bg-slate-100 text-slate-900 font-bold rounded-lg text-xs transition-colors mt-2"
+                      className="w-full py-2 bg-slate-900 dark:bg-slate-200 hover:bg-slate-800 dark:hover:bg-slate-100 text-white dark:text-slate-900 font-bold rounded-lg text-xs transition-colors mt-2"
                     >
                       {i18n.btnDisplaceAndAssign}
                     </button>
@@ -488,7 +488,7 @@ export default function ShiftEditDrawer({
           /* View 3: Normal Simple Shift Code Update */
           <div className="mb-6 space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-400 mb-1">
+              <label className="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">
                 {i18n.editJustificationLabel}
               </label>
               <textarea
@@ -496,14 +496,14 @@ export default function ShiftEditDrawer({
                 value={justification}
                 onChange={(e) => setJustification(e.target.value)}
                 placeholder={i18n.editJustificationPlaceholder}
-                className="w-full p-2.5 bg-slate-950 border border-slate-700 rounded-lg text-slate-200 text-xs focus:outline-none focus:border-slate-500"
+                className="w-full p-2.5 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-200 text-xs focus:outline-none focus:border-emerald-500 dark:focus:border-slate-500"
               />
             </div>
 
             <button
               onClick={handleSimpleSave}
               disabled={isSubmitting}
-              className="w-full py-2.5 bg-slate-200 hover:bg-slate-100 disabled:opacity-50 text-slate-900 font-bold rounded-lg text-xs sm:text-sm transition-colors shadow-sm"
+              className="w-full py-2.5 bg-slate-900 dark:bg-slate-200 hover:bg-slate-800 dark:hover:bg-slate-100 disabled:opacity-50 text-white dark:text-slate-900 font-bold rounded-lg text-xs sm:text-sm transition-colors shadow-sm"
             >
               {isSubmitting ? 'Memproses Perubahan...' : i18n.btnSaveShiftCode}
             </button>
@@ -512,10 +512,10 @@ export default function ShiftEditDrawer({
       </div>
 
       {/* Footer */}
-      <div className="p-4 border-t border-slate-800 bg-slate-950/80 safe-area-bottom">
+      <div className="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/80 safe-area-bottom">
         <button
           onClick={onClose}
-          className="w-full py-2 border border-slate-750 text-slate-400 hover:text-slate-200 text-xs sm:text-sm font-semibold rounded-lg transition-colors"
+          className="w-full py-2 border border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 text-xs sm:text-sm font-semibold rounded-lg transition-colors"
         >
           {i18n.btnCloseDrawer}
         </button>

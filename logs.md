@@ -313,3 +313,11 @@ All significant project changes, updates, and releases are logged below.
   - In `src/components/DashboardContainer.tsx`, added `handleSwitchToEditFromGap()` handler that resolves the staff from the active gap selection and switches drawers seamlessly.
   - In `src/lib/i18n.ts`, added `btnCancelLeaveOverride` and `cancelLeaveOverrideDesc` Bahasa Indonesia translation keys.
   - The existing `updateShiftCode` server action already auto-resolves any pending gap event for the shift, so changing CUTI back to a working shift (P/S/M/etc.) automatically clears the gap.
+
+## [0.14.1] - 2026-07-30 12:45:00 UTC+8
+### Improved
+- **Complete Light Theme Audit & Hardcoded Dark Class Removal**:
+  - In `src/components/ShiftEditDrawer.tsx`, refactored select dropdowns, candidate cards, recommendation sections, justification text areas, action buttons, and score bars to dual Light/Dark theme styles (`bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800`).
+  - In `src/components/PersonnelManagementModal.tsx`, fixed hardcoded dark table headers (`bg-slate-950`), white table rows, rating grid selectors, delete confirmation modal backdrops, and fixed `slate-955` class typos.
+  - In `src/components/MonthSelector.tsx`, refactored schedule generation confirmation popup container and description box from dark navy to dual theme styles.
+  - In `src/components/RosterSkeleton.tsx`, refactored loading skeleton grid from dark navy to theme-aware shimmer components (`bg-white dark:bg-slate-900`, `bg-slate-200 dark:bg-slate-800`), ensuring schedule loading states match Light Mode seamlessly.
