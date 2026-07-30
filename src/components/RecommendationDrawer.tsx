@@ -10,6 +10,7 @@ import { FiStar, FiAlertTriangle, FiRefreshCw, FiX, FiCheck, FiEdit3 } from 'rea
 interface RecommendationDrawerProps {
   gapEvent: GapEvent;
   shift: Shift;
+  staff?: Staff | null;
   onClose: () => void;
   onAssignSuccess: () => void;
   onSwitchToEdit?: () => void;
@@ -18,6 +19,7 @@ interface RecommendationDrawerProps {
 export default function RecommendationDrawer({
   gapEvent,
   shift,
+  staff,
   onClose,
   onAssignSuccess,
   onSwitchToEdit
@@ -129,7 +131,7 @@ export default function RecommendationDrawer({
             {i18n.gapDrawerTitle}
           </h3>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-            {i18n.gapDrawerSub} {shift.date} ({shift.shift_code}) — {i18n.gapDrawerReason} {gapEvent.reason}
+            {staff?.name ? `${staff.name} — ` : ''}{i18n.gapDrawerSub} {shift.date} ({shift.shift_code}) — {i18n.gapDrawerReason} {gapEvent.reason}
           </p>
         </div>
         <button 

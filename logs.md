@@ -321,3 +321,10 @@ All significant project changes, updates, and releases are logged below.
   - In `src/components/PersonnelManagementModal.tsx`, fixed hardcoded dark table headers (`bg-slate-950`), white table rows, rating grid selectors, delete confirmation modal backdrops, and fixed `slate-955` class typos.
   - In `src/components/MonthSelector.tsx`, refactored schedule generation confirmation popup container and description box from dark navy to dual theme styles.
   - In `src/components/RosterSkeleton.tsx`, refactored loading skeleton grid from dark navy to theme-aware shimmer components (`bg-white dark:bg-slate-900`, `bg-slate-200 dark:bg-slate-800`), ensuring schedule loading states match Light Mode seamlessly.
+
+## [0.14.2] - 2026-07-30 13:10:00 UTC+8
+### Improved
+- **Personnel Name Display in Gap Resolution (Recommendation) Drawer Header**:
+  - In `src/components/RecommendationDrawer.tsx`, added `staff?: Staff | null` prop and updated subtitle to display technician's name at the start (`[NAMA] — Shift: YYYY-MM-DD (CUTI) — Alasan Absen: CUTI`), making header formatting 100% consistent with `ShiftEditDrawer.tsx`.
+  - In `src/components/RosterGrid.tsx`, updated `onSelectGap` callback to pass the `staff` object when a cell with a pending gap is clicked.
+  - In `src/components/DashboardContainer.tsx`, updated `handleSelectGap` and state selection to store and pass `staff` to `RecommendationDrawer`.

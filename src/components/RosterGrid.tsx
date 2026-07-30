@@ -12,7 +12,7 @@ interface RosterGridProps {
   gapEvents: GapEvent[];
   currentYear?: number;
   currentMonth?: number;
-  onSelectGap: (gapEvent: GapEvent, shift: Shift) => void;
+  onSelectGap: (gapEvent: GapEvent, shift: Shift, staff?: Staff) => void;
   onSelectShift: (shift: Shift, staff: Staff) => void;
 }
 
@@ -186,7 +186,7 @@ export default function RosterGrid({
                             title={`${staff.name} - ${dateStr}: ${rawCode}`}
                             onClick={() => {
                               if (pendingGap && shift) {
-                                onSelectGap(pendingGap, shift);
+                                onSelectGap(pendingGap, shift, staff);
                               } else if (shift) {
                                 onSelectShift(shift, staff);
                               }

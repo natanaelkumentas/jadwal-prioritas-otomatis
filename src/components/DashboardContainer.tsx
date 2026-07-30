@@ -47,6 +47,7 @@ export default function DashboardContainer({
   const [activeSelection, setActiveSelection] = useState<{
     gapEvent: GapEvent;
     shift: Shift;
+    staff?: Staff;
   } | null>(null);
 
   const [activeEditSelection, setActiveEditSelection] = useState<{
@@ -147,8 +148,9 @@ export default function DashboardContainer({
     fetchMonthShifts(currentYear, currentMonth);
   };
 
-  const handleSelectGap = (gapEvent: GapEvent, shift: Shift) => {
-    setActiveSelection({ gapEvent, shift });
+  const handleSelectGap = (gapEvent: GapEvent, shift: Shift, staff?: Staff) => {
+    const matchedStaff = staff || staffList.find(s => s.id === shift.staff_id) || gapEvent.staff;
+    setActiveSelection({ gapEvent, shift, staff: matchedStaff });
   };
 
   const handleCloseDrawer = () => {
@@ -294,6 +296,7 @@ export default function DashboardContainer({
         <RecommendationDrawer
           gapEvent={activeSelection.gapEvent}
           shift={activeSelection.shift}
+          staff={activeSelection.staff || staffList.find(s => s.id === activeSelection.shift.staff_id)}
           onClose={handleCloseDrawer}
           onAssignSuccess={handleAssignSuccess}
           onSwitchToEdit={handleSwitchToEditFromGap}
