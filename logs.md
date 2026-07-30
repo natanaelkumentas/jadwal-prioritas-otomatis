@@ -247,4 +247,9 @@ All significant project changes, updates, and releases are logged below.
   - In `src/components/RosterGrid.tsx`, added staff count badges to subgroup headers (`{staffGroup.length} Personel`) and refined sticky technician column name truncation (`max-w-[92px]`).
   - Added visual mobile touch drag handles (`w-12 h-1 bg-slate-300 dark:bg-slate-700 rounded-full mx-auto sm:hidden`) and `safe-area-bottom` padding to `ShiftCodeModal.tsx`, `MonthYearPickerModal.tsx`, `RecommendationDrawer.tsx`, `ShiftEditDrawer.tsx`, and `PersonnelManagementModal.tsx`.
 
-
+## [0.12.2] - 2026-07-30 10:06:00 UTC+8
+### Fixed
+- **Theme Mode System Bug Fixes**:
+  - In `tailwind.config.ts`, added `darkMode: 'class'` configuration so all Tailwind `dark:` utility classes respond immediately when `.dark` class is toggled on `<html>`.
+  - In `src/components/ThemeProvider.tsx`, synchronized `document.documentElement` class list immediately upon client initialization, eliminating Flash of Unstyled Content (FOUC) and hydration icon mismatches.
+  - In `src/components/ToastProvider.tsx`, refactored toast container and badge styles (`bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 shadow-xl`) for high contrast readability in both Light and Dark mode.

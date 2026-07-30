@@ -26,10 +26,14 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
   useEffect(() => {
     // Read saved theme from localStorage, default to 'light'
     const savedTheme = localStorage.getItem('saps-theme') as Theme | null;
-    if (savedTheme === 'dark' || savedTheme === 'light') {
-      setThemeState(savedTheme);
+    const initialTheme = (savedTheme === 'dark' || savedTheme === 'light') ? savedTheme : 'light';
+    
+    setThemeState(initialTheme);
+    const root = document.documentElement;
+    if (initialTheme === 'dark') {
+      root.classList.add('dark');
     } else {
-      setThemeState('light');
+      root.classList.remove('dark');
     }
     setMounted(true);
   }, []);
