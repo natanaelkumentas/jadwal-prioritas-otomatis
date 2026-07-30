@@ -253,3 +253,11 @@ All significant project changes, updates, and releases are logged below.
   - In `tailwind.config.ts`, added `darkMode: 'class'` configuration so all Tailwind `dark:` utility classes respond immediately when `.dark` class is toggled on `<html>`.
   - In `src/components/ThemeProvider.tsx`, synchronized `document.documentElement` class list immediately upon client initialization, eliminating Flash of Unstyled Content (FOUC) and hydration icon mismatches.
   - In `src/components/ToastProvider.tsx`, refactored toast container and badge styles (`bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 shadow-xl`) for high contrast readability in both Light and Dark mode.
+
+## [0.12.3] - 2026-07-30 10:17:00 UTC+8
+### Fixed
+- **Theme Mode Color Inversions & Invisible Text Bug Fixes**:
+  - In `src/components/RosterGrid.tsx`, fixed technician names in sticky column (`SUBHAN A. SYAWIE`, `RIDWAN`, `MICHAELOVERYAN MONE`, `ROBBY AKBAR`) to use solid background (`bg-white dark:bg-slate-950`) and bold high-contrast text (`text-slate-900 dark:text-white font-bold`).
+  - In `src/components/MonthSelector.tsx`, fixed Month/Year center button (`Juli 2026`) text readability in Dark Mode (`bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-white`).
+  - In `src/components/DashboardContainer.tsx`, enhanced stat card titles (`text-slate-700 dark:text-slate-300 font-bold`) and numbers (`text-slate-900 dark:text-white font-extrabold`).
+  - In `src/components/RosterGrid.tsx`, updated shift badges (`P`, `S`, `M`, `PS`, `OH`, `D`, `L`, `CT`) to render with high-contrast text and border definition in both Light and Dark themes.

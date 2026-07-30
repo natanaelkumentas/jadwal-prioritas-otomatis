@@ -315,11 +315,11 @@ export default function PersonnelManagementModal({
           {/* Mobile View: Cards */}
           <div className="sm:hidden space-y-2.5">
             {filteredStaff.map(staff => (
-              <div key={staff.id} className="p-3 bg-slate-950 border border-slate-800 rounded-lg space-y-2">
+              <div key={staff.id} className="p-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg space-y-2">
                 <div className="flex items-start justify-between">
                   <div>
-                    <span className="text-[10px] font-mono text-slate-500 uppercase block">{staff.id}</span>
-                    <h4 className="text-xs font-bold text-slate-100">{staff.name}</h4>
+                    <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400 uppercase block">{staff.id}</span>
+                    <h4 className="text-xs font-bold text-slate-900 dark:text-white">{staff.name}</h4>
                   </div>
                   <span className={`px-2 py-0.5 text-[9px] font-bold rounded border ${
                     staff.role_level === 'Manager Teknik' 

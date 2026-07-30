@@ -56,36 +56,36 @@ export default function RosterGrid({
   const getShiftStyle = (shift: Shift | undefined, hasPendingGap: GapEvent | undefined) => {
     if (hasPendingGap) {
       // Red pulsing indicator for active gap events
-      return 'bg-red-50 dark:bg-red-500/10 text-red-700 dark:text-red-500 border border-red-400 dark:border-red-500 animate-pulse font-bold hover:bg-red-100 dark:hover:bg-red-500/20 cursor-pointer shadow-xs shadow-red-500/20';
+      return 'bg-red-100 dark:bg-red-500/25 text-red-900 dark:text-red-200 border-2 border-red-500 animate-pulse font-extrabold hover:bg-red-200 shadow-xs shadow-red-500/30';
     }
 
     if (!shift) {
-      return 'bg-slate-100 dark:bg-slate-800/20 text-slate-400 dark:text-slate-500 border border-slate-200 dark:border-slate-700/50';
+      return 'bg-slate-100 dark:bg-slate-800/40 text-slate-500 dark:text-slate-400 border border-slate-300 dark:border-slate-700/50';
     }
 
     const code = shift.shift_code.toUpperCase();
     
     switch (code) {
       case 'P':
-        return 'bg-amber-50 dark:bg-amber-500/10 text-amber-800 dark:text-amber-500 border border-amber-300 dark:border-amber-500/20 hover:bg-amber-100 dark:hover:bg-amber-500/20 font-medium';
+        return 'bg-amber-100 dark:bg-amber-500/20 text-amber-950 dark:text-amber-300 border border-amber-400 dark:border-amber-500/40 hover:bg-amber-200 font-bold';
       case 'S':
-        return 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-800 dark:text-emerald-500 border border-emerald-300 dark:border-emerald-500/20 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 font-medium';
+        return 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-950 dark:text-emerald-300 border border-emerald-400 dark:border-emerald-500/40 hover:bg-emerald-200 font-bold';
       case 'M':
-        return 'bg-indigo-50 dark:bg-indigo-500/10 text-indigo-800 dark:text-indigo-500 border border-indigo-300 dark:border-indigo-500/20 hover:bg-indigo-100 dark:hover:bg-indigo-500/20 font-bold';
+        return 'bg-indigo-100 dark:bg-indigo-500/25 text-indigo-950 dark:text-indigo-300 border border-indigo-400 dark:border-indigo-500/40 hover:bg-indigo-200 font-extrabold';
       case 'PS':
-        return 'bg-rose-50 dark:bg-rose-500/10 text-rose-800 dark:text-rose-500 border border-rose-300 dark:border-rose-500/20 hover:bg-rose-100 dark:hover:bg-rose-500/20 font-medium';
+        return 'bg-rose-100 dark:bg-rose-500/20 text-rose-950 dark:text-rose-300 border border-rose-400 dark:border-rose-500/40 hover:bg-rose-200 font-bold';
       case 'OH':
       case 'D':
-        return 'bg-sky-50 dark:bg-sky-500/10 text-sky-800 dark:text-sky-500 border border-sky-300 dark:border-sky-500/20 hover:bg-sky-100 dark:hover:bg-sky-500/20 font-medium';
+        return 'bg-sky-100 dark:bg-sky-500/20 text-sky-950 dark:text-sky-300 border border-sky-400 dark:border-sky-500/40 hover:bg-sky-200 font-bold';
       case 'CUTI':
       case 'DINAS LUAR':
       case 'DIKLAT':
       case 'SAKIT':
-        return 'bg-purple-50 dark:bg-purple-500/10 text-purple-800 dark:text-purple-400 border border-purple-300 dark:border-purple-500/20 hover:bg-purple-100 dark:hover:bg-purple-500/20 font-semibold';
+        return 'bg-purple-100 dark:bg-purple-500/20 text-purple-950 dark:text-purple-300 border border-purple-400 dark:border-purple-500/40 hover:bg-purple-200 font-bold';
       case 'L':
       case 'Y':
       default:
-        return 'bg-slate-100 dark:bg-slate-800/10 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700/20 hover:bg-slate-200 dark:hover:bg-slate-800/20';
+        return 'bg-slate-100 dark:bg-slate-800/40 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700/50 hover:bg-slate-200 dark:hover:bg-slate-700/50 font-medium';
     }
   };
 
@@ -106,19 +106,19 @@ export default function RosterGrid({
 
     return (
       <div key={key} className="mb-4 sm:mb-8">
-        <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-1.5 mb-2 sm:mb-4">
-          <h3 className="text-xs sm:text-base font-bold text-slate-800 dark:text-slate-200 truncate">
+        <div className="flex items-center justify-between border-b border-slate-300 dark:border-slate-700 pb-1.5 mb-2 sm:mb-4">
+          <h3 className="text-xs sm:text-base font-extrabold text-slate-900 dark:text-white truncate">
             {title}
           </h3>
-          <span className="text-[9px] sm:text-xs font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded border border-slate-200 dark:border-slate-700 flex-shrink-0">
+          <span className="text-[9px] sm:text-xs font-bold text-slate-700 dark:text-slate-300 bg-slate-200 dark:bg-slate-800 px-2 py-0.5 rounded border border-slate-300 dark:border-slate-700 flex-shrink-0">
             {staffGroup.length} Personel
           </span>
         </div>
-        <div className="overflow-x-auto rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/50 shadow-xs">
+        <div className="overflow-x-auto rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-xs">
           <table className="min-w-full divide-y divide-slate-200 dark:divide-slate-800 text-sm">
-            <thead className="bg-slate-100/90 dark:bg-slate-950/90 sticky top-0 z-10">
+            <thead className="bg-slate-100 dark:bg-slate-950 sticky top-0 z-10">
               <tr>
-                <th scope="col" className="px-2 sm:px-4 py-2 sm:py-3 text-left font-semibold text-slate-700 dark:text-slate-300 w-28 sm:w-56 md:w-64 border-r border-slate-200 dark:border-slate-800 sticky left-0 bg-slate-100 dark:bg-slate-950 z-20 text-[10px] sm:text-sm">
+                <th scope="col" className="px-2 sm:px-4 py-2 sm:py-3 text-left font-bold text-slate-900 dark:text-white w-28 sm:w-56 md:w-64 border-r border-slate-300 dark:border-slate-800 sticky left-0 bg-slate-100 dark:bg-slate-950 z-20 text-[10px] sm:text-sm">
                   {i18n.tableColName}
                 </th>
                 {daysInMonth.map(day => {
@@ -127,15 +127,15 @@ export default function RosterGrid({
                     <th 
                       key={day} 
                       scope="col" 
-                      className={`px-0.5 sm:px-1 py-1.5 sm:py-2 text-center text-[11px] sm:text-xs font-semibold w-7 sm:w-10 transition-colors ${
+                      className={`px-0.5 sm:px-1 py-1.5 sm:py-2 text-center text-[11px] sm:text-xs font-bold w-7 sm:w-10 transition-colors ${
                         isToday
-                          ? 'bg-emerald-100 text-emerald-800 font-bold border-b-2 border-emerald-500 dark:bg-emerald-500/25 dark:text-emerald-300 dark:border-emerald-400 shadow-xs'
-                          : 'text-slate-600 dark:text-slate-400'
+                          ? 'bg-emerald-100 text-emerald-950 font-black border-b-2 border-emerald-600 dark:bg-emerald-500/30 dark:text-emerald-300 dark:border-emerald-400 shadow-xs'
+                          : 'text-slate-700 dark:text-slate-300'
                       }`}
                     >
                       <div className="flex flex-col items-center justify-center">
                         <span>{day}</span>
-                        <span className="text-[9px] sm:text-[10px] uppercase opacity-75">{getDayLabel(day)}</span>
+                        <span className="text-[9px] sm:text-[10px] uppercase opacity-80">{getDayLabel(day)}</span>
                       </div>
                     </th>
                   );
@@ -145,10 +145,10 @@ export default function RosterGrid({
             <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
               {staffGroup.map(staff => {
                 return (
-                  <tr key={staff.id} className="hover:bg-slate-50 dark:hover:bg-slate-900/30 transition-colors">
-                    <td className="px-2 sm:px-4 py-1.5 sm:py-3 border-r border-slate-200 dark:border-slate-800 sticky left-0 bg-white/95 dark:bg-slate-955/95 z-10 w-32 sm:w-56 md:w-64 shadow-xs">
+                  <tr key={staff.id} className="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
+                    <td className="px-2 sm:px-4 py-1.5 sm:py-3 border-r border-slate-300 dark:border-slate-800 sticky left-0 bg-white dark:bg-slate-950 z-10 w-32 sm:w-56 md:w-64 shadow-xs">
                       <div className="flex flex-col">
-                        <span className="font-medium text-slate-900 dark:text-slate-200 truncate max-w-[92px] sm:max-w-[160px] md:max-w-[180px] text-[10px] sm:text-sm">
+                        <span className="font-bold text-slate-900 dark:text-white truncate max-w-[92px] sm:max-w-[160px] md:max-w-[180px] text-[10px] sm:text-sm">
                           {staff.name}
                         </span>
                         {/* Ratings & Subgroup Pills */}
@@ -156,12 +156,12 @@ export default function RosterGrid({
                           {staff.ratings?.map(r => (
                             <span 
                               key={r} 
-                              className="px-1 py-0.2 sm:py-0.5 text-[8px] sm:text-[10px] font-mono font-bold bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded"
+                              className="px-1 py-0.2 sm:py-0.5 text-[8px] sm:text-[10px] font-mono font-bold bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 rounded"
                             >
                               {r}
                             </span>
                           ))}
-                          <span className="hidden sm:inline-block px-1 py-0.5 text-[9px] bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-500 rounded truncate max-w-[80px]">
+                          <span className="hidden sm:inline-block px-1 py-0.5 text-[9px] font-medium bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 text-slate-700 dark:text-slate-400 rounded truncate max-w-[80px]">
                             {staff.sub_group}
                           </span>
                         </div>

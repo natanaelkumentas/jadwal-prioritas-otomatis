@@ -68,12 +68,12 @@ export default async function Page() {
       <div className="mb-3 sm:mb-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2.5 sm:pb-4 gap-2 sm:gap-4">
         <div className="flex items-center justify-between sm:block min-w-0">
           <div className="min-w-0">
-            <h1 className="text-xs sm:text-2xl font-bold text-slate-900 dark:text-slate-100 tracking-tight flex items-center gap-1 sm:gap-2 truncate">
+            <h1 className="text-xs sm:text-2xl font-bold text-slate-900 dark:text-white tracking-tight flex items-center gap-1 sm:gap-2 truncate">
               <span className="sm:hidden truncate">Penjadwalan ATS</span>
               <span className="hidden sm:inline">{i18n.appTitle}</span>
-              <span className="text-[9px] sm:text-xs bg-slate-200 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400 px-1 sm:px-1.5 py-0.5 rounded font-mono font-normal flex-shrink-0" title="SAPS Version 0.12.2">SAPS v0.12.2</span>
+              <span className="text-[9px] sm:text-xs bg-slate-200 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 px-1.5 py-0.5 rounded font-mono font-bold flex-shrink-0" title="SAPS Version 0.12.2">SAPS v0.12.2</span>
             </h1>
-            <p className="text-[10px] sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5 truncate hidden sm:block">
+            <p className="text-[10px] sm:text-sm text-slate-600 dark:text-slate-300 font-medium mt-0.5 truncate hidden sm:block">
               {i18n.appSubtitle}
             </p>
           </div>
