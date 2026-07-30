@@ -6,6 +6,7 @@ type Theme = 'light' | 'dark';
 
 interface ThemeContextValue {
   theme: Theme;
+  isThemeChanging: boolean;
   toggleTheme: () => void;
   setTheme: (theme: Theme) => void;
 }
@@ -22,6 +23,7 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
   // Default to 'light' theme
   const [theme, setThemeState] = useState<Theme>('light');
   const [mounted, setMounted] = useState(false);
+  const [isThemeChanging, setIsThemeChanging] = useState(false);
 
   useEffect(() => {
     // Read saved theme from localStorage, default to 'light'
@@ -31,7 +33,15 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
     setMounted(true);
   }, []);
 
+  const triggerSkeletonAnimation = useCallback(() => {
+    setIsThemeChanging(true);
+    setTimeout(() => {
+      setIsThemeChanging(false);
+    }, 350);
+  }, []);
+
   const updateTheme = useCallback((newTheme: Theme) => {
+    triggerSkeletonAnimation();
     setThemeState(newTheme);
     const root = document.documentElement;
     if (newTheme === 'dark') {
@@ -40,9 +50,10 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
       root.classList.remove('dark');
     }
     localStorage.setItem('saps-theme', newTheme);
-  }, []);
+  }, [triggerSkeletonAnimation]);
 
   const toggleTheme = useCallback(() => {
+    triggerSkeletonAnimation();
     setThemeState(prev => {
       const nextTheme = prev === 'light' ? 'dark' : 'light';
       const root = document.documentElement;
@@ -54,14 +65,14 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
       localStorage.setItem('saps-theme', nextTheme);
       return nextTheme;
     });
-  }, []);
+  }, [triggerSkeletonAnimation]);
 
   const setTheme = useCallback((newTheme: Theme) => {
     updateTheme(newTheme);
   }, [updateTheme]);
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, setTheme }}>
+    <ThemeContext.Provider value={{ theme, isThemeChanging, toggleTheme, setTheme }}>
       {children}
     </ThemeContext.Provider>
   );

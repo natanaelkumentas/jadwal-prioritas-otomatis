@@ -271,5 +271,12 @@ All significant project changes, updates, and releases are logged below.
 ## [0.12.5] - 2026-07-30 10:28:00 UTC+8
 ### Fixed
 - **Invalid Tailwind Slate Color Class Replacement**:
-  - Replaced all non-existent Tailwind utility classes (`dark:bg-slate-955` and `dark:border-slate-850`) across `page.tsx`, `RosterGrid.tsx`, `ShiftCodeModal.tsx`, `ShiftEditDrawer.tsx`, `RecommendationDrawer.tsx`, `PersonnelManagementModal.tsx`, and `MonthYearPickerModal.tsx` with standard Tailwind palette tokens (`dark:bg-slate-950`, `dark:bg-slate-900`, `dark:border-slate-800`).
+  - Replaced all non-existent Tailwind utility classes (`dark:bg-slate-955` and `dark:border-slate-850`) across `page.tsx`, `RosterGrid.tsx`, `ShiftCodeModal.tsx`, `ShiftEditDrawer.tsx`, `RecommendationDrawer.tsx`, `PersonnelManagementModal.tsx`, and `MonthYearPickerModal.tsx` with standard Tailwind palette tokens (`dark:bg-slate-955` -> `dark:bg-slate-950`, `dark:bg-slate-900`, `dark:border-slate-800`).
   - Dark Mode elements now compile and render with rich dark slate backgrounds instead of failing back to white.
+
+## [0.13.0] - 2026-07-30 10:38:00 UTC+8
+### Added
+- **Skeleton Loading Transition Effect on Theme Change**:
+  - Created `src/components/Skeleton.tsx` reusable theme-aware skeleton shimmer component (`bg-slate-200 dark:bg-slate-800 animate-pulse rounded-lg`).
+  - Updated `src/components/ThemeProvider.tsx` with an `isThemeChanging` state and 350ms skeleton shimmer transition when toggling between Light Mode and Dark Mode.
+  - Connected `DashboardContainer.tsx` and `MonthSelector.tsx` to render animated skeleton shimmer cards and schedule grid rows during theme transitions.
