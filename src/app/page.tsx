@@ -63,7 +63,7 @@ export default async function Page() {
   const initialGapEvents = (gapEventsData || []) as GapEvent[];
 
   return (
-    <main className="min-h-screen bg-slate-50 dark:bg-slate-955 text-slate-900 dark:text-slate-100 px-2.5 sm:px-6 py-4 sm:py-8 transition-colors duration-200">
+    <main className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 px-2.5 sm:px-6 py-4 sm:py-8 transition-colors duration-200">
       {/* Dashboard Top Header */}
       <div className="mb-3 sm:mb-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2.5 sm:pb-4 gap-2 sm:gap-4">
         <div className="flex items-center justify-between sm:block min-w-0">

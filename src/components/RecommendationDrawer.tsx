@@ -112,7 +112,7 @@ export default function RecommendationDrawer({
     <>
       {/* Tap-to-dismiss Backdrop Overlay */}
       <div 
-        className="fixed inset-0 bg-slate-950/50 dark:bg-slate-955/70 backdrop-blur-xs z-40 transition-opacity" 
+        className="fixed inset-0 bg-slate-950/50 dark:bg-slate-950/70 backdrop-blur-xs z-40 transition-opacity" 
         onClick={onClose}
       />
 

@@ -181,7 +181,7 @@ export default function RosterGrid({
                       else if (rawCode === 'SAKIT') displayCode = 'SK';
 
                       return (
-                        <td key={day} className={`p-0.5 text-center border-r border-slate-200 dark:border-slate-850 ${isToday ? 'bg-emerald-50/70 dark:bg-emerald-500/10' : ''}`}>
+                        <td key={day} className={`p-0.5 text-center border-r border-slate-200 dark:border-slate-800 ${isToday ? 'bg-emerald-50/70 dark:bg-emerald-500/10' : ''}`}>
                           <button
                             title={`${staff.name} - ${dateStr}: ${rawCode}`}
                             onClick={() => {

@@ -241,7 +241,7 @@ export default function PersonnelManagementModal({
   };
 
   return (
-    <div className="fixed inset-0 bg-slate-955/85 backdrop-blur-md z-50 flex items-center justify-center p-2 sm:p-4">
+    <div className="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex items-center justify-center p-2 sm:p-4">
       {/* Click outside backdrop */}
       <div className="fixed inset-0" onClick={onClose} />
       {/* Main Personnel Management Modal Dialog Card */}
@@ -279,7 +279,7 @@ export default function PersonnelManagementModal({
                 className={`px-3 py-1.5 text-xs font-semibold rounded-lg border transition-all whitespace-nowrap ${
                   groupFilter === tab
                     ? 'bg-slate-900 dark:bg-slate-200 text-white dark:text-slate-900 border-slate-900 dark:border-slate-100 font-bold'
-                    : 'bg-slate-100 dark:bg-slate-955 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'
+                    : 'bg-slate-100 dark:bg-slate-950 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'
                 }`}
               >
                 {tab === 'ALL' ? 'Semua' : tab}

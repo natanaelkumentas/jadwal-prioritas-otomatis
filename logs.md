@@ -267,3 +267,9 @@ All significant project changes, updates, and releases are logged below.
 - **Blocking Head Script Theme Initialization & Hydration Fix**:
   - In `src/app/layout.tsx`, added `suppressHydrationWarning` to `<html>` and injected an inline blocking theme script in `<head>` to execute `localStorage` theme reading before initial paint and React hydration.
   - In `src/components/ThemeProvider.tsx`, updated state synchronization to immediately apply DOM class changes synchronously on toggle.
+
+## [0.12.5] - 2026-07-30 10:28:00 UTC+8
+### Fixed
+- **Invalid Tailwind Slate Color Class Replacement**:
+  - Replaced all non-existent Tailwind utility classes (`dark:bg-slate-955` and `dark:border-slate-850`) across `page.tsx`, `RosterGrid.tsx`, `ShiftCodeModal.tsx`, `ShiftEditDrawer.tsx`, `RecommendationDrawer.tsx`, `PersonnelManagementModal.tsx`, and `MonthYearPickerModal.tsx` with standard Tailwind palette tokens (`dark:bg-slate-950`, `dark:bg-slate-900`, `dark:border-slate-800`).
+  - Dark Mode elements now compile and render with rich dark slate backgrounds instead of failing back to white.

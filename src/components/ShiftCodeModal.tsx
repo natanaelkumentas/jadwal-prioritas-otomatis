@@ -131,7 +131,7 @@ export default function ShiftCodeModal({ onClose }: ShiftCodeModalProps) {
   ];
 
   return (
-    <div className="fixed inset-0 bg-slate-950/50 dark:bg-slate-955/80 backdrop-blur-xs sm:backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div className="fixed inset-0 bg-slate-950/50 dark:bg-slate-950/80 backdrop-blur-xs sm:backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
       {/* Backdrop tap to close */}
       <div className="fixed inset-0" onClick={onClose} />
 
