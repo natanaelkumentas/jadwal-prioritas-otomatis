@@ -280,3 +280,9 @@ All significant project changes, updates, and releases are logged below.
   - Created `src/components/Skeleton.tsx` reusable theme-aware skeleton shimmer component (`bg-slate-200 dark:bg-slate-800 animate-pulse rounded-lg`).
   - Updated `src/components/ThemeProvider.tsx` with an `isThemeChanging` state and 350ms skeleton shimmer transition when toggling between Light Mode and Dark Mode.
   - Connected `DashboardContainer.tsx` and `MonthSelector.tsx` to render animated skeleton shimmer cards and schedule grid rows during theme transitions.
+
+## [0.13.1] - 2026-07-30 10:47:00 UTC+8
+### Improved
+- **Silky-Smooth 60fps Hardware-Accelerated Theme Transition**:
+  - In `src/app/globals.css`, added `@keyframes theme-fade-sweep` and `.animate-theme-morph` utility (`0.28s cubic-bezier`).
+  - Updated `DashboardContainer.tsx` and `MonthSelector.tsx` to apply smooth theme morphing across stat cards, month navigation, and schedule table grid without unmounting DOM elements or causing height jumps.

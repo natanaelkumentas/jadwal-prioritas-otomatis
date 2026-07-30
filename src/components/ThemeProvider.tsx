@@ -37,7 +37,7 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
     setIsThemeChanging(true);
     setTimeout(() => {
       setIsThemeChanging(false);
-    }, 350);
+    }, 280);
   }, []);
 
   const updateTheme = useCallback((newTheme: Theme) => {

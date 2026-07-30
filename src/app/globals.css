@@ -26,6 +26,25 @@ body {
   }
 }
 
+/* Hardware-accelerated smooth theme transition keyframe */
+@keyframes theme-fade-sweep {
+  0% {
+    opacity: 0.65;
+    filter: blur(1.5px);
+    transform: scale(0.998);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0px);
+    transform: scale(1);
+  }
+}
+
+.animate-theme-morph {
+  animation: theme-fade-sweep 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: opacity, transform, filter;
+}
+
 /* Mobile-optimized horizontal scrolling for roster grid tables */
 .overflow-x-auto {
   -webkit-overflow-scrolling: touch;

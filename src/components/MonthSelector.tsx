@@ -96,7 +96,7 @@ export default function MonthSelector({
   };
 
   return (
-    <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4 shadow-xs">
+    <div className={`mb-4 sm:mb-6 p-3 sm:p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4 shadow-xs ${isThemeChanging ? 'animate-theme-morph' : ''}`}>
       {/* Month Navigation Controls */}
       <div className="flex items-center justify-between sm:justify-start gap-2 sm:gap-3">
         {/* Icon-only Prev Month button */}
@@ -111,26 +111,20 @@ export default function MonthSelector({
         </button>
 
         {/* Clickable Month & Year Display */}
-        {isThemeChanging ? (
-          <div className="px-4 py-1 flex items-center justify-center flex-1 sm:flex-initial">
-            <Skeleton className="h-9 w-32 sm:w-40" />
-          </div>
-        ) : (
-          <button
-            onClick={() => setShowPickerModal(true)}
-            className="text-center sm:px-4 min-w-0 px-2.5 py-1 bg-slate-100 dark:bg-slate-950 hover:bg-slate-200 dark:hover:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg transition-all cursor-pointer group flex-1 sm:flex-initial"
-            title="Klik untuk memilih bulan & tahun secara langsung"
-          >
-            <span className="text-[9px] sm:text-xs text-slate-600 dark:text-slate-300 font-bold uppercase tracking-wider flex items-center justify-center gap-1">
-              <FiCalendar className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-              <span className="hidden sm:inline">{i18n.monthSelectLabel}</span>
-              <FiChevronDown className="w-3.5 h-3.5" />
-            </span>
-            <span className="text-sm sm:text-lg font-extrabold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors whitespace-nowrap">
-              {MONTH_NAMES_ID[currentMonth - 1]} {currentYear}
-            </span>
-          </button>
-        )}
+        <button
+          onClick={() => setShowPickerModal(true)}
+          className="text-center sm:px-4 min-w-0 px-2.5 py-1 bg-slate-100 dark:bg-slate-950 hover:bg-slate-200 dark:hover:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg transition-all cursor-pointer group flex-1 sm:flex-initial"
+          title="Klik untuk memilih bulan & tahun secara langsung"
+        >
+          <span className="text-[9px] sm:text-xs text-slate-600 dark:text-slate-300 font-bold uppercase tracking-wider flex items-center justify-center gap-1">
+            <FiCalendar className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+            <span className="hidden sm:inline">{i18n.monthSelectLabel}</span>
+            <FiChevronDown className="w-3.5 h-3.5" />
+          </span>
+          <span className="text-sm sm:text-lg font-extrabold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors whitespace-nowrap">
+            {MONTH_NAMES_ID[currentMonth - 1]} {currentYear}
+          </span>
+        </button>
 
         {/* Icon-only Next Month button */}
         <button
