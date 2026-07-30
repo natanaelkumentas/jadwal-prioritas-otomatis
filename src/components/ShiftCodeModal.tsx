@@ -136,6 +136,9 @@ export default function ShiftCodeModal({ onClose }: ShiftCodeModalProps) {
       <div className="fixed inset-0" onClick={onClose} />
 
       <div className="relative bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-t-2xl sm:rounded-xl max-w-2xl w-full p-4 sm:p-6 shadow-2xl flex flex-col max-h-[85vh] animate-slide-in-right z-10 safe-area-bottom">
+        {/* Mobile touch handle indicator */}
+        <div className="w-12 h-1 bg-slate-300 dark:bg-slate-700 rounded-full mx-auto sm:hidden mb-2" />
+
         {/* Header */}
         <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3 mb-4">
           <div className="flex items-center gap-2">

@@ -240,6 +240,11 @@ All significant project changes, updates, and releases are logged below.
   - Created `src/components/ThemeToggle.tsx` featuring a Sun/Moon interactive theme switcher button placed in the top dashboard header.
   - Refactored `src/app/page.tsx`, `DashboardContainer.tsx`, `MonthSelector.tsx`, `RosterGrid.tsx`, `ShiftCodeModal.tsx`, `RecommendationDrawer.tsx`, `ShiftEditDrawer.tsx`, `PersonnelManagementModal.tsx`, and `MonthYearPickerModal.tsx` to support both **Light** and **Dark** themes seamlessly.
 
-
+## [0.12.1] - 2026-07-30 09:51:00 UTC+8
+### Improved
+- **Mobile & Small Screen Viewport Layout Optimizations**:
+  - In `src/app/page.tsx`, optimized dashboard header layout into a compact space-between row on mobile (<640px) preventing text truncation.
+  - In `src/components/RosterGrid.tsx`, added staff count badges to subgroup headers (`{staffGroup.length} Personel`) and refined sticky technician column name truncation (`max-w-[92px]`).
+  - Added visual mobile touch drag handles (`w-12 h-1 bg-slate-300 dark:bg-slate-700 rounded-full mx-auto sm:hidden`) and `safe-area-bottom` padding to `ShiftCodeModal.tsx`, `MonthYearPickerModal.tsx`, `RecommendationDrawer.tsx`, `ShiftEditDrawer.tsx`, and `PersonnelManagementModal.tsx`.
 
 

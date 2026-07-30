@@ -105,10 +105,15 @@ export default function RosterGrid({
     if (staffGroup.length === 0) return null;
 
     return (
-      <div key={key} className="mb-6 sm:mb-8">
-        <h3 className="text-sm sm:text-lg font-semibold text-slate-800 dark:text-slate-300 border-b border-slate-200 dark:border-slate-700 pb-2 mb-3 sm:mb-4 truncate">
-          {title}
-        </h3>
+      <div key={key} className="mb-4 sm:mb-8">
+        <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-1.5 mb-2 sm:mb-4">
+          <h3 className="text-xs sm:text-base font-bold text-slate-800 dark:text-slate-200 truncate">
+            {title}
+          </h3>
+          <span className="text-[9px] sm:text-xs font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded border border-slate-200 dark:border-slate-700 flex-shrink-0">
+            {staffGroup.length} Personel
+          </span>
+        </div>
         <div className="overflow-x-auto rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/50 shadow-xs">
           <table className="min-w-full divide-y divide-slate-200 dark:divide-slate-800 text-sm">
             <thead className="bg-slate-100/90 dark:bg-slate-950/90 sticky top-0 z-10">
@@ -143,7 +148,7 @@ export default function RosterGrid({
                   <tr key={staff.id} className="hover:bg-slate-50 dark:hover:bg-slate-900/30 transition-colors">
                     <td className="px-2 sm:px-4 py-1.5 sm:py-3 border-r border-slate-200 dark:border-slate-800 sticky left-0 bg-white/95 dark:bg-slate-955/95 z-10 w-32 sm:w-56 md:w-64 shadow-xs">
                       <div className="flex flex-col">
-                        <span className="font-medium text-slate-900 dark:text-slate-200 truncate max-w-[105px] sm:max-w-[160px] md:max-w-[180px] text-[10px] sm:text-sm">
+                        <span className="font-medium text-slate-900 dark:text-slate-200 truncate max-w-[92px] sm:max-w-[160px] md:max-w-[180px] text-[10px] sm:text-sm">
                           {staff.name}
                         </span>
                         {/* Ratings & Subgroup Pills */}

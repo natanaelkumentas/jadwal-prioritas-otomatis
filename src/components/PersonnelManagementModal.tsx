@@ -246,6 +246,9 @@ export default function PersonnelManagementModal({
       <div className="fixed inset-0" onClick={onClose} />
       {/* Main Personnel Management Modal Dialog Card */}
       <div className="relative bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-t-2xl sm:rounded-xl max-w-4xl w-full max-h-[85vh] shadow-2xl flex flex-col overflow-hidden z-10 animate-slide-in-right">
+        {/* Mobile touch handle indicator */}
+        <div className="w-12 h-1 bg-slate-300 dark:bg-slate-700 rounded-full mx-auto sm:hidden mt-2" />
+
         {/* Header */}
         <div className="p-4 sm:p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50 dark:bg-slate-950/80">
           <div>
