@@ -292,3 +292,10 @@ All significant project changes, updates, and releases are logged below.
 - **Native Global CSS Property Transition across All UI Elements**:
   - In `src/app/globals.css`, added `@layer base` global CSS property transition rule (`color, background-color, border-color, fill, stroke 300ms cubic-bezier(0.4, 0, 0.2, 1)`).
   - Every card, table cell, sticky column, button, icon, and text element on the page now morphs background, border, and text colors in 300ms GPU-accelerated sync.
+
+## [0.13.3] - 2026-07-30 11:56:00 UTC+8
+### Added
+- **Zero-Layout-Shift Absolute Skeleton Shimmer Overlay during Theme Changes**:
+  - Created `src/components/SkeletonOverlay.tsx` reusable absolute skeleton shimmer overlay component (`absolute inset-0 bg-slate-200/80 dark:bg-slate-800/80 backdrop-blur-[2px] animate-pulse`).
+  - Connected `ThemeProvider.tsx` state so clicking the theme toggle triggers a 320ms skeleton shimmer overlay directly over stat cards, month navigation, and schedule table cells.
+  - Guaranteed 0px layout shifts while presenting the user with an animated skeleton loading transition.

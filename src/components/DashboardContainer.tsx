@@ -16,6 +16,7 @@ import { FiUsers, FiShield, FiAlertCircle, FiCheckCircle } from 'react-icons/fi'
 
 import { useTheme } from './ThemeProvider';
 import Skeleton from './Skeleton';
+import SkeletonOverlay from './SkeletonOverlay';
 
 interface DashboardContainerProps {
   initialStaff: Staff[];
@@ -189,6 +190,7 @@ export default function DashboardContainer({
           className="p-2 sm:p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 rounded-lg cursor-pointer transition-all group relative overflow-hidden shadow-xs"
           title="Klik untuk Kelola Data Personel"
         >
+          {isThemeChanging && <SkeletonOverlay />}
           <div className="flex items-center justify-between">
             <div className="text-[9px] sm:text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider group-hover:text-slate-900 dark:group-hover:text-white transition-colors truncate">
               <span className="hidden sm:inline">{i18n.statsTotalStaff}</span>
@@ -208,7 +210,8 @@ export default function DashboardContainer({
         </div>
 
         {/* Shift Gaps Stat Card */}
-        <div className="p-2 sm:p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg shadow-xs">
+        <div className="p-2 sm:p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg shadow-xs relative overflow-hidden">
+          {isThemeChanging && <SkeletonOverlay />}
           <div className="flex items-center justify-between">
             <div className="text-[9px] sm:text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider truncate">
               <span className="hidden sm:inline">{i18n.statsGapsCount}</span>
@@ -228,7 +231,8 @@ export default function DashboardContainer({
         </div>
 
         {/* Database Sync Status Card */}
-        <div className="p-2 sm:p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg shadow-xs">
+        <div className="p-2 sm:p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg shadow-xs relative overflow-hidden">
+          {isThemeChanging && <SkeletonOverlay />}
           <div className="flex items-center justify-between">
             <div className="text-[9px] sm:text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider truncate">
               <span className="hidden sm:inline">{i18n.statsSyncStatus}</span>
@@ -246,19 +250,22 @@ export default function DashboardContainer({
         </div>
       </div>
 
-      {/* Main Content Area: Render RosterSkeleton when loading data, else RosterGrid */}
+      {/* Main Content Area: Render RosterSkeleton when loading data, else RosterGrid with SkeletonOverlay during theme change */}
       {isLoading ? (
         <RosterSkeleton daysInMonth={daysInMonthCount} />
       ) : (
-        <RosterGrid
-          initialStaff={staffList}
-          shifts={shifts}
-          gapEvents={gapEvents}
-          currentYear={currentYear}
-          currentMonth={currentMonth}
-          onSelectGap={handleSelectGap}
-          onSelectShift={handleSelectShift}
-        />
+        <div className="relative overflow-hidden rounded-lg">
+          {isThemeChanging && <SkeletonOverlay className="z-30 backdrop-blur-xs" />}
+          <RosterGrid
+            initialStaff={staffList}
+            shifts={shifts}
+            gapEvents={gapEvents}
+            currentYear={currentYear}
+            currentMonth={currentMonth}
+            onSelectGap={handleSelectGap}
+            onSelectShift={handleSelectShift}
+          />
+        </div>
       )}
 
       {/* Personnel Management Modal Popup */}
