@@ -182,7 +182,7 @@ export default function DashboardContainer({
       />
 
       {/* Top Banner Dashboard Stats & Management Button */}
-      <div className={`mb-3 sm:mb-6 grid grid-cols-3 gap-1.5 sm:gap-4 ${isThemeChanging ? 'animate-theme-morph' : ''}`}>
+      <div className="mb-3 sm:mb-6 grid grid-cols-3 gap-1.5 sm:gap-4">
         {/* Total Staff Card (Clickable to manage personnel) */}
         <div 
           onClick={() => setShowPersonnelModal(true)}
@@ -246,21 +246,19 @@ export default function DashboardContainer({
         </div>
       </div>
 
-      {/* Main Content Area: Render RosterSkeleton when loading data, else RosterGrid with smooth theme morphing */}
+      {/* Main Content Area: Render RosterSkeleton when loading data, else RosterGrid */}
       {isLoading ? (
         <RosterSkeleton daysInMonth={daysInMonthCount} />
       ) : (
-        <div className={isThemeChanging ? 'animate-theme-morph' : ''}>
-          <RosterGrid
-            initialStaff={staffList}
-            shifts={shifts}
-            gapEvents={gapEvents}
-            currentYear={currentYear}
-            currentMonth={currentMonth}
-            onSelectGap={handleSelectGap}
-            onSelectShift={handleSelectShift}
-          />
-        </div>
+        <RosterGrid
+          initialStaff={staffList}
+          shifts={shifts}
+          gapEvents={gapEvents}
+          currentYear={currentYear}
+          currentMonth={currentMonth}
+          onSelectGap={handleSelectGap}
+          onSelectShift={handleSelectShift}
+        />
       )}
 
       {/* Personnel Management Modal Popup */}

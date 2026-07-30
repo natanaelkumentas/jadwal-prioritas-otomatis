@@ -96,7 +96,7 @@ export default function MonthSelector({
   };
 
   return (
-    <div className={`mb-4 sm:mb-6 p-3 sm:p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4 shadow-xs ${isThemeChanging ? 'animate-theme-morph' : ''}`}>
+    <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4 shadow-xs">
       {/* Month Navigation Controls */}
       <div className="flex items-center justify-between sm:justify-start gap-2 sm:gap-3">
         {/* Icon-only Prev Month button */}

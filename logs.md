@@ -286,3 +286,9 @@ All significant project changes, updates, and releases are logged below.
 - **Silky-Smooth 60fps Hardware-Accelerated Theme Transition**:
   - In `src/app/globals.css`, added `@keyframes theme-fade-sweep` and `.animate-theme-morph` utility (`0.28s cubic-bezier`).
   - Updated `DashboardContainer.tsx` and `MonthSelector.tsx` to apply smooth theme morphing across stat cards, month navigation, and schedule table grid without unmounting DOM elements or causing height jumps.
+
+## [0.13.2] - 2026-07-30 11:46:00 UTC+8
+### Improved
+- **Native Global CSS Property Transition across All UI Elements**:
+  - In `src/app/globals.css`, added `@layer base` global CSS property transition rule (`color, background-color, border-color, fill, stroke 300ms cubic-bezier(0.4, 0, 0.2, 1)`).
+  - Every card, table cell, sticky column, button, icon, and text element on the page now morphs background, border, and text colors in 300ms GPU-accelerated sync.
