@@ -334,3 +334,8 @@ All significant project changes, updates, and releases are logged below.
 - **Sub-Modal Stacking Context & Hidden Add/Edit Form Popup**:
   - In `src/components/PersonnelManagementModal.tsx`, replaced invalid non-existent Tailwind class `z-60` with explicit arbitrary z-index syntax (`z-[100]` for backdrop and `relative z-[101]` for form/delete card containers).
   - Add/Edit Personnel Form popup and Delete Confirmation popup now render cleanly on top of the main personnel directory list with backdrop click dismiss handling.
+
+## [0.14.4] - 2026-07-31 14:09:00 UTC+8
+### Added
+- **Interactive Search Filter in Shift Code Reference Modal (`ShiftCodeModal.tsx`)**:
+  - Added a search filter bar (`FiSearch`) allowing users to filter shift codes by code badge, title, or description in real-time.
