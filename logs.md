@@ -328,3 +328,9 @@ All significant project changes, updates, and releases are logged below.
   - In `src/components/RecommendationDrawer.tsx`, added `staff?: Staff | null` prop and updated subtitle to display technician's name at the start (`[NAMA] — Shift: YYYY-MM-DD (CUTI) — Alasan Absen: CUTI`), making header formatting 100% consistent with `ShiftEditDrawer.tsx`.
   - In `src/components/RosterGrid.tsx`, updated `onSelectGap` callback to pass the `staff` object when a cell with a pending gap is clicked.
   - In `src/components/DashboardContainer.tsx`, updated `handleSelectGap` and state selection to store and pass `staff` to `RecommendationDrawer`.
+
+## [0.14.3] - 2026-07-30 13:15:00 UTC+8
+### Fixed
+- **Sub-Modal Stacking Context & Hidden Add/Edit Form Popup**:
+  - In `src/components/PersonnelManagementModal.tsx`, replaced invalid non-existent Tailwind class `z-60` with explicit arbitrary z-index syntax (`z-[100]` for backdrop and `relative z-[101]` for form/delete card containers).
+  - Add/Edit Personnel Form popup and Delete Confirmation popup now render cleanly on top of the main personnel directory list with backdrop click dismiss handling.

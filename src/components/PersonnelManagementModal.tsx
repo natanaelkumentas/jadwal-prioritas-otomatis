@@ -467,10 +467,12 @@ export default function PersonnelManagementModal({
 
       {/* Add / Edit Personnel Form Modal */}
       {showFormModal && (
-        <div className="fixed inset-0 bg-slate-950/50 dark:bg-slate-950/90 backdrop-blur-xs sm:backdrop-blur-md z-60 flex items-center justify-center p-3">
+        <div className="fixed inset-0 bg-slate-950/60 dark:bg-slate-950/90 backdrop-blur-xs sm:backdrop-blur-md z-[100] flex items-center justify-center p-3">
+          {/* Click outside to close form modal */}
+          <div className="fixed inset-0" onClick={() => setShowFormModal(false)} />
           <form
             onSubmit={handleFormSubmit}
-            className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl max-w-md w-full p-5 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto"
+            className="relative z-[101] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl max-w-md w-full p-5 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto"
           >
             <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
               <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">
@@ -629,8 +631,10 @@ export default function PersonnelManagementModal({
 
       {/* Delete Confirmation Modal */}
       {deletingStaff && (
-        <div className="fixed inset-0 bg-slate-950/50 dark:bg-slate-950/90 backdrop-blur-md z-60 flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl max-w-sm w-full p-5 shadow-2xl space-y-4">
+        <div className="fixed inset-0 bg-slate-950/60 dark:bg-slate-950/90 backdrop-blur-md z-[100] flex items-center justify-center p-4">
+          {/* Click outside to cancel delete */}
+          <div className="fixed inset-0" onClick={() => setDeletingStaff(null)} />
+          <div className="relative z-[101] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl max-w-sm w-full p-5 shadow-2xl space-y-4">
             <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
               <FiAlertTriangle className="w-5 h-5 text-rose-500" />
               <span>{i18n.confirmDeleteTitle}</span>
