@@ -167,7 +167,7 @@ export default function ShiftCodeModal({ onClose }: ShiftCodeModalProps) {
         <div className="flex-1 overflow-y-auto space-y-2.5 pr-1 text-xs">
           {filteredDefinitions.length === 0 ? (
             <div className="text-center py-6 text-slate-500 text-xs">
-              Tidak ada kode shift yang cocok dengan "{searchTerm}".
+              Tidak ada kode shift yang cocok dengan &quot;{searchTerm}&quot;.
             </div>
           ) : (
             filteredDefinitions.map(def => (

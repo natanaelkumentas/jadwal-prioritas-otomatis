@@ -339,3 +339,9 @@ All significant project changes, updates, and releases are logged below.
 ### Added
 - **Interactive Search Filter in Shift Code Reference Modal (`ShiftCodeModal.tsx`)**:
   - Added a search filter bar (`FiSearch`) allowing users to filter shift codes by code badge, title, or description in real-time.
+
+## [0.14.5] - 2026-07-31 14:18:00 UTC+8
+### Fixed
+- **Next.js Production Build Failure (`react/no-unescaped-entities`)**:
+  - In `src/components/ShiftCodeModal.tsx`, replaced unescaped double quote characters with `&quot;` in empty-search-results JSX block (`Tidak ada kode shift yang cocok dengan &quot;{searchTerm}&quot;.`).
+  - Verified local production build (`npm run build`) compiles cleanly: `✓ Compiled successfully`, `✓ Generating static pages (5/5)`, 0 errors.
