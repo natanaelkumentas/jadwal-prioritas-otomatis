@@ -78,7 +78,7 @@ export default async function Page() {
             </p>
           </div>
           <div className="flex sm:hidden items-center gap-2 flex-shrink-0">
-            <div className="flex items-center gap-1 text-[9px]">
+            <div className="flex items-center gap-1 text-[9px]" title="Database Real-time Supabase Cloud Terhubung">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
               <span className="text-slate-600 dark:text-slate-400 font-medium">Aktif</span>
             </div>
@@ -87,7 +87,7 @@ export default async function Page() {
         </div>
 
         <div className="hidden sm:flex items-center gap-2 sm:gap-3 flex-shrink-0">
-          <div className="flex items-center gap-1.5 text-xs">
+          <div className="flex items-center gap-1.5 text-xs" title="Database Real-time Supabase Cloud Terhubung">
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
             <span className="text-slate-600 dark:text-slate-400 font-medium">Sistem Aktif</span>
           </div>

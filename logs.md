@@ -345,3 +345,8 @@ All significant project changes, updates, and releases are logged below.
 - **Next.js Production Build Failure (`react/no-unescaped-entities`)**:
   - In `src/components/ShiftCodeModal.tsx`, replaced unescaped double quote characters with `&quot;` in empty-search-results JSX block (`Tidak ada kode shift yang cocok dengan &quot;{searchTerm}&quot;.`).
   - Verified local production build (`npm run build`) compiles cleanly: `✓ Compiled successfully`, `✓ Generating static pages (5/5)`, 0 errors.
+
+## [0.14.6] - 2026-08-01 17:11:00 UTC+8
+### Improved
+- **Header Status Badge Accessibility & Database Tooltip**:
+  - In `src/app/page.tsx`, added descriptive tooltip `title="Database Real-time Supabase Cloud Terhubung"` to the mobile and desktop live pulsing status badges for enhanced UX accessibility.
