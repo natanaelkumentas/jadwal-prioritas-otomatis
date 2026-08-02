@@ -358,3 +358,9 @@ All significant project changes, updates, and releases are logged below.
   - In `src/components/ShiftEditDrawer.tsx`, added `handleResetToOff` and a prominent **"Kosongkan Shift (Reset ke Libur L)"** button for instant shift clearing.
   - In `src/lib/i18n.ts`, added `tabDssRecommendations`, `tabManualOverride`, `manualOverrideNotice`, `btnConfirmManualAssignment`, and `btnResetShiftToOff` translation strings.
   - In `src/components/DashboardContainer.tsx`, passed `allStaff={staffList}` prop to `RecommendationDrawer` to support directory-wide manual overrides.
+
+## [0.15.1] - 2026-08-02 23:34:00 UTC+8
+### Improved
+- **Interactive Month & Year Combobox Picker (`MonthYearPickerModal.tsx`)**:
+  - Replaced static grid buttons with interactive, typeable/searchable, and scrollable **Combobox controls** for both Year and Month selection.
+  - Users can now type month names (`Agustus`, `Sept`) or numbers (`1`-`12`) and any custom year (`2020`-`2035+`), or scroll through filtered dropdown lists.
