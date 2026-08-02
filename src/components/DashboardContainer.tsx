@@ -297,6 +297,7 @@ export default function DashboardContainer({
           gapEvent={activeSelection.gapEvent}
           shift={activeSelection.shift}
           staff={activeSelection.staff || staffList.find(s => s.id === activeSelection.shift.staff_id)}
+          allStaff={staffList}
           onClose={handleCloseDrawer}
           onAssignSuccess={handleAssignSuccess}
           onSwitchToEdit={handleSwitchToEditFromGap}

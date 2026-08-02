@@ -238,6 +238,28 @@ export default function ShiftEditDrawer({
     }
   };
 
+  const handleResetToOff = async () => {
+    setIsSubmitting(true);
+    try {
+      const res = await updateShiftCode({
+        shiftId: shift.id,
+        newShiftCode: 'L',
+        justification: justification.trim() || 'RESET_SHIFT_TO_OFF'
+      });
+      if (res.success) {
+        toast.success('Jadwal shift berhasil dikosongkan (reset ke Libur L)!');
+        onAssignSuccess();
+        onClose();
+      } else {
+        toast.error(`Gagal mengosongkan shift: ${res.error}`);
+      }
+    } catch (err: any) {
+      toast.error('Terjadi kesalahan jaringan/server.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const renderScoreBar = (label: string, value: number, maxWeight: number) => {
     const percentage = (value / maxWeight) * 100;
     return (
@@ -500,13 +522,26 @@ export default function ShiftEditDrawer({
               />
             </div>
 
-            <button
-              onClick={handleSimpleSave}
-              disabled={isSubmitting}
-              className="w-full py-2.5 bg-slate-900 dark:bg-slate-200 hover:bg-slate-800 dark:hover:bg-slate-100 disabled:opacity-50 text-white dark:text-slate-900 font-bold rounded-lg text-xs sm:text-sm transition-colors shadow-sm"
-            >
-              {isSubmitting ? 'Memproses Perubahan...' : i18n.btnSaveShiftCode}
-            </button>
+            <div className="pt-1 flex flex-col gap-2">
+              <button
+                onClick={handleSimpleSave}
+                disabled={isSubmitting}
+                className="w-full py-2.5 bg-slate-900 dark:bg-slate-200 hover:bg-slate-800 dark:hover:bg-slate-100 disabled:opacity-50 text-white dark:text-slate-900 font-bold rounded-lg text-xs sm:text-sm transition-colors shadow-sm"
+              >
+                {isSubmitting ? 'Memproses Perubahan...' : i18n.btnSaveShiftCode}
+              </button>
+
+              {shift.shift_code !== 'L' && (
+                <button
+                  type="button"
+                  onClick={handleResetToOff}
+                  disabled={isSubmitting}
+                  className="w-full py-2 bg-rose-50 dark:bg-rose-500/10 hover:bg-rose-100 dark:hover:bg-rose-500/20 text-rose-700 dark:text-rose-400 font-semibold rounded-lg text-xs border border-rose-200 dark:border-rose-500/30 transition-colors"
+                >
+                  {i18n.btnResetShiftToOff}
+                </button>
+              )}
+            </div>
           </div>
         )}
       </div>

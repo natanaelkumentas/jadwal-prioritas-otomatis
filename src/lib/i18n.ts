@@ -68,6 +68,11 @@ export const i18n = {
   btnConfirmAssignment: 'Setujui & Tugaskan Pengganti',
   btnCancelLeaveOverride: 'Batalkan Cuti & Ubah Ke Shift Kerja',
   cancelLeaveOverrideDesc: 'Jika cuti/izin ditetapkan secara keliru, Anda dapat membatalkannya dan menetapkan shift kerja kembali kepada personel ini.',
+  tabDssRecommendations: 'Rekomendasi DSS (MCDA)',
+  tabManualOverride: 'Penugasan Manual (Semua Personel)',
+  manualOverrideNotice: 'Wewenang Penuh Manager/Admin: Pilih personel manapun dari direktori secara manual untuk mengisi kekosongan shift ini.',
+  btnConfirmManualAssignment: 'Tugaskan Personel Ini (Override Admin)',
+  btnResetShiftToOff: 'Kosongkan Shift (Reset ke Libur L)',
 
   // Shift Edit Drawer (ShiftEditDrawer)
   editDrawerTitle: 'Ubah Kode Shift Personel',

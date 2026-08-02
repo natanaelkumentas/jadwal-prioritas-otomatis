@@ -350,3 +350,11 @@ All significant project changes, updates, and releases are logged below.
 ### Improved
 - **Header Status Badge Accessibility & Database Tooltip**:
   - In `src/app/page.tsx`, added descriptive tooltip `title="Database Real-time Supabase Cloud Terhubung"` to the mobile and desktop live pulsing status badges for enhanced UX accessibility.
+
+## [0.15.0] - 2026-08-02 21:28:00 UTC+8
+### Added
+- **Unconstrained Admin/Manager Override Engine & Advisory DSS Architecture**:
+  - In `src/components/RecommendationDrawer.tsx`, introduced a dual-tab navigation header (`Rekomendasi DSS - MCDA` vs `Penugasan Manual - Semua Personel`). The manual override tab allows Webmaster/Admin/Manager to search and select **ANY technician in the department** directly to resolve shift gaps without being restricted by MCDA candidate scores or rating protection filters.
+  - In `src/components/ShiftEditDrawer.tsx`, added `handleResetToOff` and a prominent **"Kosongkan Shift (Reset ke Libur L)"** button for instant shift clearing.
+  - In `src/lib/i18n.ts`, added `tabDssRecommendations`, `tabManualOverride`, `manualOverrideNotice`, `btnConfirmManualAssignment`, and `btnResetShiftToOff` translation strings.
+  - In `src/components/DashboardContainer.tsx`, passed `allStaff={staffList}` prop to `RecommendationDrawer` to support directory-wide manual overrides.
