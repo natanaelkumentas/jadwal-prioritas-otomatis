@@ -110,9 +110,10 @@ export function scoreCandidates(
     const stats = candidateStats.find(s => s.candidateId === c.id)!;
 
     // --- Factor 1: RatingCoverageScore (Weight: 0.35) ---
-    // Favor candidates who hold FEWER total ratings to protect rare-rating holders.
-    const numRatingsHeld = c.ratings ? c.ratings.length : 1;
-    const ratingCoverageRaw = 1.0 / numRatingsHeld; // Smaller ratings count = higher raw score
+    // Favor candidates who hold FEWER total ratings to protect rare-rating holders (CNS only).
+    const isEss = c.group === 'ESS' || c.sub_group?.startsWith('ESS');
+    const numRatingsHeld = c.ratings && c.ratings.length > 0 ? c.ratings.length : 1;
+    const ratingCoverageRaw = isEss ? 1.0 : (1.0 / numRatingsHeld); // ESS technicians receive full rating score
 
     // --- Factor 2: WorkloadBalanceScore (Weight: 0.25) ---
     // Favor candidates with lower workloads so far.

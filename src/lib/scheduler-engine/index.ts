@@ -83,18 +83,21 @@ export async function getShiftReplacementRecommendations(
     }
   }
 
-  // 2. Fetch the required ratings (inherited from the technician originally on this shift)
-  const { data: absentRatingsData, error: ratingErr } = await supabaseAdmin!
-    .from('staff_ratings')
-    .select('rating:ratings(code)')
-    .eq('staff_id', absentStaff);
+  // 2. Fetch the required ratings (inherited from the technician originally on this shift - CNS only)
+  let requiredRatingCodes: string[] = [];
+  if (targetGroup === 'CNS') {
+    const { data: absentRatingsData, error: ratingErr } = await supabaseAdmin!
+      .from('staff_ratings')
+      .select('rating:ratings(code)')
+      .eq('staff_id', absentStaff);
 
-  if (ratingErr) {
-    throw new Error(`Failed to retrieve ratings for technician: ${ratingErr.message}`);
+    if (ratingErr) {
+      throw new Error(`Failed to retrieve ratings for technician: ${ratingErr.message}`);
+    }
+
+    requiredRatingCodes = (absentRatingsData as any[] || []).map(r => r.rating?.code).filter(Boolean);
   }
-
-  const requiredRatingCodes = (absentRatingsData as any[] || []).map(r => r.rating?.code).filter(Boolean);
-  console.log(`[scheduler-engine] Shift requires ratings: ${JSON.stringify(requiredRatingCodes)}`);
+  console.log(`[scheduler-engine] Shift requires ratings (${targetGroup}): ${JSON.stringify(requiredRatingCodes)}`);
 
   // 3. Fetch all staff members in the same group (CNS or ESS) along with their ratings
   const { data: staffData, error: staffErr } = await supabaseAdmin!

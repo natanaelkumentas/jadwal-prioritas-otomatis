@@ -364,3 +364,12 @@ All significant project changes, updates, and releases are logged below.
 - **Interactive Month & Year Combobox Picker (`MonthYearPickerModal.tsx`)**:
   - Replaced static grid buttons with interactive, typeable/searchable, and scrollable **Combobox controls** for both Year and Month selection.
   - Users can now type month names (`Agustus`, `Sept`) or numbers (`1`-`12`) and any custom year (`2020`-`2035+`), or scroll through filtered dropdown lists.
+
+## [0.15.2] - 2026-08-03 09:33:00 UTC+8
+### Changed
+- **ATSEP License Ratings Restricted Exclusively to CNS Group (Removed Ratings from ESS)**:
+  - In `src/components/PersonnelManagementModal.tsx`, rating multiselect checkboxes are hidden when `formGroup === 'ESS'` with a note: *"Personel kelompok ESS tidak menggunakan rating lisensi ATSEP."*. Table and mobile views display `- (Non-ATSEP)` for ESS staff.
+  - In `src/components/RosterGrid.tsx`, rating badges (`Rad`, `Nav`, `Com`, `Surv`) are rendered under personnel names only for CNS staff.
+  - In `src/lib/scheduler-engine/filters.ts`, `checkRatingEligibility()` automatically returns `true` for ESS staff.
+  - In `src/lib/scheduler-engine/scoring.ts`, `ratingCoverageRaw` automatically returns 1.0 (full rating score) for ESS staff.
+  - In `src/lib/scheduler-engine/index.ts`, `staff_ratings` lookup is bypassed for ESS shifts (`requiredRatingCodes = []`).

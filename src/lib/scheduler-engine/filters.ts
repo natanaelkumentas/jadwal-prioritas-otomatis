@@ -53,6 +53,9 @@ export function getShiftHours(shiftCode: string, group: 'CNS' | 'ESS'): ShiftHou
  * FR-3: Holds at least one of the required ratings.
  */
 export function checkRatingEligibility(candidate: Staff, requiredRatingCodes: string[]): boolean {
+  if (candidate.group === 'ESS' || candidate.sub_group?.startsWith('ESS')) {
+    return true; // ESS group technicians do not use ATSEP ratings
+  }
   if (!requiredRatingCodes || requiredRatingCodes.length === 0) {
     return true; // No ratings required
   }

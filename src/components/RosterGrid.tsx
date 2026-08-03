@@ -153,7 +153,7 @@ export default function RosterGrid({
                         </span>
                         {/* Ratings & Subgroup Pills */}
                         <div className="flex flex-wrap gap-0.5 sm:gap-1 mt-0.5 sm:mt-1">
-                          {staff.ratings?.map(r => (
+                          {staff.group === 'CNS' && staff.ratings?.map(r => (
                             <span 
                               key={r} 
                               className="px-1 py-0.2 sm:py-0.5 text-[8px] sm:text-[10px] font-mono font-bold bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 rounded"

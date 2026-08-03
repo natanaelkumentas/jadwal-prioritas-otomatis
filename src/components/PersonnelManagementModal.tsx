@@ -335,7 +335,7 @@ export default function PersonnelManagementModal({
                     Grup: <strong className="text-slate-200">{staff.group} ({staff.sub_group})</strong>
                   </div>
                   <div className="flex items-center gap-1">
-                    {staff.ratings?.map(r => (
+                    {staff.group === 'CNS' && staff.ratings?.map(r => (
                       <span key={r} className="px-1 py-0.2 bg-slate-800 border border-slate-700 text-slate-300 rounded font-mono">
                         {r}
                       </span>
@@ -407,13 +407,17 @@ export default function PersonnelManagementModal({
                       </span>
                     </td>
                     <td className="px-3 py-2.5">
-                      <div className="flex flex-wrap gap-1">
-                        {staff.ratings?.map(r => (
-                          <span key={r} className="px-1.5 py-0.5 bg-slate-800 border border-slate-700 text-slate-300 rounded font-mono text-[10px]">
-                            {r}
-                          </span>
-                        ))}
-                      </div>
+                      {staff.group === 'CNS' ? (
+                        <div className="flex flex-wrap gap-1">
+                          {staff.ratings?.map(r => (
+                            <span key={r} className="px-1.5 py-0.5 bg-slate-800 border border-slate-700 text-slate-300 rounded font-mono text-[10px]">
+                              {r}
+                            </span>
+                          ))}
+                        </div>
+                      ) : (
+                        <span className="text-slate-400 dark:text-slate-600 italic text-[11px]">- (Non-ATSEP)</span>
+                      )}
                     </td>
                     <td className="px-3 py-2.5 text-right">
                       {/* Icon-Only Action Buttons */}
@@ -578,33 +582,39 @@ export default function PersonnelManagementModal({
             </div>
 
             {/* License Ratings Multiselect Grid */}
-            <div>
-              <label className="text-[11px] font-semibold text-slate-600 dark:text-slate-400 block mb-1.5">
-                Rating Lisensi Kompetensi:
-              </label>
-              <div className="grid grid-cols-2 gap-2 p-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg max-h-36 overflow-y-auto">
-                {availableRatings
-                  .filter(r => r.group === formGroup)
-                  .map(rating => {
-                    const isChecked = selectedRatingIds.includes(rating.id);
-                    return (
-                      <button
-                        type="button"
-                        key={rating.id}
-                        onClick={() => toggleRatingSelection(rating.id)}
-                        className={`px-2 py-1.5 rounded text-left border flex items-center justify-between text-xs transition-all ${
-                          isChecked
-                            ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-700 dark:text-emerald-300 font-bold'
-                            : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-700'
-                        }`}
-                      >
-                        <span className="font-mono">{rating.code} - {rating.description}</span>
-                        {isChecked ? <FiCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" /> : <span className="text-slate-400 dark:text-slate-600">+</span>}
-                      </button>
-                    );
-                  })}
+            {formGroup === 'CNS' ? (
+              <div>
+                <label className="text-[11px] font-semibold text-slate-600 dark:text-slate-400 block mb-1.5">
+                  Rating Lisensi Kompetensi (CNS Only):
+                </label>
+                <div className="grid grid-cols-2 gap-2 p-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg max-h-36 overflow-y-auto">
+                  {availableRatings
+                    .filter(r => r.group === 'CNS')
+                    .map(rating => {
+                      const isChecked = selectedRatingIds.includes(rating.id);
+                      return (
+                        <button
+                          type="button"
+                          key={rating.id}
+                          onClick={() => toggleRatingSelection(rating.id)}
+                          className={`px-2 py-1.5 rounded text-left border flex items-center justify-between text-xs transition-all ${
+                            isChecked
+                              ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-700 dark:text-emerald-300 font-bold'
+                              : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-700'
+                          }`}
+                        >
+                          <span className="font-mono">{rating.code} - {rating.description}</span>
+                          {isChecked ? <FiCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" /> : <span className="text-slate-400 dark:text-slate-600">+</span>}
+                        </button>
+                      );
+                    })}
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="p-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg text-slate-500 text-xs italic">
+                ℹ️ Personel kelompok ESS tidak menggunakan rating lisensi ATSEP.
+              </div>
+            )}
 
             {/* Actions */}
             <div className="flex items-center justify-end gap-3 pt-2 border-t border-slate-200 dark:border-slate-800">
