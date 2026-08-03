@@ -1,9 +1,9 @@
 'use client';
 
 import React, { createContext, useContext, useState, useCallback } from 'react';
-import { FiCheckCircle, FiAlertCircle, FiInfo, FiX } from 'react-icons/fi';
+import { FiCheckCircle, FiAlertCircle, FiInfo, FiAlertTriangle, FiX } from 'react-icons/fi';
 
-type ToastType = 'success' | 'error' | 'info';
+type ToastType = 'success' | 'error' | 'info' | 'warning';
 
 interface ToastItem {
   id: number;
@@ -15,6 +15,7 @@ interface ToastContextValue {
   success: (message: string) => void;
   error: (message: string) => void;
   info: (message: string) => void;
+  warning: (message: string) => void;
 }
 
 const ToastContext = createContext<ToastContextValue | null>(null);
@@ -34,10 +35,10 @@ export default function ToastProvider({ children }: { children: React.ReactNode 
     const id = ++toastIdCounter;
     setToasts(prev => [...prev, { id, type, message }]);
 
-    // Auto-dismiss after 4 seconds
+    // Auto-dismiss after 4.5 seconds
     setTimeout(() => {
       setToasts(prev => prev.filter(t => t.id !== id));
-    }, 4000);
+    }, 4500);
   }, []);
 
   const removeToast = useCallback((id: number) => {
@@ -48,16 +49,19 @@ export default function ToastProvider({ children }: { children: React.ReactNode 
     success: (msg) => addToast('success', msg),
     error: (msg) => addToast('error', msg),
     info: (msg) => addToast('info', msg),
+    warning: (msg) => addToast('warning', msg),
   };
 
   const getToastStyles = (type: ToastType) => {
     switch (type) {
       case 'success':
-        return 'bg-white dark:bg-slate-900 border-emerald-500/50 text-slate-800 dark:text-slate-100 shadow-xl';
+        return 'bg-white dark:bg-slate-900 border-emerald-500/50 text-slate-800 dark:text-slate-100 shadow-2xl';
       case 'error':
-        return 'bg-white dark:bg-slate-900 border-red-500/50 text-slate-800 dark:text-slate-100 shadow-xl';
+        return 'bg-white dark:bg-slate-900 border-red-500/50 text-slate-800 dark:text-slate-100 shadow-2xl';
       case 'info':
-        return 'bg-white dark:bg-slate-900 border-blue-500/50 text-slate-800 dark:text-slate-100 shadow-xl';
+        return 'bg-white dark:bg-slate-900 border-blue-500/50 text-slate-800 dark:text-slate-100 shadow-2xl';
+      case 'warning':
+        return 'bg-white dark:bg-slate-900 border-amber-500/50 text-slate-800 dark:text-slate-100 shadow-2xl';
     }
   };
 
@@ -69,6 +73,8 @@ export default function ToastProvider({ children }: { children: React.ReactNode 
         return <FiAlertCircle className="w-4 h-4 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />;
       case 'info':
         return <FiInfo className="w-4 h-4 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />;
+      case 'warning':
+        return <FiAlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />;
     }
   };
 
@@ -76,8 +82,8 @@ export default function ToastProvider({ children }: { children: React.ReactNode 
     <ToastContext.Provider value={contextValue}>
       {children}
 
-      {/* Toast Container - fixed top-right on desktop, top-bar on mobile */}
-      <div className="fixed top-3 left-3 right-3 sm:left-auto sm:right-4 z-[100] flex flex-col gap-2 max-w-sm w-auto sm:w-full pointer-events-none">
+      {/* Toast Container - fixed top-right on desktop, top-bar on mobile (z-[200] floats above all modals & drawers) */}
+      <div className="fixed top-3 left-3 right-3 sm:left-auto sm:right-4 z-[200] flex flex-col gap-2 max-w-sm w-auto sm:w-full pointer-events-none">
         {toasts.map(toast => (
           <div
             key={toast.id}

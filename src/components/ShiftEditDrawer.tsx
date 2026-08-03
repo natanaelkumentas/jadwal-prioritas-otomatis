@@ -43,6 +43,7 @@ export default function ShiftEditDrawer({
   const [loadingVacatedRecs, setLoadingVacatedRecs] = useState(false);
   const [vacatedRecError, setVacatedRecError] = useState<string | null>(null);
   const [selectedVacatedStaffId, setSelectedVacatedStaffId] = useState<string | null>(null);
+  const [showResetConfirmModal, setShowResetConfirmModal] = useState(false);
 
   const shiftOptions = ['P', 'S', 'M', 'PS', 'OH', 'D', 'L', 'Y', 'CUTI', 'DINAS LUAR', 'DIKLAT', 'SAKIT'];
   const toast = useToast();
@@ -534,7 +535,7 @@ export default function ShiftEditDrawer({
               {shift.shift_code !== 'L' && (
                 <button
                   type="button"
-                  onClick={handleResetToOff}
+                  onClick={() => setShowResetConfirmModal(true)}
                   disabled={isSubmitting}
                   className="w-full py-2 bg-rose-50 dark:bg-rose-500/10 hover:bg-rose-100 dark:hover:bg-rose-500/20 text-rose-700 dark:text-rose-400 font-semibold rounded-lg text-xs border border-rose-200 dark:border-rose-500/30 transition-colors"
                 >
@@ -556,6 +557,48 @@ export default function ShiftEditDrawer({
         </button>
       </div>
     </div>
+
+    {/* Reset Shift Confirmation Modal Popup */}
+    {showResetConfirmModal && (
+      <div className="fixed inset-0 bg-slate-955/60 dark:bg-slate-955/80 backdrop-blur-xs z-[100] flex items-center justify-center p-4">
+        <div className="fixed inset-0" onClick={() => setShowResetConfirmModal(false)} />
+        <div className="relative bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl max-w-sm w-full p-5 shadow-2xl space-y-4 animate-slide-in-right z-[101]">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 bg-rose-500/10 border border-rose-500/20 rounded-lg text-rose-500 flex-shrink-0">
+              <FiAlertTriangle className="w-5 h-5" />
+            </div>
+            <div>
+              <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">
+                Konfirmasi Mengosongkan Shift
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                Apakah Anda yakin ingin mengosongkan jadwal shift <strong>{staff.name}</strong> pada tanggal <strong>{shift.date}</strong> (reset ke Libur L)?
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-200 dark:border-slate-800">
+            <button
+              onClick={() => setShowResetConfirmModal(false)}
+              disabled={isSubmitting}
+              className="px-3.5 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-semibold rounded-lg border border-slate-300 dark:border-slate-700 transition-colors"
+            >
+              Batal
+            </button>
+            <button
+              onClick={() => {
+                setShowResetConfirmModal(false);
+                handleResetToOff();
+              }}
+              disabled={isSubmitting}
+              className="px-3.5 py-1.5 bg-rose-500 hover:bg-rose-600 text-white text-xs font-bold rounded-lg transition-colors shadow-sm"
+            >
+              Ya, Kosongkan Shift
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
   </>
   );
 }

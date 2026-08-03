@@ -174,8 +174,9 @@ export default function MonthSelector({
 
       {/* Generator Confirmation Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-slate-950/50 dark:bg-slate-950/80 backdrop-blur-xs sm:backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-t-xl sm:rounded-xl max-w-md w-full p-5 sm:p-6 shadow-2xl space-y-4 safe-area-bottom">
+        <div className="fixed inset-0 bg-slate-955/60 dark:bg-slate-955/80 backdrop-blur-xs sm:backdrop-blur-sm z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4">
+          <div className="fixed inset-0" onClick={() => setShowModal(false)} />
+          <div className="relative z-[101] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-t-xl sm:rounded-xl max-w-md w-full p-5 sm:p-6 shadow-2xl space-y-4 animate-slide-in-right safe-area-bottom">
             <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
               <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">
                 {i18n.modalGenerateTitle}

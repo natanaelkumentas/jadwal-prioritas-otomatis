@@ -373,3 +373,12 @@ All significant project changes, updates, and releases are logged below.
   - In `src/lib/scheduler-engine/filters.ts`, `checkRatingEligibility()` automatically returns `true` for ESS staff.
   - In `src/lib/scheduler-engine/scoring.ts`, `ratingCoverageRaw` automatically returns 1.0 (full rating score) for ESS staff.
   - In `src/lib/scheduler-engine/index.ts`, `staff_ratings` lookup is bypassed for ESS shifts (`requiredRatingCodes = []`).
+
+## [0.15.3] - 2026-08-03 09:48:00 UTC+8
+### Improved
+- **Interactive Popup Confirmation Modals & Floating Toast Notification System**:
+  - In `src/components/ToastProvider.tsx`, added `toast.warning()` type support (`FiAlertTriangle` icon) and raised toast stacking context to `z-[200]` so notification popups float above all sub-modals (`z-[100]`), drawers (`z-50`), and dialogs.
+  - In `src/components/PersonnelManagementModal.tsx`, replaced native browser `confirm(...)` with a custom animated confirmation modal popup card (`confirmingManagerStaff`) for Manager Teknik promotion. Standardized delete confirmation modal (`deletingStaff`).
+  - In `src/components/MonthSelector.tsx`, added backdrop tap-to-dismiss and `z-[100]` stacking to Schedule Generator confirmation popup modal.
+  - In `src/components/ShiftEditDrawer.tsx`, added a custom confirmation popup modal (`showResetConfirmModal`) for resetting shifts to Off (`L`).
+  - Converted 100% of user feedback across all actions to use animated Toast Notification popups.

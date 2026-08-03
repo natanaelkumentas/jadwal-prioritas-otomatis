@@ -61,8 +61,9 @@ export default function PersonnelManagementModal({
   const [availableRatings, setAvailableRatings] = useState<RatingOption[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Delete Confirm State
+  // Confirmations Modal State
   const [deletingStaff, setDeletingStaff] = useState<Staff | null>(null);
+  const [confirmingManagerStaff, setConfirmingManagerStaff] = useState<Staff | null>(null);
 
   useEffect(() => {
     async function loadRatings() {
@@ -195,21 +196,26 @@ export default function PersonnelManagementModal({
     }
   };
 
-  const handleAssignManagerAction = async (staff: Staff) => {
-    if (!confirm(`Apakah Anda yakin ingin menetapkan "${staff.name}" sebagai Manager Teknik baru?`)) {
-      return;
-    }
+  const handleAssignManagerAction = (staff: Staff) => {
+    setConfirmingManagerStaff(staff);
+  };
 
+  const handleConfirmAssignManager = async () => {
+    if (!confirmingManagerStaff) return;
+    setIsSubmitting(true);
     try {
-      const res = await assignManager(staff.id);
+      const res = await assignManager(confirmingManagerStaff.id);
       if (res.success) {
-        toast.success(`Berhasil menetapkan ${staff.name} sebagai Manager Teknik!`);
+        toast.success(`Berhasil menetapkan ${confirmingManagerStaff.name} sebagai Manager Teknik!`);
+        setConfirmingManagerStaff(null);
         onRefreshData();
       } else {
         toast.error(res.error || 'Gagal menetapkan Manager Teknik.');
       }
     } catch (err: any) {
       toast.error('Terjadi kesalahan: ' + err.message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -672,7 +678,48 @@ export default function PersonnelManagementModal({
                 className="px-4 py-1.5 bg-rose-500 hover:bg-rose-400 text-white text-xs font-bold rounded-lg shadow-md flex items-center gap-1.5"
               >
                 {isSubmitting ? <FiLoader className="w-4 h-4 animate-spin" /> : null}
-                <span>Ya, Hapus Personel</span>
+                <span>{isSubmitting ? 'Menghapus...' : 'Ya, Hapus Personel'}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Manager Teknik Promotion Confirmation Modal Popup */}
+      {confirmingManagerStaff && (
+        <div className="fixed inset-0 bg-slate-955/60 dark:bg-slate-955/80 backdrop-blur-xs z-[100] flex items-center justify-center p-4">
+          <div className="fixed inset-0" onClick={() => setConfirmingManagerStaff(null)} />
+
+          <div className="relative bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl max-w-sm w-full p-5 shadow-2xl space-y-4 animate-slide-in-right z-[101]">
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 bg-amber-500/10 border border-amber-500/20 rounded-lg text-amber-500 flex-shrink-0">
+                <FiShield className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">
+                  Konfirmasi Manager Teknik
+                </h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                  Apakah Anda yakin ingin menetapkan <strong>{confirmingManagerStaff.name}</strong> ({confirmingManagerStaff.id}) sebagai Manager Teknik yang baru?
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-200 dark:border-slate-800">
+              <button
+                onClick={() => setConfirmingManagerStaff(null)}
+                disabled={isSubmitting}
+                className="px-3.5 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-semibold rounded-lg border border-slate-300 dark:border-slate-700 transition-colors"
+              >
+                Batal
+              </button>
+              <button
+                onClick={handleConfirmAssignManager}
+                disabled={isSubmitting}
+                className="px-3.5 py-1.5 bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs font-bold rounded-lg transition-colors shadow-sm flex items-center gap-1"
+              >
+                <FiShield className="w-3.5 h-3.5" />
+                <span>{isSubmitting ? 'Memproses...' : 'Ya, Tetapkan Manager'}</span>
               </button>
             </div>
           </div>
