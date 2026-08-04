@@ -1,9 +1,11 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { Staff, Shift, GapEvent } from '@/lib/scheduler-engine/types';
 import { i18n } from '@/lib/i18n';
-import { FiSearch, FiAlertTriangle, FiInfo } from 'react-icons/fi';
+import { getShiftInfo, getShortCode } from '@/lib/shift-codes';
+import { FiSearch, FiAlertTriangle, FiInfo, FiExternalLink } from 'react-icons/fi';
 import ShiftCodeModal from './ShiftCodeModal';
 
 interface RosterGridProps {
@@ -63,30 +65,7 @@ export default function RosterGrid({
       return 'bg-slate-100 dark:bg-slate-800/40 text-slate-500 dark:text-slate-400 border border-slate-300 dark:border-slate-700/50';
     }
 
-    const code = shift.shift_code.toUpperCase();
-    
-    switch (code) {
-      case 'P':
-        return 'bg-amber-100 dark:bg-amber-500/20 text-amber-950 dark:text-amber-300 border border-amber-400 dark:border-amber-500/40 hover:bg-amber-200 font-bold';
-      case 'S':
-        return 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-950 dark:text-emerald-300 border border-emerald-400 dark:border-emerald-500/40 hover:bg-emerald-200 font-bold';
-      case 'M':
-        return 'bg-indigo-100 dark:bg-indigo-500/25 text-indigo-950 dark:text-indigo-300 border border-indigo-400 dark:border-indigo-500/40 hover:bg-indigo-200 font-extrabold';
-      case 'PS':
-        return 'bg-rose-100 dark:bg-rose-500/20 text-rose-950 dark:text-rose-300 border border-rose-400 dark:border-rose-500/40 hover:bg-rose-200 font-bold';
-      case 'OH':
-      case 'D':
-        return 'bg-sky-100 dark:bg-sky-500/20 text-sky-950 dark:text-sky-300 border border-sky-400 dark:border-sky-500/40 hover:bg-sky-200 font-bold';
-      case 'CUTI':
-      case 'DINAS LUAR':
-      case 'DIKLAT':
-      case 'SAKIT':
-        return 'bg-purple-100 dark:bg-purple-500/20 text-purple-950 dark:text-purple-300 border border-purple-400 dark:border-purple-500/40 hover:bg-purple-200 font-bold';
-      case 'L':
-      case 'Y':
-      default:
-        return 'bg-slate-100 dark:bg-slate-800/40 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700/50 hover:bg-slate-200 dark:hover:bg-slate-700/50 font-medium';
-    }
+    return getShiftInfo(shift.shift_code).cellStyle;
   };
 
   // Calculate days in the target month (e.g., 30, 31, 28)
@@ -148,9 +127,14 @@ export default function RosterGrid({
                   <tr key={staff.id} className="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
                     <td className="px-2 sm:px-4 py-1.5 sm:py-3 border-r border-slate-300 dark:border-slate-800 sticky left-0 bg-white dark:bg-slate-950 z-10 w-32 sm:w-56 md:w-64 shadow-xs">
                       <div className="flex flex-col">
-                        <span className="font-bold text-slate-900 dark:text-white truncate max-w-[92px] sm:max-w-[160px] md:max-w-[180px] text-[10px] sm:text-sm">
-                          {staff.name}
-                        </span>
+                        <Link
+                          href={`/personel/${encodeURIComponent(staff.id)}?tahun=${currentYear}&bulan=${currentMonth}`}
+                          title={`Lihat jadwal dinas personal ${staff.name}`}
+                          className="font-bold text-slate-900 dark:text-white hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors truncate max-w-[92px] sm:max-w-[160px] md:max-w-[180px] text-[10px] sm:text-sm flex items-center gap-1 group/name"
+                        >
+                          <span className="truncate">{staff.name}</span>
+                          <FiExternalLink className="w-2.5 h-2.5 sm:w-3 sm:h-3 flex-shrink-0 opacity-0 group-hover/name:opacity-100 transition-opacity" />
+                        </Link>
                         {/* Ratings & Subgroup Pills */}
                         <div className="flex flex-wrap gap-0.5 sm:gap-1 mt-0.5 sm:mt-1">
                           {staff.group === 'CNS' && staff.ratings?.map(r => (
@@ -174,11 +158,7 @@ export default function RosterGrid({
                       const pendingGap = gapEvents.find(g => g.shift_id === shift?.id && g.status === 'Pending');
 
                       const rawCode = shift?.shift_code || 'L';
-                      let displayCode = rawCode;
-                      if (rawCode === 'CUTI') displayCode = 'CT';
-                      else if (rawCode === 'DINAS LUAR') displayCode = 'DL';
-                      else if (rawCode === 'DIKLAT') displayCode = 'DK';
-                      else if (rawCode === 'SAKIT') displayCode = 'SK';
+                      const displayCode = getShortCode(rawCode);
 
                       return (
                         <td key={day} className={`p-0.5 text-center border-r border-slate-200 dark:border-slate-800 ${isToday ? 'bg-emerald-50/70 dark:bg-emerald-500/10' : ''}`}>
@@ -191,7 +171,7 @@ export default function RosterGrid({
                                 onSelectShift(shift, staff);
                               }
                             }}
-                            className={`w-7 h-7 sm:w-9 sm:h-9 text-[9px] sm:text-xs rounded transition-all flex items-center justify-center ${getShiftStyle(shift, pendingGap)}`}
+                            className={`w-7 h-7 sm:w-9 sm:h-9 text-[9px] sm:text-xs rounded transition-all mx-auto flex items-center justify-center text-center leading-none ${getShiftStyle(shift, pendingGap)}`}
                           >
                             {displayCode}
                           </button>

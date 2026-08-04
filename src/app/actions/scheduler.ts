@@ -528,6 +528,49 @@ export async function assignLeaveAndReplacement({
 }
 
 /**
+ * Server Action to fetch the personal monthly duty schedule of a single technician,
+ * including any pending gap events attached to their shifts.
+ */
+export async function getStaffMonthlySchedule(staffId: string, year: number, month: number) {
+  const formattedMonth = month.toString().padStart(2, '0');
+  const totalDays = new Date(year, month, 0).getDate();
+  const startDate = `${year}-${formattedMonth}-01`;
+  const endDate = `${year}-${formattedMonth}-${totalDays.toString().padStart(2, '0')}`;
+
+  try {
+    const { data: shiftsData, error } = await supabaseAdmin!
+      .from('shifts')
+      .select('*')
+      .eq('staff_id', staffId)
+      .gte('date', startDate)
+      .lte('date', endDate)
+      .order('date', { ascending: true });
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    const shifts = (shiftsData || []) as any[];
+    let gapEvents: any[] = [];
+
+    if (shifts.length > 0) {
+      const { data: gapData } = await supabaseAdmin!
+        .from('gap_events')
+        .select('*')
+        .eq('status', 'Pending')
+        .in('shift_id', shifts.map(s => s.id));
+
+      gapEvents = gapData || [];
+    }
+
+    return { success: true, shifts, gapEvents };
+  } catch (err: any) {
+    console.error('[actions/scheduler] Error fetching personal schedule:', err);
+    return { success: false, error: err.message, shifts: [], gapEvents: [] };
+  }
+}
+
+/**
  * Server Action to fetch shifts for a specific month using Supabase Admin client.
  */
 export async function getShiftsForMonth(year: number, month: number) {

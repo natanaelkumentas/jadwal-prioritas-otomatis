@@ -2,122 +2,21 @@
 
 import React, { useState } from 'react';
 import { i18n } from '@/lib/i18n';
+import { SHIFT_REFERENCE } from '@/lib/shift-codes';
 import { FiInfo, FiX, FiClock, FiSearch } from 'react-icons/fi';
 
 interface ShiftCodeModalProps {
   onClose: () => void;
 }
 
-interface ShiftCodeDefinition {
-  code: string;
-  badgeCode: string;
-  title: string;
-  cnsTime: string;
-  essTime: string;
-  badgeStyle: string;
-  description: string;
-}
-
 export default function ShiftCodeModal({ onClose }: ShiftCodeModalProps) {
   const [searchTerm, setSearchTerm] = useState('');
 
-  const shiftDefinitions: ShiftCodeDefinition[] = [
-    {
-      code: 'P',
-      badgeCode: 'P',
-      title: 'Shift Pagi',
-      cnsTime: '07:00 - 15:00 WITA',
-      essTime: '07:00 - 13:00 WITA',
-      badgeStyle: 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/30',
-      description: 'Dinas operasional pagi hari untuk pemantauan fasilitas penerbangan.'
-    },
-    {
-      code: 'S',
-      badgeCode: 'S',
-      title: 'Shift Siang',
-      cnsTime: '12:00 - 20:00 WITA',
-      essTime: '13:00 - 19:00 WITA',
-      badgeStyle: 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-500/30',
-      description: 'Dinas operasional siang hingga malam hari.'
-    },
-    {
-      code: 'M',
-      badgeCode: 'M',
-      title: 'Shift Malam',
-      cnsTime: '19:00 - 07:00 WITA',
-      essTime: '19:00 - 07:00 WITA',
-      badgeStyle: 'bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 border-indigo-500/30',
-      description: 'Dinas operasional malam (12 jam) hingga pagi hari.'
-    },
-    {
-      code: 'PS',
-      badgeCode: 'PS',
-      title: 'Shift Pagi-Siang (Long Day)',
-      cnsTime: '07:00 - 19:00 WITA',
-      essTime: '07:00 - 19:00 WITA',
-      badgeStyle: 'bg-rose-500/15 text-rose-600 dark:text-rose-400 border-rose-500/30',
-      description: 'Dinas jam panjang (12 jam) mengover shift pagi dan siang.'
-    },
-    {
-      code: 'OH',
-      badgeCode: 'OH / D',
-      title: 'Jam Kerja Kantor / Dinas',
-      cnsTime: '08:00 - 17:00 WITA',
-      essTime: '08:00 - 17:00 WITA',
-      badgeStyle: 'bg-sky-500/15 text-sky-600 dark:text-sky-400 border-sky-500/30',
-      description: 'Dinas jam kantor reguler Senin hingga Jumat.'
-    },
-    {
-      code: 'L',
-      badgeCode: 'L / Y',
-      title: 'Libur / Lepas Malam',
-      cnsTime: 'Libur Operasional',
-      essTime: 'Libur Operasional',
-      badgeStyle: 'bg-slate-500/15 text-slate-600 dark:text-slate-400 border-slate-500/30',
-      description: 'Hari libur terjadwal atau pemulihan setelah shift malam.'
-    },
-    {
-      code: 'CUTI',
-      badgeCode: 'CUTI',
-      title: 'Cuti Tahunan',
-      cnsTime: 'Izin Resmi',
-      essTime: 'Izin Resmi',
-      badgeStyle: 'bg-purple-500/15 text-purple-600 dark:text-purple-400 border-purple-500/30',
-      description: 'Cuti tahunan personel dengan persetujuan manajemen.'
-    },
-    {
-      code: 'DINAS LUAR',
-      badgeCode: 'DINAS LUAR',
-      title: 'Dinas Luar Kota',
-      cnsTime: 'Tugas Operasional',
-      essTime: 'Tugas Operasional',
-      badgeStyle: 'bg-purple-500/15 text-purple-600 dark:text-purple-400 border-purple-500/30',
-      description: 'Penugasan luar kota atau kunjungan lokasi fasilitas.'
-    },
-    {
-      code: 'DIKLAT',
-      badgeCode: 'DIKLAT',
-      title: 'Pelatihan / Diklat',
-      cnsTime: 'Pengembangan Diri',
-      essTime: 'Pengembangan Diri',
-      badgeStyle: 'bg-purple-500/15 text-purple-600 dark:text-purple-400 border-purple-500/30',
-      description: 'Keikutsertaan dalam kursus, sertifikasi, atau diklat kompetensi.'
-    },
-    {
-      code: 'SAKIT',
-      badgeCode: 'SAKIT',
-      title: 'Izin Sakit',
-      cnsTime: 'Izin Kesehatan',
-      essTime: 'Izin Kesehatan',
-      badgeStyle: 'bg-purple-500/15 text-purple-600 dark:text-purple-400 border-purple-500/30',
-      description: 'Ketidakhadiran karena alasan kesehatan dengan surat dokter.'
-    }
-  ];
-
-  const filteredDefinitions = shiftDefinitions.filter(def =>
-    def.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    def.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    def.description.toLowerCase().includes(searchTerm.toLowerCase())
+  const query = searchTerm.toLowerCase();
+  const filteredDefinitions = SHIFT_REFERENCE.filter(def =>
+    def.badgeCode.toLowerCase().includes(query) ||
+    def.title.toLowerCase().includes(query) ||
+    def.description.toLowerCase().includes(query)
   );
 
   return (
@@ -172,7 +71,7 @@ export default function ShiftCodeModal({ onClose }: ShiftCodeModalProps) {
           ) : (
             filteredDefinitions.map(def => (
               <div
-                key={def.code}
+                key={def.key}
                 className="p-3 bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800/80 rounded-lg flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:border-slate-300 dark:hover:border-slate-700 transition-colors"
               >
                 <div className="flex items-start gap-2.5">
