@@ -98,6 +98,25 @@ export const i18n = {
   btnSaveShiftCode: 'Simpan Perubahan Shift',
   btnCloseDrawer: 'Tutup Panel',
 
+  // Multi-Select Bulk Edit (RosterGrid selection mode + BulkEditBar)
+  btnSelectMode: 'Pilih Banyak',
+  btnSelectModeActive: 'Selesai Memilih',
+  selectModeHint: 'Klik sel untuk memilih · Shift+klik untuk rentang tanggal · centang nama untuk satu baris penuh',
+  selectRowTitle: 'Pilih / batalkan seluruh jadwal personel ini',
+  bulkSelectedLabel: 'sel dipilih',
+  bulkStaffLabel: 'personel',
+  bulkNewCodeLabel: 'Ubah semua menjadi:',
+  bulkJustificationPlaceholder: 'Catatan operasional (opsional)',
+  btnBulkApply: 'Terapkan',
+  btnBulkClear: 'Batal',
+  bulkConfirmTitle: 'Konfirmasi Perubahan Massal',
+  bulkConfirmDesc: 'Semua sel yang dipilih akan diubah menjadi kode shift berikut. Setiap perubahan tercatat di log audit.',
+  bulkVacateNotice: 'shift kerja akan ditandai sebagai kekosongan (gap) dan perlu pengganti.',
+  bulkConflictTitle: 'Potensi konflik jadwal:',
+  bulkConflictDesc: 'Personel berikut akan berada di kode shift yang sama pada tanggal yang sama. Perubahan tetap bisa dilanjutkan.',
+  btnBulkConfirm: 'Ya, Terapkan Perubahan',
+  bulkSuccess: 'sel berhasil diubah.',
+
   // Fallback Notice Badges
   fallbackBadgeSameGroup: '⚠️ Anggota Sub-Grup Sama',
   fallbackBadgeEmergency: '⚠️ Rotasi Darurat',

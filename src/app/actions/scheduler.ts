@@ -262,6 +262,146 @@ export async function updateShiftCode({
   }
 }
 
+interface BulkChangeShiftParams {
+  shiftIds: string[];
+  newShiftCode: string;
+  justification?: string;
+  actorId?: string;
+}
+
+const BULK_LEAVE_CODES = ['CUTI', 'DINAS LUAR', 'DIKLAT', 'SAKIT'];
+const BULK_OFF_CODES = ['L', 'Y'];
+
+/**
+ * Server Action to apply one shift code to many shifts at once (multi-select bulk edit).
+ * Work shifts vacated by a leave code become Pending gaps, mirroring assignLeaveAndReplacement
+ * Case B; every other change is a plain code update that resolves any pending gap on that shift.
+ */
+export async function updateShiftCodesBulk({
+  shiftIds,
+  newShiftCode,
+  justification = 'BULK_MANUAL_EDIT',
+  actorId = 'Manager Teknik'
+}: BulkChangeShiftParams) {
+  const uniqueIds = Array.from(new Set(shiftIds.filter(Boolean)));
+  const targetCode = newShiftCode.trim().toUpperCase();
+  console.log(`[actions/scheduler] Bulk updating ${uniqueIds.length} shifts to ${targetCode}`);
+
+  if (uniqueIds.length === 0) {
+    return { success: false, error: 'Tidak ada shift yang dipilih.' };
+  }
+
+  try {
+    // 1. Fetch current shift info for audit logging & gap handling
+    const { data: currentShifts, error: fetchErr } = await supabaseAdmin!
+      .from('shifts')
+      .select('id, staff_id, shift_code, status')
+      .in('id', uniqueIds);
+
+    if (fetchErr) {
+      throw new Error(`Failed to fetch current shifts info: ${fetchErr.message}`);
+    }
+    if (!currentShifts || currentShifts.length === 0) {
+      throw new Error('Shift yang dipilih tidak ditemukan di database.');
+    }
+
+    // Work shifts (anything other than L/Y) being changed to a leave code leave a hole in the roster
+    const isLeaveTarget = BULK_LEAVE_CODES.includes(targetCode);
+    const vacatedIds = isLeaveTarget
+      ? currentShifts
+          .filter(s => !BULK_OFF_CODES.includes((s.shift_code || '').toUpperCase()))
+          .map(s => s.id)
+      : [];
+    const vacatedSet = new Set(vacatedIds);
+    const filledIds = currentShifts.map(s => s.id).filter(id => !vacatedSet.has(id));
+
+    // 2. Perform the updates (one query per status bucket)
+    if (filledIds.length > 0) {
+      const { error: updateErr } = await supabaseAdmin!
+        .from('shifts')
+        .update({ shift_code: targetCode, status: 'Filled' })
+        .in('id', filledIds);
+
+      if (updateErr) {
+        throw new Error(`Failed to update shifts: ${updateErr.message}`);
+      }
+    }
+
+    if (vacatedIds.length > 0) {
+      const { error: updateErr } = await supabaseAdmin!
+        .from('shifts')
+        .update({ shift_code: targetCode, status: 'Gap' })
+        .in('id', vacatedIds);
+
+      if (updateErr) {
+        throw new Error(`Failed to update vacated shifts: ${updateErr.message}`);
+      }
+    }
+
+    // 3. Gap events: resolve pending ones on shifts now Filled, open new ones for vacated work shifts
+    if (filledIds.length > 0) {
+      const { error: gapErr } = await supabaseAdmin!
+        .from('gap_events')
+        .update({ status: 'Resolved' })
+        .in('shift_id', filledIds)
+        .eq('status', 'Pending');
+
+      if (gapErr) {
+        console.warn(`[actions/scheduler] Warning resolving associated gap events:`, gapErr.message);
+      }
+    }
+
+    if (vacatedIds.length > 0) {
+      const { data: existingGaps } = await supabaseAdmin!
+        .from('gap_events')
+        .select('shift_id')
+        .in('shift_id', vacatedIds)
+        .eq('status', 'Pending');
+
+      const alreadyOpen = new Set((existingGaps || []).map(g => g.shift_id));
+      const newGaps = vacatedIds
+        .filter(id => !alreadyOpen.has(id))
+        .map(id => ({ shift_id: id, reason: targetCode, status: 'Pending' }));
+
+      if (newGaps.length > 0) {
+        const { error: createGapErr } = await supabaseAdmin!
+          .from('gap_events')
+          .insert(newGaps);
+
+        if (createGapErr) {
+          console.warn(`[actions/scheduler] Warning creating gap events:`, createGapErr.message);
+        }
+      }
+    }
+
+    // 4. Log the action (one row per shift, single insert)
+    const timestamp = new Date().toISOString();
+    await supabaseAdmin!
+      .from('audit_log')
+      .insert(
+        currentShifts.map(s => ({
+          actor_id: actorId,
+          action: vacatedSet.has(s.id) ? 'LEAVE_PENDING_GAP' : 'UPDATE',
+          entity: 'shifts',
+          entity_id: s.id,
+          metadata: {
+            old_shift_code: s.shift_code,
+            new_shift_code: targetCode,
+            justification,
+            bulk_size: currentShifts.length,
+            timestamp
+          }
+        }))
+      );
+
+    revalidatePath('/');
+    return { success: true, updated: currentShifts.length, gapsCreated: vacatedIds.length };
+  } catch (error: any) {
+    console.error('[actions/scheduler] Error during bulk shift update:', error);
+    return { success: false, error: error.message || 'Failed to update shifts' };
+  }
+}
+
 interface SwapShiftsParams {
   shiftAId: string;
   shiftBId: string;

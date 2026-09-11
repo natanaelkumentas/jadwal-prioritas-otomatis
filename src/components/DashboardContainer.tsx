@@ -5,6 +5,7 @@ import RosterGrid from './RosterGrid';
 import RosterSkeleton from './RosterSkeleton';
 import RecommendationDrawer from './RecommendationDrawer';
 import ShiftEditDrawer from './ShiftEditDrawer';
+import BulkEditBar from './BulkEditBar';
 import MonthSelector from './MonthSelector';
 import PersonnelManagementModal from './PersonnelManagementModal';
 import { getShiftsForMonth } from '@/app/actions/scheduler';
@@ -54,6 +55,10 @@ export default function DashboardContainer({
     shift: Shift;
     staff: Staff;
   } | null>(null);
+
+  // Multi-select bulk edit state (cells chosen in the grid while selection mode is on)
+  const [selectionMode, setSelectionMode] = useState<boolean>(false);
+  const [selectedShiftIds, setSelectedShiftIds] = useState<Set<string>>(new Set());
 
   // Fetch shifts & fresh staff list
   const fetchMonthShifts = async (year: number, month: number) => {
@@ -141,8 +146,38 @@ export default function DashboardContainer({
   const handleMonthChange = (year: number, month: number) => {
     setCurrentYear(year);
     setCurrentMonth(month);
+    setSelectedShiftIds(new Set());
     fetchMonthShifts(year, month);
   };
+
+  const handleToggleSelectionMode = () => {
+    setSelectionMode(prev => !prev);
+    setSelectedShiftIds(new Set());
+  };
+
+  const handleClearSelection = () => {
+    setSelectionMode(false);
+    setSelectedShiftIds(new Set());
+  };
+
+  const handleBulkApplySuccess = () => {
+    console.log('[DashboardContainer] Bulk update successful. Refreshing month shifts...');
+    setSelectedShiftIds(new Set());
+    fetchMonthShifts(currentYear, currentMonth);
+  };
+
+  // Escape: clear the current selection first, then leave selection mode
+  useEffect(() => {
+    if (!selectionMode) return;
+    const hasSelection = selectedShiftIds.size > 0;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return;
+      if (hasSelection) setSelectedShiftIds(new Set());
+      else setSelectionMode(false);
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [selectionMode, selectedShiftIds]);
 
   const handleRefreshData = () => {
     fetchMonthShifts(currentYear, currentMonth);
@@ -278,8 +313,23 @@ export default function DashboardContainer({
             currentMonth={currentMonth}
             onSelectGap={handleSelectGap}
             onSelectShift={handleSelectShift}
+            selectionMode={selectionMode}
+            selectedShiftIds={selectedShiftIds}
+            onToggleSelectionMode={handleToggleSelectionMode}
+            onSelectionChange={setSelectedShiftIds}
           />
         </div>
+      )}
+
+      {/* Floating bulk edit bar (multi-select mode with at least one cell chosen) */}
+      {selectionMode && selectedShiftIds.size > 0 && (
+        <BulkEditBar
+          selectedShifts={shifts.filter(s => selectedShiftIds.has(s.id))}
+          allShifts={shifts}
+          allStaff={staffList}
+          onClear={handleClearSelection}
+          onApplySuccess={handleBulkApplySuccess}
+        />
       )}
 
       {/* Personnel Management Modal Popup */}
