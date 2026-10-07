@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { getAdminUsers, createAdminUser, deleteAdminUser } from '@/app/actions/auth';
+import { getAdminUsers, createAdminUser, deleteAdminUser, syncDatabaseUsersAction } from '@/app/actions/auth';
 import { generateRandomPassword } from '@/lib/auth-types';
-import { FiShield, FiPlus, FiTrash2, FiDownload, FiX, FiCheck, FiRefreshCw } from 'react-icons/fi';
+import { FiShield, FiPlus, FiTrash2, FiDownload, FiX, FiCheck, FiRefreshCw, FiDatabase } from 'react-icons/fi';
 
 interface DeveloperAdminModalProps {
   isOpen: boolean;
@@ -29,6 +29,7 @@ export default function DeveloperAdminModal({ isOpen, onClose }: DeveloperAdminM
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [syncingUsers, setSyncingUsers] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
@@ -39,6 +40,25 @@ export default function DeveloperAdminModal({ isOpen, onClose }: DeveloperAdminM
       setAdmins(res.admins);
     }
     setLoading(false);
+  };
+
+  const handleSyncAll = async () => {
+    setSyncingUsers(true);
+    setError(null);
+    setSuccessMsg(null);
+    try {
+      const res: any = await syncDatabaseUsersAction();
+      if (res.success) {
+        setSuccessMsg(`Berhasil menyinkronkan ${res.totalUsers} pengguna dari users.csv ke database Supabase!`);
+        await loadAdmins();
+      } else {
+        setError(res.error || 'Gagal menyinkronkan akun pengguna.');
+      }
+    } catch (e: any) {
+      setError(e.message || 'Terjadi kesalahan sistem saat sinkronisasi.');
+    } finally {
+      setSyncingUsers(false);
+    }
   };
 
   useEffect(() => {
@@ -215,9 +235,21 @@ Simpan kredensial ini dengan aman!
 
           {/* Admin List */}
           <div>
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3">
-              Daftar Akun Pengelola ({admins.length})
-            </h3>
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                Daftar Akun Pengelola ({admins.length})
+              </h3>
+              <button
+                type="button"
+                onClick={handleSyncAll}
+                disabled={syncingUsers}
+                className="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg text-xs font-medium flex items-center gap-1.5 transition-colors disabled:opacity-50"
+                title="Sinkronkan semua kredensial dari users.csv ke database Supabase"
+              >
+                <FiRefreshCw className={`w-3.5 h-3.5 ${syncingUsers ? 'animate-spin' : ''}`} />
+                <span>{syncingUsers ? 'Menyinkronkan...' : 'Sinkronkan users.csv'}</span>
+              </button>
+            </div>
             <div className="space-y-2">
               {admins.map((adm) => (
                 <div

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { login, ensureAuthDatabase } from '@/app/actions/auth';
 import Image from 'next/image';
 import ThemeToggle from '@/components/ThemeToggle';
-import { FiMail, FiLock, FiEye, FiEyeOff, FiArrowRight, FiShield, FiAlertCircle } from 'react-icons/fi';
+import { FiMail, FiLock, FiEye, FiEyeOff, FiArrowRight, FiShield, FiAlertCircle, FiDatabase, FiCopy, FiCheck, FiRefreshCw } from 'react-icons/fi';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -14,10 +14,55 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [tableMissing, setTableMissing] = useState(false);
+  const [copiedSql, setCopiedSql] = useState(false);
+  const [checkingDb, setCheckingDb] = useState(false);
+
+  const checkDb = async () => {
+    setCheckingDb(true);
+    try {
+      const res: any = await ensureAuthDatabase();
+      if (res && res.tableMissing) {
+        setTableMissing(true);
+      } else {
+        setTableMissing(false);
+        if (error?.includes('belum dibuat')) setError(null);
+      }
+    } finally {
+      setCheckingDb(false);
+    }
+  };
 
   useEffect(() => {
-    ensureAuthDatabase();
+    checkDb();
   }, []);
+
+  const copySql = () => {
+    const sql = `CREATE SCHEMA IF NOT EXISTS jadwal;
+
+CREATE TABLE IF NOT EXISTS jadwal.users (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  email TEXT UNIQUE NOT NULL,
+  password_hash TEXT NOT NULL,
+  name TEXT NOT NULL,
+  role TEXT NOT NULL DEFAULT 'user',
+  staff_id TEXT REFERENCES jadwal.staff(gmail) ON UPDATE CASCADE ON DELETE SET NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  last_login TIMESTAMP WITH TIME ZONE
+);
+
+ALTER TABLE jadwal.users ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS service_all_users ON jadwal.users;
+CREATE POLICY service_all_users ON jadwal.users FOR ALL TO service_role USING (true) WITH CHECK (true);
+DROP POLICY IF EXISTS select_users ON jadwal.users;
+CREATE POLICY select_users ON jadwal.users FOR SELECT TO authenticated USING (true);
+GRANT ALL ON TABLE jadwal.users TO anon, authenticated, service_role;
+NOTIFY pgrst, 'reload schema';`;
+
+    navigator.clipboard.writeText(sql);
+    setCopiedSql(true);
+    setTimeout(() => setCopiedSql(false), 3000);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,8 +70,11 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const res = await login({ email, password });
+      const res: any = await login({ email, password });
       if (!res.success) {
+        if (res.tableMissing) {
+          setTableMissing(true);
+        }
         setError(res.error || 'Login gagal. Periksa email dan password Anda.');
         setLoading(false);
         return;
@@ -85,6 +133,38 @@ export default function LoginPage() {
           <div className="mb-6 p-3.5 rounded-xl bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/30 flex items-start gap-3 text-rose-700 dark:text-rose-300 text-sm animate-shake">
             <FiAlertCircle className="w-5 h-5 flex-shrink-0 text-rose-500 dark:text-rose-400 mt-0.5" />
             <div className="leading-snug">{error}</div>
+          </div>
+        )}
+
+        {/* Table Missing Alert */}
+        {tableMissing && (
+          <div className="mb-6 p-4 rounded-xl bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/30 text-amber-800 dark:text-amber-200 text-xs space-y-3">
+            <div className="flex items-start gap-2.5 font-medium">
+              <FiDatabase className="w-4 h-4 text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0" />
+              <span>Tabel <code>jadwal.users</code> belum dibuat di Supabase Cloud.</span>
+            </div>
+            <p className="text-amber-700 dark:text-amber-300 leading-relaxed">
+              Jalankan script SQL di <strong>Supabase Dashboard &gt; SQL Editor</strong> untuk mengaktifkan tabel autentikasi:
+            </p>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={copySql}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white rounded-lg font-semibold text-xs shadow transition-all active:scale-95"
+              >
+                {copiedSql ? <FiCheck className="w-3.5 h-3.5" /> : <FiCopy className="w-3.5 h-3.5" />}
+                {copiedSql ? 'Tersalin ke Clipboard!' : 'Salin Script SQL'}
+              </button>
+              <button
+                type="button"
+                onClick={checkDb}
+                disabled={checkingDb}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-slate-800 border border-amber-300 dark:border-amber-700 text-amber-900 dark:text-amber-200 rounded-lg text-xs hover:bg-amber-50 dark:hover:bg-slate-700 transition-all disabled:opacity-50"
+              >
+                <FiRefreshCw className={`w-3.5 h-3.5 ${checkingDb ? 'animate-spin' : ''}`} />
+                Periksa Ulang
+              </button>
+            </div>
           </div>
         )}
 

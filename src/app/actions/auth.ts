@@ -10,7 +10,7 @@ import {
   UserSession,
   UserRole
 } from '@/lib/auth';
-import { initAndSeedUsers } from '@/lib/seed-users';
+import { initAndSeedUsers, syncUsersFromCsvToSupabase, parseUsersCsv, SCHEMA_SQL } from '@/lib/seed-users';
 import fs from 'fs';
 import path from 'path';
 
@@ -26,6 +26,10 @@ function appendToUsersCsv(entry: {
   subGroup?: string;
 }) {
   try {
+    // Skip filesystem operations on read-only environments (Vercel serverless)
+    if (process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME) {
+      return;
+    }
     const rootCsvPath = path.resolve(process.cwd(), 'users.csv');
     const cleanName = (entry.name || '').replace(/"/g, '""');
     const cleanGroup = entry.group || '-';
@@ -39,31 +43,96 @@ function appendToUsersCsv(entry: {
       fs.appendFileSync(rootCsvPath, row, 'utf8');
     }
   } catch (err) {
-    console.error('[auth.ts] Error updating users.csv:', err);
+    // Gracefully ignore EROFS errors
+    console.warn('[auth.ts] Skipped appending to users.csv (read-only environment):', err);
   }
 }
 
 /**
- * Ensure jadwal.users table exists and is populated
+ * Check whether jadwal.users table exists in Supabase and count users
+ */
+export async function getDatabaseAuthStatus() {
+  try {
+    if (!supabaseAdmin) {
+      return { success: false, error: 'Supabase admin client belum terinisialisasi.' };
+    }
+
+    const { data, count, error } = await supabaseAdmin
+      .from('users')
+      .select('id, email, name, role', { count: 'exact' })
+      .limit(5);
+
+    if (error) {
+      const isMissingTable =
+        error.code === '42P01' ||
+        error.message?.toLowerCase().includes('does not exist');
+
+      return {
+        success: false,
+        tableMissing: isMissingTable,
+        sql: SCHEMA_SQL,
+        error: isMissingTable
+          ? 'Tabel jadwal.users belum dibuat di Supabase Cloud.'
+          : error.message,
+      };
+    }
+
+    return {
+      success: true,
+      tableExists: true,
+      userCount: count ?? data?.length ?? 0,
+      sampleUsers: data || [],
+    };
+  } catch (err: any) {
+    return { success: false, error: err.message };
+  }
+}
+
+/**
+ * Action to manually trigger synchronization from users.csv to Supabase Cloud
+ */
+export async function syncDatabaseUsersAction() {
+  return await syncUsersFromCsvToSupabase();
+}
+
+/**
+ * Ensure jadwal.users table exists in Supabase
  */
 export async function ensureAuthDatabase() {
   try {
-    const { data, error } = await supabaseAdmin!
+    if (!supabaseAdmin) {
+      return { success: false, error: 'Supabase admin client belum terinisialisasi.' };
+    }
+
+    const { data, error } = await supabaseAdmin
       .from('users')
       .select('id')
       .limit(1);
 
-    if (error || !data || data.length === 0) {
-      return await initAndSeedUsers();
+    if (error) {
+      const isMissingTable =
+        error.code === '42P01' ||
+        error.message?.toLowerCase().includes('does not exist');
+
+      if (isMissingTable) {
+        return {
+          success: false,
+          tableMissing: true,
+          sql: SCHEMA_SQL,
+          error: 'Tabel database jadwal.users belum dibuat di Supabase Cloud.',
+        };
+      }
+      return { success: false, error: error.message };
     }
-    return { success: true };
-  } catch {
-    return await initAndSeedUsers();
+
+    return { success: true, count: data?.length || 0 };
+  } catch (err: any) {
+    return { success: false, error: err.message };
   }
 }
 
 /**
- * Login action
+ * Login action: authenticates directly against the Supabase database (jadwal.users)
  */
 export async function login(formData: FormData | { email: string; password: string }) {
   try {
@@ -72,54 +141,69 @@ export async function login(formData: FormData | { email: string; password: stri
 
     if (formData instanceof FormData) {
       email = (formData.get('email') as string || '').trim().toLowerCase();
-      password = (formData.get('password') as string || '');
+      password = (formData.get('password') as string || '').trim().replace(/^["']|["']$/g, '');
     } else {
       email = (formData.email || '').trim().toLowerCase();
-      password = formData.password || '';
+      password = (formData.password || '').trim().replace(/^["']|["']$/g, '');
     }
 
     if (!email || !password) {
       return { success: false, error: 'Email dan password wajib diisi.' };
     }
 
-    // Check if jadwal.users table exists and has rows, if not self-seed
-    const { data: countData, error: countErr } = await supabaseAdmin!
-      .from('users')
-      .select('id', { count: 'exact', head: true });
-
-    if (countErr || !countData) {
-      // Trigger initialization if table is missing or empty
-      await initAndSeedUsers();
+    if (!supabaseAdmin) {
+      return { success: false, error: 'Layanan Supabase Admin belum aktif.' };
     }
 
-    // Query user by email
-    const { data: user, error: userErr } = await supabaseAdmin!
+    // 1. Query user directly from Supabase database table jadwal.users
+    const { data: user, error: userErr } = await supabaseAdmin
       .from('users')
       .select('id, email, password_hash, name, role, staff_id')
-      .eq('email', email)
-      .single();
+      .ilike('email', email)
+      .maybeSingle();
 
-    if (userErr || !user) {
-      return { success: false, error: 'Email atau password salah.' };
+    if (userErr) {
+      const isMissingTable =
+        userErr.code === '42P01' ||
+        userErr.message?.toLowerCase().includes('does not exist');
+
+      if (isMissingTable) {
+        return {
+          success: false,
+          tableMissing: true,
+          error: 'Tabel jadwal.users belum dibuat di database Supabase Cloud. Silakan jalankan script SQL schema di Supabase SQL Editor.',
+        };
+      }
+      console.error('[auth.ts] Database query error:', userErr);
+      return { success: false, error: 'Gagal menghubungi database autentikasi.' };
     }
 
+    if (!user) {
+      return { success: false, error: 'Email atau kata sandi salah.' };
+    }
+
+    // 2. Verify hashed password using scrypt
     const isValid = verifyPassword(password, user.password_hash);
     if (!isValid) {
-      return { success: false, error: 'Email atau password salah.' };
+      return { success: false, error: 'Email atau kata sandi salah.' };
     }
 
-    // Update last_login
-    await supabaseAdmin!
-      .from('users')
-      .update({ last_login: new Date().toISOString() })
-      .eq('id', user.id);
+    // 3. Update last_login timestamp in Supabase
+    try {
+      await supabaseAdmin
+        .from('users')
+        .update({ last_login: new Date().toISOString() })
+        .eq('id', user.id);
+    } catch (e) {
+      console.warn('[auth.ts] Failed to update last_login:', e);
+    }
 
     const session: UserSession = {
       id: user.id,
       email: user.email,
       name: user.name,
       role: user.role as UserRole,
-      staffId: user.staff_id,
+      staffId: user.staff_id || user.email,
     };
 
     await setSessionCookie(session);

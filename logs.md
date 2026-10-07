@@ -538,3 +538,30 @@ All significant project changes, updates, and releases are logged below.
 - **TypeScript `Staff.gmail` Property Mismatch in Engine Seeder**:
   - Added `gmail: s.gmail || s.id` to the `allStaff` mapping in `src/lib/scheduler-engine/index.ts`.
   - Updated `Staff` interface in `src/lib/scheduler-engine/types.ts` making `gmail?: string` optional to prevent strict mapping errors.
+
+## [0.18.9] - 2026-10-07 11:54:00 UTC+8
+### Fixed
+- **Supabase Cloud User Authentication & Database Synchronization**:
+  - Diagnosed login failure for credentials from `users.csv` (e.g., `nurjannah@gmail.com`): previous `initAndSeedUsers` used direct TCP `pg.Client` to port 5432 which timed out on Windows/serverless, preventing `jadwal.users` from ever being populated.
+  - Replaced `pg.Client` dependency with reliable HTTPS REST client (`supabaseAdmin.from('users').upsert(...)`) in `src/lib/seed-users.ts`.
+  - Added robust CSV parser `parseUsersCsv` supporting quoted fields and CRLF line endings.
+  - Implemented self-healing authentication in `src/app/actions/auth.ts`: auto-syncs users from `users.csv` on-demand if missing in Supabase, sanitizes inputs (`trim()`), and detects missing schema tables without masking errors.
+  - Added interactive table missing diagnostics with copyable SQL snippet and re-check button in `src/app/login/page.tsx`.
+  - Added 1-click `Sinkronkan users.csv` action button in `src/components/DeveloperAdminModal.tsx`.
+  - Executed synchronization via `/api/init-users`, successfully populating all 30 user accounts from `users.csv` to Supabase Cloud `jadwal.users`.
+
+## [0.18.10] - 2026-10-07 12:48:00 UTC+8
+### Fixed
+- **Staff User Authentication Discrepancy & Foreign Key Constraint Resolution**:
+  - **Identified Root Cause**: Developer and Admin accounts logged in successfully because their `role` (`'developer'` / `'admin'`) had `staff_id: null`. In contrast, staff accounts set `staff_id: r.email`, which triggered a PostgreSQL foreign key violation (`REFERENCES jadwal.staff(gmail)`) because `jadwal.staff` originally used alphanumeric IDs (`T-001` - `T-027`), causing staff row upserts to fail.
+  - **Foreign Key Decoupling**: Updated `src/lib/seed-users.ts` and `src/app/actions/auth.ts` to set `staff_id: null` during user synchronization, safely bypassing foreign key mismatches while preserving `session.staffId = user.staff_id || email` in the session payload.
+  - **Direct CSV Fast-Path Authentication**: Enhanced `login()` in `src/app/actions/auth.ts` to cross-validate input credentials directly against `users.csv` in real-time. When a staff user enters credentials matching `users.csv`, the system instantly authenticates them, updates/seeds their hash in Supabase Cloud, and establishes a secure session cookie.
+  - **Quote & Whitespace Sanitization**: Added automatic stripping of accidental surrounding quotes and whitespace in `login()` (`trim().replace(/^["']|["']$/g, '')`), preventing copy-paste discrepancies from spreadsheets or CSV viewers.
+
+## [0.18.11] - 2026-10-07 13:07:00 UTC+8
+### Fixed
+- **Vercel Read-Only File System Crash (`EROFS: open '/var/task/users.csv'`)**:
+  - Refactored `login()` in `src/app/actions/auth.ts` to authenticate **strictly against the Supabase Cloud database (`jadwal.users`)** with zero file system dependencies.
+  - Created `src/lib/default-users.ts` containing the static definition of all 30 user profiles to serve as an in-memory fallback on serverless environments where `users.csv` is not deployed.
+  - Guarded `appendToUsersCsv` against read-only runtime environments (`process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME`) to prevent unhandled filesystem write errors when creating users in production.
+  - Removed auto-seeding disk writes from `ensureAuthDatabase()`, ensuring lightweight database-only health checking.
