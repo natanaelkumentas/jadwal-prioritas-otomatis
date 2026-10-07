@@ -526,4 +526,7 @@ All significant project changes, updates, and releases are logged below.
 ### Fixed
 - **TypeScript MapIterator Downlevel Iteration Build Error**:
   - Replaced direct `codeGroups.entries()` iteration with `Array.from(codeGroups.entries())` in `src/app/actions/scheduler.ts` (resolving `Type error: Type 'MapIterator<...>' can only be iterated through when using the '--downlevelIteration' flag`).
-  - Added `"target": "es2017"` and `"downlevelIteration": true` to `tsconfig.json` compilerOptions for standard modern ES compatibility.
+## [0.18.5] - 2026-10-07 11:23:00 UTC+8
+### Fixed
+- **TypeScript Unresolved Identifier in Personal Schedule Page**:
+  - Replaced undefined `staffId` with resolved `staffIdentifier` in `src/app/personel/[id]/page.tsx` line 95 (resolving `Type error: Cannot find name 'staffId'`).

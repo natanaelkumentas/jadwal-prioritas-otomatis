@@ -92,7 +92,7 @@ export default async function PersonalSchedulePage({ params, searchParams }: Per
           <FiAlertCircle className="w-10 h-10 text-rose-500 mx-auto mb-3" />
           <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-1.5">Personel Tidak Ditemukan</h2>
           <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
-            Data personel dengan ID <strong className="font-mono">{staffId}</strong> tidak terdaftar pada direktori teknik.
+            Data personel dengan ID <strong className="font-mono">{staffIdentifier}</strong> tidak terdaftar pada direktori teknik.
           </p>
           <Link
             href="/"
