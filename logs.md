@@ -533,5 +533,8 @@ All significant project changes, updates, and releases are logged below.
 ### Fixed
 ## [0.18.7] - 2026-10-07 11:28:00 UTC+8
 ### Fixed
-- **TypeScript Missing Import `DAY_NAMES_ID` in PersonalScheduleView**:
-  - Imported `DAY_NAMES_ID` from `@/lib/shift-codes` into `src/components/PersonalScheduleView.tsx` (resolving `Type error: Cannot find name 'DAY_NAMES_ID'`).
+## [0.18.8] - 2026-10-07 11:33:00 UTC+8
+### Fixed
+- **TypeScript `Staff.gmail` Property Mismatch in Engine Seeder**:
+  - Added `gmail: s.gmail || s.id` to the `allStaff` mapping in `src/lib/scheduler-engine/index.ts`.
+  - Updated `Staff` interface in `src/lib/scheduler-engine/types.ts` making `gmail?: string` optional to prevent strict mapping errors.

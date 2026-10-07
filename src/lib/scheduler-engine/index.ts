@@ -89,6 +89,7 @@ export async function getShiftReplacementRecommendations(
 
   const allStaff: Staff[] = (staffData as any[]).map(s => ({
     id: s.id,
+    gmail: s.gmail || s.id,
     name: s.name,
     group: s.group,
     sub_group: s.sub_group,

@@ -1,6 +1,6 @@
 export interface Staff {
   id: string; // The primary key (which is the staff's Gmail address)
-  gmail: string; // Explicit alias to id
+  gmail?: string; // Explicit alias to id
   name: string;
   group: 'CNS' | 'ESS';
   sub_group: string;
