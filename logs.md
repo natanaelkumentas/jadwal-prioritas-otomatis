@@ -521,3 +521,9 @@ All significant project changes, updates, and releases are logged below.
   - Added missing `getDaysDiff` import from `@/lib/scheduler-engine/filters` into `src/app/actions/personnel.ts` (resolving TypeScript compilation error `Cannot find name 'getDaysDiff'`).
   - Added `serverComponentsExternalPackages: ['pg']` to `next.config.mjs` to ensure the `pg` driver is treated as an external package by Next.js bundler on Vercel.
   - Resolved React hook dependency warnings in `src/components/CalendarSyncModal.tsx` and `src/components/BulkEditBar.tsx`.
+
+## [0.18.4] - 2026-10-07 09:29:00 UTC+8
+### Fixed
+- **TypeScript MapIterator Downlevel Iteration Build Error**:
+  - Replaced direct `codeGroups.entries()` iteration with `Array.from(codeGroups.entries())` in `src/app/actions/scheduler.ts` (resolving `Type error: Type 'MapIterator<...>' can only be iterated through when using the '--downlevelIteration' flag`).
+  - Added `"target": "es2017"` and `"downlevelIteration": true` to `tsconfig.json` compilerOptions for standard modern ES compatibility.

@@ -419,7 +419,7 @@ export async function batchUpdateShiftAssignments({
   let totalUpdated = 0;
   let totalGapsCreated = 0;
 
-  for (const [code, ids] of codeGroups.entries()) {
+  for (const [code, ids] of Array.from(codeGroups.entries())) {
     const res = await updateShiftCodesBulk({
       shiftIds: ids,
       newShiftCode: code,
