@@ -11,6 +11,8 @@ import {
   assignManager,
   deletePersonnel
 } from '@/app/actions/personnel';
+import { registerStaffUser } from '@/app/actions/auth';
+import { generateRandomPassword } from '@/lib/auth-types';
 import {
   FiUsers,
   FiUserPlus,
@@ -21,7 +23,9 @@ import {
   FiCheck,
   FiX,
   FiAlertTriangle,
-  FiLoader
+  FiLoader,
+  FiRefreshCw,
+  FiKey
 } from 'react-icons/fi';
 
 interface RatingOption {
@@ -47,13 +51,26 @@ export default function PersonnelManagementModal({
   const [searchTerm, setSearchTerm] = useState('');
   const [groupFilter, setGroupFilter] = useState<'ALL' | 'CNS' | 'ESS' | 'Management'>('ALL');
 
+  // Available Sub-Groups (Numbers Only)
+  const [availableSubGroups, setAvailableSubGroups] = useState<string[]>(() => {
+    const existing = Array.from(new Set(
+      initialStaff
+        .map(s => s.sub_group)
+        .filter(sg => sg && sg !== '-' && sg !== '0' && /^\d+$/.test(sg))
+    )).sort((a, b) => Number(a) - Number(b));
+    return existing.length > 0 ? existing : ['1', '2', '3', '4', '5'];
+  });
+  const [newSubGroupInput, setNewSubGroupInput] = useState('');
+  const [showAddSubGroupInput, setShowAddSubGroupInput] = useState(false);
+
   // Form State
   const [showFormModal, setShowFormModal] = useState(false);
   const [editingStaff, setEditingStaff] = useState<Staff | null>(null);
   const [formId, setFormId] = useState('');
   const [formName, setFormName] = useState('');
+  const [formPassword, setFormPassword] = useState('');
   const [formGroup, setFormGroup] = useState<'CNS' | 'ESS'>('CNS');
-  const [formSubGroup, setFormSubGroup] = useState('Grup 1');
+  const [formSubGroup, setFormSubGroup] = useState('1');
   const [formRoleLevel, setFormRoleLevel] = useState('Teknisi');
   const [selectedRatingIds, setSelectedRatingIds] = useState<string[]>([]);
 
@@ -78,7 +95,53 @@ export default function PersonnelManagementModal({
   // Update list when initialStaff changes
   useEffect(() => {
     setStaffList(initialStaff);
+    const existing = Array.from(new Set(
+      initialStaff
+        .map(s => s.sub_group)
+        .filter(sg => sg && sg !== '-' && sg !== '0' && /^\d+$/.test(sg))
+    )).sort((a, b) => Number(a) - Number(b));
+    if (existing.length > 0) {
+      setAvailableSubGroups(existing);
+    }
   }, [initialStaff]);
+
+  const handleAddSubGroup = () => {
+    const trimmed = newSubGroupInput.trim().replace(/\D/g, '');
+    if (!trimmed) {
+      toast.error('Nomor sub-grup harus berupa angka.');
+      return;
+    }
+    if (availableSubGroups.includes(trimmed)) {
+      toast.info(`Sub-grup ${trimmed} sudah ada.`);
+      setFormSubGroup(trimmed);
+      setShowAddSubGroupInput(false);
+      return;
+    }
+    const updated = [...availableSubGroups, trimmed].sort((a, b) => Number(a) - Number(b));
+    setAvailableSubGroups(updated);
+    setFormSubGroup(trimmed);
+    setNewSubGroupInput('');
+    setShowAddSubGroupInput(false);
+    toast.success(`Sub-grup ${trimmed} berhasil ditambahkan.`);
+  };
+
+  const handleRemoveSubGroup = (sgToRemove: string) => {
+    if (availableSubGroups.length <= 1) {
+      toast.error('Harus ada minimal satu sub-grup yang aktif.');
+      return;
+    }
+    const isUsed = staffList.some(s => s.sub_group === sgToRemove);
+    if (isUsed) {
+      toast.error(`Sub-grup ${sgToRemove} sedang digunakan oleh teknisi aktif. Pindahkan teknisi terlebih dahulu.`);
+      return;
+    }
+    const updated = availableSubGroups.filter(sg => sg !== sgToRemove);
+    setAvailableSubGroups(updated);
+    if (formSubGroup === sgToRemove) {
+      setFormSubGroup(updated[0] || '1');
+    }
+    toast.success(`Sub-grup ${sgToRemove} berhasil dihapus.`);
+  };
 
   // Filter staff list
   const filteredStaff = staffList.filter(s => {
@@ -109,12 +172,12 @@ export default function PersonnelManagementModal({
 
   const openAddForm = () => {
     const defaultGrp: 'CNS' | 'ESS' = 'CNS';
-    const nextId = generateNextId(defaultGrp, staffList);
     setEditingStaff(null);
-    setFormId(nextId);
+    setFormId('');
     setFormName('');
+    setFormPassword(generateRandomPassword(10));
     setFormGroup(defaultGrp);
-    setFormSubGroup('Grup 1');
+    setFormSubGroup(availableSubGroups[0] || '1');
     setFormRoleLevel('Teknisi');
     setSelectedRatingIds([]);
     setShowFormModal(true);
@@ -126,7 +189,7 @@ export default function PersonnelManagementModal({
     setFormName(staff.name);
     const grp = (staff.group as 'CNS' | 'ESS') || 'CNS';
     setFormGroup(grp);
-    setFormSubGroup(staff.sub_group);
+    setFormSubGroup(staff.sub_group || '1');
     setFormRoleLevel(staff.role_level);
 
     // Map existing staff ratings to rating IDs matching staff group
@@ -147,16 +210,23 @@ export default function PersonnelManagementModal({
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formName.trim() || !formId.trim()) {
-      toast.error('ID / NIP dan Nama Lengkap wajib diisi.');
+    const cleanGmail = formId.trim().toLowerCase();
+    if (!formName.trim() || !cleanGmail) {
+      toast.error('Email Gmail dan Nama Lengkap wajib diisi.');
+      return;
+    }
+    if (!cleanGmail.includes('@') || !cleanGmail.includes('.')) {
+      toast.error('Format email Gmail tidak valid (contoh: nama@gmail.com).');
       return;
     }
 
     setIsSubmitting(true);
     try {
       if (editingStaff) {
+        const origId = editingStaff.gmail || editingStaff.id;
         const res = await updatePersonnel({
-          id: formId,
+          id: cleanGmail,
+          originalId: origId,
           name: formName,
           group: formGroup,
           sub_group: formSubGroup,
@@ -182,7 +252,43 @@ export default function PersonnelManagementModal({
         });
 
         if (res.success) {
-          toast.success(`Berhasil menambahkan personel ${formName}.`);
+          // Register user in jadwal.users
+          await registerStaffUser({
+            name: formName,
+            email: cleanGmail,
+            password: formPassword,
+            group: formGroup,
+            subGroup: formSubGroup,
+          });
+
+          // Auto-download user credentials file
+          const credText = `=========================================
+KREDENSIAL AKUN PERSONEL SAPS
+AirNav Indonesia - Cabang Manado
+=========================================
+Nama Lengkap : ${formName}
+Email Dinas  : ${cleanGmail}
+Kata Sandi   : ${formPassword}
+Peran        : user
+Unit         : ${formGroup} (Subgrup ${formSubGroup})
+Dibuat       : ${new Date().toLocaleString('id-ID')}
+=========================================
+Tautan Login : ${window.location.origin}/login
+Feed Kalender: ${window.location.origin}/api/calendar/${encodeURIComponent(cleanGmail)}.ics
+=========================================
+Simpan kredensial ini dan berikan kepada personel bersangkutan.`;
+
+          const blob = new Blob([credText], { type: 'text/plain;charset=utf-8' });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = `kredensial-user-${cleanGmail.replace(/[^a-z0-9]/gi, '_')}.txt`;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+
+          toast.success(`Berhasil menambahkan personel ${formName}! File kredensial akun telah otomatis diunduh.`);
           setShowFormModal(false);
           onRefreshData();
         } else {
@@ -235,14 +341,6 @@ export default function PersonnelManagementModal({
       toast.error('Terjadi kesalahan: ' + err.message);
     } finally {
       setIsSubmitting(false);
-    }
-  };
-
-  const getSubGroupOptions = () => {
-    if (formGroup === 'CNS') {
-      return ['Grup 1', 'Grup 2', 'Grup 3', 'Grup 4', 'Grup 5', 'Management'];
-    } else {
-      return ['ESS Grup 1', 'ESS Grup 2', 'ESS Grup 3', 'ESS Grup 4', 'ESS Grup 5', 'Management'];
     }
   };
 
@@ -338,7 +436,7 @@ export default function PersonnelManagementModal({
 
                 <div className="flex items-center justify-between text-[10px] text-slate-400 pt-1 border-t border-slate-900">
                   <div>
-                    Grup: <strong className="text-slate-200">{staff.group} ({staff.sub_group})</strong>
+                    Grup: <strong className="text-slate-700 dark:text-slate-200">{staff.group} {staff.sub_group && staff.sub_group !== '-' ? `· Sub-Grup ${staff.sub_group}` : ''}</strong>
                   </div>
                   <div className="flex items-center gap-1">
                     {staff.group === 'CNS' && staff.ratings?.map(r => (
@@ -402,7 +500,9 @@ export default function PersonnelManagementModal({
                     <td className="px-3 py-2.5 font-mono text-slate-500 dark:text-slate-400 font-bold">{staff.id}</td>
                     <td className="px-3 py-2.5 font-medium text-slate-900 dark:text-slate-100">{staff.name}</td>
                     <td className="px-3 py-2.5 text-slate-700 dark:text-slate-300">{staff.group}</td>
-                    <td className="px-3 py-2.5 text-slate-600 dark:text-slate-400">{staff.sub_group}</td>
+                    <td className="px-3 py-2.5 text-slate-600 dark:text-slate-400 font-semibold">
+                      {staff.sub_group && staff.sub_group !== '-' ? `Grup ${staff.sub_group}` : '-'}
+                    </td>
                     <td className="px-3 py-2.5">
                       <span className={`px-2 py-0.5 rounded text-[10px] font-semibold border ${
                         staff.role_level === 'Manager Teknik'
@@ -499,22 +599,22 @@ export default function PersonnelManagementModal({
             </div>
 
             {/* ID & Name */}
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
                 <label className="text-[11px] font-semibold text-slate-600 dark:text-slate-400 block mb-1">
-                  ID / NIP
+                  Email Gmail (ID Utama)
                 </label>
                 <input
-                  type="text"
+                  type="email"
                   value={formId}
-                  disabled={!!editingStaff}
-                  onChange={e => setFormId(e.target.value)}
-                  className="w-full px-3 py-1.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-200 font-mono text-xs focus:outline-none disabled:opacity-60"
+                  onChange={e => setFormId(e.target.value.toLowerCase().trim())}
+                  placeholder="e.g. nama@gmail.com"
+                  className="w-full px-3 py-1.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-200 font-mono text-xs focus:outline-none focus:border-slate-500"
                   required
                 />
               </div>
 
-              <div className="col-span-2">
+              <div className="sm:col-span-2">
                 <label className="text-[11px] font-semibold text-slate-600 dark:text-slate-400 block mb-1">
                   Nama Lengkap
                 </label>
@@ -529,6 +629,38 @@ export default function PersonnelManagementModal({
               </div>
             </div>
 
+            {/* Password Field for New Staff */}
+            {!editingStaff && (
+              <div>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="text-[11px] font-semibold text-slate-600 dark:text-slate-400">
+                    Kata Sandi Akun (Otomatis Diunduh saat Simpan)
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setFormPassword(generateRandomPassword(10))}
+                    className="text-[10px] text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 flex items-center gap-1 font-semibold transition-colors"
+                  >
+                    <FiRefreshCw className="w-3 h-3" />
+                    Acak Sandi Baru
+                  </button>
+                </div>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-500">
+                    <FiKey className="w-3.5 h-3.5" />
+                  </div>
+                  <input
+                    type="text"
+                    value={formPassword}
+                    onChange={e => setFormPassword(e.target.value)}
+                    placeholder="Minimal 8 karakter..."
+                    className="w-full pl-8 pr-3 py-1.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-200 font-mono text-xs focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 transition-all"
+                    required
+                  />
+                </div>
+              </div>
+            )}
+
             {/* Group & SubGroup */}
             <div className="grid grid-cols-2 gap-3">
               <div>
@@ -540,7 +672,7 @@ export default function PersonnelManagementModal({
                   onChange={e => {
                     const grp = e.target.value as 'CNS' | 'ESS';
                     setFormGroup(grp);
-                    setFormSubGroup(grp === 'CNS' ? 'Grup 1' : 'ESS Grup 1');
+                    setFormSubGroup(availableSubGroups[0] || '1');
                     if (!editingStaff) {
                       setFormId(generateNextId(grp, staffList));
                     }
@@ -556,18 +688,62 @@ export default function PersonnelManagementModal({
               </div>
 
               <div>
-                <label className="text-[11px] font-semibold text-slate-600 dark:text-slate-400 block mb-1">
-                  Sub-Grup Rotasi
-                </label>
-                <select
-                  value={formSubGroup}
-                  onChange={e => setFormSubGroup(e.target.value)}
-                  className="w-full px-3 py-1.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-200 text-xs focus:outline-none"
-                >
-                  {getSubGroupOptions().map(opt => (
-                    <option key={opt} value={opt}>{opt}</option>
-                  ))}
-                </select>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="text-[11px] font-semibold text-slate-600 dark:text-slate-400">
+                    Sub-Grup Rotasi (Nomor)
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setShowAddSubGroupInput(prev => !prev)}
+                    className="text-[10px] text-emerald-600 dark:text-emerald-400 hover:underline font-bold"
+                  >
+                    {showAddSubGroupInput ? 'Batal' : '+ Tambah'}
+                  </button>
+                </div>
+
+                {showAddSubGroupInput && (
+                  <div className="flex items-center gap-1.5 mb-1.5">
+                    <input
+                      type="number"
+                      min="1"
+                      max="99"
+                      value={newSubGroupInput}
+                      onChange={e => setNewSubGroupInput(e.target.value)}
+                      placeholder="Nomor sub-grup baru (e.g. 6)"
+                      className="w-full px-2.5 py-1 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded text-xs text-slate-900 dark:text-white"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleAddSubGroup}
+                      className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded text-xs font-bold whitespace-nowrap"
+                    >
+                      Simpan
+                    </button>
+                  </div>
+                )}
+
+                <div className="flex items-center gap-1.5">
+                  <select
+                    value={formSubGroup}
+                    onChange={e => setFormSubGroup(e.target.value)}
+                    className="flex-1 px-3 py-1.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-200 text-xs focus:outline-none"
+                  >
+                    {availableSubGroups.map(sg => (
+                      <option key={sg} value={sg}>Grup {sg}</option>
+                    ))}
+                    <option value="-">- (Non-Grup / Manager)</option>
+                  </select>
+                  {availableSubGroups.includes(formSubGroup) && (
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveSubGroup(formSubGroup)}
+                      title={`Hapus sub-grup ${formSubGroup} jika tidak digunakan`}
+                      className="p-1.5 text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30 rounded border border-slate-200 dark:border-slate-700 text-xs"
+                    >
+                      <FiTrash2 className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
 

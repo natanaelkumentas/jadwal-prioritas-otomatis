@@ -21,6 +21,7 @@ interface RosterGridProps {
   selectedShiftIds?: Set<string>;
   onToggleSelectionMode?: () => void;
   onSelectionChange?: (next: Set<string>) => void;
+  readOnly?: boolean;
 }
 
 const EMPTY_SELECTION = new Set<string>();
@@ -36,7 +37,8 @@ export default function RosterGrid({
   selectionMode = false,
   selectedShiftIds = EMPTY_SELECTION,
   onToggleSelectionMode,
-  onSelectionChange
+  onSelectionChange,
+  readOnly = false
 }: RosterGridProps) {
   const [staffList] = useState<Staff[]>(initialStaff);
   const [searchTerm, setSearchTerm] = useState('');
@@ -97,19 +99,25 @@ export default function RosterGrid({
   const toDateStr = (day: number) => `${currentYear}-${formattedMonthStr}-${day.toString().padStart(2, '0')}`;
 
   // All shift rows of one staff member in the displayed month (used by row select & range select)
-  const getRowShifts = (staff: Staff) =>
-    shifts.filter(s => s.staff_id === staff.id && s.date.startsWith(`${currentYear}-${formattedMonthStr}-`));
+  const getRowShifts = (staff: Staff) => {
+    const sId = staff.id || staff.gmail;
+    return shifts.filter(s => 
+      (s.staff_id === sId || (staff.gmail && s.staff_id === staff.gmail) || (staff.id && s.staff_id === staff.id)) &&
+      s.date.startsWith(`${currentYear}-${formattedMonthStr}-`)
+    );
+  };
 
   // Selection-mode cell click: plain click toggles, Shift+click selects the date range from the anchor
   const handleCellSelect = (staff: Staff, day: number, shift: Shift, extendRange: boolean) => {
     if (!onSelectionChange) return;
     const next = new Set(selectedShiftIds);
+    const sId = staff.id || staff.gmail;
 
-    if (extendRange && selectionAnchor && selectionAnchor.staffId === staff.id && selectedShiftIds.size > 0) {
+    if (extendRange && selectionAnchor && (selectionAnchor.staffId === staff.id || (staff.gmail && selectionAnchor.staffId === staff.gmail)) && selectedShiftIds.size > 0) {
       const [from, to] = selectionAnchor.day <= day ? [selectionAnchor.day, day] : [day, selectionAnchor.day];
       for (let d = from; d <= to; d++) {
         const dateStr = toDateStr(d);
-        const inRange = shifts.find(s => s.staff_id === staff.id && s.date === dateStr);
+        const inRange = shifts.find(s => (s.staff_id === sId || (staff.gmail && s.staff_id === staff.gmail)) && s.date === dateStr);
         if (inRange) next.add(inRange.id);
       }
     } else if (next.has(shift.id)) {
@@ -118,7 +126,7 @@ export default function RosterGrid({
       next.add(shift.id);
     }
 
-    setSelectionAnchor({ staffId: staff.id, day });
+    setSelectionAnchor({ staffId: sId || staff.name, day });
     onSelectionChange(next);
   };
 
@@ -185,9 +193,10 @@ export default function RosterGrid({
             </thead>
             <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
               {staffGroup.map(staff => {
+                const staffIdentifier = staff.id || staff.gmail || staff.name;
                 const rowSelection = selectionMode ? getRowSelectionState(staff) : 'none';
                 return (
-                  <tr key={staff.id} className="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
+                  <tr key={staffIdentifier} className="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
                     <td className="px-2 sm:px-4 py-1.5 sm:py-3 border-r border-slate-300 dark:border-slate-800 sticky left-0 bg-white dark:bg-slate-950 z-10 w-32 sm:w-56 md:w-64 shadow-xs">
                       <div className="flex items-start gap-1.5 sm:gap-2">
                         {selectionMode && (
@@ -212,7 +221,7 @@ export default function RosterGrid({
                         )}
                       <div className="flex flex-col min-w-0">
                         <Link
-                          href={`/personel/${encodeURIComponent(staff.id)}?tahun=${currentYear}&bulan=${currentMonth}`}
+                          href={`/personel/${encodeURIComponent(staff.name)}?tahun=${currentYear}&bulan=${currentMonth}`}
                           title={`Lihat jadwal dinas personal ${staff.name}`}
                           className="font-bold text-slate-900 dark:text-white hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors truncate max-w-[92px] sm:max-w-[160px] md:max-w-[180px] text-[10px] sm:text-sm flex items-center gap-1 group/name"
                         >
@@ -229,9 +238,11 @@ export default function RosterGrid({
                               {r}
                             </span>
                           ))}
-                          <span className="hidden sm:inline-block px-1 py-0.5 text-[9px] font-medium bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 text-slate-700 dark:text-slate-400 rounded truncate max-w-[80px]">
-                            {staff.sub_group}
-                          </span>
+                          {staff.sub_group && staff.sub_group !== '-' && (
+                            <span className="hidden sm:inline-block px-1 py-0.5 text-[9px] font-medium bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 text-slate-700 dark:text-slate-400 rounded truncate max-w-[80px]">
+                              Grup {staff.sub_group}
+                            </span>
+                          )}
                         </div>
                       </div>
                       </div>
@@ -239,7 +250,10 @@ export default function RosterGrid({
                     {daysInMonth.map(day => {
                       const isToday = isCurrentCalendarMonth && day === todayDay;
                       const dateStr = toDateStr(day);
-                      const shift = shifts.find(s => s.staff_id === staff.id && s.date === dateStr);
+                      const shift = shifts.find(s => 
+                        (s.staff_id === staffIdentifier || (staff.gmail && s.staff_id === staff.gmail) || (staff.id && s.staff_id === staff.id)) && 
+                        s.date === dateStr
+                      );
                       const pendingGap = gapEvents.find(g => g.shift_id === shift?.id && g.status === 'Pending');
                       const isSelected = selectionMode && !!shift && selectedShiftIds.has(shift.id);
 
@@ -253,7 +267,7 @@ export default function RosterGrid({
                             // Keep Shift+click from starting a text selection across the grid
                             onMouseDown={(e) => { if (selectionMode && e.shiftKey) e.preventDefault(); }}
                             onClick={(e) => {
-                              if (!shift) return;
+                              if (readOnly || !shift) return;
                               if (selectionMode) {
                                 handleCellSelect(staff, day, shift, e.shiftKey);
                               } else if (pendingGap) {
@@ -263,6 +277,8 @@ export default function RosterGrid({
                               }
                             }}
                             className={`w-7 h-7 sm:w-9 sm:h-9 text-[9px] sm:text-xs rounded transition-all mx-auto flex items-center justify-center text-center leading-none ${getShiftStyle(shift, pendingGap)} ${
+                              readOnly ? 'cursor-default' : 'cursor-pointer'
+                            } ${
                               isSelected
                                 ? 'ring-2 ring-emerald-500 ring-offset-1 ring-offset-white dark:ring-offset-slate-900 scale-90'
                                 : ''
@@ -299,7 +315,7 @@ export default function RosterGrid({
         </div>
 
         <div className="flex items-center gap-2 self-start sm:self-auto">
-          {onToggleSelectionMode && (
+          {onToggleSelectionMode && !readOnly && (
             <button
               onClick={() => {
                 setSelectionAnchor(null);
@@ -342,13 +358,15 @@ export default function RosterGrid({
       {/* CNS Technical Subgroups */}
       {cnsSubGroups.map(subGroup => {
         const staffInSubGroup = nonManagerCNS.filter(s => s.sub_group === subGroup);
-        return renderSection(`${i18n.sectionCNSGroup} - ${subGroup}`, staffInSubGroup, subGroup);
+        const title = subGroup && subGroup !== '-' ? `${i18n.sectionCNSGroup} - Grup ${subGroup}` : i18n.sectionCNSGroup;
+        return renderSection(title, staffInSubGroup, subGroup);
       })}
 
       {/* ESS Technical Subgroups */}
       {essSubGroups.map(subGroup => {
         const staffInSubGroup = essStaff.filter(s => s.sub_group === subGroup);
-        return renderSection(`${i18n.sectionESSGroup} - ${subGroup}`, staffInSubGroup, subGroup);
+        const title = subGroup && subGroup !== '-' ? `${i18n.sectionESSGroup} - Grup ${subGroup}` : i18n.sectionESSGroup;
+        return renderSection(title, staffInSubGroup, subGroup);
       })}
 
       {/* Interactive Shift Code Reference Modal */}

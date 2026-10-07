@@ -2,13 +2,15 @@
 
 import { supabaseAdmin } from '@/lib/supabase';
 import { revalidatePath } from 'next/cache';
+import { getRotationShiftCode } from '@/lib/rotation';
+import { StaffGroup } from '@/lib/shift-codes';
 import { getDaysDiff } from '@/lib/scheduler-engine/filters';
 
 if (!supabaseAdmin) {
   throw new Error('Supabase Admin client must be initialized on the server (requires SUPABASE_SERVICE_ROLE_KEY)');
 }
 
-interface AssignParams {
+export interface AssignParams {
   gapEventId: string;
   shiftId: string;
   candidateStaffId: string;
@@ -82,28 +84,11 @@ export async function assignReplacement({
       if (!leaveCodes.includes(currentShiftCode) && currentShiftCode !== 'L' && currentShiftCode !== 'Y') {
         workShiftCodeToAssign = currentShiftCode;
       } else {
-        const daysFromAnchor = Math.abs(getDaysDiff('2025-01-01', targetShift.date));
-        if (targetShift.group === 'ESS') {
-          const essPatterns: Record<string, string[]> = {
-            'ESS Grup 1': ['M', 'Y', 'L', 'PS', 'P'],
-            'ESS Grup 2': ['P', 'M', 'Y', 'L', 'PS'],
-            'ESS Grup 3': ['PS', 'P', 'M', 'Y', 'L'],
-            'ESS Grup 4': ['L', 'PS', 'P', 'M', 'Y'],
-            'ESS Grup 5': ['Y', 'L', 'PS', 'P', 'M']
-          };
-          const pat = essPatterns[targetShift.staff?.sub_group] || ['M', 'Y', 'L', 'PS', 'P'];
-          workShiftCodeToAssign = pat[daysFromAnchor % pat.length];
-        } else {
-          const cnsPatterns: Record<string, string[]> = {
-            'Grup 1': ['L', 'P', 'S', 'M', 'Y'],
-            'Grup 2': ['P', 'S', 'M', 'Y', 'L'],
-            'Grup 3': ['S', 'M', 'Y', 'L', 'P'],
-            'Grup 4': ['M', 'Y', 'L', 'P', 'S'],
-            'Grup 5': ['Y', 'L', 'P', 'S', 'M']
-          };
-          const pat = cnsPatterns[targetShift.staff?.sub_group] || ['P', 'S', 'M', 'Y', 'L'];
-          workShiftCodeToAssign = pat[daysFromAnchor % pat.length];
-        }
+        workShiftCodeToAssign = getRotationShiftCode(
+          targetShift.staff?.sub_group,
+          targetShift.group as StaffGroup,
+          targetShift.date
+        );
 
         if (workShiftCodeToAssign === 'L' || workShiftCodeToAssign === 'Y') {
           workShiftCodeToAssign = 'P';
@@ -184,7 +169,7 @@ export async function assignReplacement({
   }
 }
 
-interface ChangeShiftParams {
+export interface ChangeShiftParams {
   shiftId: string;
   newShiftCode: string;
   justification?: string;
@@ -262,7 +247,7 @@ export async function updateShiftCode({
   }
 }
 
-interface BulkChangeShiftParams {
+export interface BulkChangeShiftParams {
   shiftIds: string[];
   newShiftCode: string;
   justification?: string;
@@ -274,8 +259,6 @@ const BULK_OFF_CODES = ['L', 'Y'];
 
 /**
  * Server Action to apply one shift code to many shifts at once (multi-select bulk edit).
- * Work shifts vacated by a leave code become Pending gaps, mirroring assignLeaveAndReplacement
- * Case B; every other change is a plain code update that resolves any pending gap on that shift.
  */
 export async function updateShiftCodesBulk({
   shiftIds,
@@ -305,7 +288,6 @@ export async function updateShiftCodesBulk({
       throw new Error('Shift yang dipilih tidak ditemukan di database.');
     }
 
-    // Work shifts (anything other than L/Y) being changed to a leave code leave a hole in the roster
     const isLeaveTarget = BULK_LEAVE_CODES.includes(targetCode);
     const vacatedIds = isLeaveTarget
       ? currentShifts
@@ -402,7 +384,59 @@ export async function updateShiftCodesBulk({
   }
 }
 
-interface SwapShiftsParams {
+export interface ShiftAssignmentItem {
+  shiftId: string;
+  newShiftCode: string;
+}
+
+export interface BulkShiftAssignmentsParams {
+  assignments: ShiftAssignmentItem[];
+  justification?: string;
+  actorId?: string;
+}
+
+/**
+ * Server Action to apply variable shift codes across multiple shifts (e.g. pattern paste).
+ */
+export async function batchUpdateShiftAssignments({
+  assignments,
+  justification = 'BULK_PASTE_EDIT',
+  actorId = 'Manager Teknik'
+}: BulkShiftAssignmentsParams) {
+  if (!assignments || assignments.length === 0) {
+    return { success: false, error: 'Tidak ada penugasan shift yang diberikan.' };
+  }
+
+  const codeGroups = new Map<string, string[]>();
+  for (const item of assignments) {
+    const code = item.newShiftCode.trim().toUpperCase();
+    if (!codeGroups.has(code)) {
+      codeGroups.set(code, []);
+    }
+    codeGroups.get(code)!.push(item.shiftId);
+  }
+
+  let totalUpdated = 0;
+  let totalGapsCreated = 0;
+
+  for (const [code, ids] of codeGroups.entries()) {
+    const res = await updateShiftCodesBulk({
+      shiftIds: ids,
+      newShiftCode: code,
+      justification,
+      actorId
+    });
+    if (!res.success) {
+      return { success: false, error: res.error || `Gagal memperbarui shift untuk kode ${code}` };
+    }
+    totalUpdated += res.updated || ids.length;
+    totalGapsCreated += res.gapsCreated || 0;
+  }
+
+  return { success: true, updated: totalUpdated, gapsCreated: totalGapsCreated };
+}
+
+export interface SwapShiftsParams {
   shiftAId: string;
   shiftBId: string;
   justification?: string;
@@ -492,7 +526,7 @@ export async function swapShifts({
   }
 }
 
-interface AssignLeaveAndReplacementParams {
+export interface AssignLeaveAndReplacementParams {
   shiftId: string;
   leaveCode: string;
   replacementStaffId?: string | null;
@@ -503,6 +537,7 @@ interface AssignLeaveAndReplacementParams {
 /**
  * Server Action to assign leave (CUTI, DINAS LUAR, DIKLAT, SAKIT) to a technician
  * and optionally assign a recommended replacement to cover their vacated work shift.
+ * FIXED: Safely retrieves created shift id if replacementShift was newly created.
  */
 export async function assignLeaveAndReplacement({
   shiftId,
@@ -558,7 +593,10 @@ export async function assignLeaveAndReplacement({
         throw new Error(`Failed to find shift for replacement staff on date ${shiftDate}: ${replFetchErr.message}`);
       }
 
+      let actualReplShiftId: string;
+
       if (replacementShift) {
+        actualReplShiftId = replacementShift.id;
         // Update existing replacement staff's shift to originalShiftCode and status Filled
         const { error: updateReplErr } = await supabaseAdmin!
           .from('shifts')
@@ -573,7 +611,7 @@ export async function assignLeaveAndReplacement({
         }
       } else {
         // No existing shift row — insert a new one for the replacement staff
-        const { error: insertReplErr } = await supabaseAdmin!
+        const { data: insertedReplShift, error: insertReplErr } = await supabaseAdmin!
           .from('shifts')
           .insert({
             staff_id: replacementStaffId,
@@ -581,18 +619,22 @@ export async function assignLeaveAndReplacement({
             shift_code: originalShiftCode,
             group,
             status: 'Filled'
-          });
+          })
+          .select('id')
+          .single();
 
-        if (insertReplErr) {
-          throw new Error(`Failed to create shift for replacement staff: ${insertReplErr.message}`);
+        if (insertReplErr || !insertedReplShift) {
+          throw new Error(`Failed to create shift for replacement staff: ${insertReplErr?.message}`);
         }
+
+        actualReplShiftId = insertedReplShift.id;
       }
 
       // Resolve any pending gap event for either shift
       await supabaseAdmin!
         .from('gap_events')
         .update({ status: 'Resolved' })
-        .in('shift_id', [shiftId, replacementShift.id])
+        .in('shift_id', [shiftId, actualReplShiftId])
         .eq('status', 'Pending');
 
       // Log in audit_log
@@ -608,14 +650,13 @@ export async function assignLeaveAndReplacement({
             leave_code: leaveCode,
             original_shift_code: originalShiftCode,
             replacement_staff_id: replacementStaffId,
-            replacement_shift_id: replacementShift.id,
+            replacement_shift_id: actualReplShiftId,
             justification,
             timestamp: new Date().toISOString()
           }
         });
     } else {
       // Case B: No replacement selected (leave assigned, pending gap created)
-      // Update absent technician's shift to leaveCode and status Gap
       const { error: updateAbsentErr } = await supabaseAdmin!
         .from('shifts')
         .update({
@@ -738,5 +779,3 @@ export async function getShiftsForMonth(year: number, month: number) {
     return { success: false, error: err.message, shifts: [] };
   }
 }
-
-

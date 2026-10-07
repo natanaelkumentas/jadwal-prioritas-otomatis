@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { Staff, Shift } from '@/lib/scheduler-engine/types';
-import { updateShiftCodesBulk } from '@/app/actions/scheduler';
+import { updateShiftCodesBulk, batchUpdateShiftAssignments } from '@/app/actions/scheduler';
 import { i18n } from '@/lib/i18n';
 import { getShiftInfo } from '@/lib/shift-codes';
+import { getRosterStaffOrder } from '@/lib/roster-order';
 import { useToast } from '@/components/ToastProvider';
-import { FiAlertTriangle, FiCheckSquare, FiLayers, FiX } from 'react-icons/fi';
+import { FiAlertTriangle, FiCheckSquare, FiLayers, FiX, FiCopy, FiClipboard } from 'react-icons/fi';
 
 interface BulkEditBarProps {
   selectedShifts: Shift[];
@@ -14,34 +15,61 @@ interface BulkEditBarProps {
   allStaff: Staff[];
   onClear: () => void;
   onApplySuccess: () => void;
+  onSelectShifts?: (shiftIds: Set<string>) => void;
 }
 
 const SHIFT_OPTIONS = ['P', 'S', 'M', 'PS', 'OH', 'D', 'L', 'Y', 'CUTI', 'DINAS LUAR', 'DIKLAT', 'SAKIT'];
 const LEAVE_CODES = ['CUTI', 'DINAS LUAR', 'DIKLAT', 'SAKIT'];
 const OFF_CODES = ['L', 'Y'];
 const MAX_CONFLICTS_SHOWN = 8;
+const CLIPBOARD_STORAGE_KEY = 'jadwal_shift_clipboard';
 
-interface ConflictEntry {
-  date: string;
-  names: string[];
+interface CopiedCellOffset {
+  rowOffset: number;
+  dayOffset: number;
+  shiftCode: string;
 }
+
+interface Shift2DClipboard {
+  cells: CopiedCellOffset[];
+  rowCount: number;
+  colCount: number;
+  summary: string;
+}
+
+import BulkConfirmModal, { ConflictEntry } from './BulkConfirmModal';
 
 /**
  * Floating action bar shown while cells are selected in the roster grid.
- * Applies one shift code to every selected shift via a single bulk server action.
+ * Applies one shift code to every selected shift via a single bulk server action,
+ * and allows copying & pasting shift patterns across multiple cells.
  */
 export default function BulkEditBar({
   selectedShifts,
   allShifts,
   allStaff,
   onClear,
-  onApplySuccess
+  onApplySuccess,
+  onSelectShifts
 }: BulkEditBarProps) {
   const [selectedCode, setSelectedCode] = useState<string>('L');
   const [justification, setJustification] = useState<string>('');
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [clipboardData, setClipboardData] = useState<Shift2DClipboard | null>(null);
   const toast = useToast();
+
+  // Load persisted clipboard from localStorage
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(CLIPBOARD_STORAGE_KEY);
+      if (stored) {
+        setClipboardData(JSON.parse(stored));
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
 
   const staffNameById = useMemo(() => {
     const map = new Map<string, string>();
@@ -118,6 +146,187 @@ export default function BulkEditBar({
     }
   };
 
+  const handleCopy = () => {
+    if (selectedShifts.length === 0) return;
+
+    const rosterOrder = getRosterStaffOrder(allStaff);
+    const staffIndexMap = new Map<string, number>();
+    rosterOrder.forEach((s, idx) => staffIndexMap.set(s.id, idx));
+
+    const items = selectedShifts.map(s => {
+      const staffIdx = staffIndexMap.get(s.staff_id) ?? 9999;
+      const day = parseInt(s.date.split('-')[2], 10);
+      return {
+        shift: s,
+        staffIdx,
+        day,
+        code: (s.shift_code || 'L').toUpperCase()
+      };
+    });
+
+    const minStaffIdx = Math.min(...items.map(it => it.staffIdx));
+    const minDay = Math.min(...items.map(it => it.day));
+
+    const cells: CopiedCellOffset[] = items.map(it => ({
+      rowOffset: it.staffIdx - minStaffIdx,
+      dayOffset: it.day - minDay,
+      shiftCode: it.code
+    }));
+
+    const uniqueRows = new Set(cells.map(c => c.rowOffset)).size;
+    const uniqueDays = new Set(cells.map(c => c.dayOffset)).size;
+
+    let summaryText = '';
+    if (uniqueRows === 1) {
+      const sortedCodes = [...cells].sort((a, b) => a.dayOffset - b.dayOffset).map(c => c.shiftCode);
+      summaryText = `${cells.length} hari (${sortedCodes.slice(0, 5).join(', ')}${sortedCodes.length > 5 ? '...' : ''})`;
+    } else {
+      summaryText = `${uniqueRows} personel × ${uniqueDays} hari (${cells.length} sel)`;
+    }
+
+    const data: Shift2DClipboard = {
+      cells,
+      rowCount: uniqueRows,
+      colCount: uniqueDays,
+      summary: summaryText
+    };
+
+    try {
+      localStorage.setItem(CLIPBOARD_STORAGE_KEY, JSON.stringify(data));
+      setClipboardData(data);
+      if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+        const textPayload = cells.map(c => c.shiftCode).join(', ');
+        navigator.clipboard.writeText(textPayload).catch(() => {});
+      }
+    } catch {
+      // ignore
+    }
+
+    toast.success(`${summaryText} ${i18n.bulkCopySuccess}`);
+  };
+
+  const handlePaste = async () => {
+    let currentClipboard = clipboardData;
+    if (!currentClipboard) {
+      try {
+        const stored = localStorage.getItem(CLIPBOARD_STORAGE_KEY);
+        if (stored) currentClipboard = JSON.parse(stored);
+      } catch {
+        // ignore
+      }
+    }
+
+    // Support backward compatibility if stored as older { codes: string[] }
+    if (currentClipboard && !currentClipboard.cells && (currentClipboard as any).codes) {
+      const legacyCodes: string[] = (currentClipboard as any).codes;
+      currentClipboard = {
+        cells: legacyCodes.map((code, idx) => ({ rowOffset: 0, dayOffset: idx, shiftCode: code })),
+        rowCount: 1,
+        colCount: legacyCodes.length,
+        summary: `${legacyCodes.length} shift`
+      };
+    }
+
+    if (!currentClipboard || !currentClipboard.cells || currentClipboard.cells.length === 0) {
+      toast.error(i18n.bulkPasteEmpty);
+      return;
+    }
+
+    if (selectedShifts.length === 0) return;
+
+    const rosterOrder = getRosterStaffOrder(allStaff);
+    const staffIndexMap = new Map<string, number>();
+    rosterOrder.forEach((s, idx) => staffIndexMap.set(s.id, idx));
+
+    // Top-left anchor shift from selection: minimum staffIdx in roster order, then minimum day
+    const selectedItems = selectedShifts.map(s => ({
+      shift: s,
+      staffIdx: staffIndexMap.get(s.staff_id) ?? 9999,
+      day: parseInt(s.date.split('-')[2], 10)
+    }));
+
+    selectedItems.sort((a, b) => {
+      if (a.staffIdx !== b.staffIdx) return a.staffIdx - b.staffIdx;
+      return a.day - b.day;
+    });
+
+    const anchor = selectedItems[0];
+    const anchorShift = anchor.shift;
+    const [anchorYear, anchorMonthStr] = anchorShift.date.split('-');
+    const totalDaysInMonth = new Date(parseInt(anchorYear, 10), parseInt(anchorMonthStr, 10), 0).getDate();
+
+    const assignments: { shiftId: string; newShiftCode: string }[] = [];
+    const targetShiftIds = new Set<string>();
+
+    for (const cell of currentClipboard.cells) {
+      const targetStaffIdx = anchor.staffIdx + cell.rowOffset;
+      const targetDay = anchor.day + cell.dayOffset;
+
+      if (targetStaffIdx < 0 || targetStaffIdx >= rosterOrder.length) continue;
+      if (targetDay < 1 || targetDay > totalDaysInMonth) continue;
+
+      const targetStaff = rosterOrder[targetStaffIdx];
+      const targetDateStr = `${anchorYear}-${anchorMonthStr}-${targetDay.toString().padStart(2, '0')}`;
+
+      const matchedShift = allShifts.find(s => s.staff_id === targetStaff.id && s.date === targetDateStr);
+      if (matchedShift) {
+        assignments.push({
+          shiftId: matchedShift.id,
+          newShiftCode: cell.shiftCode
+        });
+        targetShiftIds.add(matchedShift.id);
+      }
+    }
+
+    if (assignments.length === 0) {
+      toast.error('Tidak ada sel target yang valid untuk ditempelkan.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const res = await batchUpdateShiftAssignments({
+        assignments,
+        justification: `Tempel ${assignments.length} shift dari clipboard (${currentClipboard.summary})`
+      });
+
+      if (res.success) {
+        toast.success(`${res.updated ?? assignments.length} ${i18n.bulkPasteSuccess}`);
+        if (onSelectShifts && targetShiftIds.size > 0) {
+          onSelectShifts(targetShiftIds);
+        }
+        onApplySuccess();
+      } else {
+        toast.error(res.error || 'Gagal menempelkan shift dari clipboard.');
+      }
+    } catch (err: any) {
+      toast.error('Terjadi kesalahan saat menempelkan shift: ' + err.message);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // Keyboard shortcuts: Ctrl+C to copy, Ctrl+V to paste
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (target && ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)) {
+        return;
+      }
+
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'c') {
+        e.preventDefault();
+        handleCopy();
+      } else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'v') {
+        e.preventDefault();
+        handlePaste();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedShifts, clipboardData, isSubmitting]);
+
   const codeInfo = getShiftInfo(selectedCode);
 
   return (
@@ -167,6 +376,35 @@ export default function BulkEditBar({
             />
           </div>
 
+          {/* Copy & Paste buttons */}
+          <div className="flex items-center gap-1.5 flex-shrink-0">
+            <button
+              type="button"
+              onClick={handleCopy}
+              disabled={isSubmitting || selectedShifts.length === 0}
+              title="Salin pola shift sel terpilih (Ctrl+C)"
+              className="px-2.5 sm:px-3 py-2 bg-blue-50 dark:bg-blue-500/10 hover:bg-blue-100 dark:hover:bg-blue-500/20 text-blue-700 dark:text-blue-300 text-xs font-semibold rounded-lg border border-blue-200 dark:border-blue-500/30 transition-colors flex items-center justify-center gap-1.5 shadow-xs"
+            >
+              <FiCopy className="w-3.5 h-3.5" />
+              <span>{i18n.btnBulkCopy}</span>
+            </button>
+            <button
+              type="button"
+              onClick={handlePaste}
+              disabled={isSubmitting || !clipboardData || !clipboardData.cells || clipboardData.cells.length === 0 || selectedShifts.length === 0}
+              title={clipboardData && clipboardData.cells && clipboardData.cells.length > 0 ? `Tempel ${clipboardData.summary} (Ctrl+V)` : i18n.bulkPasteEmpty}
+              className="px-2.5 sm:px-3 py-2 bg-indigo-50 dark:bg-indigo-500/10 hover:bg-indigo-100 dark:hover:bg-indigo-500/20 disabled:opacity-40 disabled:pointer-events-none text-indigo-700 dark:text-indigo-300 text-xs font-semibold rounded-lg border border-indigo-200 dark:border-indigo-500/30 transition-colors flex items-center justify-center gap-1.5 shadow-xs"
+            >
+              <FiClipboard className="w-3.5 h-3.5" />
+              <span>{i18n.btnBulkPaste}</span>
+              {clipboardData && clipboardData.cells && clipboardData.cells.length > 0 && (
+                <span className="text-[10px] opacity-80 font-normal">({clipboardData.cells.length})</span>
+              )}
+            </button>
+          </div>
+
+          <div className="hidden sm:block w-px h-8 bg-slate-200 dark:bg-slate-700" />
+
           {/* Actions */}
           <div className="flex items-center gap-2">
             <button
@@ -192,97 +430,18 @@ export default function BulkEditBar({
       </div>
 
       {/* Bulk Change Confirmation Modal Popup */}
-      {showConfirmModal && (
-        <div className="fixed inset-0 bg-slate-950/60 dark:bg-slate-950/80 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
-          <div className="fixed inset-0" onClick={() => !isSubmitting && setShowConfirmModal(false)} />
-          <div className="relative bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl max-w-md w-full p-5 shadow-2xl space-y-4 z-[101] max-h-[90vh] flex flex-col">
-            <div className="flex items-start gap-3">
-              <div className={`p-2.5 rounded-lg flex-shrink-0 ${
-                conflicts.length > 0 || vacatedCount > 0
-                  ? 'bg-amber-500/10 border border-amber-500/20 text-amber-500'
-                  : 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-500'
-              }`}>
-                {conflicts.length > 0 || vacatedCount > 0
-                  ? <FiAlertTriangle className="w-5 h-5" />
-                  : <FiCheckSquare className="w-5 h-5" />}
-              </div>
-              <div className="min-w-0">
-                <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">
-                  {i18n.bulkConfirmTitle}
-                </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                  {i18n.bulkConfirmDesc}
-                </p>
-              </div>
-            </div>
-
-            <div className="overflow-y-auto space-y-3 pr-0.5">
-              {/* Summary */}
-              <div className="p-3 bg-slate-50 dark:bg-slate-950/40 border border-slate-200 dark:border-slate-800 rounded-lg text-xs space-y-1.5">
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-600 dark:text-slate-400">Jumlah sel</span>
-                  <span className="font-bold text-slate-900 dark:text-slate-100">{selectedShifts.length} sel · {staffCount} {i18n.bulkStaffLabel}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-600 dark:text-slate-400">Kode baru</span>
-                  <span className={`px-2 py-0.5 rounded border text-[11px] font-bold ${codeInfo.badgeStyle}`}>
-                    {selectedCode} — {codeInfo.label}
-                  </span>
-                </div>
-              </div>
-
-              {/* Vacated work shifts notice */}
-              {vacatedCount > 0 && (
-                <div className="p-3 bg-blue-500/10 border border-blue-500/20 text-blue-700 dark:text-blue-300 rounded-lg text-xs leading-relaxed">
-                  ℹ️ <strong>{vacatedCount}</strong> {i18n.bulkVacateNotice}
-                </div>
-              )}
-
-              {/* Conflict warning list */}
-              {conflicts.length > 0 && (
-                <div className="p-3 bg-amber-500/10 border border-amber-500/20 rounded-lg text-xs space-y-2">
-                  <div className="text-amber-700 dark:text-amber-400 font-semibold">
-                    ⚠️ {i18n.bulkConflictTitle}
-                  </div>
-                  <p className="text-amber-700/90 dark:text-amber-300/90 leading-relaxed">
-                    {i18n.bulkConflictDesc}
-                  </p>
-                  <ul className="space-y-1 max-h-40 overflow-y-auto pr-1">
-                    {conflicts.slice(0, MAX_CONFLICTS_SHOWN).map(c => (
-                      <li key={c.date} className="flex gap-2 text-slate-700 dark:text-slate-300">
-                        <span className="font-mono font-bold text-amber-700 dark:text-amber-400 flex-shrink-0">{c.date}</span>
-                        <span className="truncate">{c.names.join(', ')}</span>
-                      </li>
-                    ))}
-                    {conflicts.length > MAX_CONFLICTS_SHOWN && (
-                      <li className="text-slate-500 dark:text-slate-400 italic">
-                        +{conflicts.length - MAX_CONFLICTS_SHOWN} tanggal lainnya
-                      </li>
-                    )}
-                  </ul>
-                </div>
-              )}
-            </div>
-
-            <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-200 dark:border-slate-800">
-              <button
-                onClick={() => setShowConfirmModal(false)}
-                disabled={isSubmitting}
-                className="px-3.5 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-semibold rounded-lg border border-slate-300 dark:border-slate-700 transition-colors"
-              >
-                Batal
-              </button>
-              <button
-                onClick={handleApply}
-                disabled={isSubmitting}
-                className="px-3.5 py-1.5 bg-slate-900 dark:bg-slate-200 hover:bg-slate-800 dark:hover:bg-slate-100 disabled:opacity-50 text-white dark:text-slate-900 text-xs font-bold rounded-lg transition-colors shadow-sm"
-              >
-                {isSubmitting ? 'Memproses...' : i18n.btnBulkConfirm}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <BulkConfirmModal
+        isOpen={showConfirmModal}
+        isSubmitting={isSubmitting}
+        selectedShiftsCount={selectedShifts.length}
+        staffCount={staffCount}
+        selectedCode={selectedCode}
+        codeInfo={codeInfo}
+        vacatedCount={vacatedCount}
+        conflicts={conflicts}
+        onClose={() => setShowConfirmModal(false)}
+        onConfirm={handleApply}
+      />
     </>
   );
 }

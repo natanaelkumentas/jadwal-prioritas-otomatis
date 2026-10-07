@@ -1,19 +1,23 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
+import Link from 'next/link';
 import { Staff, Shift, GapEvent } from '@/lib/scheduler-engine/types';
 import { getStaffMonthlySchedule } from '@/app/actions/scheduler';
 import { supabaseClient } from '@/lib/supabase';
 import Skeleton from './Skeleton';
 import MonthYearPickerModal from './MonthYearPickerModal';
 import ShiftCodeModal from './ShiftCodeModal';
+import MonthlyHoursCard from './personal/MonthlyHoursCard';
+import PersonalCalendarGrid, { CalendarDayEntry } from './personal/PersonalCalendarGrid';
+import PersonalListView from './personal/PersonalListView';
+import PersonalPrintLayout from './personal/PersonalPrintLayout';
+import CalendarSyncModal from './CalendarSyncModal';
+import { calculateStaffMonthlyHours } from '@/lib/labor-rules/hours';
 import {
   getShiftInfo,
   getShortCode,
   getShiftTime,
-  getShiftHours,
-  DAY_NAMES_ID,
-  DAY_SHORT_ID,
   MONTH_NAMES_ID
 } from '@/lib/shift-codes';
 import {
@@ -30,7 +34,8 @@ import {
   FiList,
   FiPrinter,
   FiInfo,
-  FiAlertTriangle
+  FiArrowLeft,
+  FiUser
 } from 'react-icons/fi';
 
 interface PersonalScheduleViewProps {
@@ -59,6 +64,7 @@ export default function PersonalScheduleView({
   const [isLoading, setIsLoading] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
   const [showCodeModal, setShowCodeModal] = useState(false);
+  const [showSyncModal, setShowSyncModal] = useState(false);
   const [viewMode, setViewMode] = useState<ViewMode>('kalender');
   const [workOnly, setWorkOnly] = useState(false);
 
@@ -80,7 +86,6 @@ export default function PersonalScheduleView({
     }
   };
 
-  // Real-time listener so the technician sees roster changes without reloading
   useEffect(() => {
     const channel = supabaseClient
       .channel(`personal-schedule-${staff.id}`)
@@ -119,11 +124,7 @@ export default function PersonalScheduleView({
     else handleMonthChange(currentYear, currentMonth + 1);
   };
 
-  const isCurrentMonthNow =
-    currentYear === today.getFullYear() && currentMonth === today.getMonth() + 1;
-
-  // Build one entry per calendar day of the selected month
-  const days = useMemo(() => {
+  const days: CalendarDayEntry[] = useMemo(() => {
     const totalDays = new Date(currentYear, currentMonth, 0).getDate();
     const shiftByDate = new Map(shifts.map(s => [s.date, s]));
     const pendingShiftIds = new Set(
@@ -151,13 +152,15 @@ export default function PersonalScheduleView({
     });
   }, [shifts, gapEvents, currentYear, currentMonth, todayStr]);
 
-  // Monthly duty statistics
+  const monthlyHours = useMemo(() => {
+    return calculateStaffMonthlyHours(shifts, staff.group, currentYear, currentMonth);
+  }, [shifts, staff.group, currentYear, currentMonth]);
+
   const stats = useMemo(() => {
     const breakdown: Record<string, number> = {};
     let workDays = 0;
     let offDays = 0;
     let leaveDays = 0;
-    let totalHours = 0;
     let nightShifts = 0;
 
     days.forEach(({ code, info }) => {
@@ -166,7 +169,6 @@ export default function PersonalScheduleView({
 
       if (info.category === 'work') {
         workDays += 1;
-        totalHours += getShiftHours(code, staff.group);
         if (normalized === 'M') nightShifts += 1;
       } else if (info.category === 'leave') {
         leaveDays += 1;
@@ -175,86 +177,106 @@ export default function PersonalScheduleView({
       }
     });
 
-    return { breakdown, workDays, offDays, leaveDays, totalHours, nightShifts };
-  }, [days, staff.group]);
+    return { breakdown, workDays, offDays, leaveDays, nightShifts };
+  }, [days]);
 
   const todayEntry = days.find(d => d.isToday);
   const nextDuty = days.find(d => d.date > todayStr && d.info.category === 'work');
   const listEntries = workOnly ? days.filter(d => d.info.category !== 'off') : days;
-
-  // Leading blank cells so the 1st lands under the correct weekday column
   const leadingBlanks = days.length > 0 ? days[0].weekday : 0;
 
   return (
-    <div className="space-y-3 sm:space-y-5">
-      {/* Month Navigation & View Controls */}
-      <div className="p-3 sm:p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 shadow-sm print:hidden">
-        <div className="flex items-center justify-between sm:justify-start gap-2 sm:gap-3">
+    <div className="space-y-3 sm:space-y-4">
+      {/* 1. SINGLE ROW TOP BAR: [ all info ] [ date selection ] [ kalender | daftar ] [ print ] */}
+      <div className="p-2 sm:p-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg flex flex-wrap xl:flex-nowrap items-center justify-between gap-3 shadow-xs print:hidden">
+        {/* [ all info ] */}
+        <div className="flex items-center gap-2 sm:gap-2.5 min-w-0 flex-1 sm:flex-initial">
+          <Link
+            href="/"
+            className="p-1.5 sm:p-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg border border-slate-300 dark:border-slate-700 transition-colors shrink-0"
+            title="Kembali ke Dashboard Roster"
+          >
+            <FiArrowLeft className="w-4 h-4" />
+          </Link>
+          <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-500/15 border border-emerald-300 dark:border-emerald-500/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0">
+            <FiUser className="w-4 h-4" />
+          </div>
+          <div className="min-w-0">
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <span className="font-extrabold text-xs sm:text-sm text-slate-900 dark:text-white truncate">
+                {staff.name}
+              </span>
+              <span className="px-1.5 py-0.5 text-[9px] font-bold bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded whitespace-nowrap">
+                {staff.group} · {staff.sub_group}
+              </span>
+              <span className="px-1.5 py-0.5 text-[9px] font-semibold bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-400 rounded hidden md:inline whitespace-nowrap">
+                {staff.role_level}
+              </span>
+              {staff.ratings?.map(r => (
+                <span
+                  key={r}
+                  className="px-1 py-0.5 text-[8.5px] font-mono font-bold bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-300 dark:border-emerald-500/30 text-emerald-700 dark:text-emerald-400 rounded hidden lg:inline"
+                >
+                  {r}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* [ date selection ] */}
+        <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
           <button
             onClick={handlePrevMonth}
-            className="p-2 sm:px-3 sm:py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg border border-slate-200 dark:border-slate-700 transition-colors flex items-center gap-1 text-xs font-semibold"
+            className="p-1.5 px-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg border border-slate-200 dark:border-slate-700 transition-colors flex items-center gap-1 text-xs font-semibold"
             title="Bulan Sebelumnya"
-            aria-label="Bulan Sebelumnya"
           >
-            <FiChevronLeft className="w-4 h-4" />
-            <span className="hidden md:inline">Sebelumnya</span>
+            <FiChevronLeft className="w-3.5 h-3.5" />
+            <span className="hidden lg:inline">Prev</span>
           </button>
 
           <button
             onClick={() => setShowPicker(true)}
-            className="text-center sm:px-4 min-w-0 px-2.5 py-1 bg-slate-100 dark:bg-slate-950 hover:bg-slate-200 dark:hover:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg transition-all cursor-pointer group flex-1 sm:flex-initial"
-            title="Klik untuk memilih bulan & tahun"
+            className="px-2.5 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-white rounded-lg border border-slate-200 dark:border-slate-700 transition-colors flex items-center justify-center gap-1.5 text-xs font-bold whitespace-nowrap"
           >
-            <span className="text-[9px] sm:text-xs text-slate-600 dark:text-slate-300 font-bold uppercase tracking-wider flex items-center justify-center gap-1">
-              <FiCalendar className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-              <span className="hidden sm:inline">Periode Jadwal</span>
-              <FiChevronDown className="w-3.5 h-3.5" />
-            </span>
-            <span className="text-sm sm:text-lg font-extrabold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors whitespace-nowrap">
+            <FiCalendar className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+            <span>
               {MONTH_NAMES_ID[currentMonth - 1]} {currentYear}
             </span>
+            <FiChevronDown className="w-3 h-3 opacity-60" />
           </button>
 
           <button
             onClick={handleNextMonth}
-            className="p-2 sm:px-3 sm:py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg border border-slate-200 dark:border-slate-700 transition-colors flex items-center gap-1 text-xs font-semibold"
+            className="p-1.5 px-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg border border-slate-200 dark:border-slate-700 transition-colors flex items-center gap-1 text-xs font-semibold"
             title="Bulan Berikutnya"
-            aria-label="Bulan Berikutnya"
           >
-            <span className="hidden md:inline">Berikutnya</span>
-            <FiChevronRight className="w-4 h-4" />
+            <span className="hidden lg:inline">Next</span>
+            <FiChevronRight className="w-3.5 h-3.5" />
           </button>
-
-          {!isCurrentMonthNow && (
-            <button
-              onClick={() => handleMonthChange(today.getFullYear(), today.getMonth() + 1)}
-              className="px-2.5 py-1.5 bg-emerald-50 dark:bg-emerald-500/10 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 border border-emerald-300 dark:border-emerald-500/30 rounded-lg text-xs font-bold transition-all"
-              title="Kembali ke Bulan Ini"
-            >
-              Bulan Ini
-            </button>
-          )}
         </div>
 
-        <div className="flex items-center gap-2">
-          {/* Calendar / List view switch */}
-          <div className="flex items-center bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg p-0.5 flex-1 sm:flex-initial">
+        {/* [ kalender | daftar ] [ print ] */}
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          <div className="flex rounded-lg border border-slate-200 dark:border-slate-700 p-0.5 bg-slate-100 dark:bg-slate-800 text-xs">
             <button
               onClick={() => setViewMode('kalender')}
-              className={`flex-1 sm:flex-initial px-2.5 py-1.5 rounded-md text-xs font-bold flex items-center justify-center gap-1.5 transition-colors ${viewMode === 'kalender'
-                  ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm'
-                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
-                }`}
+              className={`flex items-center gap-1 px-2.5 py-1 rounded font-bold transition-colors ${
+                viewMode === 'kalender'
+                  ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+              }`}
             >
               <FiGrid className="w-3.5 h-3.5" />
               <span>Kalender</span>
             </button>
             <button
               onClick={() => setViewMode('daftar')}
-              className={`flex-1 sm:flex-initial px-2.5 py-1.5 rounded-md text-xs font-bold flex items-center justify-center gap-1.5 transition-colors ${viewMode === 'daftar'
-                  ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm'
-                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
-                }`}
+              className={`flex items-center gap-1 px-2.5 py-1 rounded font-bold transition-colors ${
+                viewMode === 'daftar'
+                  ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+              }`}
             >
               <FiList className="w-3.5 h-3.5" />
               <span>Daftar</span>
@@ -262,316 +284,213 @@ export default function PersonalScheduleView({
           </div>
 
           <button
-            onClick={() => window.print()}
-            className="p-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg border border-slate-200 dark:border-slate-700 transition-colors"
-            title="Cetak Jadwal Dinas"
-            aria-label="Cetak Jadwal Dinas"
+            onClick={() => setShowSyncModal(true)}
+            className="py-1.5 px-3 bg-blue-50 dark:bg-blue-500/10 hover:bg-blue-100 dark:hover:bg-blue-500/20 text-blue-700 dark:text-blue-300 rounded-lg border border-blue-200 dark:border-blue-500/30 transition-colors flex items-center gap-1.5 text-xs font-bold whitespace-nowrap"
+            title="Sinkronkan Jadwal Saya ke Google Calendar (Feed WebCal Pribadi)"
           >
-            <FiPrinter className="w-4 h-4" />
+            <FiCalendar className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+            <span className="hidden sm:inline">Sync Kalender</span>
           </button>
-        </div>
-      </div>
 
-      {/* Today & Next Duty Highlight */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4">
-        <div className="p-3 sm:p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg shadow-sm">
-          <div className="text-[10px] sm:text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider flex items-center gap-1.5 mb-1.5">
-            <FiSun className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-            Dinas Hari Ini
-          </div>
-          {isLoading ? (
-            <Skeleton className="h-8 w-40" />
-          ) : todayEntry ? (
-            <div className="flex items-center gap-2.5">
-              <span className={`px-2.5 py-1.5 rounded-lg text-sm font-extrabold ${todayEntry.info.cellStyle}`}>
-                {getShortCode(todayEntry.code)}
-              </span>
-              <div className="min-w-0">
-                <div className="text-sm font-bold text-slate-900 dark:text-white truncate">
-                  {todayEntry.info.label}
-                </div>
-                <div className="text-[11px] text-slate-600 dark:text-slate-400 truncate">
-                  {getShiftTime(todayEntry.code, staff.group)}
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="text-xs text-slate-500 dark:text-slate-400">
-              Hari ini di luar periode {MONTH_NAMES_ID[currentMonth - 1]} {currentYear} yang sedang ditampilkan.
-            </div>
-          )}
-        </div>
-
-        <div className="p-3 sm:p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg shadow-sm">
-          <div className="text-[10px] sm:text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider flex items-center gap-1.5 mb-1.5">
-            <FiClock className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-            Dinas Berikutnya
-          </div>
-          {isLoading ? (
-            <Skeleton className="h-8 w-40" />
-          ) : nextDuty ? (
-            <div className="flex items-center gap-2.5">
-              <span className={`px-2.5 py-1.5 rounded-lg text-sm font-extrabold ${nextDuty.info.cellStyle}`}>
-                {getShortCode(nextDuty.code)}
-              </span>
-              <div className="min-w-0">
-                <div className="text-sm font-bold text-slate-900 dark:text-white truncate">
-                  {DAY_NAMES_ID[nextDuty.weekday]}, {nextDuty.dayNum} {MONTH_NAMES_ID[currentMonth - 1]}
-                </div>
-                <div className="text-[11px] text-slate-600 dark:text-slate-400 truncate">
-                  {nextDuty.info.label} — {getShiftTime(nextDuty.code, staff.group)}
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="text-xs text-slate-500 dark:text-slate-400">
-              Tidak ada jadwal dinas kerja berikutnya pada bulan ini.
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Monthly Statistics */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
-        {[
-          {
-            label: 'Hari Dinas Kerja',
-            short: 'Hari Kerja',
-            value: `${stats.workDays} hari`,
-            icon: <FiBriefcase className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />,
-            tone: 'text-slate-900 dark:text-white'
-          },
-          {
-            label: 'Total Jam Dinas',
-            short: 'Total Jam',
-            value: `${stats.totalHours} jam`,
-            icon: <FiClock className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />,
-            tone: 'text-sky-600 dark:text-sky-400'
-          },
-          {
-            label: 'Shift Malam',
-            short: 'Shift Malam',
-            value: `${stats.nightShifts} kali`,
-            icon: <FiMoon className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />,
-            tone: 'text-indigo-600 dark:text-indigo-400'
-          },
-          {
-            label: 'Libur & Cuti/Izin',
-            short: 'Libur & Izin',
-            value: `${stats.offDays} / ${stats.leaveDays}`,
-            icon: <FiCoffee className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />,
-            tone: 'text-purple-600 dark:text-purple-400'
-          }
-        ].map(card => (
-          <div
-            key={card.label}
-            className="p-2.5 sm:p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg shadow-sm"
-          >
-            <div className="flex items-center justify-between gap-1">
-              <span className="text-[9px] sm:text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider truncate">
-                <span className="hidden sm:inline">{card.label}</span>
-                <span className="sm:hidden">{card.short}</span>
-              </span>
-              {card.icon}
-            </div>
-            {isLoading ? (
-              <Skeleton className="h-6 w-20 mt-1.5" />
-            ) : (
-              <div className={`text-base sm:text-2xl font-extrabold mt-0.5 sm:mt-1 ${card.tone}`}>
-                {card.value}
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-
-      {/* Shift Code Composition */}
-      <div className="p-3 sm:p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg shadow-sm">
-        <div className="flex items-center justify-between mb-2.5">
-          <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
-            Komposisi Kode Shift Bulan Ini
-          </h3>
           <button
-            onClick={() => setShowCodeModal(true)}
-            className="text-[10px] sm:text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1 print:hidden"
+            onClick={() => window.print()}
+            className="py-1.5 px-3 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg border border-slate-300 dark:border-slate-700 transition-colors flex items-center gap-1.5 text-xs font-bold whitespace-nowrap"
+            title="Cetak Jadwal Dinas Personal (Landscape 1 Halaman)"
           >
-            <FiInfo className="w-3.5 h-3.5" />
-            Arti Kode
+            <FiPrinter className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+            <span className="hidden sm:inline">Cetak</span>
           </button>
-        </div>
-        <div className="flex flex-wrap gap-1.5 sm:gap-2">
-          {isLoading ? (
-            <Skeleton className="h-7 w-full" />
-          ) : (
-            Object.entries(stats.breakdown)
-              .sort((a, b) => b[1] - a[1])
-              .map(([code, count]) => {
-                const info = getShiftInfo(code);
-                return (
-                  <span
-                    key={code}
-                    className={`px-2 py-1 rounded-lg border text-[10px] sm:text-xs font-bold ${info.badgeStyle}`}
-                    title={`${info.label} — ${getShiftTime(code, staff.group)}`}
-                  >
-                    {getShortCode(code)} <span className="opacity-70">×</span> {count}
-                  </span>
-                );
-              })
-          )}
         </div>
       </div>
 
-      {/* Calendar View */}
-      {viewMode === 'kalender' && (
-        <div className="p-2.5 sm:p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg shadow-sm">
-          <div className="grid grid-cols-7 gap-1 sm:gap-2 mb-1.5 sm:mb-2">
-            {DAY_SHORT_ID.map((dayName, idx) => (
-              <div
-                key={dayName}
-                className={`text-center text-[9px] sm:text-xs font-bold uppercase tracking-wider py-1 ${idx === 0 ? 'text-rose-600 dark:text-rose-400' : 'text-slate-600 dark:text-slate-400'
-                  }`}
-              >
-                {dayName}
-              </div>
-            ))}
-          </div>
+      {/* 2. ON-SCREEN INTERACTIVE CONTENT (HIDDEN ON PRINT) */}
+      <div className="space-y-3 sm:space-y-4 print:hidden">
+        <MonthlyHoursCard
+          monthlyHours={monthlyHours}
+          monthName={MONTH_NAMES_ID[currentMonth - 1]}
+          year={currentYear}
+        />
 
-          <div className="grid grid-cols-7 gap-1 sm:gap-2">
-            {Array.from({ length: leadingBlanks }, (_, i) => (
-              <div key={`blank-${i}`} />
-            ))}
-
-            {isLoading
-              ? days.map(d => <Skeleton key={d.date} className="h-14 sm:h-20 w-full" />)
-              : days.map(entry => (
-                <div
-                  key={entry.date}
-                  title={`${DAY_NAMES_ID[entry.weekday]}, ${entry.dayNum} ${MONTH_NAMES_ID[currentMonth - 1]} ${currentYear} — ${entry.info.label}`}
-                  className={`h-14 sm:h-20 rounded-lg border p-1 sm:p-1.5 flex flex-col justify-between transition-colors ${entry.isToday
-                      ? 'border-emerald-500 dark:border-emerald-400 ring-1 ring-emerald-500/40 bg-emerald-50/60 dark:bg-emerald-500/10'
-                      : 'border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/60'
-                    }`}
-                >
-                  <div className="flex items-start justify-between">
-                    <span
-                      className={`text-[10px] sm:text-xs font-bold ${entry.isToday
-                          ? 'text-emerald-700 dark:text-emerald-300'
-                          : entry.weekday === 0
-                            ? 'text-rose-600 dark:text-rose-400'
-                            : 'text-slate-600 dark:text-slate-400'
-                        }`}
-                    >
-                      {entry.dayNum}
-                    </span>
-                    {entry.hasPendingGap && (
-                      <FiAlertTriangle
-                        className="w-3 h-3 text-red-500 animate-pulse"
-                        title="Menunggu penugasan teknisi pengganti"
-                      />
-                    )}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4">
+          <div className="p-3 sm:p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg shadow-sm">
+            <div className="text-[10px] sm:text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider flex items-center gap-1.5 mb-1.5">
+              <FiSun className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+              Dinas Hari Ini
+            </div>
+            {isLoading ? (
+              <Skeleton className="h-8 w-40" />
+            ) : todayEntry ? (
+              <div className="flex items-center gap-2.5">
+                <span className={`px-2.5 py-1.5 rounded-lg text-sm font-extrabold ${todayEntry.info.cellStyle}`}>
+                  {getShortCode(todayEntry.code)}
+                </span>
+                <div className="min-w-0">
+                  <div className="text-sm font-bold text-slate-900 dark:text-white truncate">
+                    {todayEntry.info.label}
                   </div>
-
-                  <div
-                    className={`rounded text-center text-[10px] sm:text-sm py-0.5 sm:py-1.5 font-bold ${entry.info.cellStyle}`}
-                  >
-                    {getShortCode(entry.code)}
+                  <div className="text-[11px] text-slate-600 dark:text-slate-400 truncate">
+                    {getShiftTime(todayEntry.code, staff.group)}
                   </div>
                 </div>
-              ))}
-          </div>
-        </div>
-      )}
-
-      {/* Detail List View */}
-      {viewMode === 'daftar' && (
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg shadow-sm overflow-hidden">
-          <div className="flex items-center justify-between p-3 border-b border-slate-200 dark:border-slate-800">
-            <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
-              Rincian Jadwal Dinas
-            </h3>
-            <label className="flex items-center gap-1.5 text-[10px] sm:text-xs font-semibold text-slate-600 dark:text-slate-400 cursor-pointer print:hidden">
-              <input
-                type="checkbox"
-                checked={workOnly}
-                onChange={e => setWorkOnly(e.target.checked)}
-                className="w-3.5 h-3.5 accent-emerald-600"
-              />
-              Sembunyikan hari libur
-            </label>
-          </div>
-
-          <div className="divide-y divide-slate-100 dark:divide-slate-800/80 max-h-[70vh] overflow-y-auto print:max-h-none print:overflow-visible">
-            {isLoading ? (
-              <div className="p-3 space-y-2">
-                {Array.from({ length: 8 }, (_, i) => (
-                  <Skeleton key={i} className="h-10 w-full" />
-                ))}
-              </div>
-            ) : listEntries.length === 0 ? (
-              <div className="p-6 text-center text-xs text-slate-500 dark:text-slate-400">
-                Tidak ada jadwal dinas yang tercatat pada periode ini.
               </div>
             ) : (
-              listEntries.map(entry => (
-                <div
-                  key={entry.date}
-                  className={`flex items-center gap-2.5 sm:gap-4 px-3 py-2 sm:py-2.5 ${entry.isToday ? 'bg-emerald-50/70 dark:bg-emerald-500/10' : ''
-                    }`}
-                >
-                  <div className="w-9 sm:w-12 flex-shrink-0 text-center">
-                    <div className="text-sm sm:text-lg font-extrabold text-slate-900 dark:text-white leading-none">
-                      {entry.dayNum}
-                    </div>
-                    <div
-                      className={`text-[9px] sm:text-[10px] font-bold uppercase ${entry.weekday === 0
-                          ? 'text-rose-600 dark:text-rose-400'
-                          : 'text-slate-500 dark:text-slate-400'
-                        }`}
-                    >
-                      {DAY_SHORT_ID[entry.weekday]}
-                    </div>
+              <div className="text-xs text-slate-500 dark:text-slate-400">
+                Hari ini di luar periode {MONTH_NAMES_ID[currentMonth - 1]} {currentYear}.
+              </div>
+            )}
+          </div>
+
+          <div className="p-3 sm:p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg shadow-sm">
+            <div className="text-[10px] sm:text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider flex items-center gap-1.5 mb-1.5">
+              <FiClock className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+              Dinas Berikutnya
+            </div>
+            {isLoading ? (
+              <Skeleton className="h-8 w-40" />
+            ) : nextDuty ? (
+              <div className="flex items-center gap-2.5">
+                <span className={`px-2.5 py-1.5 rounded-lg text-sm font-extrabold ${nextDuty.info.cellStyle}`}>
+                  {getShortCode(nextDuty.code)}
+                </span>
+                <div className="min-w-0">
+                  <div className="text-sm font-bold text-slate-900 dark:text-white truncate">
+                    {DAY_NAMES_ID[nextDuty.weekday]}, {nextDuty.dayNum} {MONTH_NAMES_ID[currentMonth - 1]}
                   </div>
-
-                  <span
-                    className={`w-10 sm:w-12 flex-shrink-0 text-center py-1 rounded text-[10px] sm:text-xs font-extrabold ${entry.info.cellStyle}`}
-                  >
-                    {getShortCode(entry.code)}
-                  </span>
-
-                  <div className="min-w-0 flex-1">
-                    <div className="text-[11px] sm:text-sm font-bold text-slate-900 dark:text-slate-100 truncate">
-                      {entry.info.label}
-                      {entry.isToday && (
-                        <span className="ml-1.5 text-[9px] font-bold text-emerald-700 dark:text-emerald-400 uppercase">
-                          Hari Ini
-                        </span>
-                      )}
-                    </div>
-                    <div className="text-[10px] sm:text-xs text-slate-600 dark:text-slate-400 truncate">
-                      {getShiftTime(entry.code, staff.group)}
-                    </div>
-                  </div>
-
-                  <div className="flex-shrink-0 text-right">
-                    {getShiftHours(entry.code, staff.group) > 0 ? (
-                      <span className="text-[10px] sm:text-xs font-bold text-slate-700 dark:text-slate-300">
-                        {getShiftHours(entry.code, staff.group)} jam
-                      </span>
-                    ) : (
-                      <span className="text-[10px] sm:text-xs text-slate-400 dark:text-slate-600">—</span>
-                    )}
-                    {entry.hasPendingGap && (
-                      <div className="text-[9px] font-bold text-red-600 dark:text-red-400 whitespace-nowrap">
-                        Menunggu pengganti
-                      </div>
-                    )}
+                  <div className="text-[11px] text-slate-600 dark:text-slate-400 truncate">
+                    {nextDuty.info.label} — {getShiftTime(nextDuty.code, staff.group)}
                   </div>
                 </div>
-              ))
+              </div>
+            ) : (
+              <div className="text-xs text-slate-500 dark:text-slate-400">
+                Tidak ada jadwal dinas kerja berikutnya pada bulan ini.
+              </div>
             )}
           </div>
         </div>
-      )}
+
+        {/* 4 KPI Summary Cards */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
+          {[
+            {
+              label: 'Hari Dinas Kerja',
+              short: 'Hari Kerja',
+              value: `${stats.workDays} hari`,
+              icon: <FiBriefcase className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />,
+              tone: 'text-slate-900 dark:text-white'
+            },
+            {
+              label: 'Total Jam Dinas',
+              short: 'Total Jam',
+              value: `${monthlyHours.totalHours} jam`,
+              icon: <FiClock className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />,
+              tone: monthlyHours.isExceeded ? 'text-rose-600 dark:text-rose-400' : 'text-sky-600 dark:text-sky-400'
+            },
+            {
+              label: 'Shift Malam',
+              short: 'Shift Malam',
+              value: `${stats.nightShifts} kali`,
+              icon: <FiMoon className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />,
+              tone: 'text-indigo-600 dark:text-indigo-400'
+            },
+            {
+              label: 'Libur & Cuti/Izin',
+              short: 'Libur & Izin',
+              value: `${stats.offDays} / ${stats.leaveDays}`,
+              icon: <FiCoffee className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />,
+              tone: 'text-purple-600 dark:text-purple-400'
+            }
+          ].map(card => (
+            <div
+              key={card.label}
+              className="p-2.5 sm:p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg shadow-sm"
+            >
+              <div className="flex items-center justify-between gap-1">
+                <span className="text-[9px] sm:text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider truncate">
+                  <span className="hidden sm:inline">{card.label}</span>
+                  <span className="sm:hidden">{card.short}</span>
+                </span>
+                {card.icon}
+              </div>
+              {isLoading ? (
+                <Skeleton className="h-6 w-20 mt-1.5" />
+              ) : (
+                <div className={`text-base sm:text-2xl font-extrabold mt-0.5 sm:mt-1 ${card.tone}`}>
+                  {card.value}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* Shift Code Composition */}
+        <div className="p-3 sm:p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg shadow-sm">
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
+              Komposisi Kode Shift Bulan Ini
+            </h3>
+            <button
+              onClick={() => setShowCodeModal(true)}
+              className="text-[10px] sm:text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1"
+            >
+              <FiInfo className="w-3.5 h-3.5" />
+              Arti Kode
+            </button>
+          </div>
+          <div className="flex flex-wrap gap-1.5 sm:gap-2">
+            {isLoading ? (
+              <Skeleton className="h-7 w-full" />
+            ) : (
+              Object.entries(stats.breakdown)
+                .sort((a, b) => b[1] - a[1])
+                .map(([code, count]) => {
+                  const info = getShiftInfo(code);
+                  return (
+                    <span
+                      key={code}
+                      className={`px-2 py-1 rounded-lg border text-[10px] sm:text-xs font-bold ${info.badgeStyle}`}
+                      title={`${info.label} — ${getShiftTime(code, staff.group)}`}
+                    >
+                      {getShortCode(code)} <span className="opacity-70">×</span> {count}
+                    </span>
+                  );
+                })
+            )}
+          </div>
+        </div>
+
+        {/* Calendar or List View based on toggle */}
+        {viewMode === 'kalender' ? (
+          <PersonalCalendarGrid
+            days={days}
+            leadingBlanks={leadingBlanks}
+            isLoading={isLoading}
+            currentMonth={currentMonth}
+            currentYear={currentYear}
+          />
+        ) : (
+          <PersonalListView
+            entries={listEntries}
+            workOnly={workOnly}
+            setWorkOnly={setWorkOnly}
+            isLoading={isLoading}
+            group={staff.group}
+          />
+        )}
+      </div>
+
+      {/* 3. PRINT-ONLY PORTRAIT 2-SECTION STACKED VIEW: TOP = INFO, BOTTOM = CALENDAR STYLE (STRICT 1 PAGE) */}
+      <PersonalPrintLayout
+        staff={staff}
+        currentYear={currentYear}
+        currentMonth={currentMonth}
+        monthlyHours={monthlyHours}
+        todayEntry={todayEntry}
+        nextDuty={nextDuty}
+        stats={stats}
+        days={days}
+        leadingBlanks={leadingBlanks}
+      />
 
       {showPicker && (
         <MonthYearPickerModal
@@ -583,6 +502,28 @@ export default function PersonalScheduleView({
       )}
 
       {showCodeModal && <ShiftCodeModal onClose={() => setShowCodeModal(false)} />}
+
+      <CalendarSyncModal
+        isOpen={showSyncModal}
+        onClose={() => setShowSyncModal(false)}
+        staffList={[staff]}
+        initialStaffEmail={staff.gmail || staff.id}
+      />
+
+      <style jsx global>{`
+        @media print {
+          @page {
+            size: landscape;
+            margin: 4mm 6mm;
+          }
+          html, body {
+            background: white !important;
+            color: black !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }

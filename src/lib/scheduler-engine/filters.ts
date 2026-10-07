@@ -14,39 +14,13 @@ export function getDaysDiff(dateAStr: string, dateBStr: string): number {
   return Math.round((utcB - utcA) / (1000 * 60 * 60 * 24));
 }
 
-export interface ShiftHours {
-  start: number; // Hour of day (0-24)
-  end: number;   // Hour of day (0-48, > 24 means ends on next day)
-}
+import { getShiftHoursWindow, ShiftHoursWindow } from '../shift-codes';
 
-// Retrieve shift start/end hours relative to start of the day
+export type ShiftHours = ShiftHoursWindow;
+
+// Retrieve shift start/end hours relative to start of the day from centralized shift-codes
 export function getShiftHours(shiftCode: string, group: 'CNS' | 'ESS'): ShiftHours | null {
-  const code = shiftCode.toUpperCase();
-  
-  if (code === 'L' || code === 'Y') {
-    return null; // Libur/Off has no work hours
-  }
-
-  if (group === 'CNS') {
-    switch (code) {
-      case 'P': return { start: 7.0, end: 15.0 };
-      case 'S': return { start: 12.0, end: 20.0 };
-      case 'M': return { start: 19.0, end: 31.0 }; // Ends at 07:00 next day (24 + 7)
-      case 'OH':
-      case 'D': return { start: 8.0, end: 17.0 };
-      case 'PS': return { start: 7.0, end: 19.0 };
-      default: return null;
-    }
-  } else {
-    // ESS Group
-    switch (code) {
-      case 'P': return { start: 7.0, end: 13.0 };
-      case 'S': return { start: 13.0, end: 19.0 };
-      case 'M': return { start: 19.0, end: 31.0 }; // Ends at 07:00 next day (24 + 7)
-      case 'PS': return { start: 7.0, end: 19.0 };
-      default: return null;
-    }
-  }
+  return getShiftHoursWindow(shiftCode, group);
 }
 
 /**
@@ -215,41 +189,20 @@ export function getRelativeDateStr(dateStr: string, days: number): string {
   return `${year}-${month}-${day}`;
 }
 
+import { validatePostNightRest } from '../labor-rules/validators';
+
 /**
- * Post-Night fatigue constraint:
- * 1. If the candidate worked 'M' on the day before (D-1), they cannot work any active shift on Day D.
- * 2. If the target shift is 'M' on Day D, the candidate cannot be scheduled to work on Day D+1.
+ * Parameter 4: Strict 30 hours rest after any night shift ('M').
+ * Uses centralized validatePostNightRest validator.
  */
 export function checkPostNightConstraint(
   candidateId: string,
   date: string,
   targetShiftCode: string,
-  allShifts: Shift[]
+  allShifts: Shift[],
+  group: 'CNS' | 'ESS' = 'CNS'
 ): boolean {
-  const targetCode = targetShiftCode.toUpperCase();
-  const isTargetWorkingShift = !['L', 'Y'].includes(targetCode);
-
   const candidateShifts = allShifts.filter(s => s.staff_id === candidateId);
-
-  // 1. If candidate worked 'M' yesterday (D-1), they must rest today (cannot work any active shift today)
-  const yesterdayStr = getRelativeDateStr(date, -1);
-  const yesterdayShift = candidateShifts.find(s => s.date === yesterdayStr);
-  if (yesterdayShift && yesterdayShift.shift_code.toUpperCase() === 'M' && isTargetWorkingShift) {
-    return false;
-  }
-
-  // 2. If target shift is 'M' today, the candidate must rest tomorrow (D+1)
-  if (targetCode === 'M') {
-    const tomorrowStr = getRelativeDateStr(date, 1);
-    const tomorrowShift = candidateShifts.find(s => s.date === tomorrowStr);
-    if (tomorrowShift) {
-      const tomorrowCode = tomorrowShift.shift_code.toUpperCase();
-      // If tomorrow is a working shift, they cannot do 'M' today
-      if (!['L', 'Y'].includes(tomorrowCode)) {
-        return false;
-      }
-    }
-  }
-
-  return true;
+  const result = validatePostNightRest(candidateId, date, targetShiftCode, group, candidateShifts);
+  return result.valid;
 }

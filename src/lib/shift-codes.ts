@@ -7,12 +7,18 @@
 export type StaffGroup = 'CNS' | 'ESS';
 export type ShiftCategory = 'work' | 'off' | 'leave';
 
+export interface ShiftHoursWindow {
+  start: number; // Hour of day (0-24)
+  end: number;   // Hour of day (0-48, > 24 means ends on next day)
+}
+
 export interface ShiftCodeInfo {
   code: string;
   label: string;                                // e.g. 'Shift Pagi'
   category: ShiftCategory;
   time: Record<StaffGroup, string>;             // Operational hours per unit
   hours: Record<StaffGroup, number>;            // Duty duration in hours per unit
+  timing: Record<StaffGroup, ShiftHoursWindow | null>; // Numeric start and end hours
   badgeStyle: string;                           // Soft pill style (reference lists)
   cellStyle: string;                            // Solid cell style (roster & calendar)
   description: string;
@@ -32,6 +38,10 @@ export const SHIFT_CODES: Record<string, ShiftCodeInfo> = {
     category: 'work',
     time: { CNS: '07:00 - 15:00 WITA', ESS: '07:00 - 13:00 WITA' },
     hours: { CNS: 8, ESS: 6 },
+    timing: {
+      CNS: { start: 7.0, end: 15.0 },
+      ESS: { start: 7.0, end: 13.0 }
+    },
     badgeStyle: 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/30',
     cellStyle:
       'bg-amber-100 dark:bg-amber-500/20 text-amber-950 dark:text-amber-300 border border-amber-400 dark:border-amber-500/40 hover:bg-amber-200 font-bold',
@@ -43,6 +53,10 @@ export const SHIFT_CODES: Record<string, ShiftCodeInfo> = {
     category: 'work',
     time: { CNS: '12:00 - 20:00 WITA', ESS: '13:00 - 19:00 WITA' },
     hours: { CNS: 8, ESS: 6 },
+    timing: {
+      CNS: { start: 12.0, end: 20.0 },
+      ESS: { start: 13.0, end: 19.0 }
+    },
     badgeStyle: 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-500/30',
     cellStyle:
       'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-950 dark:text-emerald-300 border border-emerald-400 dark:border-emerald-500/40 hover:bg-emerald-200 font-bold',
@@ -54,6 +68,10 @@ export const SHIFT_CODES: Record<string, ShiftCodeInfo> = {
     category: 'work',
     time: { CNS: '19:00 - 07:00 WITA', ESS: '19:00 - 07:00 WITA' },
     hours: { CNS: 12, ESS: 12 },
+    timing: {
+      CNS: { start: 19.0, end: 31.0 }, // Ends at 07:00 next day (24 + 7)
+      ESS: { start: 19.0, end: 31.0 }
+    },
     badgeStyle: 'bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 border-indigo-500/30',
     cellStyle:
       'bg-indigo-100 dark:bg-indigo-500/25 text-indigo-950 dark:text-indigo-300 border border-indigo-400 dark:border-indigo-500/40 hover:bg-indigo-200 font-extrabold',
@@ -65,6 +83,10 @@ export const SHIFT_CODES: Record<string, ShiftCodeInfo> = {
     category: 'work',
     time: { CNS: '07:00 - 19:00 WITA', ESS: '07:00 - 19:00 WITA' },
     hours: { CNS: 12, ESS: 12 },
+    timing: {
+      CNS: { start: 7.0, end: 19.0 },
+      ESS: { start: 7.0, end: 19.0 }
+    },
     badgeStyle: 'bg-rose-500/15 text-rose-600 dark:text-rose-400 border-rose-500/30',
     cellStyle:
       'bg-rose-100 dark:bg-rose-500/20 text-rose-950 dark:text-rose-300 border border-rose-400 dark:border-rose-500/40 hover:bg-rose-200 font-bold',
@@ -76,6 +98,10 @@ export const SHIFT_CODES: Record<string, ShiftCodeInfo> = {
     category: 'work',
     time: { CNS: '08:00 - 17:00 WITA', ESS: '08:00 - 17:00 WITA' },
     hours: { CNS: 9, ESS: 9 },
+    timing: {
+      CNS: { start: 8.0, end: 17.0 },
+      ESS: { start: 8.0, end: 17.0 }
+    },
     badgeStyle: 'bg-sky-500/15 text-sky-600 dark:text-sky-400 border-sky-500/30',
     cellStyle:
       'bg-sky-100 dark:bg-sky-500/20 text-sky-950 dark:text-sky-300 border border-sky-400 dark:border-sky-500/40 hover:bg-sky-200 font-bold',
@@ -87,6 +113,10 @@ export const SHIFT_CODES: Record<string, ShiftCodeInfo> = {
     category: 'work',
     time: { CNS: '08:00 - 17:00 WITA', ESS: '08:00 - 17:00 WITA' },
     hours: { CNS: 9, ESS: 9 },
+    timing: {
+      CNS: { start: 8.0, end: 17.0 },
+      ESS: { start: 8.0, end: 17.0 }
+    },
     badgeStyle: 'bg-sky-500/15 text-sky-600 dark:text-sky-400 border-sky-500/30',
     cellStyle:
       'bg-sky-100 dark:bg-sky-500/20 text-sky-950 dark:text-sky-300 border border-sky-400 dark:border-sky-500/40 hover:bg-sky-200 font-bold',
@@ -98,6 +128,7 @@ export const SHIFT_CODES: Record<string, ShiftCodeInfo> = {
     category: 'off',
     time: { CNS: 'Libur Operasional', ESS: 'Libur Operasional' },
     hours: { CNS: 0, ESS: 0 },
+    timing: { CNS: null, ESS: null },
     badgeStyle: OFF_BADGE,
     cellStyle: OFF_STYLE,
     description: 'Hari libur terjadwal sesuai pola rotasi.'
@@ -108,6 +139,7 @@ export const SHIFT_CODES: Record<string, ShiftCodeInfo> = {
     category: 'off',
     time: { CNS: 'Pemulihan Pasca Malam', ESS: 'Pemulihan Pasca Malam' },
     hours: { CNS: 0, ESS: 0 },
+    timing: { CNS: null, ESS: null },
     badgeStyle: OFF_BADGE,
     cellStyle: OFF_STYLE,
     description: 'Hari pemulihan wajib setelah menjalani shift malam.'
@@ -118,6 +150,7 @@ export const SHIFT_CODES: Record<string, ShiftCodeInfo> = {
     category: 'leave',
     time: { CNS: 'Izin Resmi', ESS: 'Izin Resmi' },
     hours: { CNS: 0, ESS: 0 },
+    timing: { CNS: null, ESS: null },
     badgeStyle: LEAVE_BADGE,
     cellStyle: LEAVE_STYLE,
     description: 'Cuti tahunan personel dengan persetujuan manajemen.'
@@ -128,6 +161,7 @@ export const SHIFT_CODES: Record<string, ShiftCodeInfo> = {
     category: 'leave',
     time: { CNS: 'Tugas Operasional', ESS: 'Tugas Operasional' },
     hours: { CNS: 0, ESS: 0 },
+    timing: { CNS: null, ESS: null },
     badgeStyle: LEAVE_BADGE,
     cellStyle: LEAVE_STYLE,
     description: 'Penugasan luar kota atau kunjungan lokasi fasilitas.'
@@ -138,6 +172,7 @@ export const SHIFT_CODES: Record<string, ShiftCodeInfo> = {
     category: 'leave',
     time: { CNS: 'Pengembangan Diri', ESS: 'Pengembangan Diri' },
     hours: { CNS: 0, ESS: 0 },
+    timing: { CNS: null, ESS: null },
     badgeStyle: LEAVE_BADGE,
     cellStyle: LEAVE_STYLE,
     description: 'Keikutsertaan dalam kursus, sertifikasi, atau diklat kompetensi.'
@@ -148,6 +183,7 @@ export const SHIFT_CODES: Record<string, ShiftCodeInfo> = {
     category: 'leave',
     time: { CNS: 'Izin Kesehatan', ESS: 'Izin Kesehatan' },
     hours: { CNS: 0, ESS: 0 },
+    timing: { CNS: null, ESS: null },
     badgeStyle: LEAVE_BADGE,
     cellStyle: LEAVE_STYLE,
     description: 'Ketidakhadiran karena alasan kesehatan dengan surat dokter.'
@@ -184,6 +220,11 @@ export function getShiftTime(code: string | null | undefined, group: StaffGroup)
 /** Duty duration in hours for a code, adjusted for the technician's unit. */
 export function getShiftHours(code: string | null | undefined, group: StaffGroup): number {
   return getShiftInfo(code).hours[group] ?? 0;
+}
+
+/** Numeric start and end hours window for a code, adjusted for the technician's unit. */
+export function getShiftHoursWindow(code: string | null | undefined, group: StaffGroup): ShiftHoursWindow | null {
+  return getShiftInfo(code).timing[group] ?? null;
 }
 
 export interface ShiftReferenceEntry {

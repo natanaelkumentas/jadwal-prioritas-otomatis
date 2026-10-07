@@ -42,7 +42,7 @@ export const i18n = {
   legendOff: 'L / Y (Libur / Lepas Malam)',
 
   // Roster Table Section Titles
-  sectionManagement: 'Manajemen / Kepala Unit Teknik',
+  sectionManagement: 'Manager Teknik',
   sectionCNSGroup: 'Grup Teknis CNS',
   sectionESSGroup: 'Grup Teknis ESS',
   tableColName: 'Nama & Rating Lisensi',
@@ -101,6 +101,7 @@ export const i18n = {
   // Multi-Select Bulk Edit (RosterGrid selection mode + BulkEditBar)
   btnSelectMode: 'Pilih Banyak',
   btnSelectModeActive: 'Selesai Memilih',
+  btnEnterMultiSelect: 'Pilih Banyak',
   selectModeHint: 'Klik sel untuk memilih · Shift+klik untuk rentang tanggal · centang nama untuk satu baris penuh',
   selectRowTitle: 'Pilih / batalkan seluruh jadwal personel ini',
   bulkSelectedLabel: 'sel dipilih',
@@ -109,6 +110,13 @@ export const i18n = {
   bulkJustificationPlaceholder: 'Catatan operasional (opsional)',
   btnBulkApply: 'Terapkan',
   btnBulkClear: 'Batal',
+  btnBulkCopy: 'Salin',
+  btnBulkPaste: 'Tempel',
+  bulkCopySuccess: 'pola shift disalin ke clipboard',
+  bulkPasteSuccess: 'shift berhasil diperbarui dari clipboard',
+  bulkPasteEmpty: 'Clipboard kosong. Salin shift terlebih dahulu.',
+  bulkPasteConfirmTitle: 'Konfirmasi Tempel Shift',
+  bulkPasteConfirmDesc: 'Pola shift dari clipboard akan ditempelkan ke sel terpilih.',
   bulkConfirmTitle: 'Konfirmasi Perubahan Massal',
   bulkConfirmDesc: 'Semua sel yang dipilih akan diubah menjadi kode shift berikut. Setiap perubahan tercatat di log audit.',
   bulkVacateNotice: 'shift kerja akan ditandai sebagai kekosongan (gap) dan perlu pengganti.',
@@ -147,7 +155,7 @@ export const i18n = {
   btnEditPersonnel: 'Ubah Data',
   btnAssignManager: 'Jadikan Manager',
   btnDeletePersonnel: 'Hapus Personel',
-  personnelColId: 'ID / NIP',
+  personnelColId: 'Email Gmail',
   personnelColName: 'Nama Personel',
   personnelColGroup: 'Kelompok Utama',
   personnelColSubGroup: 'Sub-Grup Rotasi',
@@ -159,5 +167,17 @@ export const i18n = {
   confirmDeleteTitle: 'Hapus Data Personel',
   confirmDeleteDesc: 'Apakah Anda yakin ingin menghapus data personel ini? Data shift yang terkait akan dihapus.',
   btnSavePersonnel: 'Simpan Data Personel',
-  btnUpdatePersonnel: 'Simpan Perubahan'
+  btnUpdatePersonnel: 'Simpan Perubahan',
+
+  // Monthly Labor Rules & Hours Summary (Personal Detail Page)
+  hoursCardTitle: 'Akumulasi Jam Kerja Bulanan',
+  hoursOccupiedLabel: 'Jam Terpakai Bulan Ini',
+  hoursLimitLabel: 'Batas Ideal Bulanan',
+  hoursRemainingLabel: 'Sisa Jam Kerja',
+  hoursExcessLabel: 'Kelebihan / Lembur',
+  hoursStatusNormal: 'Dalam Batas Ideal',
+  hoursStatusExcess: 'Melebihi Batas Ideal',
+  hoursRemainingSuffix: 'jam tersisa',
+  hoursExcessSuffix: 'jam melebihi batas (160 jam)',
+  hoursProgressSubtitle: 'dari batas ideal 160 jam/bulan per teknisi'
 };

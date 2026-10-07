@@ -2,12 +2,20 @@ import { supabaseAdmin } from '@/lib/supabase';
 import { Staff, Shift, GapEvent } from '@/lib/scheduler-engine/types';
 import DashboardContainer from '@/components/DashboardContainer';
 import ThemeToggle from '@/components/ThemeToggle';
+import NavbarUserPill from '@/components/NavbarUserPill';
+import { getCurrentUser } from '@/lib/auth';
+import { redirect } from 'next/navigation';
 import { i18n } from '@/lib/i18n';
 
 export const revalidate = 0; // Disable static cache for live page refresh
 
 export default async function Page() {
   console.log('[Page] Loading dashboard layout and database records...');
+
+  const currentUser = await getCurrentUser();
+  if (!currentUser) {
+    redirect('/login');
+  }
 
   if (!supabaseAdmin) {
     return (
@@ -50,7 +58,8 @@ export default async function Page() {
 
   // Format profiles rating arrays
   const initialStaff: Staff[] = (staffData || []).map((s: any) => ({
-    id: s.id,
+    id: s.id || s.gmail,
+    gmail: s.gmail || s.id,
     name: s.name,
     group: s.group,
     sub_group: s.sub_group,
@@ -92,7 +101,13 @@ export default async function Page() {
             <span className="text-slate-600 dark:text-slate-400 font-medium">Sistem Aktif</span>
           </div>
           <ThemeToggle />
+          <NavbarUserPill user={currentUser} />
         </div>
+      </div>
+
+      {/* Mobile User Pill */}
+      <div className="sm:hidden mb-3 flex justify-end">
+        <NavbarUserPill user={currentUser} />
       </div>
 
       <DashboardContainer
@@ -101,6 +116,7 @@ export default async function Page() {
         initialGapEvents={initialGapEvents}
         initialYear={initialYear}
         initialMonth={initialMonth}
+        currentUser={currentUser}
       />
     </main>
   );

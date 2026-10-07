@@ -4,7 +4,8 @@ import { supabaseAdmin } from '@/lib/supabase';
 import { revalidatePath } from 'next/cache';
 
 import { Staff } from '@/lib/scheduler-engine/types';
-import { getDaysDiff } from '@/lib/scheduler-engine/filters';
+import { getRotationShiftCode } from '@/lib/rotation';
+import { StaffGroup } from '@/lib/shift-codes';
 
 if (!supabaseAdmin) {
   throw new Error('Supabase Admin client must be initialized on the server (requires SUPABASE_SERVICE_ROLE_KEY)');
@@ -12,6 +13,7 @@ if (!supabaseAdmin) {
 
 interface PersonnelPayload {
   id: string;
+  originalId?: string;
   name: string;
   group: string;
   sub_group: string;
@@ -29,12 +31,13 @@ export async function getStaffList() {
       .from('staff')
       .select('*, staff_ratings(rating:ratings(code))')
       .eq('location', 'Cabang Manado')
-      .order('id', { ascending: true });
+      .order('name', { ascending: true });
 
     if (error) throw error;
 
     const staff: Staff[] = (staffData || []).map((s: any) => ({
-      id: s.id,
+      id: s.gmail || s.id,
+      gmail: s.gmail || s.id,
       name: s.name,
       group: s.group,
       sub_group: s.sub_group,
@@ -84,28 +87,30 @@ export async function createPersonnel({
   location = 'Cabang Manado',
   ratingIds = []
 }: PersonnelPayload) {
-  console.log(`[actions/personnel] Creating new personnel ${id} - ${name}`);
+  const cleanId = id.trim().toLowerCase();
+  console.log(`[actions/personnel] Creating new personnel ${cleanId} - ${name}`);
 
   try {
-    // 1. Check ID uniqueness
+    // 1. Check ID/Gmail uniqueness
     const { count, error: checkErr } = await supabaseAdmin!
       .from('staff')
-      .select('id', { count: 'exact', head: true })
-      .eq('id', id);
+      .select('gmail', { count: 'exact', head: true })
+      .or(`gmail.eq.${cleanId},id.eq.${cleanId}`);
 
     if (checkErr) {
       throw new Error(`Failed to check existing ID: ${checkErr.message}`);
     }
 
     if (count && count > 0) {
-      return { success: false, error: `ID Personel "${id}" sudah digunakan. Gunakan ID lain.` };
+      return { success: false, error: `Email/ID Personel "${cleanId}" sudah digunakan. Gunakan email lain.` };
     }
 
     // 2. Insert into staff table
     const { error: insertErr } = await supabaseAdmin!
       .from('staff')
       .insert({
-        id: id.trim().toUpperCase(),
+        gmail: cleanId,
+        id: cleanId,
         name: name.trim(),
         group,
         sub_group,
@@ -118,7 +123,6 @@ export async function createPersonnel({
     }
 
     // 3. Insert staff ratings if selected
-    const cleanId = id.trim().toUpperCase();
     if (ratingIds.length > 0) {
       const staffRatingsInsert = ratingIds.map(ratingId => ({
         staff_id: cleanId,
@@ -135,22 +139,6 @@ export async function createPersonnel({
     }
 
     // 4. Auto-generate roster shift rows for newly created technician for existing roster dates
-    const cnsPatterns: Record<string, string[]> = {
-      'Grup 1': ['L', 'P', 'S', 'M', 'Y'],
-      'Grup 2': ['P', 'S', 'M', 'Y', 'L'],
-      'Grup 3': ['S', 'M', 'Y', 'L', 'P'],
-      'Grup 4': ['M', 'Y', 'L', 'P', 'S'],
-      'Grup 5': ['Y', 'L', 'P', 'S', 'M']
-    };
-
-    const essPatterns: Record<string, string[]> = {
-      'ESS Grup 1': ['M', 'Y', 'L', 'PS', 'P'],
-      'ESS Grup 2': ['P', 'M', 'Y', 'L', 'PS'],
-      'ESS Grup 3': ['PS', 'P', 'M', 'Y', 'L'],
-      'ESS Grup 4': ['L', 'PS', 'P', 'M', 'Y'],
-      'ESS Grup 5': ['Y', 'L', 'PS', 'P', 'M']
-    };
-
     const { data: existingShiftDates } = await supabaseAdmin!
       .from('shifts')
       .select('date');
@@ -162,17 +150,12 @@ export async function createPersonnel({
       const newShiftsToInsert = uniqueDates.map(dateStr => {
         const dateObj = new Date(dateStr);
         const dayOfWeek = dateObj.getDay();
-        const daysFromAnchor = Math.abs(getDaysDiff('2025-01-01', dateStr));
 
         let shiftCode = 'L';
         if (isManager) {
           shiftCode = (dayOfWeek === 0 || dayOfWeek === 6) ? 'L' : 'D';
-        } else if (group === 'CNS') {
-          const pattern = cnsPatterns[sub_group] || ['P', 'S', 'M', 'Y', 'L'];
-          shiftCode = pattern[daysFromAnchor % pattern.length];
-        } else if (group === 'ESS') {
-          const pattern = essPatterns[sub_group] || ['M', 'Y', 'L', 'PS', 'P'];
-          shiftCode = pattern[daysFromAnchor % pattern.length];
+        } else {
+          shiftCode = getRotationShiftCode(sub_group, group as StaffGroup, dateStr);
         }
 
         return {
@@ -213,6 +196,7 @@ export async function createPersonnel({
  */
 export async function updatePersonnel({
   id,
+  originalId,
   name,
   group,
   sub_group,
@@ -220,34 +204,71 @@ export async function updatePersonnel({
   location = 'Cabang Manado',
   ratingIds = []
 }: PersonnelPayload) {
-  console.log(`[actions/personnel] Updating personnel ${id}`);
+  const targetNewGmail = id.trim().toLowerCase();
+  const targetOldGmail = (originalId || id).trim().toLowerCase();
+  const isGmailChanged = targetOldGmail !== targetNewGmail;
+
+  console.log(`[actions/personnel] Updating personnel ${targetOldGmail} -> ${targetNewGmail}`);
 
   try {
+    // If Gmail changed, ensure new Gmail is not already taken
+    if (isGmailChanged) {
+      const { data: existingStaff } = await supabaseAdmin!
+        .from('staff')
+        .select('gmail')
+        .or(`gmail.eq.${targetNewGmail},id.eq.${targetNewGmail}`)
+        .maybeSingle();
+
+      if (existingStaff) {
+        return { success: false, error: `Email Gmail "${targetNewGmail}" sudah digunakan oleh personel lain.` };
+      }
+    }
+
     // 1. Update staff table
     const { error: updateErr } = await supabaseAdmin!
       .from('staff')
       .update({
+        gmail: targetNewGmail,
+        id: targetNewGmail,
         name: name.trim(),
         group,
         sub_group,
         role_level,
         location
       })
-      .eq('id', id);
+      .or(`gmail.eq.${targetOldGmail},id.eq.${targetOldGmail}`);
 
     if (updateErr) {
       throw new Error(`Gagal memperbarui data personel: ${updateErr.message}`);
+    }
+
+    // If Gmail changed, cascade update shifts, calendar events, recommendations
+    if (isGmailChanged) {
+      await supabaseAdmin!
+        .from('shifts')
+        .update({ staff_id: targetNewGmail })
+        .eq('staff_id', targetOldGmail);
+
+      await supabaseAdmin!
+        .from('calendar_sync_events')
+        .update({ staff_gmail: targetNewGmail })
+        .eq('staff_gmail', targetOldGmail);
+
+      await supabaseAdmin!
+        .from('recommendations')
+        .update({ candidate_staff_id: targetNewGmail })
+        .eq('candidate_staff_id', targetOldGmail);
     }
 
     // 2. Sync staff_ratings: Delete existing and insert new
     await supabaseAdmin!
       .from('staff_ratings')
       .delete()
-      .eq('staff_id', id);
+      .or(`staff_id.eq.${targetNewGmail},staff_id.eq.${targetOldGmail}`);
 
     if (ratingIds.length > 0) {
       const staffRatingsInsert = ratingIds.map(ratingId => ({
-        staff_id: id,
+        staff_id: targetNewGmail,
         rating_id: ratingId
       }));
 
@@ -261,26 +282,10 @@ export async function updatePersonnel({
     }
 
     // 3. Recalculate shift rotation pattern for future shifts if group/subgroup/role changed
-    const cnsPatterns: Record<string, string[]> = {
-      'Grup 1': ['L', 'P', 'S', 'M', 'Y'],
-      'Grup 2': ['P', 'S', 'M', 'Y', 'L'],
-      'Grup 3': ['S', 'M', 'Y', 'L', 'P'],
-      'Grup 4': ['M', 'Y', 'L', 'P', 'S'],
-      'Grup 5': ['Y', 'L', 'P', 'S', 'M']
-    };
-
-    const essPatterns: Record<string, string[]> = {
-      'ESS Grup 1': ['M', 'Y', 'L', 'PS', 'P'],
-      'ESS Grup 2': ['P', 'M', 'Y', 'L', 'PS'],
-      'ESS Grup 3': ['PS', 'P', 'M', 'Y', 'L'],
-      'ESS Grup 4': ['L', 'PS', 'P', 'M', 'Y'],
-      'ESS Grup 5': ['Y', 'L', 'PS', 'P', 'M']
-    };
-
     const { data: staffShifts } = await supabaseAdmin!
       .from('shifts')
       .select('id, date, shift_code')
-      .eq('staff_id', id);
+      .eq('staff_id', targetNewGmail);
 
     if (staffShifts && staffShifts.length > 0) {
       const isManager = role_level === 'Manager Teknik';
@@ -292,17 +297,12 @@ export async function updatePersonnel({
 
         const dateObj = new Date(shift.date);
         const dayOfWeek = dateObj.getDay();
-        const daysFromAnchor = Math.abs(getDaysDiff('2025-01-01', shift.date));
 
         let newShiftCode = 'L';
         if (isManager) {
           newShiftCode = (dayOfWeek === 0 || dayOfWeek === 6) ? 'L' : 'D';
-        } else if (group === 'CNS') {
-          const pattern = cnsPatterns[sub_group] || ['P', 'S', 'M', 'Y', 'L'];
-          newShiftCode = pattern[daysFromAnchor % pattern.length];
-        } else if (group === 'ESS') {
-          const pattern = essPatterns[sub_group] || ['M', 'Y', 'L', 'PS', 'P'];
-          newShiftCode = pattern[daysFromAnchor % pattern.length];
+        } else {
+          newShiftCode = getRotationShiftCode(sub_group, group as StaffGroup, shift.date);
         }
 
         if (newShiftCode !== currentCode) {

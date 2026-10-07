@@ -53,4 +53,8 @@ temp_init_backup/
 .system_generated/
 scratch/
 
+# user credentials and sensitive exports
+users.csv
+kredensial-*.txt
+
 

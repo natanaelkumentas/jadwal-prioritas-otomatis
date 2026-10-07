@@ -5,7 +5,7 @@ import { Staff, Shift, CandidateRecommendation } from '@/lib/scheduler-engine/ty
 import { updateShiftCode, swapShifts, assignLeaveAndReplacement } from '@/app/actions/scheduler';
 import { i18n } from '@/lib/i18n';
 import { useToast } from '@/components/ToastProvider';
-import { FiAlertTriangle, FiRefreshCw, FiX, FiCheck } from 'react-icons/fi';
+import { FiAlertTriangle, FiRefreshCw, FiX, FiCheck, FiCheckSquare } from 'react-icons/fi';
 
 interface ShiftEditDrawerProps {
   shift: Shift;
@@ -14,6 +14,7 @@ interface ShiftEditDrawerProps {
   allStaff: Staff[];
   onClose: () => void;
   onAssignSuccess: () => void;
+  onEnterMultiSelect?: (shift: Shift) => void;
 }
 
 export default function ShiftEditDrawer({
@@ -22,7 +23,8 @@ export default function ShiftEditDrawer({
   allShifts,
   allStaff,
   onClose,
-  onAssignSuccess
+  onAssignSuccess,
+  onEnterMultiSelect
 }: ShiftEditDrawerProps) {
   const [selectedCode, setSelectedCode] = useState<string>(shift.shift_code);
   const [justification, setJustification] = useState<string>('');
@@ -548,13 +550,25 @@ export default function ShiftEditDrawer({
       </div>
 
       {/* Footer */}
-      <div className="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/80 safe-area-bottom">
+      <div className="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/80 safe-area-bottom flex items-center gap-2">
         <button
+          type="button"
           onClick={onClose}
-          className="w-full py-2 border border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 text-xs sm:text-sm font-semibold rounded-lg transition-colors"
+          className="flex-1 py-2 border border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 text-xs sm:text-sm font-semibold rounded-lg transition-colors text-center"
         >
           {i18n.btnCloseDrawer}
         </button>
+        {onEnterMultiSelect && (
+          <button
+            type="button"
+            onClick={() => onEnterMultiSelect(shift)}
+            className="flex-1 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold rounded-lg transition-colors flex items-center justify-center gap-1.5 shadow-xs text-center"
+            title="Beralih ke mode multi-pilih dengan sel ini"
+          >
+            <FiCheckSquare className="w-4 h-4 flex-shrink-0" />
+            <span>{i18n.btnEnterMultiSelect}</span>
+          </button>
+        )}
       </div>
     </div>
 

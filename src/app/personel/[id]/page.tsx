@@ -3,9 +3,7 @@ import { supabaseAdmin } from '@/lib/supabase';
 import { Staff, Shift, GapEvent } from '@/lib/scheduler-engine/types';
 import { getStaffMonthlySchedule } from '@/app/actions/scheduler';
 import PersonalScheduleView from '@/components/PersonalScheduleView';
-import ThemeToggle from '@/components/ThemeToggle';
-import { MONTH_NAMES_ID } from '@/lib/shift-codes';
-import { FiArrowLeft, FiUser, FiAlertCircle } from 'react-icons/fi';
+import { FiArrowLeft, FiAlertCircle } from 'react-icons/fi';
 
 export const revalidate = 0; // Always render the latest roster state
 
@@ -15,21 +13,36 @@ interface PersonalPageProps {
 }
 
 export async function generateMetadata({ params }: PersonalPageProps) {
-  const staffId = decodeURIComponent(params.id);
+  const staffIdentifier = decodeURIComponent(params.id).trim();
 
-  const { data: staff } = supabaseAdmin
-    ? await supabaseAdmin.from('staff').select('name').eq('id', staffId).maybeSingle()
-    : { data: null };
+  let staffName = '';
+  if (supabaseAdmin) {
+    const { data: byName } = await supabaseAdmin
+      .from('staff')
+      .select('name')
+      .ilike('name', staffIdentifier)
+      .maybeSingle();
+    if (byName) {
+      staffName = byName.name;
+    } else {
+      const { data: byId } = await supabaseAdmin
+        .from('staff')
+        .select('name')
+        .or(`gmail.eq.${staffIdentifier},id.eq.${staffIdentifier}`)
+        .maybeSingle();
+      if (byId) staffName = byId.name;
+    }
+  }
 
   return {
-    title: staff?.name
-      ? `Jadwal Dinas ${staff.name} — SAPS`
-      : 'Jadwal Dinas Personal — SAPS'
+    title: staffName
+      ? `Jadwal Dinas ${staffName} — SAPS`
+      : `Jadwal Dinas ${staffIdentifier} — SAPS`
   };
 }
 
 export default async function PersonalSchedulePage({ params, searchParams }: PersonalPageProps) {
-  const staffId = decodeURIComponent(params.id);
+  const staffIdentifier = decodeURIComponent(params.id).trim();
 
   if (!supabaseAdmin) {
     return (
@@ -52,11 +65,25 @@ export default async function PersonalSchedulePage({ params, searchParams }: Per
   const currentMonth =
     Number.isInteger(parsedMonth) && parsedMonth >= 1 && parsedMonth <= 12 ? parsedMonth : now.getMonth() + 1;
 
-  const { data: staffData } = await supabaseAdmin
+  // 1. Try matching by full name first
+  let staffData: any = null;
+  const { data: byName } = await supabaseAdmin
     .from('staff')
     .select('*, staff_ratings(rating:ratings(code))')
-    .eq('id', staffId)
+    .ilike('name', staffIdentifier)
     .maybeSingle();
+
+  if (byName) {
+    staffData = byName;
+  } else {
+    // 2. Fallback to gmail or id
+    const { data: byIdOrGmail } = await supabaseAdmin
+      .from('staff')
+      .select('*, staff_ratings(rating:ratings(code))')
+      .or(`gmail.eq.${staffIdentifier},id.eq.${staffIdentifier}`)
+      .maybeSingle();
+    staffData = byIdOrGmail;
+  }
 
   if (!staffData) {
     return (
@@ -80,7 +107,8 @@ export default async function PersonalSchedulePage({ params, searchParams }: Per
   }
 
   const staff: Staff = {
-    id: staffData.id,
+    id: staffData.gmail || staffData.id,
+    gmail: staffData.gmail || staffData.id,
     name: staffData.name,
     group: staffData.group,
     sub_group: staffData.sub_group,
@@ -92,57 +120,7 @@ export default async function PersonalSchedulePage({ params, searchParams }: Per
   const schedule = await getStaffMonthlySchedule(staff.id, currentYear, currentMonth);
 
   return (
-    <main className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 px-2.5 sm:px-6 py-4 sm:py-8 transition-colors duration-200">
-      {/* Personal Header */}
-      <div className="mb-3 sm:mb-6 border-b border-slate-200 dark:border-slate-800 pb-3 sm:pb-4">
-        <div className="flex items-center justify-between gap-2 mb-2.5">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-lg text-[11px] sm:text-xs font-semibold transition-colors print:hidden"
-          >
-            <FiArrowLeft className="w-3.5 h-3.5" />
-            <span>Dashboard Roster</span>
-          </Link>
-          <div className="print:hidden">
-            <ThemeToggle />
-          </div>
-        </div>
-
-        <div className="flex items-start gap-3">
-          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-emerald-100 dark:bg-emerald-500/15 border border-emerald-300 dark:border-emerald-500/30 flex items-center justify-center flex-shrink-0">
-            <FiUser className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-600 dark:text-emerald-400" />
-          </div>
-          <div className="min-w-0">
-            <h1 className="text-base sm:text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight truncate">
-              {staff.name}
-            </h1>
-            <p className="text-[10px] sm:text-sm text-slate-600 dark:text-slate-300 font-medium">
-              Jadwal Dinas Personal — {MONTH_NAMES_ID[currentMonth - 1]} {currentYear}
-            </p>
-            <div className="flex flex-wrap items-center gap-1 sm:gap-1.5 mt-1.5">
-              <span className="px-1.5 py-0.5 text-[9px] sm:text-[10px] font-mono font-bold bg-slate-200 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 rounded">
-                {staff.id}
-              </span>
-              <span className="px-1.5 py-0.5 text-[9px] sm:text-[10px] font-bold bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 text-slate-700 dark:text-slate-300 rounded">
-                {staff.group} · {staff.sub_group}
-              </span>
-              <span className="px-1.5 py-0.5 text-[9px] sm:text-[10px] font-bold bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 text-slate-700 dark:text-slate-300 rounded">
-                {staff.role_level}
-              </span>
-              {staff.ratings?.map(rating => (
-                <span
-                  key={rating}
-                  className="px-1.5 py-0.5 text-[9px] sm:text-[10px] font-mono font-bold bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-300 dark:border-emerald-500/30 text-emerald-700 dark:text-emerald-400 rounded"
-                  title="Rating Lisensi ATSEP"
-                >
-                  {rating}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-
+    <main className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 px-2 sm:px-4 py-3 sm:py-5 transition-colors duration-200 print:bg-white print:p-0 print:m-0">
       <PersonalScheduleView
         staff={staff}
         initialShifts={schedule.shifts as Shift[]}

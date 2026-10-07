@@ -9,6 +9,14 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "SAPS — Sistem Penjadwalan Otomatis Prioritas ATS Engineering",
   description: "Sistem penjadwalan shift otomatis berbasis MCDA untuk Unit Teknik ATS — Perum LPPNPI Cabang Manado (AirNav Indonesia)",
+  icons: {
+    icon: [
+      { url: "/favicon.jpeg", type: "image/jpeg" },
+      { url: "/favicon.ico" }
+    ],
+    shortcut: "/favicon.jpeg",
+    apple: "/favicon.jpeg"
+  }
 };
 
 export default function RootLayout({

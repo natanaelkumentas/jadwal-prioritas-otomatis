@@ -1,14 +1,7 @@
 import { Staff, Shift, ScoreBreakdown, CandidateRecommendation } from './types';
 import { getShiftHours, getDaysDiff } from './filters';
-
-// Calculate workload for a candidate (total active working shifts)
-export function getWorkloadCount(candidateId: string, allShifts: Shift[]): number {
-  return allShifts.filter(
-    s => s.staff_id === candidateId && 
-    s.shift_code.toUpperCase() !== 'L' && 
-    s.shift_code.toUpperCase() !== 'Y'
-  ).length;
-}
+import { calculateStaffMonthlyHours } from '../labor-rules/hours';
+import { LABOR_RULES } from '../labor-rules/config';
 
 // Get the minimum rest period for the candidate around the target date (in hours)
 export function getMinRestBuffer(
@@ -69,7 +62,9 @@ export function getRecencyCount(
 }
 
 /**
- * Computes scores and ranks for eligible candidates.
+ * Computes scores and ranks for eligible candidates based on exact monthly hours.
+ * Prioritizes candidates whose resulting hours remain <= 160h.
+ * If all available candidates exceed 160h, selects the candidate with the fewest hours.
  */
 export function scoreCandidates(
   eligibleCandidates: Staff[],
@@ -83,58 +78,62 @@ export function scoreCandidates(
 ): CandidateRecommendation[] {
   if (eligibleCandidates.length === 0) return [];
 
-  // 1. Gather workload, rest buffer, and recency counts for normalization
+  const [tYear, tMonth] = targetDate.split('-').map(Number);
+  const targetDuration = getShiftHours(targetShiftCode, targetGroup)?.start !== undefined
+    ? ((getShiftHours(targetShiftCode, targetGroup)?.end || 0) - (getShiftHours(targetShiftCode, targetGroup)?.start || 0))
+    : 0;
+
+  // 1. Gather monthly hours, rest buffer, and recency counts
   const candidateStats = eligibleCandidates.map(c => {
-    const workload = getWorkloadCount(c.id, allShifts);
+    const candidateShifts = allShifts.filter(s => s.staff_id === c.id);
+    const monthlyStats = calculateStaffMonthlyHours(candidateShifts, targetGroup, tYear, tMonth);
+    const monthlyHoursBefore = monthlyStats.totalHours;
+    const monthlyHoursAfter = monthlyHoursBefore + targetDuration;
+    const overMonthlyLimit = monthlyHoursAfter > LABOR_RULES.monthlyHourLimit;
+    const excessHours = overMonthlyLimit ? monthlyHoursAfter - LABOR_RULES.monthlyHourLimit : 0;
+
     const restBuffer = getMinRestBuffer(c.id, targetDate, targetShiftCode, targetGroup, allShifts);
     const recencyCount = getRecencyCount(c.id, targetDate, targetShiftCode, allShifts);
+
     return {
-      candidateId: c.id,
-      workload,
+      candidate: c,
+      monthlyHoursBefore,
+      monthlyHoursAfter,
+      overMonthlyLimit,
+      excessHours,
       restBuffer,
       recencyCount
     };
   });
 
-  const workloads = candidateStats.map(s => s.workload);
   const restBuffers = candidateStats.map(s => s.restBuffer);
-
-  const minWorkload = Math.min(...workloads);
-  const maxWorkload = Math.max(...workloads);
-  
   const minRest = Math.min(...restBuffers);
   const maxRest = Math.max(...restBuffers);
 
   // 2. Compute MCDA score for each candidate
-  const recommendations: CandidateRecommendation[] = eligibleCandidates.map(c => {
-    const stats = candidateStats.find(s => s.candidateId === c.id)!;
+  const recommendations: CandidateRecommendation[] = candidateStats.map(stat => {
+    const c = stat.candidate;
 
     // --- Factor 1: RatingCoverageScore (Weight: 0.35) ---
-    // Favor candidates who hold FEWER total ratings to protect rare-rating holders (CNS only).
     const isEss = c.group === 'ESS' || c.sub_group?.startsWith('ESS');
     const numRatingsHeld = c.ratings && c.ratings.length > 0 ? c.ratings.length : 1;
-    const ratingCoverageRaw = isEss ? 1.0 : (1.0 / numRatingsHeld); // ESS technicians receive full rating score
+    const ratingCoverageRaw = isEss ? 1.0 : (1.0 / numRatingsHeld);
 
-    // --- Factor 2: WorkloadBalanceScore (Weight: 0.25) ---
-    // Favor candidates with lower workloads so far.
-    let workloadRaw = 1.0;
-    if (maxWorkload !== minWorkload) {
-      workloadRaw = (maxWorkload - stats.workload) / (maxWorkload - minWorkload);
-    }
+    // --- Factor 2: WorkloadBalanceScore / Monthly Headroom (Weight: 0.25) ---
+    // Favor candidates with more headroom under 160h
+    const headroom = Math.max(0, LABOR_RULES.monthlyHourLimit - stat.monthlyHoursAfter);
+    const workloadRaw = Math.min(1.0, headroom / LABOR_RULES.monthlyHourLimit);
 
     // --- Factor 3: FatigueMarginScore (Weight: 0.20) ---
-    // Favor candidates with larger rest periods.
     let fatigueRaw = 1.0;
     if (maxRest !== minRest) {
-      fatigueRaw = (stats.restBuffer - minRest) / (maxRest - minRest);
+      fatigueRaw = (stat.restBuffer - minRest) / (maxRest - minRest);
     }
 
     // --- Factor 4: RecencyOfSameShiftScore (Weight: 0.10) ---
-    // Prevent repetition of night shifts.
-    const recencyRaw = 1.0 / (1.0 + stats.recencyCount);
+    const recencyRaw = 1.0 / (1.0 + stat.recencyCount);
 
     // --- Factor 5: GroupContinuityScore (Weight: 0.10) ---
-    // Slight preference for same subgroup.
     const groupRaw = c.sub_group === targetSubGroup ? 1.0 : 0.0;
 
     // Weighted scores
@@ -165,14 +164,37 @@ export function scoreCandidates(
       staff_id: c.id,
       name: c.name,
       score: finalScore,
-      rank: 1, // Will be updated during sorting
+      rank: 1, // updated after two-tier sort
       breakdown,
+      monthlyHoursBefore: stat.monthlyHoursBefore,
+      monthlyHoursAfter: stat.monthlyHoursAfter,
+      monthlyLimit: LABOR_RULES.monthlyHourLimit,
+      over_monthly_limit: stat.overMonthlyLimit,
+      excessHours: stat.excessHours,
       ...(isFallback ? { is_fallback: true, fallback_reason: fallbackReason } : {})
     };
   });
 
-  // Sort by final score descending
-  recommendations.sort((a, b) => b.score - a.score);
+  // 3. Two-Tier Soft Limit Sorting:
+  // Tier A: Candidates who remain <= 160h (sorted by MCDA score descending)
+  // Tier B: Candidates who exceed 160h (sorted by fewest hoursAfter ascending, then MCDA score descending)
+  recommendations.sort((a, b) => {
+    const aOver = a.over_monthly_limit ?? false;
+    const bOver = b.over_monthly_limit ?? false;
+
+    if (!aOver && bOver) return -1; // Under-limit always comes first
+    if (aOver && !bOver) return 1;
+
+    if (aOver && bOver) {
+      // Both exceed limit: pick the one with lowest total hours (least excess)
+      const hoursDiff = (a.monthlyHoursAfter || 0) - (b.monthlyHoursAfter || 0);
+      if (hoursDiff !== 0) return hoursDiff;
+      return b.score - a.score;
+    }
+
+    // Both under limit: standard MCDA score descending
+    return b.score - a.score;
+  });
 
   // Assign ranks
   for (let idx = 0; idx < recommendations.length; idx++) {
@@ -181,3 +203,4 @@ export function scoreCandidates(
 
   return recommendations;
 }
+

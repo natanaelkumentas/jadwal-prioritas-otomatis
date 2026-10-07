@@ -18,6 +18,7 @@ import { FiUsers, FiShield, FiAlertCircle, FiCheckCircle } from 'react-icons/fi'
 import { useTheme } from './ThemeProvider';
 import Skeleton from './Skeleton';
 import SkeletonOverlay from './SkeletonOverlay';
+import { UserSession } from '@/lib/auth-types';
 
 interface DashboardContainerProps {
   initialStaff: Staff[];
@@ -25,6 +26,7 @@ interface DashboardContainerProps {
   initialGapEvents: GapEvent[];
   initialYear?: number;
   initialMonth?: number;
+  currentUser?: UserSession | null;
 }
 
 export default function DashboardContainer({
@@ -32,7 +34,8 @@ export default function DashboardContainer({
   initialShifts,
   initialGapEvents,
   initialYear,
-  initialMonth
+  initialMonth,
+  currentUser
 }: DashboardContainerProps) {
   const { isThemeChanging } = useTheme();
   const [staffList, setStaffList] = useState<Staff[]>(initialStaff);
@@ -200,6 +203,12 @@ export default function DashboardContainer({
     setActiveEditSelection(null);
   };
 
+  const handleEnterMultiSelectFromDrawer = (shift: Shift) => {
+    setActiveEditSelection(null);
+    setSelectionMode(true);
+    setSelectedShiftIds(new Set([shift.id]));
+  };
+
   const handleAssignSuccess = () => {
     console.log('[DashboardContainer] Operation successful. Refreshing month shifts...');
     fetchMonthShifts(currentYear, currentMonth);
@@ -223,81 +232,18 @@ export default function DashboardContainer({
 
   return (
     <div className="relative min-h-screen flex flex-col bg-transparent text-slate-900 dark:text-slate-100">
-      {/* Month Selector & Auto Generator */}
+      {/* Month Selector, Stats & Management Toolbar (Unified 1 Row) */}
       <MonthSelector
         currentYear={currentYear}
         currentMonth={currentMonth}
         onMonthChange={handleMonthChange}
         onRefreshData={handleRefreshData}
+        staffCount={staffList.length}
+        onManagePersonnel={() => setShowPersonnelModal(true)}
+        hasExistingShifts={shifts.length > 0}
+        currentUser={currentUser}
+        staffList={staffList}
       />
-
-      {/* Top Banner Dashboard Stats & Management Button */}
-      <div className="mb-3 sm:mb-6 grid grid-cols-3 gap-1.5 sm:gap-4">
-        {/* Total Staff Card (Clickable to manage personnel) */}
-        <div 
-          onClick={() => setShowPersonnelModal(true)}
-          className="p-2 sm:p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 rounded-lg cursor-pointer transition-all group relative overflow-hidden shadow-xs"
-          title="Klik untuk Kelola Data Personel"
-        >
-          {isThemeChanging && <SkeletonOverlay />}
-          <div className="flex items-center justify-between">
-            <div className="text-[9px] sm:text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider group-hover:text-slate-900 dark:group-hover:text-white transition-colors truncate">
-              <span className="hidden sm:inline">{i18n.statsTotalStaff}</span>
-              <span className="sm:hidden">Personel</span>
-            </div>
-            <span className="text-[9px] sm:text-xs bg-slate-100 dark:bg-slate-800 group-hover:bg-slate-200 dark:group-hover:bg-slate-700 text-slate-800 dark:text-slate-200 px-1.5 sm:px-2 py-0.5 rounded font-bold transition-all border border-slate-200 dark:border-slate-700 flex items-center gap-1 flex-shrink-0">
-              <FiUsers className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
-              <span className="hidden sm:inline">Kelola</span>
-            </span>
-          </div>
-          <div className="text-base sm:text-2xl font-extrabold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors mt-0.5 sm:mt-1">
-            {staffList.length} <span className="hidden sm:inline font-bold">{i18n.statsTechnicians}</span>
-          </div>
-          <div className="hidden sm:block text-xs text-slate-600 dark:text-slate-300 font-medium mt-1">
-            Klik untuk tambah, ubah, atau hapus personel
-          </div>
-        </div>
-
-        {/* Shift Gaps Stat Card */}
-        <div className="p-2 sm:p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg shadow-xs relative overflow-hidden">
-          {isThemeChanging && <SkeletonOverlay />}
-          <div className="flex items-center justify-between">
-            <div className="text-[9px] sm:text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider truncate">
-              <span className="hidden sm:inline">{i18n.statsGapsCount}</span>
-              <span className="sm:hidden">Gap Shift</span>
-            </div>
-            <FiAlertCircle className="w-3.5 h-3.5 text-rose-500 dark:text-rose-400 flex-shrink-0" />
-          </div>
-          <div className="text-base sm:text-2xl font-extrabold text-rose-600 dark:text-rose-400 mt-0.5 sm:mt-1 flex items-center gap-1 sm:gap-2">
-            {activeGapsCount} <span className="hidden sm:inline font-bold">{i18n.statsGaps}</span>
-            {activeGapsCount > 0 && (
-              <span className="inline-block w-2 h-2 sm:w-2.5 sm:h-2.5 bg-rose-500 rounded-full animate-ping"></span>
-            )}
-          </div>
-          <div className="hidden sm:block text-xs text-slate-600 dark:text-slate-300 font-medium mt-1">
-            {i18n.statsGapsDetail}
-          </div>
-        </div>
-
-        {/* Database Sync Status Card */}
-        <div className="p-2 sm:p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg shadow-xs relative overflow-hidden">
-          {isThemeChanging && <SkeletonOverlay />}
-          <div className="flex items-center justify-between">
-            <div className="text-[9px] sm:text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider truncate">
-              <span className="hidden sm:inline">{i18n.statsSyncStatus}</span>
-              <span className="sm:hidden">Status DB</span>
-            </div>
-            <FiCheckCircle className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
-          </div>
-          <div className="text-base sm:text-2xl font-extrabold text-emerald-600 dark:text-emerald-400 mt-0.5 sm:mt-1">
-            <span className="hidden sm:inline">Supabase Cloud</span>
-            <span className="sm:hidden">Aktif</span>
-          </div>
-          <div className="hidden sm:block text-xs text-slate-600 dark:text-slate-300 font-medium mt-1">
-            {i18n.statsSyncDetail}
-          </div>
-        </div>
-      </div>
 
       {/* Main Content Area: Render RosterSkeleton when loading data, else RosterGrid with SkeletonOverlay during theme change */}
       {isLoading ? (
@@ -317,18 +263,20 @@ export default function DashboardContainer({
             selectedShiftIds={selectedShiftIds}
             onToggleSelectionMode={handleToggleSelectionMode}
             onSelectionChange={setSelectedShiftIds}
+            readOnly={currentUser?.role === 'user'}
           />
         </div>
       )}
 
-      {/* Floating bulk edit bar (multi-select mode with at least one cell chosen) */}
-      {selectionMode && selectedShiftIds.size > 0 && (
+      {/* Floating bulk edit bar (multi-select mode with at least one cell chosen, only for admin/developer) */}
+      {currentUser?.role !== 'user' && selectionMode && selectedShiftIds.size > 0 && (
         <BulkEditBar
           selectedShifts={shifts.filter(s => selectedShiftIds.has(s.id))}
           allShifts={shifts}
           allStaff={staffList}
           onClear={handleClearSelection}
           onApplySuccess={handleBulkApplySuccess}
+          onSelectShifts={setSelectedShiftIds}
         />
       )}
 
@@ -363,6 +311,7 @@ export default function DashboardContainer({
           allStaff={staffList}
           onClose={handleCloseEditDrawer}
           onAssignSuccess={handleAssignSuccess}
+          onEnterMultiSelect={handleEnterMultiSelectFromDrawer}
         />
       )}
     </div>

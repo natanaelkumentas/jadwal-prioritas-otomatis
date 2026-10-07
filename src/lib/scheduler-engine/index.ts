@@ -5,9 +5,9 @@ import {
   checkAvailability, 
   checkRestPeriod, 
   checkConsecutiveShifts,
-  checkPostNightConstraint,
-  getDaysDiff
+  checkPostNightConstraint
 } from './filters';
+import { getRotationShiftCode } from '../rotation';
 import { scoreCandidates } from './scoring';
 
 if (!supabaseAdmin) {
@@ -52,32 +52,10 @@ export async function getShiftReplacementRecommendations(
   const targetSubGroup = absentStaffProfile?.sub_group || 'Grup 1';
 
   // Determine effective work shift code to be covered (if raw is leave code, derive rotation work shift)
-  // Uses the same daysFromAnchor formula as generator.ts, personnel.ts, and scheduler.ts
   const leaveCodes = ['CUTI', 'DINAS LUAR', 'DIKLAT', 'SAKIT'];
   let effectiveShiftCode = rawShiftCode;
   if (leaveCodes.includes(rawShiftCode) || rawShiftCode === 'L' || rawShiftCode === 'Y') {
-    const daysFromAnchor = Math.abs(getDaysDiff('2025-01-01', targetDate));
-    if (targetGroup === 'ESS') {
-      const essPatterns: Record<string, string[]> = {
-        'ESS Grup 1': ['M', 'Y', 'L', 'PS', 'P'],
-        'ESS Grup 2': ['P', 'M', 'Y', 'L', 'PS'],
-        'ESS Grup 3': ['PS', 'P', 'M', 'Y', 'L'],
-        'ESS Grup 4': ['L', 'PS', 'P', 'M', 'Y'],
-        'ESS Grup 5': ['Y', 'L', 'PS', 'P', 'M']
-      };
-      const pat = essPatterns[targetSubGroup] || ['M', 'Y', 'L', 'PS', 'P'];
-      effectiveShiftCode = pat[daysFromAnchor % pat.length];
-    } else {
-      const cnsPatterns: Record<string, string[]> = {
-        'Grup 1': ['L', 'P', 'S', 'M', 'Y'],
-        'Grup 2': ['P', 'S', 'M', 'Y', 'L'],
-        'Grup 3': ['S', 'M', 'Y', 'L', 'P'],
-        'Grup 4': ['M', 'Y', 'L', 'P', 'S'],
-        'Grup 5': ['Y', 'L', 'P', 'S', 'M']
-      };
-      const pat = cnsPatterns[targetSubGroup] || ['P', 'S', 'M', 'Y', 'L'];
-      effectiveShiftCode = pat[daysFromAnchor % pat.length];
-    }
+    effectiveShiftCode = getRotationShiftCode(targetSubGroup, targetGroup, targetDate);
     if (effectiveShiftCode === 'L' || effectiveShiftCode === 'Y') {
       effectiveShiftCode = 'P';
     }
@@ -155,7 +133,7 @@ export async function getShiftReplacementRecommendations(
     if (!checkConsecutiveShifts(c.id, targetDate, effectiveShiftCode, allShifts)) return false;
     if (c.sub_group === targetSubGroup) return false; // Cross-group rule
     if (c.role_level === 'Manager Teknik') return false;
-    if (!checkPostNightConstraint(c.id, targetDate, effectiveShiftCode, allShifts)) return false;
+    if (!checkPostNightConstraint(c.id, targetDate, effectiveShiftCode, allShifts, targetGroup)) return false;
     return true;
   });
 
@@ -180,7 +158,8 @@ export async function getShiftReplacementRecommendations(
     if (c.role_level === 'Manager Teknik') return false;
     if (!checkRatingEligibility(c, requiredRatingCodes)) return false;
     if (!checkAvailability(c.id, targetDate, allShifts, allGapEvents)) return false;
-    if (!checkPostNightConstraint(c.id, targetDate, effectiveShiftCode, allShifts)) return false;
+    if (!checkRestPeriod(c.id, targetDate, effectiveShiftCode, targetGroup, allShifts)) return false;
+    if (!checkPostNightConstraint(c.id, targetDate, effectiveShiftCode, allShifts, targetGroup)) return false;
     return true;
   });
 
@@ -204,6 +183,9 @@ export async function getShiftReplacementRecommendations(
     if (c.id === absentStaff) return false;
     if (c.role_level === 'Manager Teknik') return false;
     if (!checkRatingEligibility(c, requiredRatingCodes)) return false;
+    // Must satisfy rest and post-night rest constraints
+    if (!checkRestPeriod(c.id, targetDate, effectiveShiftCode, targetGroup, allShifts)) return false;
+    if (!checkPostNightConstraint(c.id, targetDate, effectiveShiftCode, allShifts, targetGroup)) return false;
     // Must be off-duty on target date
     const candidateShift = allShifts.find(s => s.staff_id === c.id && s.date === targetDate);
     if (candidateShift) {
@@ -227,11 +209,13 @@ export async function getShiftReplacementRecommendations(
     );
   }
 
-  // Tier 4 Absolute Fallback: Off-duty staff WITHOUT rating check
+  // Tier 4 Absolute Fallback: Off-duty staff WITHOUT rating check (Strict rest periods still enforced!)
   console.log(`[scheduler-engine] Tier 3 empty. Running Tier 4 (Off-Duty Without Rating Check)...`);
   const tier4Candidates = allStaff.filter(c => {
     if (c.id === absentStaff) return false;
     if (c.role_level === 'Manager Teknik') return false;
+    if (!checkRestPeriod(c.id, targetDate, effectiveShiftCode, targetGroup, allShifts)) return false;
+    if (!checkPostNightConstraint(c.id, targetDate, effectiveShiftCode, allShifts, targetGroup)) return false;
     const candidateShift = allShifts.find(s => s.staff_id === c.id && s.date === targetDate);
     if (candidateShift) {
       const code = candidateShift.shift_code.toUpperCase();

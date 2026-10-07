@@ -382,3 +382,136 @@ All significant project changes, updates, and releases are logged below.
   - In `src/components/MonthSelector.tsx`, added backdrop tap-to-dismiss and `z-[100]` stacking to Schedule Generator confirmation popup modal.
   - In `src/components/ShiftEditDrawer.tsx`, added a custom confirmation popup modal (`showResetConfirmModal`) for resetting shifts to Off (`L`).
   - Converted 100% of user feedback across all actions to use animated Toast Notification popups.
+
+## [0.16.0] - 2026-10-05 08:30:00 UTC+8
+### Added
+- **Monthly Occupied Hours & Limit Tracking Card (`MonthlyHoursCard.tsx`)**:
+  - Implemented real-time monthly occupied hours calculation on the personnel detail page (`/personel/[id]`).
+  - Evaluates cumulative duty hours against the 160-hour monthly limit (`LABOR_RULES.monthlyHourLimit = 160`).
+  - Displays status badges and remaining hours (`+X jam tersisa`) or excess hours (`+X jam melebihi batas`).
+  - Visual dual-color progress bar displaying percentage consumed with animated pulse indicator for overtime/excess hours.
+- **Dedicated Labor Rules Module (`src/lib/labor-rules/`)**:
+  - `config.ts`: Centralized labor rules configuration (Min shift: 8h, Max shift: 12h, Min rest: 11h, Min post-night rest: 30h, Monthly limit: 160h, ESS `P`/`S` 6h exemption).
+  - `hours.ts`: Robust calculation engine for technician cumulative monthly duty hours.
+  - `validators.ts`: Exact interval math for validating 11h shift rest gaps and strict 30h post-night rest buffers across dates.
+
+### Changed
+- **Recommendation Engine Revision (Strict Labor Rules & Two-Tier 160h Headroom Ranking)**:
+  - In `src/lib/scheduler-engine/filters.ts` & `index.ts`: Parameter 3 (≥11h rest) and Parameter 4 (≥30h post-night rest) are now hard constraints strictly enforced across all recommendation tiers.
+  - In `src/lib/scheduler-engine/scoring.ts`: Shift count workload scoring replaced by exact monthly hours headroom. Candidates who will stay $\le 160$h are prioritized first. If all candidates exceed 160h, the candidate with the fewest resulting hours is selected.
+  - In `src/components/RecommendationDrawer.tsx`: Candidate cards now display monthly hours before and after assignment (e.g. `Jam: 148 → 156 / 160 jam`) with amber/red over-limit tags.
+
+### Fixed & Refactored
+- **Fixed Crash Bug in `assignLeaveAndReplacement`**:
+  - Resolved `TypeError: Cannot read properties of null (reading 'id')` when inserting a new shift for a replacement technician without a prior shift row on that date.
+- **Single Source of Truth for Shift Codes (DRY)**:
+  - Unified all numeric timing windows in `src/lib/shift-codes.ts` (`getShiftHoursWindow`) and removed duplicated timing switch statements in `filters.ts`.
+- **Centralized Rotation Patterns**:
+  - Created `src/lib/rotation.ts` (`getRotationShiftCode`) and eliminated copy-pasted rotation arrays across `generator.ts`, `personnel.ts`, `index.ts`, and `scheduler.ts`.
+- **Modularization Compliance (Rules #10 & #11)**:
+  - Modularized `src/app/actions/scheduler.ts` (originally 743 lines) into `scheduler-assignment.ts`, `scheduler-shifts.ts`, and `scheduler-queries.ts` with a clean re-export facade.
+  - Decomposed `src/components/PersonalScheduleView.tsx` (originally 589 lines) into `MonthlyHoursCard.tsx`, `PersonalCalendarGrid.tsx`, and `PersonalListView.tsx`, bringing all components under 300 lines.
+
+## [0.17.0] - 2026-10-06 10:40:00 UTC+8
+### Added
+- **Official AirNav Circular Favicon**:
+  - Configured circular AirNav Indonesia logo as web application favicon across `public/favicon.jpeg`, `public/favicon.ico`, `src/app/icon.jpeg`, and `src/app/favicon.ico`.
+  - Added icon metadata in `src/app/layout.tsx`.
+- **Modular Personal Print Layout (`PersonalPrintLayout.tsx`)**:
+  - Extracted printable layout into dedicated sub-component (`src/components/personal/PersonalPrintLayout.tsx`) to adhere strictly to Separation of Concerns and file line limit constraints.
+
+### Changed
+- **Personal Detail Printable Layout Redesign (`/personel/[id]`)**:
+  - Redesigned print layout from horizontal split into 2 stacked sections strictly fitted onto **1 single A4 portrait page** (`@page { size: A4 portrait; margin: 5mm 7mm; }`).
+  - **Top Section (Informasi Personel, Metrik & Tanda Tangan)**:
+    - Kop AirNav Indonesia (Kantor Cabang Manado - Unit Teknik ATS) with technician full name and period.
+    - 3-column summary grid: Profile Summary, Monthly Hours Evaluation (status & counters), and Technician Duty Status (Today & Next duty).
+    - Metrics row: 4 KPI cards (Hari Kerja, Total Jam, Shift Malam, Libur/Izin) and Shift Code Composition badges.
+    - Formal Signatures row: Technician (left) and Supervisor with handwritten date placeholder `Manado, ......................... [Bulan] [Tahun]` (right).
+  - **Bottom Section (Kalender Dinas Operasional)**:
+    - Full-width operational calendar grid displaying all dates and shift badges.
+    - Suppressed "today" highlight badge in print mode to keep printed rosters neutral.
+    - Optimized cell height (`h-10 sm:h-11`) and readable typography.
+
+## [0.17.1] - 2026-10-06 11:20:00 UTC+8
+### Changed
+- **Monthly Roster Download/Print Vertical Centering (`/cetak`)**:
+  - Expanded vertical gap between the schedule table and the shift legend / signature block from `mt-2 pt-1.5` to `mt-6 sm:mt-8 pt-3 border-t-2 print:mt-8`.
+  - Increased signature gap spacer from `h-10` to `h-14` (56px) for comfortable manual signing.
+  - Centered printed schedule vertically on the sheet via `@page { size: landscape; margin: 4mm 6mm; }` and `.print-wrapper { min-height: 100vh; margin: auto 0; justify-content: center; }`, eliminating excess bottom whitespace.
+- **Personal Detail Printable Layout Landscape Mode (`/personel/[id]`)**:
+  - Converted personal print stylesheet to strict **landscape** orientation (`@page { size: landscape; margin: 4mm 6mm; }`).
+  - Adjusted calendar grid cell height to `h-9 sm:h-9.5` in `PersonalCalendarGrid.tsx` to ensure all 5-6 rows and the top info section fit strictly onto **1 single landscape page**.
+
+## [0.17.2] - 2026-10-06 13:10:00 UTC+8
+### Added
+- **Google Calendar Service Account Credentials Configured**:
+  - Injected `GOOGLE_SERVICE_ACCOUNT_EMAIL` and `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY` for `calendar-bot@airnav-mdc-calendar-sync.iam.gserviceaccount.com` in `.env`.
+- **Targeted Test Sync Feature (`testSyncGoogleCalendar`)**:
+  - Implemented `testSyncGoogleCalendar(year, month, 'natanaelkumentas11@gmail.com')` in `src/app/actions/calendar.ts`.
+  - Targets working shifts specifically for `natanaelkumentas11@gmail.com` (or sends a test sample event if no profile with that email exists yet).
+- **Test Sync Button in Dashboard Toolbar (`MonthSelector.tsx`)**:
+  - Added dedicated amber-themed "Test Sync" button directly beside "Sync Calendar".
+  - Maintained single-row toolbar layout: `[ total | kelola personel ] [ month/year selection ] [ download/print ] [ sync calendar ] [ test sync ] [ buat jadwal ]`.
+## [0.17.3] - 2026-10-06 13:16:00 UTC+8
+### Fixed
+- **PostgreSQL Date Out of Range Error (`22008`) in Calendar Actions**:
+  - Resolved `date/time field value out of range: "2026-09-31"` in `src/app/actions/calendar.ts`.
+  - Replaced hardcoded `31` suffix with dynamic calculation of the exact last date of the month (`new Date(year, month, 0).getDate()`), correctly handling 30-day months (April, June, September, November) and February.
+  - Added robust sample shift fallback in `testSyncGoogleCalendar` so that newly created staff who have not had roster shifts generated for the active month yet can still test Google Calendar invite delivery.
+
+## [0.17.4] - 2026-10-06 13:20:00 UTC+8
+### Fixed
+- **Google Calendar API 403 `forbiddenForServiceAccounts` Error**:
+  - Removed `attendees` and `sendUpdates: 'all'` from `buildShiftEventPayload` and event mutation requests, resolving Google's security restriction: `"Service accounts cannot invite attendees without Domain-Wide Delegation of Authority"`.
+  - Configured `calendarId: data.staffGmail` to write events directly into the target personnel's calendar when granted access.
+  - Added clear actionable error message instructing users to share their Google Calendar with the service account bot (`calendar-bot@airnav-mdc-calendar-sync.iam.gserviceaccount.com`) if access has not been granted yet.
+
+## [0.18.0] - 2026-10-07 08:35:00 UTC+8
+### Added
+- **3-Tier Role Authentication & Web Login System (`developer`, `admin`, `user`)**:
+  - Added `jadwal.users` table schema in `database/schema.sql` with encrypted password hashes, RLS policies, and role definitions.
+  - Created authentication engine `src/lib/auth.ts` providing secure scrypt password hashing, session tokens, and HTTP-only cookie management.
+  - Built modern corporate login page `src/app/login/page.tsx` styled with AirNav Indonesia navy-blue palette, input error validation, and responsive mobile-first layout.
+  - Added Next.js authentication guard in `src/middleware.ts` and `src/app/page.tsx`, protecting dashboard routes and redirecting unauthenticated users to `/login`.
+  - Implemented `NavbarUserPill.tsx` top-bar component displaying user avatar, name, color-coded role badges (`developer` in purple, `admin` in blue, `user` in emerald), and logout action.
+- **Root Directory `users.csv` & User Credential Generation**:
+  - Created root-level `./users.csv` exporting initial credentials for Developer (`natanaelkumentas03@gmail.com` / `ti7polimdo`), Admin (`jadwal.airnav.mdc@gmail.com` / `magangairnavpolimdo2026`), and all 27 unit personnel with randomly-generated secure passwords.
+  - Implemented automatic user seeding script `src/lib/seed-users.ts` with synchronization against `users.csv`.
+- **Auto-Download Credentials Feature**:
+  - **Admin Adding User**: Added password input with "Acak Sandi" button in `PersonnelManagementModal.tsx`. Saving a new staff member registers their user account in `jadwal.users` and automatically triggers a browser download of `kredensial-user-[email].txt`.
+  - **Developer Managing Admin**: Created `DeveloperAdminModal.tsx` allowing developers to view, delete, and add new admin accounts. Creating an admin automatically downloads `kredensial-admin-[email].txt`.
+- **Email-Based Personal Calendar Feed (`WebCal / iCal RFC 5545`)**:
+  - Implemented `/api/calendar/[staffId]/route.ts` supporting direct email feeds (`/api/calendar/[email].ics`).
+  - Feed queries shifts strictly isolated by `staff_id = staff.gmail AND status = 'Filled'` (100% zero cross-contamination).
+  - Shifts rendered with UTC timestamps computed from WITA (UTC+8) and embedded 2h and 30m alarms.
+  - Created interactive `CalendarSyncModal.tsx` supporting 1-click Google Calendar subscription, WebCal URL copy, and `.ics` download.
+  - Added "Sync Kalender" button in `MonthSelector.tsx` toolbar and `PersonalScheduleView.tsx`.
+- **Role-Based Interaction Restrictions**:
+  - Regular `user` technicians can view the master roster in read-only mode (cell shift edits, generation modal, and bulk edits disabled).
+  - Regular `user` technicians get a direct "Jadwal Saya" shortcut in the toolbar and a calendar sync modal locked to their own email feed.
+## [0.18.1] - 2026-10-07 08:45:00 UTC+8
+### Fixed
+- **Next.js Client/Server Component Boundary Isolation**:
+  - Extracted pure browser-safe types and helpers (`UserRole`, `UserSession`, `generateRandomPassword`) into `src/lib/auth-types.ts`.
+  - Updated `src/components/DeveloperAdminModal.tsx` and `src/components/NavbarUserPill.tsx` to import types and password generators strictly from `@/lib/auth-types` instead of `@/lib/auth`.
+  - Added `export const getCurrentUser = getSession;` in `src/lib/auth.ts` for clean server component consumption.
+## [0.18.2] - 2026-10-07 08:56:00 UTC+8
+### Changed
+- **Unified Light & Dark Theme Redesign for New Pages, Forms, and Modals**:
+  - **Login Page (`src/app/login/page.tsx`)**:
+    - Added floating `ThemeToggle` button in the top-right corner.
+    - Implemented adaptive backgrounds: clean `slate-100/70` with soft ambient blue/sky blurs for Light Mode and deep `slate-950` with subtle glows for Dark Mode.
+    - Updated login card container (`bg-white/95` vs `bg-slate-900/85`), inputs, labels, alert boxes, and buttons to use responsive theme tokens.
+  - **Top Navbar User Profile Pill (`src/components/NavbarUserPill.tsx`)**:
+    - Redesigned pill container from dark-only `bg-slate-800` to adaptive `bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800`.
+    - Added high-contrast dual-theme role badge styles for `developer` (purple), `admin` (blue), and `user` (emerald).
+    - Polished "Kelola Admin" and "Logout" buttons with light/dark hover and active states.
+  - **Calendar Sync Modal (`src/components/CalendarSyncModal.tsx`)**:
+    - Converted entire modal surface from dark-only `bg-slate-900` to adaptive `bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800`.
+    - Unified technician selector, WebCal URL copy box, 1-click Google Calendar subscription button, and manual instruction guides for seamless light and dark mode appearance.
+  - **Developer Admin Management Modal (`src/components/DeveloperAdminModal.tsx`)**:
+    - Converted modal surface to dual-theme container with developer-themed purple accents (`bg-white dark:bg-slate-900`, `border-purple-200 dark:border-purple-500/30`).
+    - Styled "Tambah Administrator Baru" form, auto-password generator, and admin account rows with high-contrast dual-theme styles.
+  - **Personnel Management Password Section (`src/components/PersonnelManagementModal.tsx`)**:
+    - Enhanced password field with an integrated key icon (`FiKey`), modern blue focus rings, and aligned "Acak Sandi Baru" button.

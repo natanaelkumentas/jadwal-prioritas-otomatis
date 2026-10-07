@@ -1,7 +1,7 @@
 'use server';
 
 import { supabaseAdmin } from '@/lib/supabase';
-import { getDaysDiff } from '@/lib/scheduler-engine/filters';
+import { getRotationShiftCode } from '@/lib/rotation';
 
 
 if (!supabaseAdmin) {
@@ -53,30 +53,13 @@ export async function generateMonthlyRoster({
     const { data: staffList, error: staffErr } = await supabaseAdmin!
       .from('staff')
       .select('*')
-      .order('id');
+      .order('name');
 
     if (staffErr || !staffList || staffList.length === 0) {
       throw new Error(`Failed to fetch staff members: ${staffErr?.message}`);
     }
 
-    // 4. Shift rotation patterns for 5 subgroups
-    const cnsPatterns: Record<string, string[]> = {
-      'Grup 1': ['L', 'P', 'S', 'M', 'Y'],
-      'Grup 2': ['P', 'S', 'M', 'Y', 'L'],
-      'Grup 3': ['S', 'M', 'Y', 'L', 'P'],
-      'Grup 4': ['M', 'Y', 'L', 'P', 'S'],
-      'Grup 5': ['Y', 'L', 'P', 'S', 'M']
-    };
-
-    const essPatterns: Record<string, string[]> = {
-      'ESS Grup 1': ['M', 'Y', 'L', 'PS', 'P'],
-      'ESS Grup 2': ['P', 'M', 'Y', 'L', 'PS'],
-      'ESS Grup 3': ['PS', 'P', 'M', 'Y', 'L'],
-      'ESS Grup 4': ['L', 'PS', 'P', 'M', 'Y'],
-      'ESS Grup 5': ['Y', 'L', 'PS', 'P', 'M']
-    };
-
-    // 5. Generate shifts for every staff member for days 1 to totalDays
+    // 4. Generate shifts for every staff member for days 1 to totalDays
     const shiftsToInsert: any[] = [];
 
     for (const staff of staffList) {
@@ -88,21 +71,15 @@ export async function generateMonthlyRoster({
 
         let shiftCode = 'L';
 
-        const daysFromAnchor = Math.abs(getDaysDiff('2025-01-01', dateStr));
-
         if (isManager) {
           // Manager Teknik: Fixed office hours D Monday-Friday, L Saturday-Sunday
           shiftCode = (dayOfWeek === 0 || dayOfWeek === 6) ? 'L' : 'D';
-        } else if (staff.group === 'CNS') {
-          const pattern = cnsPatterns[staff.sub_group] || ['P', 'S', 'M', 'Y', 'L'];
-          shiftCode = pattern[daysFromAnchor % pattern.length];
-        } else if (staff.group === 'ESS') {
-          const pattern = essPatterns[staff.sub_group] || ['M', 'Y', 'L', 'PS', 'P'];
-          shiftCode = pattern[daysFromAnchor % pattern.length];
+        } else {
+          shiftCode = getRotationShiftCode(staff.sub_group, staff.group, dateStr);
         }
 
         shiftsToInsert.push({
-          staff_id: staff.id,
+          staff_id: staff.gmail || staff.id,
           date: dateStr,
           shift_code: shiftCode,
           group: staff.group,

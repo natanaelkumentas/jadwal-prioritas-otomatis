@@ -256,6 +256,18 @@ export default function RecommendationDrawer({
                                   {c.fallback_reason}
                                 </span>
                               )}
+                              {c.monthlyHoursAfter !== undefined && (
+                                <span
+                                  className={`text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded border ${
+                                    c.over_monthly_limit
+                                      ? 'bg-rose-50 dark:bg-rose-500/15 border-rose-300 dark:border-rose-500/30 text-rose-700 dark:text-rose-400'
+                                      : 'bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300'
+                                  }`}
+                                >
+                                  Jam: {c.monthlyHoursBefore} → {c.monthlyHoursAfter} / {c.monthlyLimit || 160} jam
+                                  {c.over_monthly_limit ? ` (+${c.excessHours}j)` : ''}
+                                </span>
+                              )}
                             </div>
                           </div>
                         </div>
