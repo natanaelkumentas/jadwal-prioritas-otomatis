@@ -18,7 +18,8 @@ import {
   getShiftInfo,
   getShortCode,
   getShiftTime,
-  MONTH_NAMES_ID
+  MONTH_NAMES_ID,
+  DAY_NAMES_ID
 } from '@/lib/shift-codes';
 import {
   FiChevronLeft,

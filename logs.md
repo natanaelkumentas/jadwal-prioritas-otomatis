@@ -531,5 +531,7 @@ All significant project changes, updates, and releases are logged below.
 - **TypeScript Unresolved Identifier in Personal Schedule Page**:
 ## [0.18.6] - 2026-10-07 11:26:00 UTC+8
 ### Fixed
-- **TypeScript Nullable `staff_id` Type Error in BulkEditBar**:
-  - Safely guarded `s.staff_id` before querying `staffIndexMap.get(s.staff_id)` in both `handleCopy` and `handlePaste` within `src/components/BulkEditBar.tsx` (resolving `Type error: Argument of type 'string | null' is not assignable to parameter of type 'string'`).
+## [0.18.7] - 2026-10-07 11:28:00 UTC+8
+### Fixed
+- **TypeScript Missing Import `DAY_NAMES_ID` in PersonalScheduleView**:
+  - Imported `DAY_NAMES_ID` from `@/lib/shift-codes` into `src/components/PersonalScheduleView.tsx` (resolving `Type error: Cannot find name 'DAY_NAMES_ID'`).
