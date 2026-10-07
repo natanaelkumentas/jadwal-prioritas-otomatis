@@ -38,8 +38,8 @@ export default function CalendarSyncModal({
       setSelectedEmail(currentUser.email);
     } else if (initialStaffEmail) {
       setSelectedEmail(initialStaffEmail);
-    } else if (staffList.length > 0 && !selectedEmail) {
-      setSelectedEmail(staffList[0].gmail || staffList[0].id);
+    } else if (staffList.length > 0) {
+      setSelectedEmail((prev) => prev || staffList[0].gmail || staffList[0].id);
     }
   }, [isOpen, currentUser, initialStaffEmail, staffList]);
 

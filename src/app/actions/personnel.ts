@@ -6,6 +6,7 @@ import { revalidatePath } from 'next/cache';
 import { Staff } from '@/lib/scheduler-engine/types';
 import { getRotationShiftCode } from '@/lib/rotation';
 import { StaffGroup } from '@/lib/shift-codes';
+import { getDaysDiff } from '@/lib/scheduler-engine/filters';
 
 if (!supabaseAdmin) {
   throw new Error('Supabase Admin client must be initialized on the server (requires SUPABASE_SERVICE_ROLE_KEY)');

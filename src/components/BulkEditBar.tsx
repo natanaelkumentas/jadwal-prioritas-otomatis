@@ -325,6 +325,7 @@ export default function BulkEditBar({
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedShifts, clipboardData, isSubmitting]);
 
   const codeInfo = getShiftInfo(selectedCode);

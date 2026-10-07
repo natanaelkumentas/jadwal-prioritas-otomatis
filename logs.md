@@ -514,4 +514,10 @@ All significant project changes, updates, and releases are logged below.
     - Converted modal surface to dual-theme container with developer-themed purple accents (`bg-white dark:bg-slate-900`, `border-purple-200 dark:border-purple-500/30`).
     - Styled "Tambah Administrator Baru" form, auto-password generator, and admin account rows with high-contrast dual-theme styles.
   - **Personnel Management Password Section (`src/components/PersonnelManagementModal.tsx`)**:
-    - Enhanced password field with an integrated key icon (`FiKey`), modern blue focus rings, and aligned "Acak Sandi Baru" button.
+  
+## [0.18.3] - 2026-10-07 09:18:00 UTC+8
+### Fixed
+- **Production Vercel Build Compilation Errors**:
+  - Added missing `getDaysDiff` import from `@/lib/scheduler-engine/filters` into `src/app/actions/personnel.ts` (resolving TypeScript compilation error `Cannot find name 'getDaysDiff'`).
+  - Added `serverComponentsExternalPackages: ['pg']` to `next.config.mjs` to ensure the `pg` driver is treated as an external package by Next.js bundler on Vercel.
+  - Resolved React hook dependency warnings in `src/components/CalendarSyncModal.tsx` and `src/components/BulkEditBar.tsx`.
