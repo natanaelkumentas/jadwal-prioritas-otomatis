@@ -529,4 +529,7 @@ All significant project changes, updates, and releases are logged below.
 ## [0.18.5] - 2026-10-07 11:23:00 UTC+8
 ### Fixed
 - **TypeScript Unresolved Identifier in Personal Schedule Page**:
-  - Replaced undefined `staffId` with resolved `staffIdentifier` in `src/app/personel/[id]/page.tsx` line 95 (resolving `Type error: Cannot find name 'staffId'`).
+## [0.18.6] - 2026-10-07 11:26:00 UTC+8
+### Fixed
+- **TypeScript Nullable `staff_id` Type Error in BulkEditBar**:
+  - Safely guarded `s.staff_id` before querying `staffIndexMap.get(s.staff_id)` in both `handleCopy` and `handlePaste` within `src/components/BulkEditBar.tsx` (resolving `Type error: Argument of type 'string | null' is not assignable to parameter of type 'string'`).

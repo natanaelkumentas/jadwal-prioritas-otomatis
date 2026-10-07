@@ -154,7 +154,7 @@ export default function BulkEditBar({
     rosterOrder.forEach((s, idx) => staffIndexMap.set(s.id, idx));
 
     const items = selectedShifts.map(s => {
-      const staffIdx = staffIndexMap.get(s.staff_id) ?? 9999;
+      const staffIdx = s.staff_id ? (staffIndexMap.get(s.staff_id) ?? 9999) : 9999;
       const day = parseInt(s.date.split('-')[2], 10);
       return {
         shift: s,
@@ -241,7 +241,7 @@ export default function BulkEditBar({
     // Top-left anchor shift from selection: minimum staffIdx in roster order, then minimum day
     const selectedItems = selectedShifts.map(s => ({
       shift: s,
-      staffIdx: staffIndexMap.get(s.staff_id) ?? 9999,
+      staffIdx: s.staff_id ? (staffIndexMap.get(s.staff_id) ?? 9999) : 9999,
       day: parseInt(s.date.split('-')[2], 10)
     }));
 
