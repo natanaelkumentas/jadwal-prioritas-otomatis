@@ -417,7 +417,7 @@ export default function RecommendationDrawer({
           </div>
         )}
 
-        <div className="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/80 safe-area-bottom">
+        <div className="p-3 sm:p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/80 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
           <button
             onClick={onClose}
             className="w-full py-2 border border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 text-xs sm:text-sm font-semibold rounded-lg transition-colors"

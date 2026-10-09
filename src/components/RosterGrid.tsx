@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Staff, Shift, GapEvent } from '@/lib/scheduler-engine/types';
 import { i18n } from '@/lib/i18n';
 import { getShiftInfo, getShortCode } from '@/lib/shift-codes';
-import { FiSearch, FiAlertTriangle, FiInfo, FiExternalLink, FiCheckSquare, FiSquare, FiMinusSquare } from 'react-icons/fi';
+import { FiSearch, FiAlertTriangle, FiInfo, FiExternalLink, FiCheckSquare, FiSquare, FiMinusSquare, FiCalendar } from 'react-icons/fi';
 import ShiftCodeModal from './ShiftCodeModal';
 
 interface RosterGridProps {
@@ -53,6 +53,14 @@ export default function RosterGrid({
   const todayMonth = today.getMonth() + 1;
   const todayDay = today.getDate();
   const isCurrentCalendarMonth = currentYear === todayYear && currentMonth === todayMonth;
+
+  // Auto-scroll horizontally to current day's column
+  const scrollToToday = () => {
+    const todayCol = document.getElementById(`day-col-${todayDay}`);
+    if (todayCol) {
+      todayCol.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    }
+  };
 
   // Filter staff by search term
   const filteredStaff = staffList.filter(s => 
@@ -167,7 +175,7 @@ export default function RosterGrid({
           <table className={`min-w-full divide-y divide-slate-200 dark:divide-slate-800 text-sm ${selectionMode ? 'select-none' : ''}`}>
             <thead className="bg-slate-100 dark:bg-slate-950 sticky top-0 z-10">
               <tr>
-                <th scope="col" className="px-2 sm:px-4 py-2 sm:py-3 text-left font-bold text-slate-900 dark:text-white w-28 sm:w-56 md:w-64 border-r border-slate-300 dark:border-slate-800 sticky left-0 bg-slate-100 dark:bg-slate-950 z-20 text-[10px] sm:text-sm">
+                <th scope="col" className="px-2.5 sm:px-4 py-2 sm:py-3 text-left font-bold text-slate-900 dark:text-white w-36 sm:w-56 md:w-64 border-r border-slate-300 dark:border-slate-800 sticky left-0 bg-slate-100 dark:bg-slate-950 z-20 text-[11px] sm:text-sm shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] dark:shadow-[2px_0_5px_-2px_rgba(0,0,0,0.5)]">
                   {i18n.tableColName}
                 </th>
                 {daysInMonth.map(day => {
@@ -175,8 +183,9 @@ export default function RosterGrid({
                   return (
                     <th 
                       key={day} 
+                      id={`day-col-${day}`}
                       scope="col" 
-                      className={`px-0.5 sm:px-1 py-1.5 sm:py-2 text-center text-[11px] sm:text-xs font-bold w-7 sm:w-10 transition-colors ${
+                      className={`px-0.5 sm:px-1 py-1.5 sm:py-2 text-center text-[11px] sm:text-xs font-bold w-8 sm:w-10 min-w-[32px] sm:min-w-[40px] transition-colors ${
                         isToday
                           ? 'bg-emerald-100 text-emerald-950 font-black border-b-2 border-emerald-600 dark:bg-emerald-500/30 dark:text-emerald-300 dark:border-emerald-400 shadow-xs'
                           : 'text-slate-700 dark:text-slate-300'
@@ -197,7 +206,7 @@ export default function RosterGrid({
                 const rowSelection = selectionMode ? getRowSelectionState(staff) : 'none';
                 return (
                   <tr key={staffIdentifier} className="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
-                    <td className="px-2 sm:px-4 py-1.5 sm:py-3 border-r border-slate-300 dark:border-slate-800 sticky left-0 bg-white dark:bg-slate-950 z-10 w-32 sm:w-56 md:w-64 shadow-xs">
+                    <td className="px-2.5 sm:px-4 py-1.5 sm:py-3 border-r border-slate-300 dark:border-slate-800 sticky left-0 bg-white dark:bg-slate-950 z-10 w-36 sm:w-56 md:w-64 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.08)] dark:shadow-[2px_0_5px_-2px_rgba(0,0,0,0.5)]">
                       <div className="flex items-start gap-1.5 sm:gap-2">
                         {selectionMode && (
                           <button
@@ -223,7 +232,7 @@ export default function RosterGrid({
                         <Link
                           href={`/personel/${encodeURIComponent(staff.name)}?tahun=${currentYear}&bulan=${currentMonth}`}
                           title={`Lihat jadwal dinas personal ${staff.name}`}
-                          className="font-bold text-slate-900 dark:text-white hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors truncate max-w-[92px] sm:max-w-[160px] md:max-w-[180px] text-[10px] sm:text-sm flex items-center gap-1 group/name"
+                          className="font-bold text-slate-900 dark:text-white hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors truncate max-w-[110px] sm:max-w-[160px] md:max-w-[180px] text-xs sm:text-sm flex items-center gap-1 group/name"
                         >
                           <span className="truncate">{staff.name}</span>
                           <FiExternalLink className="w-2.5 h-2.5 sm:w-3 sm:h-3 flex-shrink-0 opacity-0 group-hover/name:opacity-100 transition-opacity" />
@@ -276,7 +285,7 @@ export default function RosterGrid({
                                 onSelectShift(shift, staff);
                               }
                             }}
-                            className={`w-7 h-7 sm:w-9 sm:h-9 text-[9px] sm:text-xs rounded transition-all mx-auto flex items-center justify-center text-center leading-none ${getShiftStyle(shift, pendingGap)} ${
+                            className={`w-8 h-8 sm:w-9 sm:h-9 text-[10px] sm:text-xs font-bold rounded-lg transition-all mx-auto flex items-center justify-center text-center leading-none active:scale-90 active:opacity-85 shadow-2xs ${getShiftStyle(shift, pendingGap)} ${
                               readOnly ? 'cursor-default' : 'cursor-pointer'
                             } ${
                               isSelected
@@ -302,7 +311,7 @@ export default function RosterGrid({
   return (
     <div>
       {/* Search and Shift Legend Header */}
-      <div className="mb-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+      <div className="mb-4 sm:mb-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 sm:gap-4">
         <div className="relative flex-1 max-w-md">
           <input
             type="text"
@@ -311,17 +320,30 @@ export default function RosterGrid({
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full pl-9 pr-4 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-slate-500 text-xs sm:text-sm transition-colors shadow-xs"
           />
-          <FiSearch className="absolute left-3 top-3 text-slate-400 dark:text-slate-500 w-3.5 h-3.5" />
+          <FiSearch className="absolute left-3 top-2.5 sm:top-3 text-slate-400 dark:text-slate-500 w-3.5 h-3.5" />
         </div>
 
-        <div className="flex items-center gap-2 self-start sm:self-auto">
+        <div className="flex items-center gap-1.5 sm:gap-2 self-stretch sm:self-auto justify-between sm:justify-start overflow-x-auto no-scrollbar">
+          {/* Quick jump to today */}
+          {isCurrentCalendarMonth && (
+            <button
+              type="button"
+              onClick={scrollToToday}
+              className="py-1.5 px-2.5 sm:px-3 bg-emerald-50 dark:bg-emerald-500/10 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 border border-emerald-300 dark:border-emerald-500/30 rounded-lg text-xs font-semibold flex items-center justify-center gap-1 transition-all shadow-xs whitespace-nowrap active:scale-95 flex-shrink-0"
+              title={`Lompat ke kolom hari ini (Tanggal ${todayDay})`}
+            >
+              <FiCalendar className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+              <span>Hari Ini ({todayDay})</span>
+            </button>
+          )}
+
           {onToggleSelectionMode && !readOnly && (
             <button
               onClick={() => {
                 setSelectionAnchor(null);
                 onToggleSelectionMode();
               }}
-              className={`py-1.5 px-3 border rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-xs whitespace-nowrap ${
+              className={`py-1.5 px-2.5 sm:px-3 border rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-xs whitespace-nowrap flex-shrink-0 active:scale-95 ${
                 selectionMode
                   ? 'bg-emerald-50 dark:bg-emerald-500/10 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 border-emerald-300 dark:border-emerald-500/30'
                   : 'bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 border-slate-300 dark:border-slate-700'
@@ -337,7 +359,7 @@ export default function RosterGrid({
 
           <button
             onClick={() => setShowShiftCodeModal(true)}
-            className="py-1.5 px-3 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 border border-slate-300 dark:border-slate-700 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-xs group whitespace-nowrap"
+            className="py-1.5 px-2.5 sm:px-3 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 border border-slate-300 dark:border-slate-700 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-xs group whitespace-nowrap flex-shrink-0 active:scale-95"
           >
             <FiInfo className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform" />
             <span>Kode Shift</span>

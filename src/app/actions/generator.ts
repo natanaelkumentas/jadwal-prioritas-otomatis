@@ -129,3 +129,117 @@ export async function generateMonthlyRoster({
     return { success: false, error: error.message || 'Gagal membuat jadwal bulanan.' };
   }
 }
+
+interface ResetRosterParams {
+  year: number;
+  month: number; // 1-12
+  mode?: 'libur' | 'delete'; // 'libur' sets all to 'L', 'delete' removes records
+  actorId?: string;
+}
+
+/**
+ * Server Action to reset all shifts for a selected month.
+ * Can set all shifts to 'L' (Libur) or delete all shifts so the schedule is completely empty.
+ */
+export async function resetMonthlyRoster({
+  year,
+  month,
+  mode = 'libur',
+  actorId = 'Manager Teknik'
+}: ResetRosterParams) {
+  console.log(`[actions/generator] Resetting monthly roster for ${year}-${month.toString().padStart(2, '0')} (mode: ${mode})`);
+
+  try {
+    const totalDays = new Date(year, month, 0).getDate();
+    const formattedMonth = month.toString().padStart(2, '0');
+    const startDate = `${year}-${formattedMonth}-01`;
+    const endDate = `${year}-${formattedMonth}-${totalDays.toString().padStart(2, '0')}`;
+
+    // 1. Fetch existing shifts to get IDs
+    const { data: existingShifts, error: fetchErr } = await supabaseAdmin!
+      .from('shifts')
+      .select('id')
+      .gte('date', startDate)
+      .lte('date', endDate);
+
+    if (fetchErr) {
+      throw new Error(`Gagal membaca data shift: ${fetchErr.message}`);
+    }
+
+    if (!existingShifts || existingShifts.length === 0) {
+      return {
+        success: false,
+        error: `Tidak ada data shift yang ditemukan pada bulan ${formattedMonth}/${year}.`
+      };
+    }
+
+    const shiftIds = existingShifts.map(s => s.id);
+
+    // 2. Remove / resolve any pending gap events associated with these shifts
+    if (shiftIds.length > 0) {
+      const { error: gapErr } = await supabaseAdmin!
+        .from('gap_events')
+        .delete()
+        .in('shift_id', shiftIds);
+
+      if (gapErr) {
+        console.warn('[actions/generator] Warning deleting gap events:', gapErr.message);
+      }
+    }
+
+    // 3. Apply reset according to mode
+    if (mode === 'delete') {
+      const { error: delErr } = await supabaseAdmin!
+        .from('shifts')
+        .delete()
+        .gte('date', startDate)
+        .lte('date', endDate);
+
+      if (delErr) {
+        throw new Error(`Gagal menghapus shift: ${delErr.message}`);
+      }
+    } else {
+      // mode === 'libur': Update all shifts to 'L'
+      const { error: updateErr } = await supabaseAdmin!
+        .from('shifts')
+        .update({
+          shift_code: 'L',
+          status: 'Filled'
+        })
+        .gte('date', startDate)
+        .lte('date', endDate);
+
+      if (updateErr) {
+        throw new Error(`Gagal mengubah shift menjadi Libur: ${updateErr.message}`);
+      }
+    }
+
+    // 4. Record audit log
+    await supabaseAdmin!
+      .from('audit_log')
+      .insert({
+        actor_id: actorId,
+        action: 'RESET_MONTHLY_ROSTER',
+        entity: 'shifts',
+        entity_id: `${year}-${formattedMonth}`,
+        metadata: {
+          year,
+          month,
+          mode,
+          shifts_affected: existingShifts.length,
+          timestamp: new Date().toISOString()
+        }
+      });
+
+    return {
+      success: true,
+      mode,
+      totalReset: existingShifts.length,
+      monthName: `${formattedMonth}/${year}`
+    };
+  } catch (error: any) {
+    console.error('[actions/generator] Error resetting roster:', error);
+    return { success: false, error: error.message || 'Gagal mereset jadwal bulanan.' };
+  }
+}
+

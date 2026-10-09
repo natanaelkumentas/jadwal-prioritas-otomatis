@@ -72,43 +72,32 @@ export default async function Page() {
   const initialGapEvents = (gapEventsData || []) as GapEvent[];
 
   return (
-    <main className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 px-2.5 sm:px-6 py-4 sm:py-8 transition-colors duration-200">
+    <main className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 px-2.5 sm:px-6 py-3 sm:py-8 transition-colors duration-200">
       {/* Dashboard Top Header */}
-      <div className="mb-3 sm:mb-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2.5 sm:pb-4 gap-2 sm:gap-4">
-        <div className="flex items-center justify-between sm:block min-w-0">
-          <div className="min-w-0">
-            <h1 className="text-xs sm:text-2xl font-bold text-slate-900 dark:text-white tracking-tight flex items-center gap-1 sm:gap-2 truncate">
-              <span className="sm:hidden truncate">Penjadwalan ATS</span>
-              <span className="hidden sm:inline">{i18n.appTitle}</span>
-              <span className="text-[9px] sm:text-xs bg-slate-200 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 px-1.5 py-0.5 rounded font-mono font-bold flex-shrink-0" title="SAPS Version 0.12.2">SAPS v0.12.2</span>
-            </h1>
-            <p className="text-[10px] sm:text-sm text-slate-600 dark:text-slate-300 font-medium mt-0.5 truncate hidden sm:block">
-              {i18n.appSubtitle}
-            </p>
-          </div>
-          <div className="flex sm:hidden items-center gap-2 flex-shrink-0">
-            <div className="flex items-center gap-1 text-[9px]" title="Database Real-time Supabase Cloud Terhubung">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-              <span className="text-slate-600 dark:text-slate-400 font-medium">Aktif</span>
-            </div>
-            <ThemeToggle />
-          </div>
+      <header className="mb-3 sm:mb-6 flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2.5 sm:pb-4 gap-2 sm:gap-4">
+        {/* Left: App Branding */}
+        <div className="min-w-0 flex-shrink">
+          <h1 className="text-sm sm:text-2xl font-bold text-slate-900 dark:text-white tracking-tight flex items-center gap-1.5 sm:gap-2 truncate">
+            <span className="sm:hidden font-extrabold text-blue-600 dark:text-blue-400">SAPS</span>
+            <span className="sm:hidden truncate text-slate-800 dark:text-slate-100 font-bold">ATS</span>
+            <span className="hidden sm:inline">{i18n.appTitle}</span>
+            <span className="text-[9px] sm:text-xs bg-slate-200 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 px-1 sm:px-1.5 py-0.5 rounded font-mono font-bold flex-shrink-0" title="SAPS Version 0.12.2">v0.12.2</span>
+          </h1>
+          <p className="text-xs text-slate-600 dark:text-slate-300 font-medium mt-0.5 truncate hidden sm:block">
+            {i18n.appSubtitle}
+          </p>
         </div>
 
-        <div className="hidden sm:flex items-center gap-2 sm:gap-3 flex-shrink-0">
-          <div className="flex items-center gap-1.5 text-xs" title="Database Real-time Supabase Cloud Terhubung">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span className="text-slate-600 dark:text-slate-400 font-medium">Sistem Aktif</span>
+        {/* Right: Actions, Theme Toggle, & User Pill */}
+        <div className="flex items-center gap-1.5 sm:gap-3 flex-shrink-0">
+          <div className="flex items-center gap-1 text-[9px] sm:text-xs px-1.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20" title="Database Real-time Supabase Cloud Terhubung">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span className="font-semibold hidden xs:inline">Aktif</span>
           </div>
           <ThemeToggle />
           <NavbarUserPill user={currentUser} />
         </div>
-      </div>
-
-      {/* Mobile User Pill */}
-      <div className="sm:hidden mb-3 flex justify-end">
-        <NavbarUserPill user={currentUser} />
-      </div>
+      </header>
 
       <DashboardContainer
         initialStaff={initialStaff}

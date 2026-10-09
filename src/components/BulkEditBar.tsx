@@ -333,26 +333,52 @@ export default function BulkEditBar({
   return (
     <>
       {/* Floating action bar */}
-      <div className="fixed inset-x-2 bottom-2 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 sm:bottom-5 sm:w-auto sm:max-w-[calc(100vw-2rem)] z-40 safe-area-bottom">
+      <div className="fixed inset-x-2 bottom-2 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 sm:bottom-5 sm:w-auto sm:max-w-[calc(100vw-2rem)] z-40 pb-[max(0.25rem,env(safe-area-inset-bottom))]">
         <div className="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl shadow-2xl shadow-slate-900/20 dark:shadow-black/50 p-2.5 sm:px-4 sm:py-3 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
-          {/* Selection summary */}
-          <div className="flex items-center gap-2 min-w-0">
-            <span className="p-1.5 bg-emerald-500/10 border border-emerald-500/30 rounded-lg text-emerald-600 dark:text-emerald-400 flex-shrink-0">
-              <FiLayers className="w-4 h-4" />
-            </span>
-            <div className="flex flex-col leading-tight min-w-0">
-              <span className="text-sm font-extrabold text-slate-900 dark:text-white whitespace-nowrap">
-                {selectedShifts.length} {i18n.bulkSelectedLabel}
+          {/* Top row in mobile / Left section on desktop: Selection summary + Copy/Paste */}
+          <div className="flex items-center justify-between sm:justify-start gap-2 min-w-0">
+            <div className="flex items-center gap-2 min-w-0">
+              <span className="p-1.5 bg-emerald-500/10 border border-emerald-500/30 rounded-lg text-emerald-600 dark:text-emerald-400 flex-shrink-0">
+                <FiLayers className="w-4 h-4" />
               </span>
-              <span className="text-[10px] text-slate-500 dark:text-slate-400 whitespace-nowrap">
-                {staffCount} {i18n.bulkStaffLabel}
-              </span>
+              <div className="flex flex-col leading-tight min-w-0">
+                <span className="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white whitespace-nowrap">
+                  {selectedShifts.length} {i18n.bulkSelectedLabel}
+                </span>
+                <span className="text-[9px] sm:text-[10px] text-slate-500 dark:text-slate-400 whitespace-nowrap">
+                  {staffCount} {i18n.bulkStaffLabel}
+                </span>
+              </div>
+            </div>
+
+            {/* Copy & Paste buttons on mobile right */}
+            <div className="flex sm:hidden items-center gap-1.5 flex-shrink-0">
+              <button
+                type="button"
+                onClick={handleCopy}
+                disabled={isSubmitting || selectedShifts.length === 0}
+                title="Salin pola shift sel terpilih (Ctrl+C)"
+                className="px-2 py-1.5 bg-blue-50 dark:bg-blue-500/10 hover:bg-blue-100 dark:hover:bg-blue-500/20 text-blue-700 dark:text-blue-300 text-xs font-semibold rounded-lg border border-blue-200 dark:border-blue-500/30 transition-colors flex items-center justify-center gap-1 shadow-xs"
+              >
+                <FiCopy className="w-3.5 h-3.5" />
+                <span className="text-[11px]">{i18n.btnBulkCopy}</span>
+              </button>
+              <button
+                type="button"
+                onClick={handlePaste}
+                disabled={isSubmitting || !clipboardData || !clipboardData.cells || clipboardData.cells.length === 0 || selectedShifts.length === 0}
+                title={clipboardData && clipboardData.cells && clipboardData.cells.length > 0 ? `Tempel ${clipboardData.summary} (Ctrl+V)` : i18n.bulkPasteEmpty}
+                className="px-2 py-1.5 bg-indigo-50 dark:bg-indigo-500/10 hover:bg-indigo-100 dark:hover:bg-indigo-500/20 disabled:opacity-40 disabled:pointer-events-none text-indigo-700 dark:text-indigo-300 text-xs font-semibold rounded-lg border border-indigo-200 dark:border-indigo-500/30 transition-colors flex items-center justify-center gap-1 shadow-xs"
+              >
+                <FiClipboard className="w-3.5 h-3.5" />
+                <span className="text-[11px]">{i18n.btnBulkPaste}</span>
+              </button>
             </div>
           </div>
 
           <div className="hidden sm:block w-px h-8 bg-slate-200 dark:bg-slate-700" />
 
-          {/* Code picker + note */}
+          {/* Middle: Code picker + note */}
           <div className="flex items-center gap-2 flex-1 min-w-0">
             <label className="hidden md:block text-[11px] font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider whitespace-nowrap">
               {i18n.bulkNewCodeLabel}
@@ -360,7 +386,7 @@ export default function BulkEditBar({
             <select
               value={selectedCode}
               onChange={(e) => setSelectedCode(e.target.value)}
-              className="flex-1 sm:flex-none sm:w-52 p-2 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-200 focus:outline-none focus:border-emerald-500 dark:focus:border-slate-500 text-xs font-semibold"
+              className="w-full sm:w-52 p-2 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-200 focus:outline-none focus:border-emerald-500 dark:focus:border-slate-500 text-xs font-semibold"
             >
               {SHIFT_OPTIONS.map(code => (
                 <option key={code} value={code}>
@@ -377,8 +403,8 @@ export default function BulkEditBar({
             />
           </div>
 
-          {/* Copy & Paste buttons */}
-          <div className="flex items-center gap-1.5 flex-shrink-0">
+          {/* Desktop Copy & Paste buttons */}
+          <div className="hidden sm:flex items-center gap-1.5 flex-shrink-0">
             <button
               type="button"
               onClick={handleCopy}
@@ -407,7 +433,7 @@ export default function BulkEditBar({
           <div className="hidden sm:block w-px h-8 bg-slate-200 dark:bg-slate-700" />
 
           {/* Actions */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 w-full sm:w-auto">
             <button
               type="button"
               onClick={onClear}

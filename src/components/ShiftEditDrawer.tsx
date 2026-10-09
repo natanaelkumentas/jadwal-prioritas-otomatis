@@ -550,7 +550,7 @@ export default function ShiftEditDrawer({
       </div>
 
       {/* Footer */}
-      <div className="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/80 safe-area-bottom flex items-center gap-2">
+      <div className="p-3 sm:p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/80 pb-[max(0.75rem,env(safe-area-inset-bottom))] flex items-center gap-2">
         <button
           type="button"
           onClick={onClose}

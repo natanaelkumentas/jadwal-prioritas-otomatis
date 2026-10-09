@@ -130,29 +130,29 @@ Simpan kredensial ini dengan aman!
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm animate-fadeIn">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/70 backdrop-blur-sm animate-fadeIn">
       <div className="w-full max-w-2xl bg-white dark:bg-slate-900 border border-purple-200 dark:border-purple-500/30 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] transition-colors">
         {/* Header */}
-        <div className="px-6 py-4 bg-gradient-to-r from-purple-50 via-white to-white dark:from-purple-950/60 dark:via-slate-900 dark:to-slate-900 border-b border-purple-200/60 dark:border-purple-500/20 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-purple-100 dark:bg-purple-500/10 text-purple-700 dark:text-purple-400 border border-purple-200 dark:border-purple-500/20">
-              <FiShield className="w-5 h-5" />
+        <div className="px-4 sm:px-6 py-3.5 sm:py-4 bg-gradient-to-r from-purple-50 via-white to-white dark:from-purple-950/60 dark:via-slate-900 dark:to-slate-900 border-b border-purple-200/60 dark:border-purple-500/20 flex items-center justify-between">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <div className="p-2 sm:p-2.5 rounded-xl bg-purple-100 dark:bg-purple-500/10 text-purple-700 dark:text-purple-400 border border-purple-200 dark:border-purple-500/20">
+              <FiShield className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-slate-900 dark:text-white">Kelola Akun Administrator</h2>
-              <p className="text-xs text-purple-700/80 dark:text-purple-300/80">Menu Khusus Hak Akses Developer</p>
+              <h2 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white">Kelola Akun Administrator</h2>
+              <p className="text-[11px] sm:text-xs text-purple-700/80 dark:text-purple-300/80">Menu Khusus Hak Akses Developer</p>
             </div>
           </div>
           <button
             onClick={onClose}
             className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
           >
-            <FiX className="w-5 h-5" />
+            <FiX className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
         </div>
 
         {/* Content */}
-        <div className="p-6 space-y-6 overflow-y-auto">
+        <div className="p-4 sm:p-6 space-y-4 sm:space-y-6 overflow-y-auto">
           {/* Create Admin Form */}
           <div className="p-4 rounded-xl bg-purple-50/40 dark:bg-slate-800/60 border border-purple-100 dark:border-slate-700/60">
             <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-3 flex items-center gap-2">

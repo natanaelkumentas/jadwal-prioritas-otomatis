@@ -565,3 +565,30 @@ All significant project changes, updates, and releases are logged below.
   - Created `src/lib/default-users.ts` containing the static definition of all 30 user profiles to serve as an in-memory fallback on serverless environments where `users.csv` is not deployed.
   - Guarded `appendToUsersCsv` against read-only runtime environments (`process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME`) to prevent unhandled filesystem write errors when creating users in production.
   - Removed auto-seeding disk writes from `ensureAuthDatabase()`, ensuring lightweight database-only health checking.
+
+## [0.19.0] - 2026-10-09 13:30:00 UTC+8
+### Added
+- **Fitur Reset Jadwal Bulanan (*Reset Monthly Schedule*)**:
+  - Menambahkan Server Action `resetMonthlyRoster` pada [`src/app/actions/generator.ts`](file:///c:/Users/Asus/Documents/Magang/Project/Jadwal/src/app/actions/generator.ts) yang memungkinkan pengosongan seluruh shift pada bulan terpilih:
+    - Mode **Libur (L)**: Mengubah seluruh jadwal dinas teknisi menjadi kode `L` (Libur/Off) dengan status `Filled`.
+    - Mode **Hapus Shift**: Menghapus seluruh catatan shift pada bulan tersebut sehingga jadwal kosong total dan tombol *Buat Jadwal* otomatis dapat dioperasikan kembali.
+    - Otomatis membersihkan catatan `gap_events` yang pending pada bulan terkait dan mencatat rekaman ke tabel `audit_log`.
+  - Menambahkan tombol **"Reset Jadwal"** pada [`src/components/MonthSelector.tsx`](file:///c:/Users/Asus/Documents/Magang/Project/Jadwal/src/components/MonthSelector.tsx) (khusus Admin & Developer).
+  - Membuat komponen dialog konfirmasi keamanan [`src/components/ResetMonthModal.tsx`](file:///c:/Users/Asus/Documents/Magang/Project/Jadwal/src/components/ResetMonthModal.tsx) dengan pilihan mode radio dan penanganan kesalahan.
+
+### Changed
+- **Optimasi Tata Letak & UX Layar Kecil (Mobile View / Smartphone)**:
+  - **Header Navigasi Terpadu 1 Baris (`src/app/page.tsx` & `src/components/NavbarUserPill.tsx`)**:
+    - Menghilangkan penumpukan baris ganda pada mobile, menyatukan logo SAPS ATS, status titik hijau, `ThemeToggle`, dan pil profil ringkas dalam satu baris navbar yang hemat ~50px ruang vertikal.
+  - **Toolbar Bulan Responsif 2 Tingkat (`src/components/MonthSelector.tsx`)**:
+    - Menata ulang toolbar di layar sempit menjadi 2 tingkat rapi: Tingkat 1 untuk pemilih bulan/tahun & badge personel, Tingkat 2 untuk tombol aksi cepat horizontal yang mudah dijangkau ibu jari (*thumb-friendly*).
+  - **Kisi Jadwal Bulanan (`src/components/RosterGrid.tsx`)**:
+    - Memperlebar kolom nama teknisi yang *sticky* menjadi `w-36` (`max-w-[110px]`) dengan bayangan elevasi halus sehingga nama staf tidak terpotong kaku saat tabel digulir secara horizontal.
+    - Memperbesar target sentuh sel shift menjadi `w-8 h-8` (32px) dengan animasi umpan balik taktil `active:scale-90`.
+    - Menambahkan tombol pintas **"Hari Ini"** (*Quick Jump to Today*) yang otomatis menggulir tabel secara horizontal langsung ke kolom tanggal berjalan.
+  - **Drawer & Bilah Aksi Massal (`ShiftEditDrawer.tsx`, `RecommendationDrawer.tsx`, `BulkEditBar.tsx`)**:
+    - Menambahkan *safe-area inset padding* (`pb-[max(0.75rem,env(safe-area-inset-bottom))]`) pada bagian bawah drawer dan floating bar agar tidak bertabrakan dengan sistem gestur navigasi bawaan iOS/Android.
+    - Menyesuaikan susunan tombol salin, tempel, batal, dan terapkan pada bar aksi massal agar tidak meluap keluar layar ponsel selebar 360px.
+  - **Dialog Modal (`CalendarSyncModal.tsx`, `DeveloperAdminModal.tsx`)**:
+    - Mengoptimalkan padding kontainer dan batas tinggi `max-h-[90vh]` agar tetap proporsional dan mudah digunakan pada layar smartphone berukuran kecil.
+
